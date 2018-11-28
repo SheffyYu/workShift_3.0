@@ -1,0 +1,230 @@
+<script type="text/javascript"> 
+	$(function(){ 
+		initLayout();
+		initGrad();
+		initClickEcent();
+		
+		 var builder = new HdEzuiQueryParamsBuilder();
+		 loadContranctGd(builder);
+	});
+	//初始化布局
+	function initLayout()
+	{
+	　　$("#tabContanct").tabs({ 
+	　　　　width:$("#tabContanct").parent().width()-2, 
+	　　　　height:$("#tabContanct").parent().height()-2 
+	　　}); 
+	}
+	//初始化grad
+	function initGrad()
+	{
+		$("#dgBaseContranct").datagrid({
+        	striped:true,
+		    method: "POST",
+		    pagination: true,
+		    singleSelect: true,
+		    rownumbers: true,
+		    pageSize: 20,
+		    fit: true,
+		    fitColumns: false,
+		    columns: [[
+	           	    { field: "contractNo", title: "合同编号", multiSort: true, halign: "center",  sortable: true  },
+		            {  field: "contractNam",title: "名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "contractTyp", title: "合同类型",  multiSort: true,halign: "center",  sortable: true },
+		            {  field: "contractSat", title: "合同状态", multiSort: true,halign: "center", sortable: true },
+		            { field: "signatory", title: "经办人",multiSort: true, halign: "center", sortable: true },
+		            { field: "signDepartment", title: "签约部门", multiSort: true,  halign: "center",sortable: true},
+		            { field: "signDat", title: "签署日期",multiSort: true, halign: "center",sortable: true,formatter:$.hd.ezui.formatter.date },
+		            { field: "remindDay", title: "超期提醒",multiSort: true,halign: "center", sortable: true },
+		            { field: "custom", title: "客户名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "begDte", title: "有效截至期",multiSort: true, halign: "center",sortable: true, formatter:$.hd.ezui.formatter.date},
+		            { field: "endDte", title: "有效截至期",  multiSort: true, halign: "center", sortable: true , formatter:$.hd.ezui.formatter.date},
+		            { field: "isArchive",title: "是否归档", multiSort: true,  halign: "center", sortable: true},
+		            { field: "description", title: "描述", multiSort: true,  halign: "center",sortable: true },
+		            { field: "contractId",  hidden:true  }
+
+		   ]]
+		}); 
+		$("#dgAskContranct").datagrid({
+        	striped:true,
+		    method: "POST",
+		    pagination: true,
+		    singleSelect: true,
+		    rownumbers: true,
+		    pageSize: 20,
+		    fit: true,
+		    fitColumns: false,
+		    columns: [[
+		            { field: "contractId",  hidden:true  },
+		            { field: "contractNo", title: "合同编号", multiSort: true, halign: "center",  sortable: true  },
+		            {  field: "contractNam",title: "名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "contractTyp", title: "合同类型",  multiSort: true,halign: "center",  sortable: true },
+		            {  field: "contractSat", title: "合同状态", multiSort: true,halign: "center", sortable: true },
+		            { field: "signatory", title: "经办人",multiSort: true, halign: "center", sortable: true },
+		            { field: "signDepartment", title: "签约部门", multiSort: true,  halign: "center",sortable: true},
+		            { field: "signDat", title: "签署日期",multiSort: true, halign: "center",sortable: true,formatter:$.hd.ezui.formatter.date },
+		            { field: "remindDay", title: "超期提醒",multiSort: true,halign: "center", sortable: true },
+		            { field: "custom", title: "客户名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "begDte", title: "有效截至期",multiSort: true, halign: "center",sortable: true, formatter:$.hd.ezui.formatter.date},
+		            { field: "endDte", title: "有效截至期",  multiSort: true, halign: "center", sortable: true , formatter:$.hd.ezui.formatter.date},
+		            { field: "isArchive",title: "是否归档", multiSort: true,  halign: "center", sortable: true},
+		            {field: "description", title: "描述", multiSort: true,  halign: "center",sortable: true}
+		        ]]
+		}); 
+		$("#dgAccpetContranct").datagrid({
+        	striped:true,
+		    method: "POST",
+		    pagination: true,
+		    singleSelect: true,
+		    rownumbers: true,
+		    pageSize: 20,
+		    fit: true,
+		    fitColumns: false,
+		    columns: [[
+		            { field: "contractId",  hidden:true  },
+		            { field: "contractNo", title: "合同编号", multiSort: true, halign: "center",  sortable: true  },
+		            { field: "contractNam",title: "名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "contractTyp", title: "合同类型",  multiSort: true,halign: "center",  sortable: true },
+		            { field: "contractSat", title: "合同状态", multiSort: true,halign: "center", sortable: true },
+		            { field: "signatory", title: "经办人",multiSort: true, halign: "center", sortable: true },
+		            { field: "signDepartment", title: "签约部门", multiSort: true,  halign: "center",sortable: true},
+		            { field: "signDat", title: "签署日期",multiSort: true, halign: "center",sortable: true ,formatter:$.hd.ezui.formatter.date},
+		            { field: "remindDay", title: "超期提醒",multiSort: true,halign: "center", sortable: true },
+		            { field: "custom", title: "客户名称", multiSort: true,halign: "center", sortable: true},
+		            { field: "begDte", title: "有效截至期",multiSort: true, halign: "center",sortable: true, formatter:$.hd.ezui.formatter.date},
+		            { field: "endDte", title: "有效截至期",  multiSort: true, halign: "center", sortable: true , formatter:$.hd.ezui.formatter.date},
+		            { field: "isArchive",title: "是否归档", multiSort: true,  halign: "center", sortable: true},
+		            {field: "description", title: "描述", multiSort: true,  halign: "center",sortable: true }
+		        ]]
+		}); 
+		
+        $("#dgFiles").datagrid({
+        	striped:true,
+            method: "POST",
+            pagination: false,
+            singleSelect: true,
+            toolbar: "#ContractFileToolBar1493021150717",
+            fit: true,
+            fitColumns: false,
+            columns: [[
+                    {field: "id",  hidden:true },
+                    {field: "contractId", title: "合同号", multiSort: true, halign: "center",sortable: true},
+                    { field: "enclosureUrl", hidden:true },
+                    { field: "enclosureNam", title: "附件名称", multiSort: true,halign: "center",    sortable: true },
+                    {field: "version", title: "版本",multiSort: true, halign: "center",sortable: true },
+                    {field: "fileSource",hidden:true},
+                    {field: "fileState",title: "状态", multiSort: true, halign: "center",sortable: true },
+                    {field: "extra1", title: "补充协议1",multiSort: true,  halign: "center", sortable: true },
+                    { field: "extra2",title: "补充协议2", multiSort: true, halign: "center", sortable: true},
+                    { field: "extra3",title: "补充协议3",multiSort: true, halign: "center",sortable: true  }
+                ]]
+	  	});
+        
+        $('#fileDiv').panel({ href:'' });
+	}
+	//初始化点击方法
+	var contranctDolage=null;
+	var bUrl='/login/contract/flow/ctTurnOut.html';
+	var contranctData=null;
+	function initClickEcent()
+	{
+		//转出申请
+        $("#btnTurnOut").on("click", function () {
+        	contranctData=$("#dgBaseContranct").datagrid("getSelected");
+        	if(contranctData){
+        		bUrl='/login/contract/flow/ctTurnOut.html';
+        		openOptDialage(bUrl,contranctData);       
+        	}else
+        	{
+        		$.messager.alert("提示","请选择合同！");
+        	}
+        });
+		//审批转移
+        $("#btnAsk").on("click", function () {
+        	contranctData=$("#dgAskContranct").datagrid("getSelected");
+        	if(contranctData){
+        		bUrl='/login/contract/flow/ctTurnCheck.html';
+        		openOptDialage(bUrl,contranctData);  
+        	}else
+        	{
+        		$.messager.alert("提示","请选择合同！");
+        	}
+        });
+		//接受
+        $("#btnAccpet").on("click", function () {
+        	contranctData=$("#dgAccpetContranct").datagrid("getSelected");
+        	if(contranctData){
+        		bUrl='/login/contract/flow/ctTurnIn.html';
+        		openOptDialage(bUrl,contranctData);  
+        	}else
+        	{
+        		$.messager.alert("提示","请选择合同！");
+        	}
+        });
+	}
+	
+	function openOptDialage(url,rowData)
+	{
+		contranctDolage=$("<div></div>").dialog({
+			id:'opencontranctDolage',
+			width:900,    
+			height:540,
+			modal:true,
+			cache: true,
+			resizable:true,
+			//collapsible:true,
+			onClose:function(){
+				$(this).dialog('destroy');
+				contranctDolage=null;
+			},
+			title:"转出申请",
+			href: url
+   		}); 
+	}
+	//加载合同基础查询
+	function loadContranctGd(builder)
+	{
+		$("#dgBaseContranct").datagrid({
+        	striped:true,
+            url: "../webresources/login/Contract/find",
+            queryParams: builder.build()
+		});
+	}
+</script> 
+<div class="easyui-layout" style="width:100%; height:100%;" fit="true">
+	<div data-options="region:'west',split:false"   style="width:750px;height: 100%;">
+	    <div class="easyui-tabs" id="tabContanct" style="width:740px;height:auto;">
+	        <div title="合同详细" style="padding:5px;height:100%;" >
+	           <a id="btnTurnOut" class="easyui-linkbutton" iconCls="icon-eidt" plain="false">转出申请</a>
+	             <span style="float:right;">
+           			 <input class="easyui-searchbox" id="dgBaseSearchbox"/>
+       			 </span>
+				<div id="dgBaseContranct" style="height: 100%"></div>
+	        </div>
+	        <div title="待审批" style="padding:5px;height:100%" data-options="fit:true">
+	         	<a id="btnAsk" class="easyui-linkbutton" iconCls="icon-eidt" plain="false">合同审批</a>
+	        	 <span style="float:right;">
+           			 <input class="easyui-searchbox" id="dgAskSearchbox"/>
+       			 </span>
+	           <div id="dgAskContranct"></div>
+	        </div>
+	        <div title="待接受" style="padding:5px;height:100%" data-options="fit:true">
+	         	<a id="btnAccpet" class="easyui-linkbutton" iconCls="icon-eidt" plain="false">接收</a>
+	        	 <span style="float:right;">
+           			 <input class="easyui-searchbox" id="dgAccpetSearchbox"/>
+       			 </span>
+	           <div id="dgAccpetContranct"></div>
+	        </div>
+	    </div>
+	</div>
+    <div data-options="region:'center',split:false"   fit="true">
+   		 <div class="easyui-layout" style="width:100%; height:100%;">
+      		<div data-options="region:'north',split:false" title="文件附件"  style="width:100%;height:200px;">
+    		 	<div id="dgFiles"></div>
+    		</div>
+    	 	<div data-options="region:'center',split:false"  style="width:100%;">
+    	 		<div id="fileDiv" title="文件内容" />
+    	  	</div>
+    	</div>
+    </div>
+</div>

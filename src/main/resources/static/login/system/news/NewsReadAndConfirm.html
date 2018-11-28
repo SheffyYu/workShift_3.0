@@ -1,0 +1,881 @@
+<script type="text/javascript" src="js/list-detail.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<div id="newsReleaseTab" data-options="fit:true" style="width:100%;height:100%;"> 
+    <!--    接收消息列表-->
+    <div class="easyui-layout" data-options="fit:true" >
+        <table id="NewsReadAndConfirmDatagrid"></table>
+        <div id="NewsReadAndConfirmToolbar" style="padding:5px;height:auto">
+            <div class="container" style="float:left; position: relative;">
+                <div class="main">
+                    <section>
+                        阅读状态:<input id="validId" style="width:100px;"/>
+                        <span id="readedDte">
+                            已读日期:<input id="NewsReadAndConfirm_beg" name="beg" style="width:100px;"/>&nbsp;-
+                            <input id="NewsReadAndConfirm_end" name="end" style="width:100px;"/>
+                        </span>
+                        <a class="easyui-linkbutton" iconCls="icon-search" plain="false">检索</a>
+                    </section>
+                </div>
+            </div>
+            <a class="easyui-linkbutton" iconCls="icon-redo1" plain="false">我发送的消息</a>
+        </div>
+    </div>
+    <!--    发送消息列表-->
+    <div class="easyui-layout" data-options="fit:true" >
+        <table id="NewsReadAndSendDatagrid"></table>
+        <div id="NewsReadAndReceiveToolbar" style="padding:5px;height:auto">
+            <a class="easyui-linkbutton" iconCls="icon-cancel" id="releaseNewsForm" plain="false" >发消息</a>
+            <a class="easyui-linkbutton" iconCls="icon-redo" plain="false" >我接收的消息</a>
+        </div>
+    </div>
+    <!--发送消息明细 -->
+    <div class="easyui-layout" data-options="fit:true" >
+        <form id="sendNewsData" method="put">
+            <table style=" padding-left: 40px;">
+                <br>
+                <tr>
+                    <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">消息标题：</div></td>
+                    <td style=" padding-top:10px; "> <input class="easyui-validatebox" type="text"  name="newsTitle"  style="width: 450px" required="required" id="showDataNewsTyp"/>
+                        <input  type="hidden" name="id"/>
+                        <input  type="hidden"  name="newsTyp"></td>
+                </tr>
+                <tr>
+                    <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">消息内容：</div></td>
+                    <td style=" padding-top:10px; ">
+                        <textarea name="newsTxt" type="text" style="height:160px; width: 450px;" id="messageCon"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">指派方式：</div></td>
+                    <td style=" padding-top:10px; ">
+                        <input class="easyui-validatebox" type="text" id="limitedId" name="limitedId"  style="width:104px"  required="required"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">指派人员：</div></td>
+                    <td style=" padding-top:10px; ">
+                        <input type="hidden" id="limitedExp" name="limitedExp"/>
+                        <textarea class="easyui-validatebox" type="text" id="limitedCexp" name="limitedCexp" onclick="javascript:openNewsTab();" readonly="readonly" style="height:100px;width:450px"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">失效日期：</div></td>
+                    <td style=" padding-top:10px; ">
+                        <input class="easyui-datetimebox"  name="validDte"  style="width:124px" id="losttime" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="padding: 5px;" align="right">
+                        <a class="easyui-linkbutton" id="sendNewsFormSubmit" plain="false">发送</a> &nbsp;&nbsp;
+                        <a class="easyui-linkbutton"  id="sendNewsFormCancle" plain="false">返回</a>
+                    </td>
+                </tr>
+            </table>
+        </form> 
+    </div>
+</div>
+<!--双击接收消息时的弹框-->
+<div id='NewsReadAndConfirmShowData'> 
+    <form method="put">
+        <table style=" padding-left: 40px;">
+            <br>
+            <tr>
+                <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">消息编号：</div></td>
+                <td style=" padding-top:10px; "> <input class="easyui-validatebox" type="text" id="receiveNewsCod"  name="newsCod"  style="width: 450px" disabled="disabled" />
+                    <input  type="hidden" name="id"/></td>
+            </tr>
+            <tr>
+                <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">消息标题：</div></td>
+                <td style=" padding-top:10px; "> <input class="easyui-validatebox" type="text" id="receiveNewsTitle" readonly="readonly" name="newsTitle"  style="width: 450px" />
+            </tr>
+            <tr>
+                <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">消息内容：</div></td>
+                <td style=" padding-top:10px; ">
+                    <textarea type="text" id="NewsReadAndConfirmShowDetailData" name="newsTxt" readonly="readonly" style="height:160px; width: 450px;"></textarea>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">发送人：</div></td>
+                <td style=" padding-top:10px; ">
+                    <input type="text" id="receiveNewsSendMan"   style="width:130px" readonly="readonly"/>
+                </td>
+            </tr>
+            <tr>
+                <td style="  padding-top:10px;  padding-left:10px; white-space: nowrap;"><div align="right">发送时间：</div></td>
+                <td style=" padding-top:10px; ">
+                    <input type="text" id="receiveNewsDte"  name="validDte"  style="width:130px" readonly="readonly"/>
+                </td>
+            </tr>
+        </table>
+    </form> 
+</div>
+<!--双击发送消息时弹出接收人的已阅情况-->
+<div class="easyui-dialog" id='receiveManReadShowData' title="接收人状态" style="width:600px;height:440px;"  data-options="resizable:true,modal:true,closed:true"> 
+    <table id="receiveManReaddatagrid"></table>
+</div>
+<div class="easyui-dialog"  id="dept_post_oper_newsDialog" title="指派人员" buttons="#newsDialog_buttons" style="width:500px;height:440px;"  data-options="resizable:true,modal:true,closed:true">
+    <div id="dept_post_oper_newsTabs" class="easyui-tabs" style="width:450px;height:350px;">  
+        <div title="部门" >  
+            <table id="news_dept_datagrid"></table>
+        </div>  
+        <div title="岗位" >  
+            <table id="news_post_datagrid"></table> 
+        </div>  
+        <div title="人员" >  
+            <table id="news_oper_datagrid"></table> 
+        </div>  
+    </div>  
+</div>
+<div id="newsDialog_buttons">  
+    <a id="newsdialog_confirm" class="easyui-linkbutton" >确定</a>  
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="javascript:$('#dept_post_oper_newsDialog').dialog('close')">取消</a>  
+</div>  
+<script type="text/javascript">
+//    var deptAndItems = [];
+//    var deptQueryParams = {
+//        columns: "", //"column1, column2"
+//        andItems: $.toJSON(deptAndItems),
+//        sort: 'deptCod',
+//        order: 'asc'
+//    };
+
+    var builder1 = new HdEzuiQueryParamsBuilder();
+//    var OrgnId = $("#news_dept_datagrid").combogrid('getValue');
+     
+    var deptDataGrid = $("#news_dept_datagrid");
+    var deptUrl = '../webresources/login/AuthOrgn/findWithCondition';
+    var deptOperation = new DatagridOperation(deptDataGrid, deptUrl);
+    deptDataGrid.datagrid({
+        //url: deptUrl,
+        queryParams: builder1.build(),
+        pagination: false,
+        fitColumns: false,
+        method: 'post',
+        singleSelect: false,
+       columns: [[ {
+                    title: '部门代码', //deptCod
+                    field: 'orgnId',
+                    sortable: true,
+                    width: 100,
+                    halign: 'center'
+                }, {title: '部门名称', //deptNam
+                    field: 'text',
+                    sortable: true,
+                    width: 100,
+                    halign: 'center'
+                }
+            ]]
+    });
+
+//    var postAndItems = [];
+//    var postQueryParams = {
+//        columns: "", //"column1, column2"
+//        andItems: $.toJSON(postAndItems),
+//        sort: 'deptCod',
+//        order: 'asc'
+//    };
+
+    var builder2 = new HdEzuiQueryParamsBuilder();
+//     var RoleId = $("#news_post_datagrid").combogrid('getValue');
+
+    var postDataGrid = $("#news_post_datagrid");
+    var postUrl ='../webresources/login/AuthRole/findgw';
+    var postOperation = new DatagridOperation(postDataGrid, postUrl);
+    postDataGrid.datagrid({
+        queryParams: builder2.build(),
+        method: 'post',
+        pagination: false,
+        fitColumns: false,
+        singleSelect: false,
+        columns: [[{
+                    title: '岗位名称',
+                    field: 'roleId',
+                    sortable: true,
+                    width: 120,
+                    halign: 'center'
+                }, {
+                    title: '岗位代码',
+                    field: 'name',
+                    width: 120,
+                   
+                }
+            ]]
+    });
+//    var operAndItems = [];
+//    var operQueryParams = {
+//        columns: "", //"column1, column2
+//        andItems: $.toJSON(postAndItems),
+//        sort: 'deptCod',
+//        order: 'asc'
+//    };
+
+     var builder3 = new HdEzuiQueryParamsBuilder();
+//     var UserId = $("#news_oper_datagrid").combogrid('getValue');
+
+    var operDataGrid = $("#news_oper_datagrid");
+    var operUrl = '../webresources/login/AuthUser/findry';
+    var operOperation = new DatagridOperation(operDataGrid, operUrl);
+    operDataGrid.datagrid({
+        //url: deptUrl,
+        queryParams: builder3.build(),
+        pagination: false,
+        method: 'post',
+        fitColumns: false,
+        singleSelect: false,
+       columns: [[{title: '部门', //temp_nam
+                    field: 'deptNam',
+                    sortable: true,
+                    width: 70,
+                    halign: 'center'
+                }, {
+                    title: '人员代码', //temp_nam
+                    field: 'account',
+                    sortable: true,
+                    width: 70,
+                    halign: 'center'
+                }, {title: '人员名称', //temp_nam
+                    field: 'name',
+                    sortable: true,
+                    width: 70,
+                    halign: 'center'
+                }, {title: '岗位', //temp_nam
+                    field: 'postNam',
+                    sortable: true,
+                    width: 160,
+                    halign: 'center'}]]
+    });
+    function openNewsTab() {
+        var limitedId = $("#limitedId").combogrid("getValue");
+        if (limitedId) {
+            if (limitedId == "0") {
+                deptDataGrid.datagrid({url: deptUrl}).datagrid("reload");
+                $("#dept_post_oper_newsTabs").tabs("select", 0);
+                $("#dept_post_oper_newsTabs").tabs("enableTab", 0);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 1);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 2);
+            } else if (limitedId == "1") {
+                postDataGrid.datagrid({url: postUrl}).datagrid("reload");
+                $("#dept_post_oper_newsTabs").tabs("select", 1);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 0);
+                $("#dept_post_oper_newsTabs").tabs("enableTab", 1);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 2);
+            } else if (limitedId == "2") {
+                operDataGrid.datagrid({url: operUrl}).datagrid("reload");
+                $("#dept_post_oper_newsTabs").tabs("select", 2);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 0);
+                $("#dept_post_oper_newsTabs").tabs("disableTab", 1);
+                $("#dept_post_oper_newsTabs").tabs("enableTab", 2);
+            } else {
+                return;
+            }
+            $('#dept_post_oper_newsDialog').dialog('open');
+        }
+    }
+    $("#newsdialog_confirm").on("click", function () {
+        var currentTab = $('#dept_post_oper_newsTabs').tabs('getSelected');
+        var tabIndex = $('#dept_post_oper_newsTabs').tabs('getTabIndex', currentTab);
+        var codes = "";
+        var names = "";
+        if (tabIndex == '0') {
+            var deptSelections = deptDataGrid.datagrid("getSelections");
+            for (var i = 0; i < deptSelections.length; i++) {
+                var row = deptSelections[i];
+                if (codes) {
+                    codes += "," + row.orgnId;
+                } else {
+                    codes += row.orgnId;
+                }
+                if (names) {
+                    names += "," + row.text;
+                } else {
+                    names += row.text;
+                }
+            }
+        } else if (tabIndex == '1') {
+            var postSelections = postDataGrid.datagrid("getSelections");
+            for (var i = 0; i < postSelections.length; i++) {
+                var row = postSelections[i];
+                if (codes) {
+                    codes += "," + row.roleId;
+                } else {
+                    codes += row.roleId;
+                }
+                if (names) {
+                    names += "," + row.name;
+                } else {
+                    names +=row.name;
+                }
+            }
+        } else if (tabIndex == '2') {
+            var operSelections = operDataGrid.datagrid("getSelections");
+            for (var i = 0; i < operSelections.length; i++) {
+                var row = operSelections[i];
+                if (codes) {
+                    codes += "," + row.account;
+                } else {
+                    codes += row.account;
+                }
+                if (names) {
+                    names += "," + row.name;
+                } else {
+                    names += row.name;
+                }
+            }
+        }
+        $("#limitedCexp").val(names);
+        $("#limitedExp").val(codes);
+        $('#dept_post_oper_newsDialog').dialog('close');
+    });
+    $("#readedDte").hide();
+    $(document).ready(function () {
+        $('#main').tabs('getSelected').panel('options').destroies = ['dept_post_oper_newsDialog', 'NewsReadAndConfirmShowData', 'receiveManReadShowData'];
+        $('#newsReleaseTab').listdetail();
+        var NewsReadAndConfirmDatagrid = $('#NewsReadAndConfirmDatagrid');
+        var NewsReadAndSendDatagrid = $('#NewsReadAndSendDatagrid');
+        var receiveManReaddatagrid = $("#receiveManReaddatagrid");
+        var NewsReadAndConfirmSearchbox = $('#NewsReadAndConfirmToolbar .easyui-searchbox');
+
+        var NewsReadAndConfirmBeg = $("#NewsReadAndConfirm_beg");
+        NewsReadAndConfirmBeg.datebox({onSelect: dteCompare});
+        var NewsReadAndConfirmEnd = $("#NewsReadAndConfirm_end");
+        NewsReadAndConfirmEnd.datebox({onSelect: dteCompare});
+        $("#validId").combogrid({
+            panelWidth: 150,
+            panelHeight: 150,
+            value: '3',
+            valueField: 'id',
+            idField: 'id',
+            textField: 'name',
+            data: [{
+                    "id": "3",
+                    "name": "全部"
+                },{
+                    "id": "0",
+                    "name": "未读"
+                }, {
+                    "id": "1",
+                    "name": "已读"
+                }, {
+                    "id": "2",
+                    "name": "失效"
+                }],
+            columns: [[
+                    {field: 'id', title: '代码', width: 100, hidden: true},
+                    {field: 'name', title: '名称', width: 100}
+                ]],
+            onSelect: function (rowIndex, rowData) {
+                if (rowData.id === '0') {
+                    $("#readedDte").hide();
+                }
+                if (rowData.id === '1') {
+                    $("#readedDte").show();
+                }
+                if (rowData.id === '2') {
+                    $("#readedDte").hide();
+                }
+                if (rowData.id === '3') {
+                    $("#readedDte").hide();
+                }
+//                queryParams.andItems = $.toJSON(setAndItems());
+//                queryParams.validId = rowData.id;
+                operation.load();
+            }
+        });
+        $("#limitedId").combogrid({
+            panelWidth: 150,
+            panelHeight: 200,
+            valueField: 'limitedId',
+            idField: 'limitedId',
+            textField: 'limitedNam',
+            data: [{
+                    limitedId: '0',
+                    limitedNam: '部门'
+                }, {
+                    limitedId: '1',
+                    limitedNam: '岗位'
+                }, {
+                    limitedId: '2',
+                    limitedNam: '人员'
+                }, {
+                    limitedId: '9',
+                    limitedNam: '全部'
+                }],
+            columns: [[
+                    {field: 'limitedId', title: '代码', width: 100, hidden: true},
+                    {field: 'limitedNam', title: '名称', width: 100}
+                ]]
+        });
+//        $("#sendNewsFormSubmit").on("click", function () {
+//            var sendNewsData = $("#sendNewsData");
+//            var Mtitle = $("#showDataNewsTyp").val();
+//            Mtitle = encodeURI(encodeURI(Mtitle));
+//            var Mcon = $("#messageCon").val();
+//            Mcon = encodeURI(encodeURI(Mcon));
+//            var SendMethod = $("#limitedId").combogrid("getValue");
+//            SendMethod = encodeURI(encodeURI(SendMethod));
+//            var SendMan = $("#limitedCexp").val();
+//            SendMan =  encodeURI(encodeURI(SendMan));
+//            var LostTime = $("#losttime").datetimebox('getValue');
+////            alert(Mtitle);
+////            alert(Mcon);
+////            alert(SendMethod);
+////            alert(SendMan);
+////            alert(LostTime);
+////            
+//            $.ajax({
+//                type: "POST",
+//                url: "../webresources/login/news/NewsReleaseREST/saves?title="+Mtitle+"&content="+Mcon+"&method="
+//                +SendMethod+"&man="+SendMan+"&time="+LostTime+'',
+//                dataType: 'json',
+//                data: 'json',
+//                success: function (data) {
+//                 
+//                    alert("发送成功");
+////                    var rowData = {};
+////                    var row = $.hd.form.getDataAsObject($("#sendNewsData"));
+////                    rowData.newsTitle = row.newsTitle;
+////                    rowData.newsTxt = row.newsTxt;
+////                    rowData.flashId = row.flashId;
+////                    rowData.limitedId = row.limitedId;
+////                    rowData.limitedExp = row.limitedExp;
+////                    rowData.limitedCexp = row.limitedCexp;
+////                    rowData.validDte = row.validDte;
+////                    rowData.releaseId = "1";
+////                    rowData.newsTyp = "0";
+////                    rowData.validId = "0";
+////                    rowData.newsNam = $.main.loginOper.name;
+////                    rowData.newsMan = $.main.loginOper.account;
+////                    rowData.newsDte = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+////                    rowData.recordNam = $.main.loginOper.name;
+////                    rowData.recordTim = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+////                    rowData.updateNam = $.main.loginOper.name;
+////                    rowData.updateTim = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+////                    NewsReadAndSendDatagrid.datagrid('insertRow', {index: 0, row: rowData});
+////                    NewsReadAndSendDatagrid.datagrid('selectRow', 0);
+////                    $('#newsReleaseTab').listdetail("select", 1);
+//////                    NewsReadAndSendDatagrid.datagrid('reload');
+//                },
+//                error: function (data) {
+//                 
+//                    if (data.responseText==="插入成功")  {
+//                    alert("发送成功");
+//                    $('#sendNewsData').form('clear');
+//                }
+//                    
+//                }
+//            });
+//        });
+         $("#sendNewsFormSubmit").on("click", function () {
+            var sendNewsData = $("#sendNewsData");
+            alert($.hd.form.getData(sendNewsData));
+//            $("#showDataNewsTyp").val("0");
+            $.ajax({
+                type: "POST",
+                url: "../webresources/login/news/NewsReleaseResource/saves",
+                data: $.hd.form.getData(sendNewsData),
+                dataType: 'json',
+                success: function (data) {
+                    var rowData = {};
+                    var row = $.hd.form.getDataAsObject($("#sendNewsData"));
+                    rowData.newsTitle = row.newsTitle;
+                    rowData.newsTxt = row.newsTxt;
+                    rowData.flashId = row.flashId;
+                    rowData.limitedId = row.limitedId;
+                    rowData.limitedExp = row.limitedExp;
+                    rowData.limitedCexp = row.limitedCexp;
+                    rowData.validDte = row.validDte;
+                    rowData.releaseId = "1";
+                    rowData.newsTyp = "0";
+                    rowData.validId = "0";
+                    rowData.newsNam = $.main.loginOper.name;
+                    rowData.newsMan = $.main.loginOper.account;
+                    rowData.newsDte = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+                    rowData.recordNam = $.main.loginOper.name;
+                    rowData.recordTim = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+                    rowData.updateNam = $.main.loginOper.name;
+                    rowData.updateTim = (new Date()).format('yyyy-MM-dd hh:mm:ss');
+                    NewsReadAndSendDatagrid.datagrid('insertRow', {index: 0, row: rowData});
+                    NewsReadAndSendDatagrid.datagrid('selectRow', 0);
+                    $('#newsReleaseTab').listdetail("select", 1);
+                    alert(rowData.newsTyp);
+                      alert("发送成功");
+                 
+                },
+                error: function (data) {
+                    $.hd.ezui.messager.show(data);
+                }
+            });
+        });
+
+
+        function dteCompare(value) {
+            var beg = NewsReadAndConfirmBeg.datebox('getValue');
+            var end = NewsReadAndConfirmEnd.datebox('getValue');
+            if (beg != "" && end != "") {
+                if (!ltDate(beg, end)) {
+                    $.messager.alert('提示', '录入日期开始时间要小于结束时间!', 'info');
+                }
+            }
+        }
+
+        NewsReadAndConfirmBeg.datebox('setValue', new Date().format('yyyy-MM') + '-01');
+        NewsReadAndConfirmEnd.datebox('setValue', new Date().format('yyyy-MM-dd'));
+        function setAndItems() {
+            var andItems = [];
+            var orItems = [];
+            andItems.push({column: "news_typ", operator: "=", value: "0"});
+            var validId = $("#validId").combogrid('getValue');
+         
+            if (validId == "1") {
+                andItems.push({column: "to_char(READ_TIM,'yyyy-mm-dd hh:mm:ss')", operator: ">=", value: NewsReadAndConfirmBeg.datebox('getValue') + " 00:00:00"});
+                andItems.push({column: "to_char(READ_TIM,'yyyy-mm-dd hh:mm:ss')", operator: "<=", value: NewsReadAndConfirmEnd.datebox('getValue') + " 23:59:59"});
+            }
+            return andItems;
+        }
+
+//        var queryParams = {
+//            columns: "NEWS_TITLE, NEWS_TXT",
+//            andItems: $.toJSON(setAndItems()),
+//            sort: "NEWS_DTE",
+//            order: "desc",
+//            q: ''
+//        };
+//        queryParams.validId = '0';
+    var builder = new HdEzuiQueryParamsBuilder();
+     var validId = $("#validId").combogrid('getValue');
+     builder.setAndClause("read_id", validId, "=", "AND");
+        function setAndItems2() {
+            var andItems = [];
+            andItems.push({column: "newsTyp", operator: "=", value: "0"});
+            andItems.push({column: "newsMan", operator: "=", value: $.main.loginOper.account});
+            return andItems;
+        }
+//        var queryParams2 = {
+//            columns: "newsTitle, newsTxt",
+//            andItems: $.toJSON(setAndItems2()),
+//            sort: "newsDte",
+//            order: "desc",
+//            q: ''
+//        };
+    var builder4 = new HdEzuiQueryParamsBuilder();
+        var newsReleaseOperqueryParams = {
+            columns: "",
+            andItems: $.toJSON(),
+            q: ''
+        };
+        var url = '../webresources/login/news/NewsReleaseResource';   //
+        var operation = new DatagridOperation(NewsReadAndConfirmDatagrid, url + '/save');
+        var operation2 = new DatagridOperation(NewsReadAndSendDatagrid, url + '/save');  //find方法  一会再用 先注释掉
+        NewsReadAndConfirmSearchbox.searchbox({
+            searcher: function (value, name) {
+                queryParams.q = value;
+                operation.reload();
+            }
+        });
+        $("#sendNewsFormCancle").on("click", function () {
+            $('#newsReleaseTab').listdetail("select", 1);
+        });
+        $("#releaseNewsForm").on("click", function () {
+            $('#sendNewsData').form('clear');
+            $('#sendNewsData input[name=rtnFeeSysCod]').focus();
+            $('#sendNewsData').form('validate');
+            $('#newsReleaseTab').listdetail("select", 2);
+        });
+
+        $("#NewsReadAndConfirmToolbar a[iconCls='icon-search']").on("click", function () {
+//            queryParams.andItems = $.toJSON(setAndItems());
+//            queryParams.validId = $("#validId").combogrid('getValue');
+//            operation.load();
+
+             builder = new HdEzuiQueryParamsBuilder();
+             var validId = $("#validId").combogrid('getValue');
+         
+            builder.setAndClause("read_id", validId, "=", "AND");
+             NewsReadAndConfirmDatagrid.datagrid({
+           
+            queryParams: builder.build()
+        });
+        });
+        $("#NewsReadAndConfirmToolbar a[iconCls='icon-redo1']").on("click", function () {
+            $('#newsReleaseTab').listdetail("select", 1);
+//            queryParams2.andItems = $.toJSON(setAndItems2());
+//            operation2.load();
+//        openTab("发送消息",'../login/system/NewsRelease.html' , false, null);
+        });
+        $("#NewsReadAndReceiveToolbar a[iconCls='icon-redo']").on("click", function () {
+            $('#newsReleaseTab').listdetail("select", 0);
+            queryParams.andItems = $.toJSON(setAndItems());
+            operation.load();
+//        openTab("发送消息",'../login/system/NewsRelease.html' , false, null);
+        });
+
+        var receiveManReadbuilder = new HdEzuiQueryParamsBuilder();
+        receiveManReaddatagrid.datagrid({
+            url: url + '/getOpers',
+            method: 'post',
+            autoLoad: false,
+            pagination: false,
+            queryParams: receiveManReadbuilder.build(),
+            fitColumns: false,
+            columns: [[{
+                        title: '操作员代码',
+                        field: 'AIM_COD',
+                        sortable: true,
+                        width: 80,
+                        halign: 'center'
+                    }, {
+                        title: '操作员名',
+                        field: 'AIM_NAM',
+                        sortable: true,
+                        width: 80,
+                        halign: 'center'
+                    }, {
+                        title: '阅读标志',
+                        field: 'READ_ID',
+                        sortable: true,
+                        width: 80,
+                        halign: 'center'
+                    }, {
+                        title: '阅读时间',
+                        field: 'READ_TIM',
+                        sortable: true,
+                        width: 120,
+                        formatter: $.hd.ezui.formatter.datetimeWithoutSeconds,
+                        halign: 'center',
+                        align: 'center'
+                    }, {
+                        title: '部门名称',
+                        field: 'DEPT_NAM',
+                        sortable: true,
+                        width: 150,
+                        halign: 'center'
+                    }, {
+                        title: '岗位名称',
+                        field: 'POST_NAM',
+                        sortable: true,
+                        width: 500,
+                        halign: 'center'
+                    }]]
+        });
+        NewsReadAndConfirmDatagrid.datagrid({
+            toolbar: '#NewsReadAndConfirmToolbar',
+            url: url + '/findNoRead',
+            method: 'POST',
+            queryParams: builder.build(),
+            pagination: true,
+            fitColumns: true,
+//        rowStyler: function(index,row){
+//            if (row.READ_ID=='0'&& row.VALID_DTE < (new Date()).format('yyyy-MM-dd hh:mm:ss')){
+//                return 'color:grey;';
+//                }
+//            if (row.READ_ID=='0'&& row.VALID_DTE >= (new Date()).format('yyyy-MM-dd hh:mm:ss')){
+//                return 'color:red;';
+//                }
+//        },
+            columns: [[{
+                        title: '编号', //news_cod
+                        field: 'NEWS_COD',
+                        sortable: true,
+                        width: 120,
+                        halign: 'center'
+                    }, {
+                        title: '标题', //news_title
+                        field: 'NEWS_TITLE',
+                        sortable: true,
+                        width: 150,
+                        halign: 'center'
+                    }, {
+                        title: '内容', //news_txt
+                        field: 'NEWS_TXT',
+                        sortable: true,
+                        width: 550,
+                        halign: 'center'
+                    }, {
+                        title: '阅读标识', //read_id
+                        field: 'READ_ID',
+                        sortable: true,
+                        formatter: $.hd.ezui.formatter.checkbox,
+                        width: 55,
+                        halign: 'center',
+                        align: 'center'
+                    }, {
+                        title: '阅读时间', //read_tim
+                        field: 'READ_TIM',
+                        sortable: true,
+                        width: 105,
+                        halign: 'center',
+                        formatter: $.hd.ezui.formatter.datetime
+                    }, {
+                        title: '发送人', //news_nam
+                        field: 'NEWS_NAM',
+                        sortable: true,
+                        width: 70,
+                        halign: 'center'
+                    }, {
+                        title: '发送时间', //news_dte
+                        field: 'NEWS_DTE',
+                        sortable: true,
+                        width: 105,
+                        halign: 'center',
+                        formatter: $.hd.ezui.formatter.datetime
+                    }]],
+            onClickRow: operation.clickRow,
+            onDblClickRow: function (rowIndex, rowData) {
+                $('#receiveNewsCod').val(rowData.NEWS_COD);
+                $('#receiveNewsTitle').val(rowData.NEWS_TITLE);
+                $('#NewsReadAndConfirmShowDetailData').val(rowData.NEWS_TXT);
+                $('#receiveNewsSendMan').val(rowData.NEWS_NAM);
+                function   formatDate(now)   {     
+                    var   year=now.getYear()+1900;     
+                    var   month=now.getMonth()+1;     
+                    var   date=now.getDate();     
+                   
+                    return   year+"-"+month+"-"+date;     
+                    }     
+                    var  d=new  Date(rowData.NEWS_DTE);     
+                var date=formatDate(d);
+                $('#receiveNewsDte').val(date);
+                var args = {};
+                args.newNo = rowData.NEWS_NO;
+//                args.operCod = $.main.loginOper.account;
+//                alert((rowData.VALID_DTE));
+//                alert(new Date().getTime());
+                if (rowData.READ_ID === '0' && (rowData.VALID_DTE > (new Date().getTime()) || rowData.VALID_DTE === null)) {
+                    $.ajax({
+                        url: '../webresources/login/news/NewsReleaseResource/updateReadId?news_no='+args.newNo, //此URL一般不同于查询的URL，在构造函数给出
+                        type: "POST",
+                        dataType: "json",
+//                        data: $.toJSON(args),
+                        success: function (data) {
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("联系托盘失败：" + errorThrown);
+                        }
+                    });
+                }
+                $('#NewsReadAndConfirmShowData').dialog({
+                    title: '消息',
+                    width: 650,
+                    height: 450,
+                    closed: false,
+                    resizable: false,
+                    cache: false,
+                    modal: true,
+                    buttons: [{
+                            text: '关闭',
+                            handler: function () {
+                                var readId = $("#validId").combogrid('getValue');
+                                if (readId === '0') {
+                                    NewsReadAndConfirmDatagrid.datagrid('updateRow', {index: rowIndex, row: {READ_ID: '1', READ_TIM: new Date()}});
+                                    NewsReadAndConfirmDatagrid.datagrid('selectRow', rowIndex);
+                                }
+                                $('#NewsReadAndConfirmShowData').dialog("close");
+                            }
+                        }]
+                });
+            }
+        });
+         var NewsReadAndSendbuilder = new HdEzuiQueryParamsBuilder();
+        NewsReadAndSendDatagrid.datagrid({
+            url: url + '/find',
+            method: 'POST',
+            queryParams: NewsReadAndSendbuilder.build(),
+            pagination: true,
+            fitColumns: true,
+//        autoLoad:false,
+            columns: [[{
+                        title: '<font color="red">标题</font>',
+                        field: 'newsTitle',
+                        sortable: true,
+                        editor: {
+                            type: 'validatebox',
+                            options: {
+                                required: true,
+                                validType: 'length[1,250]',
+                                invalidMessage: '请输入1-250位的字符！'
+                            }
+                        },
+                        width: 150,
+                        halign: 'center'
+                    }, {
+                        title: '内容',
+                        field: 'newsTxt',
+                        sortable: true,
+                        editor: {
+                            type: 'validatebox',
+                            options: {
+                                validType: 'length[0,2000]',
+                                invalidMessage: '请输入1-2000位的字符！'
+                            }
+                        },
+                        width: 550,
+                        halign: 'center'
+                    }, {
+                        title: '指派方式', //limited_id
+                        field: 'limitedId',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            if (value === '0') {
+                                return "部门";
+                            } else if (value === '1') {
+                                return "岗位";
+                            } else if (value === '2') {
+                                return "人员";
+                            } else if (value === '9') {
+                                return "全部";
+                            } else {
+                                return value;
+                            }
+                        },
+                        width: 60,
+                        halign: 'center'
+                    }, {
+                        title: '指派人员代码', //limited_exp
+                        field: 'limitedExp',
+                        sortable: true,
+                        width: 100,
+                        halign: 'center',
+                        hidden: true
+                    }, {
+                        title: '指派人员名称', //limited_cexp
+                        field: 'limitedCexp',
+                        sortable: true,
+//                    editor:'text',
+                        width: 200,
+                        halign: 'center'
+                    }, {
+                        title: '失效时间',
+                        field: 'validDte',
+                        formatter: $.hd.ezui.formatter.datetime,
+                        sortable: true,
+                        width: 120,
+                        halign: 'center',
+                        align: 'center'
+                    }, {
+                        title: '发送时间', //news_dte
+                        field: 'newsDte',
+                        sortable: true,
+                        width: 120,
+                        halign: 'center',
+                        formatter: $.hd.ezui.formatter.datetimeWithoutSeconds,
+                        align: 'center'
+                    }]],
+            toolbar: '#NewsReadAndReceiveToolbar',
+            onDblClickRow: function (rowIndex, rowData) {
+                operation2.clickRow(rowIndex, rowData);
+                $('#receiveManReadShowData').dialog('open');
+                if (rowData.newsNo !== null) {
+                    receiveManReadbuilder = new HdEzuiQueryParamsBuilder();
+                       
+                  receiveManReadbuilder.setAndClause("newNo", rowData.newsNo, "=", "AND");
+                    receiveManReaddatagrid.datagrid({
+                        
+                        queryParams:receiveManReadbuilder.build()
+                    });
+                }
+            }
+        });
+    });
+</script>

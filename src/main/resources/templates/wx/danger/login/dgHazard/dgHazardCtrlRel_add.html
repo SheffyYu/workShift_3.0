@@ -1,0 +1,130 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/dgModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style type="text/css">
+		.text-title {
+			font-size: 16px;
+		}
+		.text-content {
+			font-size: 16px;
+		}
+	</style>
+<div class="app_header">
+   		<a  onClick="javascript :history.back(-1);">
+   			<img src="/wx/images/back.png"  class="app_head_back" border="0" title="返回上一页"/></a>
+   		<div class="app_head_title" id="app_head_title" >危货整改
+   		  <a id="saveDgHazardCtrl" class="head_right">保存</a>
+   		</div> 
+</div>
+   	<div class="app_content">
+	    <div class="weui-cells weui-cells_form">
+	      		<!-- <div class="weui-cell">
+   			 <div class="weui-cell__hd">
+   			 	<label class="weui-label">编号</label></div>
+   			 <div class="weui-cell__bd">
+      			<input class="weui-input" type="text" id="hazardCod1498115131143" placeholder="请输入编号"></input>
+    		</div>
+  		</div> -->
+  		<div class="weui-cell">
+   			 <div class="weui-cell__hd">
+   			 	<label class="weui-label">名称</label></div>
+   			 <div class="weui-cell__bd">
+      			<input class="weui-input" type="text" id="hazardNam1498115131143" placeholder="请输入名称"></input>
+    		</div>
+  		</div>
+  		<div class="weui-cell">
+   			 <div class="weui-cell__hd">
+   			 	<label class="weui-label" >描述</label></div>
+   		</div>
+   		<div class="weui-cell ">
+   				 <div class="weui-cell__bd ">
+     			 <textarea class="weui-textarea" id="description1498115131143" placeholder="请输入描述" rows="3"></textarea>
+     				 <div class="weui-textarea-counter"><span>0</span>/200
+     				 </div>
+   				 </div>
+  		</div>
+  		<!-- 图片上传 -->
+	  		  <div class="weui-cell">
+                <div class="weui-cell__bd weui-cell-primary">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd weui-cell">
+                            <div class="weui_cell_bd weui-cell-primary">图片上传</div>
+                            <div class="weui_cell_ft"></div>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id='img2x'>
+                            </ul>
+                             <div class="weui-uploader__input-box">
+            					<input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" onchange="previewImage1(this)" multiple="" />
+          					</div>
+                        </div>
+                    </div>
+                </div>
+        	</div> 
+        	
+		</div>
+    </div>
+
+
+<script type="text/javascript">
+function previewImage1(file) {
+    var MAXWIDTH = 100;
+    var MAXHEIGHT = 200;
+    /*<![CDATA[*/
+    for(var i=0;i<file.files.length;i++){
+    if (file.files && file.files[i]) {
+    	 name[i] = file.files[i].name;
+        var reader = new FileReader();
+        reader.onload = function (evt) {   
+            $('#img2x').append('<li class="weui-uploader__file" style="background-image:url('+evt.target.result+')"></li>');    
+            $('#img2x').append('<input type="hidden" class="weui-uploader__file_input" value='+evt.target.result+'"/>'); 
+        };
+        reader.readAsDataURL(file.files[i]);
+    }
+    /*]]>*/
+    }
+}
+$(function() {
+	var hazardcod = getUrlParams("cod");
+	var applyBuilder=new HdEzuiQueryParamsBuilder();
+	applyBuilder.setOtherskeyValue("hazardCod",hazardcod);
+		
+	$("#saveDgHazardCtrl").on("click",function(){
+		var args={};
+		args.hazardcod=hazardcod;
+		args.hazardNam=$("#hazardNam1498115131143").val();
+		args.description=$("#description1498115131143").val();
+		//图片上传
+		var list = $('.weui-uploader__file_input');
+		var rel  = [];
+		/*<![CDATA[*/
+		for (var i = 0; i < list.length; i++)
+		    {
+		            rel.push(dataToImage(list[i].value));
+		    }
+		/*]]>*/
+		function dataToImage(dataUrl){
+		    var base64Data = dataUrl.replace(/^data:image\/\w+;base64,/,'');
+			return base64Data;
+		}
+		args.img=rel;
+		jQuery.axs("/webresources/wx/dg/hazard/saveDgHazardREL", args, function(result){
+			if(result.status==1){
+				window.location="/wx/dg/init/login/dgHazardCtrlRel?cod="+hazardcod;
+			}else{
+				$.toast(result.info, "text");
+			}
+		});		
+	});
+
+});
+
+
+</script>
+</div>
+</body>
+</html>

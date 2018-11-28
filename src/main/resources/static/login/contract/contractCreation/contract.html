@@ -1,0 +1,505 @@
+<!-- 工具栏 -->
+<div class="easyui-layout" style="width:100%;height:100%;" fit="true">
+<div data-options="region:'center',split:true">
+<table id="ContractDatagrid1493012840094" style="height:100%"></table>
+<div id="ContractToolBar1493012840094">
+    <div style="float:left;">
+    		<input name="file20170428" type="radio" value="0" checked="checked">未发布
+	    	<input name="file20170428" type="radio" value="1">已发布
+        <shiro:hasPermission name="webresources:login:Contract:add">
+            <a class="easyui-linkbutton" iconCls="icon-add" plain="false">合同起草</a>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="webresources:login:Contract:update">
+            <a class="easyui-linkbutton" iconCls="icon-edit" plain="false">合同修改</a>
+        </shiro:hasPermission>
+        <a class="easyui-linkbutton" iconCls="icon-reload" plain="false">刷新</a>
+        <shiro:hasPermission name="webresources:login:Contract:delete">
+            <a class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+        </shiro:hasPermission>
+        <!-- <shiro:hasPermission name="webresources:login:Contract:save">
+            <a class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+        </shiro:hasPermission> -->
+            
+        &nbsp;
+    </div>
+    <input class="easyui-searchbox" id="NoticeReleaseSearchbox1489456728152"/>
+</div>
+</div>
+<div data-options="region:'east',split:true" style="width:330px;">
+<table id="ContractFileDatagrid1493091206077" style="height:100%"></table>
+<div id="ContractFileToolBar1493091206077">
+    <div>
+    	<shiro:hasPermission name="webresources:login:ContractFile:delete">
+            <a class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+        </shiro:hasPermission>
+        <!-- <a class="easyui-linkbutton" id="download20170509" plain="false">下载文件</a> -->
+    </div>
+</div>
+</div>
+</div>
+<!-- 工具栏 结束 -->
+<!-- Datagrid -->
+<div id="ContractDialog1493012840094"   style="display:none"></div>
+<!-- end Datagrid -->
+<div id="ContractFileDialog20170509" class="easyui-dialog" data-options="closed:true" >
+	<div id="showPdf20170509" style="width:100%;height:100%;"></div>
+</div>
+<!-- 脚本控制 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+    	//获取登录的用户
+    	var oper=$.main.loginOper;
+        var dialogTitleAddF = "合同起草";
+        var dialogTitleEditF = "合同修改";
+        var diog = $("#ContractDialog1493012840094");
+        var dgContract = $("#ContractDatagrid1493012840094");
+        // buttons
+        // 合同起草。
+        //var liseContractFile=$("#ContractFileDatagrid1493091206077").datagrid("getRows");
+        
+        $("#ContractToolBar1493012840094 a[iconCls='icon-add']").on("click", function () {
+            $("#ContractDialog1493012840094").show();
+            HdUtils.dialog3.show({height: 350,width:730, title: dialogTitleAddF, href: "../login/contract/contractCreation/contract_creation.html"});
+            HdUtils.dialog3.setValue({data: {type: "ADD"},dataGrid:dgContract});          
+        });
+        //radio选择
+        $("#ContractToolBar1493012840094 input[name='file20170428']").change(function(){
+        	
+        	builder= new HdEzuiQueryParamsBuilder();
+        	fileBuilder= new HdEzuiQueryParamsBuilder();
+        	var contractStat=$("#ContractToolBar1493012840094 input[name='file20170428']:checked").val();
+        	if(contractStat=="1"){
+                builder.setAndClause("signatory",oper.account,"=","and");
+        		builder.setAndClause("contractSat","RE","=","and");
+        	}else{
+                builder.setAndClause("signatory",oper.account,"=","and");
+        		builder.setAndClause("contractSat","URE","=","and");//未发布
+        		
+        	}
+        	fileBuilder.setAndClause("id","A","=","and");
+        	dgContract.datagrid("load",builder.build());
+        	dgContractFile.datagrid("load",fileBuilder.build());
+        });
+        // 合同修改。
+        $("#ContractToolBar1493012840094 a[iconCls='icon-edit']").on("click", function () {
+
+            $("ContractDialog1493012840094").show();
+            var selectRow = $("#ContractDatagrid1493012840094").datagrid("getSelected");
+            if (selectRow == undefined) {
+                HdUtils.messager.info("请选择一条记录");
+            } else {
+                HdUtils.dialog3.setValue({data:selectRow,dataGrid:dgContract});
+                HdUtils.dialog3.show({height: 350,width:730,title: dialogTitleEditF, href: "../login/contract/contractCreation/contract_creation.html"});
+            }
+        });
+        
+        // 删除。
+        $("#ContractToolBar1493012840094 a[iconCls='icon-remove']").on("click", function () {
+        	
+        	var fileChecked = $("#ContractDatagrid1493012840094").datagrid("getChecked");
+        	
+        	var args={};
+        	if(fileChecked != ""){
+        		$.messager.confirm("提示","是否确认删除.", function(r){
+        			if(r){
+        				$.ajax({
+                            type: "POST",
+                            url: "/webresources/login/ContractFile/selUrl",
+                            contentType: "application/json",
+                            dataType: "json",
+                            data: $.toJSON(fileChecked),
+                            success: function (data) {
+                            	args.fileUrl=data;
+                            	args.fileChecked=fileChecked;
+                            	$.ajax({
+                                    type: "POST",
+                                    url: "/webresources/login/ContractFile/delFile",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    data: $.toJSON(args),
+                                    success: function (data) {
+                                    	HdUtils.messager.bottomRight("删除成功");
+                                    	dgContract.datagrid("hdReload");
+                                    	contractFileBuilder=new HdEzuiQueryParamsBuilder();
+                                    	contractFileBuilder.setAndClause("contractNo","0","=","and");
+                                    	dgContractFile.datagrid("load", contractFileBuilder.build());
+                                    }
+                            	});
+                            	
+                            }
+                    	});	
+        			}
+        		});
+        			
+        	}else{
+        		HdUtils.messager.info("请选择一条记录");
+        	}
+        	//dgContract.datagrid("hdRealRemove", {url: "/webresources/login/Contract/save"});
+        	
+        });
+      //下载文件
+        $("#download20170509").on("click",function(){
+        	var selectRow=$("#ContractFileDatagrid1493091206077").datagrid("getSelected");
+        	if(selectRow){
+        		var url=selectRow.enclosureUrl;
+        		window.location.href=url;
+        	}else{
+        		$.messager.alert("提示","请先选择一个文件再进行下载！");
+        	}
+        });
+        // 保存。
+        $("#ContractToolBar1493012840094 a[iconCls='icon-save']").on("click", function () {
+        	dgContract.datagrid("hdSave", {url: "/webresources/login/Contract/save"});
+        });
+        //右侧搜索框
+        $("#NoticeReleaseSearchbox1489456728152").searchbox({prompt: "请输入...", searcher: function (value, name) {
+        	builder.set("q", value);
+            builder.set("queryColumns", "contractNo,contractNam,custom");
+            dgContract.datagrid("load",builder.build());
+        }});
+        // 刷新。
+        $("#ContractToolBar1493012840094 a[iconCls='icon-reload']").on("click", function () {
+        	var value=$("#NoticeReleaseSearchbox1489456728152").val();
+            builder.set("q", value);
+            dgContract.datagrid("load");
+        });
+      	
+        var builder = new HdEzuiQueryParamsBuilder();
+        builder.setAndClause("contractSat","URE","=","and");
+        builder.setAndClause("signatory",oper.account,"=","and");
+        var contractFileBuilder=new HdEzuiQueryParamsBuilder();
+        // datagrid
+        $("#ContractDatagrid1493012840094").datagrid({
+        	striped:true,
+            url: "/webresources/login/Contract/find",
+            queryParams: builder.build(),
+            method: "POST",
+            pagination: true,
+            singleSelect: true,
+            selectOnCheck:false,
+            checkOnSelect:false,
+            rownumbers: true,
+            sortName: "updTimestamp",
+            sortOrder: 'desc',
+            pageSize: 20,
+            toolbar: "#ContractToolBar1493012840094",
+            fit: true,
+            fitColumns: false,
+            frozenColumns:[[{
+						field: "ck",
+						checkbox: true
+					},
+					{
+    					field: "contractId",
+    					title: '<font color="red"></font>',
+    					multiSort: true,
+    					hidden: true,
+    					halign: "center",
+    					sortable: true
+					},
+					{
+    					field: "contractNo",
+    					title: "合同编号",
+    					multiSort: true,
+    					halign: "center",
+    					width: 100,
+    					sortable: true
+					},
+                    {
+                        field: "contractNam",
+                        title: "合同名称",
+                        multiSort: true,
+                        width: 180,
+                        halign: "center",
+                        sortable: true
+                    }]],
+            columns: [[
+                	
+                    {
+                        field: "contractTyp",
+                        title: "合同类型",
+                        multiSort: true,
+                        halign: "center",
+                        align: "center",
+                        width: 80,
+                        formatter: function (value) {
+                            if (value === null || value === '')
+                                return;
+                            var list = HdUtils.global.scode.query({fieldCod: 'CONTRACT_TYP', code: value});
+                            return list.length > 0 ? list[0].name : "";
+                        },
+                        sortable: true
+                    },
+                    {
+                        field: "contractSat",
+                        title: "合同状态",
+                        multiSort: true,
+                        halign: "center",
+                        align: "center",
+                        width: 80,
+                        formatter: function (value) {
+                            if (value === null || value === '')
+                                return;
+                            var list = HdUtils.global.scode.query({fieldCod: 'CONTRACT_STAT', code: value});
+                            return list.length > 0 ? list[0].name : "";
+                        },
+                        sortable: true
+                    },
+                    {
+                        field: "parenContract",
+                        title: "主合同",
+                        multiSort: true,
+                        halign: "center",
+                        width: 120,
+                        sortable: true
+                    },
+                    {
+                        field: "signatory",
+                        title: "经办人",
+                        multiSort: true,
+                        halign: "center",
+                        width: 100,
+                        formatter:function(val,row,idx){
+                        	return row.signatoryNam;
+
+                        },
+                        sortable: true
+                    },
+                    {
+                        field: "signDepartment",
+                        title: "签约部门",
+                        multiSort: true,
+                        halign: "center",
+                        width: 100,
+                        sortable: true
+                    },
+                    {
+                        field: "signDat",
+                        title: "签署日期",
+                        multiSort: true,
+                        halign: "center",
+                        hidden: true,
+                        formatter:$.hd.ezui.formatter.date,
+                        sortable: true
+                    },
+                    {
+                        field: "remindDay",
+                        title: "超期提醒",
+                        multiSort: true,
+                        halign: "center",
+                        width: 80,
+                        sortable: true
+                    },
+                    {
+                        field: "custom",
+                        title: "客户名称",
+                        multiSort: true,
+                        halign: "center",
+                        width: 120,
+                        sortable: true
+                    },
+                    {
+                        field: "companyCod",
+                        title: "公司名称",
+                        multiSort: true,
+                        halign: "center",
+                        width: 120,
+                        sortable: true
+                    },
+                    {
+                        field: "begDte",
+                        title: "有效起始期",
+                        multiSort: true,
+                        width: 100,
+                        halign: "center",
+                        align: "center",
+                        formatter:$.hd.ezui.formatter.date,
+                        sortable: true
+                    },
+                    {
+                        field: "endDte",
+                        title: "有效截至期",
+                        multiSort: true,
+                        width: 100,
+                        formatter:$.hd.ezui.formatter.date,
+                        halign: "center",
+                        align: "center",
+                        sortable: true
+                    },
+                    {
+                        field: "description",
+                        title: "描述",
+                        multiSort: true,
+                        width: 200,
+                        halign: "center",
+                        sortable: true
+                    },
+                    {
+                        field: "isArchive",
+                        title: "是否归档",
+                        multiSort: true,
+                        width: 200,
+                        halign: "center",
+                        hidden: true,
+                        sortable: true
+                    },
+                    {
+                        field: "insAccount",
+                        title: "记录人",
+                        multiSort: true,
+                        hidden: true,
+                        halign: "center",
+                        sortable: true
+                    },
+                    {
+                        field: "insTimestamp",
+                        title: "记录时间",
+                        multiSort: true,
+                        halign: "center",
+                        hidden: true,
+                        formatter:$.hd.ezui.formatter.date,
+                        sortable: true
+                    },
+                    {
+                        field: "updAccount",
+                        title: "更新人",
+                        multiSort: true,
+                        halign: "center",
+                        hidden: true,
+                        sortable: true
+                    },
+                    {
+                        field: "updTimestamp",
+                        title: "更新时间",
+                        multiSort: true,
+                        halign: "center",
+                        hidden: true,
+                        formatter:$.hd.ezui.formatter.date,
+                        sortable: true
+                    },
+                ]], onSelect:function(rowIndex,rowData){
+                	contractFileBuilder=new HdEzuiQueryParamsBuilder();
+                	contractFileBuilder.setAndClause("contractNo",rowData.contractNo,"=","and");
+                	dgContractFile.datagrid("load", contractFileBuilder.build());
+                }
+  });
+        
+        var dgContractFile = $("#ContractFileDatagrid1493091206077");
+     	// 删除。
+        $("#ContractFileToolBar1493091206077 a[iconCls='icon-remove']").on("click", function () {
+        	
+        	var checkData=dgContractFile.datagrid("getChecked");
+        	if(checkData !=null && checkData !=""){
+        		var dataJason="";
+            	for(var i=0; i<checkData.length; i++){
+            		dataJason += ","+checkData[i].enclosureUrl;
+            	}
+            	var args={};
+            	args.dataJason=dataJason.substring(1);
+            	$.ajax({
+                    type: "POST",
+                    url: "/webresources/login/ContractFile/del",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: $.toJSON(args),
+                    success: function (data) {
+                        //HdUtils.dialog3.close();
+                        //HdUtils.messager.bottomRight('保存成功','保存操作');
+                        //dg.datagrid("hdReload");
+                    },
+                    error: function (data) {
+                        HdUtils.messager.info(data.responseText);
+                    }
+                });
+            	dgContractFile.datagrid("hdRealRemove", {url: "/webresources/login/ContractFile/save"});
+        	}else{
+        		HdUtils.messager.info("请选择一条记录");
+        	}
+        	
+//       	Process process = Runtime.getRuntime().exec("del D:\root\upload\contract\contractCreation\洒洒水_20170425150244.doc");// 本地
+        });
+     	
+        // datagrid
+        $("#ContractFileDatagrid1493091206077").datagrid({
+        	striped:true,
+            url: "/webresources/login/ContractFile/find",
+            queryParams: contractFileBuilder.build(),
+            method: "POST",
+            singleSelect: true,
+            selectOnCheck:false,
+            checkOnSelect:false,
+            rownumbers: true,
+            sortName : "fileState",
+            sortOrder : "desc",
+            autoLoad:false,
+            toolbar: "#ContractFileToolBar1493091206077",
+            fit: true,
+            fitColumns: false,
+            columns: [[
+                	{
+                		field: "ck",
+                		checkbox: true
+                	},
+                    {
+                        field: "id",
+                        title: '<font color="red"></font>',
+                        multiSort: true,
+                        hidden : true,
+                        halign: "center",
+                        sortable: true
+                    },
+                    {
+                        field: "enclosureUrl",
+                        title: "附件URL",
+                        multiSort: true,
+                        halign: "center",
+                        hidden: true,
+                        sortable: true
+                    },
+                    {
+                        field: "enclosureNam",
+                        title: "文件名称",
+                        multiSort: true,
+                        halign: "center",
+                        sortable: true
+                    },
+                    {
+                        field: "version",
+                        title: "版本",
+                        multiSort: true,
+                        halign: "center",
+                        sortable: true
+                    },
+                    {
+                    	field: "fileState",
+                        title: "最新",
+                        multiSort: true,
+                        halign: "center",
+                        formatter: $.hd.ezui.formatter.checkbox2,
+                        sortable: true
+                    },
+                ]],
+                onDblClickRow: function (rowIndex, rowData) {
+                var url=rowData.enclosureUrl;
+          		var src=url.substring(0,url.lastIndexOf("."))+".pdf";
+          		var html="<embed id=\"pdfPlayer\" src=\""+src+"\" type=\"application/pdf\" width=\"100%\" height=\"99%\" >";
+          		$("#showPdf20170509").html(html);
+              	$("#ContractFileDialog20170509").dialog({
+              		title:'文件内容显示',
+              		width:870,
+              		height:620,
+              		closed:false,
+              		buttons:[{
+              			text:'关闭',
+              			handler:function(){
+              				$("#ContractFileDialog20170509").dialog({closed:true});
+              			}
+              		}] 
+              	});
+              	
+              }
+  });
+});
+</script>
+
+

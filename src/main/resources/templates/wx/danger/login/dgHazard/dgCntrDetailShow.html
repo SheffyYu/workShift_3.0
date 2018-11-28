@@ -1,0 +1,112 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+
+	<style>
+	.list_item_column_title{width:40%;}
+	.list_item_column_value{width:60%;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">在港船舶</span> 
+   	</div>
+   	<div  class="app_content" >	
+	    <div id="shipData" style="margin: 15px;">
+	    </div>
+    </div>
+    <script type="text/javascript">
+    var companyNam = getUrlParams("companyNam");
+    var dangClass = getUrlParams("dangClass");
+	 $(document).ready(function() {		
+		$(".app_head_title").html(dangClass+"类在场箱")
+		loadShipSchedule(companyNam,dangClass);			
+	 });
+	 function loadShipSchedule(companyNam,dangClass){	
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("company_Nam",companyNam);
+			tempBuilder.setOtherskeyValue("dangClass",dangClass);
+			function format(shijianchuo)
+			{
+				if(shijianchuo !=""){
+					var time = new Date(shijianchuo);
+					var y = time.getFullYear();
+					var m = time.getMonth()+1;
+					var d = time.getDate();
+					var h = time.getHours();
+					var mm = time.getMinutes();
+					var s = time.getSeconds();
+					return y+'-'+m+'-'+d+" "+ h+":"+mm+":"+s;
+				}
+				return "";
+			}
+			$.showLoading();
+			jQuery.axs("/webresources/wx/dg/danger/findDangerCntr",tempBuilder.build(), function(result){
+				 $.hideLoading();
+				 var html="";
+				 if(result.rows.length==0){
+					 $.alert("该公司暂无数据！");
+					 $("#shipData").html(html);
+					 return ;
+				 }
+				 var html="";
+				 /*<![CDATA[*/
+				 for(var i=0;i<result.rows.length;i++){
+					var data = result.rows[i];
+					var TRADE_MARK="";
+					if(data.TRADE_MARK == "F"){
+						TRADE_MARK="外贸";
+					}else if(data.TRADE_MARK == "D"){
+						TRADE_MARK="内贸";
+					}
+					html+=
+				 		'<a class="weui-cell weui-cell_access througth_content_item " style="padding: 0px;" >'+
+						'	<table class="shipWorkTable">'+
+						'		<tr>'+
+						'			<td colspan="2" class="shipWorkTableHeader" >箱号：'+isNull(data.CNTR)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >箱类型：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.CNTR_TYP_COD)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >箱公司：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.CN_CNTR_CORP_NAM)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >危险品等级：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.DANG_CLASS)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >国际危规号：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.UNDG_NO)+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >箱位：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.CY_SLOT_NO)+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >进场日期：</td>'+
+						'			<td class="list_item_column_value">'+format(isNull(data.IN_CY_TIM))+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >提单号：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.BILL_NO)+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >贸易：</td>'+
+						'			<td class="list_item_column_value">'+TRADE_MARK+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >货名：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.CARGO_DESCRIBE)+'</td>'+
+						'		</tr>'+
+						'	</table>'+
+						'</a>';
+				 }
+				 /*]]>*/
+				 $("#shipData").html(html);
+			 }) ;
+		}
+	</script>	
+</div>
+</body>
+</html>

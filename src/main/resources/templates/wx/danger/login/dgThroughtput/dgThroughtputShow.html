@@ -1,0 +1,119 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<style>
+	.list_item_column_title{text-align: right;width: 40%;}
+	.list_item_column_value{padding-right: 5px;}
+	table{width: 100%;line-height: 40px;font-size: 14px;}
+	.cargo_name{ text-align: center;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">危品箱统计</span> 
+   	</div>
+	<div class="app_content" >
+		<div class="weui-tab" style="margin: 15px;background: white;height: 100%;background:#DCE6F5 ">
+      	<div class="weui-flex" style="margin-top: 15px;line-height: 2.3em;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="month" style="text-align: center;"/>	          		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;/*display: none*/" id="endDte_layout">			      		
+	      		<input class="weui-input" id="endDte" type="month" style="text-align: center;"/>			      		
+	      	</div>
+	    </div>
+	    <a href="javascript:;" class="weui-btn weui-btn_default" id="througth_query" style="margin-top: 5px;">查询</a>  
+      	<div id="oa_througthput" class="weui-tab__bd" style="padding-top: 10px;">
+	        
+	        
+      	</div>
+    	</div>		
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {
+		$("#begDte").val(getNowMonth());
+		$("#endDte").val(getNowMonth());
+		//获取时间
+		var begTim = $("#begDte").val();
+		var endTim = $("#endDte").val();
+		var begDte=$("#begDte").val().replace("-","");
+		var endDte=$("#endDte").val().replace("-","");
+		if(begDte>endDte){
+			 $.alert("开始时间必须小于结束时间！");
+			 return ;
+		}
+		//获取登录的用户
+		var account = localStorage.account;
+		open(account,begTim,endTim);
+		var a=1;
+		$("#througth_query").click(function (){		
+			var begTim = $("#begDte").val();
+			var endTim = $("#endDte").val();
+			if(a=1){
+				open(account,begTim,endTim);
+			}
+			
+		});
+		function open(account,begTim,endTim){
+			a=1;
+			var tableFieldBuilder= new HdEzuiQueryParamsBuilder();
+		  		tableFieldBuilder.setOtherskeyValue("account",account);
+		  		tableFieldBuilder.setOtherskeyValue("begTim",begTim);
+		  		tableFieldBuilder.setOtherskeyValue("endTim",endTim);
+			$.ajax({
+		        url:'/webresources/wx/dg01/throughtput/findDgThroughtput1',
+		        type:'POST',
+		        contentType: "application/json",
+		        async:false,
+		        data:$.toJSON(tableFieldBuilder.build()),
+		        success: function (data) {
+		        	a=0;
+		        	$.showLoading();
+					 jQuery.axs("/webresources/wx/dg/throughtput/findDgThroughtput",tableFieldBuilder.build(), 
+						 function(result){
+							 $.hideLoading();
+							 var html="";
+							 $("#oa_througthput").html(html);
+							 for(var i=0;i<result.rows.length;i++){
+								 var data=result.rows[i];
+								 html+=
+									 '<a class="weui-cell weui-cell_access througth_content_item"  style="padding: 0px;" href="/wx/dg/init/login/dgThroughtputDetailShow?company='+data.COMPANY_COD+'#" >'+
+				 						'	<table class="twoTable">'+
+				 						'		<tr class="twoTableHeader" >'+
+				 						'			<td colspan="3">'+isNull(data.CN_COMPANY_NAM)+'</td>'+
+				 						'		</tr>'+
+				 						'		<tr>'+
+				 						'			<td class="list_item_column_title" >合计（TEU）：</td>'+
+				 						'			<td class="list_item_column_value" colspan="2">'+isNull(data.CNTR_TEU)+'</td>'+
+				 						'		</tr>'+
+				 						'		<tr>'+
+				 						'			<td class="list_item_column_title" >进口（TEU）：</td>'+
+				 						'			<td class="list_item_column_value" colspan="2">'+isNull(data.I_NUM)+'</td>'+
+				 						'		</tr>'+
+				 						'		<tr>'+
+				 						'			<td class="list_item_column_title" >出口（TEU）：</td>'+
+				 						'			<td class="list_item_column_value">'+isNull(data.E_NUM)+'</td>'+
+										'			<td class="list_item_next_title" >详细信息>></td>'+
+										'		</tr>'+
+				 						'		</tr>'+
+				 						'	</table>'+
+				 						'</a>';	
+								
+							 }
+							 $("#oa_througthput").html(html);
+						}); 
+		        }
+		        });
+			
+		}
+		
+	});
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

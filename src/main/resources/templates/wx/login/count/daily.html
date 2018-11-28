@@ -1,0 +1,223 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<style>
+	.list_item_detail_column_title{text-align: center;}
+	.list_item_detail_column_value{text-align: right;padding-right: 5px;}
+	table{width: 100%;line-height: 30px;font-size: 14px;}
+	.cargo_name{ text-align: center;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">生产快报</span> 
+   	</div>
+	<div class="app_content" style="margin: 15px;">
+		<div class="weui-flex" style="margin-top: 10px;line-height: 2.3em;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="date" style="text-align: center;"/>	          		
+         	</div>
+        </div>
+        <a href="javascript:;" class="weui-btn weui-btn_default" id="btn_query" style="margin-top: 5px;">查询</a>  
+		<div class="weui-tab" style="margin-top:10px;background: white;height: 100%;background:#DCE6F5 ">
+	    	<div class="weui-navbar" style="margin: 0px;padding: 0px;line-height: 40px;">
+		        <a class="weui-navbar__item weui-bar__item--on" href="#tab1" style="margin: 0px;padding: 0px;border-top-left-radius:8px;border-bottom-left-radius:8px;">
+		          	货物吞吐量
+		        </a>
+		        <a class="weui-navbar__item" href="#tab2" style="margin: 0px;padding: 0px;">
+		          	集装箱量
+		        </a>
+		        <a class="weui-navbar__item" href="#tab3" style="margin: 0px;padding: 0px;border-top-right-radius:8px;border-bottom-right-radius:8px;">
+		          	在场货物
+		        </a>
+	      	</div>
+	      	<div class="weui-tab__bd" style="padding-top: 50px;">
+		        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+		          	<table id="oa_througthput" style="width:100% " cellspacing="0">						
+					</table>
+		        </div>
+		        <div id="tab2" class="weui-tab__bd-item">
+		          	<table id="oa_box" style="width:100% " cellspacing="0">
+						
+					</table>
+		        </div>
+		        <div id="tab3" class="weui-tab__bd-item">
+		          	<table id="oa_resourece" style="width:100% " cellspacing="0">
+						<tr>
+							<td class="list_item_detail_column_title" style="text-align: center">单位(吨)</td>
+							<td class="list_item_detail_column_title">内贸进口</td>
+							<td class="list_item_detail_column_title">内贸出口</td>
+							<td class="list_item_detail_column_title">外贸进口</td>
+							<td class="list_item_detail_column_title">外贸出口</td>
+						</tr>
+						<tr>
+							<td class="list_item_detail_column_value cargo_name" >矿</td>
+							<td class="list_item_detail_column_value" id="MINE_1"></td>
+							<td class="list_item_detail_column_value" id="MINE_2"></td>
+							<td class="list_item_detail_column_value" id="MINE_3"></td>
+							<td class="list_item_detail_column_value" id="MINE_4"></td>
+						</tr>
+						<tr>
+							<td class="list_item_detail_column_value cargo_name">钢</td>
+							<td class="list_item_detail_column_value" id="STEEL_1"></td>
+							<td class="list_item_detail_column_value" id="STEEL_2"></td>
+							<td class="list_item_detail_column_value" id="STEEL_3"></td>
+							<td class="list_item_detail_column_value" id="STEEL_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">煤</td>
+							<td class="list_item_detail_column_value" id="COAL_1"></td>
+							<td class="list_item_detail_column_value" id="COAL_2"></td>
+							<td class="list_item_detail_column_value" id="COAL_3"></td>
+							<td class="list_item_detail_column_value" id="COAL_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">肥</td>
+							<td class="list_item_detail_column_value" id="MANURE_1"></td>
+							<td class="list_item_detail_column_value" id="MANURE_2"></td>
+							<td class="list_item_detail_column_value" id="MANURE_3"></td>
+							<td class="list_item_detail_column_value" id="MANURE_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">粮</td>
+							<td class="list_item_detail_column_value" id="GRAIN_1"></td>
+							<td class="list_item_detail_column_value" id="GRAIN_2"></td>
+							<td class="list_item_detail_column_value" id="GRAIN_3"></td>
+							<td class="list_item_detail_column_value" id="GRAIN_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">木</td>
+							<td class="list_item_detail_column_value" id="WOOD_1"></td>
+							<td class="list_item_detail_column_value" id="WOOD_2"></td>
+							<td class="list_item_detail_column_value" id="WOOD_3"></td>
+							<td class="list_item_detail_column_value" id="WOOD_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">非矿</td>
+							<td class="list_item_detail_column_value" id="NO_MINE_1"></td>
+							<td class="list_item_detail_column_value" id="NO_MINE_2"></td>
+							<td class="list_item_detail_column_value" id="NO_MINE_3"></td>
+							<td class="list_item_detail_column_value" id="NO_MINE_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">盐</td>
+							<td class="list_item_detail_column_value" id="SALT_1"></td>
+							<td class="list_item_detail_column_value" id="SALT_2"></td>
+							<td class="list_item_detail_column_value" id="SALT_3"></td>
+							<td class="list_item_detail_column_value" id="SALT_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">豆粕</td>
+							<td class="list_item_detail_column_value" id="SUGAR_1"></td>
+							<td class="list_item_detail_column_value" id="SUGAR_2"></td>
+							<td class="list_item_detail_column_value" id="SUGAR_3"></td>
+							<td class="list_item_detail_column_value" id="SUGAR_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">水泥</td>
+							<td class="list_item_detail_column_value" id="CEMENT_1"></td>
+							<td class="list_item_detail_column_value" id="CEMENT_2"></td>
+							<td class="list_item_detail_column_value" id="CEMENT_3"></td>
+							<td class="list_item_detail_column_value" id="CEMENT_4"></td>
+						</tr>
+						<tr>
+							<td class="list_item_detail_column_value cargo_name">纸</td>
+							<td class="list_item_detail_column_value" id="PAPER_1"></td>
+							<td class="list_item_detail_column_value" id="PAPER_2"></td>
+							<td class="list_item_detail_column_value" id="PAPER_3"></td>
+							<td class="list_item_detail_column_value" id="PAPER_4"></td>
+						</tr><tr>
+							<td class="list_item_detail_column_value cargo_name">大米</td>
+							<td class="list_item_detail_column_value" id="RICE_1"></td>
+							<td class="list_item_detail_column_value" id="RICE_2"></td>
+							<td class="list_item_detail_column_value" id="RICE_3"></td>
+							<td class="list_item_detail_column_value" id="RICE_4"></td>
+						</tr>
+						<tr>
+							<td class="list_item_detail_column_value cargo_name">其他</td>
+							<td class="list_item_detail_column_value" id="OTHER_1"></td>
+							<td class="list_item_detail_column_value" id="OTHER_2"></td>
+							<td class="list_item_detail_column_value" id="OTHER_3"></td>
+							<td class="list_item_detail_column_value" id="OTHER_4"></td>
+						</tr>
+						<tr>
+							<td class="list_item_detail_column_value cargo_name">小计</td>
+							<td class="list_item_detail_column_value" id="COUNT_1"></td>
+							<td class="list_item_detail_column_value" id="COUNT_2"></td>
+							<td class="list_item_detail_column_value" id="COUNT_3"></td>
+							<td class="list_item_detail_column_value" id="COUNT_4"></td>
+						</tr>				
+					</table>
+		        </div>
+	      	</div>
+    	</div>		
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		loadHomeDay();
+		$("#btn_query").click(function (){			
+			loadHomeDay();		
+		});
+	});
+
+	function loadHomeDay(){
+		$.showLoading();
+		var builder=new HdEzuiQueryParamsBuilder();
+		builder.setOtherskeyValue("homeDay",$('#begDte').val().replace(/-/g,''));
+		jQuery.axs("/webresources/wx/findHomeDay",builder.build(), 
+			 function(result){
+				 $.hideLoading();
+				 $("#oa_througthput").html(
+					 '<tr>'+
+					 '  <td class="list_item_detail_column_title" style="height:20px;line-height:20px;">公司</td>'+
+					 '	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">月计划<br/>(吨)</td>'+
+					 '	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">当月累计<br/>(吨)</td>'+
+					 '	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">完成率<br/>(%)</td>'+
+				 	 '</tr>'
+				 );
+				 $("#oa_box").html(
+				 	'<tr>'+
+					'	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">公司</td>'+
+					'	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">月计划<br/>(TEU)</td>'+
+					'	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">当月累计<br/>(TEU)</td>'+
+					'	<td class="list_item_detail_column_title" style="height:20px;line-height:20px;">完成率<br/>(%)</td>'+
+					'</tr>');
+				 if(result.data.througthput.length==0){
+					 $.alert("该时间没有数据！");
+					 return ;
+				 }
+				 $("#begDte").val(result.data.reportdate);
+				 $("#reporttitle").html(result.data.reporttitle);
+				 
+				 for(var i=0;i<result.data.througthput.length;i++){
+					 var data=result.data.througthput[i];
+					 var html=
+						 '<tr>'
+						 +'	<td class="list_item_detail_column_value" style="text-align:center">'+isNull(data.COMPANY_NAME)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:25%">'+isNull(data.PLAN_NUMBER)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:25%">'+isNull(data.DONE_NUMBER)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:25%">'+isNull(data.DONE_PERCENT)+'</td>'
+						 +'</tr>';
+					 $("#oa_througthput").append(html);
+				 }
+				 for(var i=0;i<result.data.box.length;i++){
+					 var box=result.data.box[i];
+					 boxHtml=
+						 '<tr>'
+						 +'	<td class="list_item_detail_column_value" style="text-align:center">'+isNull(box.COMPANY_NAME)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:25%">'+isNull(box.PLAN_OUTSIDE_NUMBER)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:30%">'+isNull(box.OUTSIDE_NUMBER)+'</td>'
+						 +'	<td class="list_item_detail_column_value" style="width:20%">'+isNull(box.OUTSIDE_PERCENT)+'</td>'
+						 +'</tr>';
+					 $("#oa_box").append(boxHtml);
+				 }
+				 for(var i=0;i<result.data.resource.length;i++){
+					 var resource=result.data.resource[i];			 
+					 for(var key in resource){					
+						 $("#"+ key+"_"+(i+1)).html(resource[key]);
+					 }
+				 }
+			}
+		);
+	}
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

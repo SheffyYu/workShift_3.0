@@ -1,0 +1,189 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+		.list_item_detail_column_value{width:50%;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">集疏运明细</span> 
+   	</div>
+   	<div class="app_content">
+	    <div style="margin: 15px;"  >
+		    <table style="width:100%;font-size: 14px;" cellspacing="0">
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="4">公司</td>
+			    	<td class="list_item_detail_column_value" id="COMPANY_NAM"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="12">内<br/>贸</td>
+			    	<td class="list_item_detail_column_title" rowspan="3">本<br/>地</td>
+			    	<td class="list_item_detail_column_title" rowspan="3">陆<br/>运</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="DL_TCK_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="DL_TCK_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="DL_TCK_F_TEU"></td>
+			    </tr>
+			    <tr>
+			   		<td class="list_item_detail_column_title" rowspan="9">中<br/>转</td>
+			    	<td class="list_item_detail_column_title" colspan="2">合计</td>
+			    	<td class="list_item_detail_column_value" id="DT_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">空箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">重箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">大<br/>船</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="DT_VSL_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_VSL_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_VSL_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">驳<br/>船</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="DT_BRG_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_BRG_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="DT_BRG_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="18">外<br/>贸</td>
+			    	<td class="list_item_detail_column_title" rowspan="9">本<br/>地</td>
+			    	<td class="list_item_detail_column_title" colspan="2">合计</td>
+			    	<td class="list_item_detail_column_value" id="FL_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_E_TEU"></td>
+			    </tr> 
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_F_TEU"></td>
+			    </tr> 
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">陆<br/>运</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="FL_TCK_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_TCK_E_TEU"></td>
+			    </tr>	    
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_TCK_F_TEU"></td>
+			    </tr>
+			     
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">水<br/>闸</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="FL_WTR_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_WTR_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FL_WTR_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="9">中<br/>转</td>
+			    	<td class="list_item_detail_column_title" colspan="2">合计</td>
+			    	<td class="list_item_detail_column_value" id="FT_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="2">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">大<br/>船</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="FT_VSL_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_VSL_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_VSL_F_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title" rowspan="3">驳<br/>船</td>
+			    	<td class="list_item_detail_column_title">合计</td>
+			    	<td class="list_item_detail_column_value" id="FT_BRG_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">空箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_BRG_E_TEU"></td>
+			    </tr>
+			    <tr>
+			    	<td class="list_item_detail_column_title">重箱</td>
+			    	<td class="list_item_detail_column_value" id="FT_BRG_F_TEU"></td>
+			    </tr> 
+			    <tr>
+			    	<td class="list_item_detail_column_title" colspan="4">本地比重</td>
+			    	<td class="list_item_detail_column_value" id="LC_RAT"></td>
+			    </tr> 
+			    <tr>
+			    	<td class="list_item_detail_column_title"  colspan="4">中转比重</td>
+			    	<td class="list_item_detail_column_value" id="TS_RAT"></td>
+			    </tr>
+		    </table>
+	    </div>
+    </div>
+    <script type="text/javascript">  
+    var code=getUrlParams("code");
+    $(document).ready(function() {
+	 	loadTransportDetail();				
+	 });
+	 function loadTransportDetail(){			
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("account",localStorage.account);
+			tempBuilder.setOtherskeyValue("companyCod",code);
+			$.showLoading();
+			jQuery.axs("/webresources/wx/transport/findDetail",tempBuilder.build(), function(result){
+				 $.hideLoading();
+				 var transportData=result.data;
+				 for(var key in transportData){  
+				    $('#'+key).html(transportData[key]);  
+				 } 
+			 }) ;
+		}
+	</script>	
+</div>
+</body>
+</html>

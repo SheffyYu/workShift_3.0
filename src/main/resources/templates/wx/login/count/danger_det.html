@@ -1,0 +1,85 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<script th:src="@{/wx/js/echarts-all.js}"></script>
+	<script th:src="@{/wx/js/echarts.min.js}"></script>	
+
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">在港危品箱等级分布</span> 
+   	</div>
+	<div class="app_content" style="background: white;padding-left:15px;">
+		<div id="danger_num" ></div>
+		<div id="danger_echars"></div>	
+	</div>
+	<script>
+	/*<![CDATA[*/
+	var company=getUrlParams("company");
+	$(document).ready(function () {	
+		var dangerBuilder=new HdEzuiQueryParamsBuilder();
+		dangerBuilder.setOtherskeyValue("company",company);
+		$.showLoading();
+		jQuery.axs("/webresources/wx/danger/findDet",dangerBuilder.build(), 
+			function(result){
+			 	$.hideLoading();
+			 	var html="";
+			 	var dangerNum=0;
+			 	document.getElementById('danger_echars').style.height=(120+result.data.length*40)+'px';
+
+			 	var yAxisData=new Array(),seriesData=new Array();
+			 	for(var i=result.data.length-1;i>=0;i--){
+					var data=result.data[i];
+					yAxisData.push(data.DANG_CLASS);
+					seriesData.push(data.TEU_NUM);
+					dangerNum+=data.TEU_NUM;
+				 }
+			 	$("#danger_num").html("在场箱："+dangerNum);
+			 	var option = {
+			 		    
+			 		    color: ['#3398DB'],
+			 		    grid: {
+			 		    	left: '3%',
+			 		        right: '15%',
+			 		        bottom: '3%',
+			 		        containLabel: true
+			 		    },
+			 		    xAxis: {
+			 		        type: 'value',
+			 		        name:'箱量',
+			 		        boundaryGap: [0, 0.01]
+			 		    },
+			 		    yAxis: {
+			 		        type: 'category',
+			 		        name:'等级分类',
+			 		        data: yAxisData
+			 		    },
+			 		    series: [
+			 		        {
+			 		            type: 'bar',
+			 		            itemStyle: {
+			 		                 normal: {
+			 		                     label: {
+			 		                        show: true,
+			 		                        position: 'right'
+			 		                     },
+			 		                     
+			 		                 }
+			 		             },
+			 		            data: seriesData
+			 		        }
+			 		    ]
+			 		};
+			 	var danger_echars=echarts.init(document.getElementById("danger_echars"));
+			 	danger_echars.setOption(option);
+			}
+		);
+	});
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

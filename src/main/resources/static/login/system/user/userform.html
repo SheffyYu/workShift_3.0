@@ -1,0 +1,306 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 20px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+</style>
+<script type="text/javascript">
+    $().ready(function() {
+         var params = HdUtils.dialog.getValue("params");
+        var type = HdUtils.dialog.getValue("type");
+        var dataGrid = HdUtils.dialog.getValue("dataGrid");
+        $("#AuthUserForm").form("loadData", params);
+        if (type==='ADD') {
+         	//$('#companyCod_userForm_add').combogrid(HdUtils.code.vwGroupOrgn({required:true,multiple:false, textField: 'COMPANY_NAM',width:150}));
+            $("#companyCod_userForm_add").combogrid(HdUtils.code.findVwGroupOrgn({required:false,textField: 'companyNam',width:130}));
+         	$("#pwdLabel").show();
+            $("#pwdInput").show();
+            $("#password8364").val("888888"); 
+            $("#companyCodLabel_add").show();
+            $("#companyCodInput_add").show();
+            hidePwValidDays();
+            $("input[name='tenantId']").val(params.tenantId);
+            $("input[name='tenantName']").val(params.tenantName);
+            $("input[name='orgnId']").val(params.orgnId);
+            $("input[name='orgnName']").val(params.orgnName);
+            $("#companyCod_userForm_add").combogrid('setValue',params.companyCod)
+           // $("input[name='companyCod']").val(params.companyCod);
+        } else {
+        	$('#companyCod_userForm_edit').combogrid(HdUtils.code.findVwGroupOrgn({required:false,textField: 'companyNam',width:130}));
+        	$("#companyCod_userForm_edit").combogrid("setValue",params.companyCod);
+        	$("#companyCodLabel_edit").show();
+            $("#companyCodInput_edit").show();
+            $("input[name='account']").attr("readonly", "readonly");
+            $("input[name='tenantId']").val(params.tenantId.tenantId);
+            $("input[name='tenantName']").val(params.tenantId.text);
+            $("input[name='orgnId']").val(params.orgnId.orgnId);
+            $("input[name='orgnName']").val(params.orgnId.text);
+            $("input[name='sorter']").val(params.sorter);
+            setUserFormRadioValueByName("pwNeverPassId", params.pwNeverPassId);
+            setUserFormRadioValueByName("lockId", params.lockId);
+            setUserFormRadioValueByName("stopId", params.stopId);
+            setUserFormRadioValueByName("nextChgId", params.nextChgId);
+            setUserFormRadioValueByName("donotChgId", params.donotChgId);
+            if (params.pwNeverPassId==='1') {
+                hidePwValidDays();
+            } else if (params.pwNeverPassId==='0') {
+                showPwValidDays();
+            } else {
+
+            }
+        }
+        HdUtils.dialog.setValue({
+            saveHandler: function () {
+                if (!authUserFormValidate()) {
+                    return false;
+                }
+                var entity = {};
+                var accountPassDate = $("input[name='accountPassDate']").val();
+                if (accountPassDate!==null&&accountPassDate.length>10) {
+                    accountPassDate = accountPassDate.substring(0, 10);
+                }
+                var tenantIdEntity = {};
+                tenantIdEntity.tenantId = $("input[name='tenantId']").val();
+                tenantIdEntity.text = $("input[name='tenantName']").val();
+                entity.tenantId = tenantIdEntity;
+                var orgnIdEntity = {};
+                orgnIdEntity.orgnId = $("input[name='orgnId']").val();
+                orgnIdEntity.text = $("input[name='orgnName']").val();
+                entity.orgnId = orgnIdEntity;
+                entity.account = $("input[name='account']").val();
+                entity.password = $("input[name='password']").val();
+                entity.name = $("input[name='name']").val();
+                entity.accountPassDate = accountPassDate;
+                entity.pwNeverPassId = getUserFormRadioValueByName("pwNeverPassId");
+                entity.pwValidDays = $("input[name='pwValidDays']").val();
+                entity.lockId = getUserFormRadioValueByName("lockId");
+                entity.stopId = getUserFormRadioValueByName("stopId");
+                entity.nextChgId = getUserFormRadioValueByName("nextChgId");
+                entity.donotChgId = getUserFormRadioValueByName("donotChgId");
+                entity.description = $("textarea[name='description']").val();
+                entity.pwModifyTim = $("input[name='pwModifyTim']").val();
+                entity.skin = $("input[name='skin']").val();
+                entity.sorter = parseInt($("input[name='sorter']").val());
+                entity.insAccount = $("input[name='insAccount']").val();
+                entity.insTimestamp = $("input[name='insTimestamp']").val();
+                entity.updAccount = $("input[name='updAccount']").val();
+                entity.updTimestamp = $("input[name='updTimestamp']").val();
+                var entityJSON = null;
+                if (type === "ADD") {
+                	entity.companyCod=$("#companyCod_userForm_add").combogrid("getValue");
+                    entityJSON = {deletedRows: [], insertedRows: [entity], updatedRows: []};
+                    validateAccountAndDoUserFormSave(entityJSON, dataGrid);
+                } else {
+                	entity.companyCod=$("#companyCod_userForm_edit").combogrid("getValue");
+                    entity.userId = $("input[name='userId']").val();
+                    entityJSON = {deletedRows: [], insertedRows: [], updatedRows: [entity]};
+                    doUserFormSave(entityJSON, dataGrid);
+                }
+            }
+        });
+    });
+    function setUserFormRadioValueByName(name, value) {
+        var el = document.getElementsByName(name);
+        for (var i=0; i<el.length;i++) {
+            if (el[i].value === value) {
+                el[i].checked=true;
+                break;
+            }
+        }
+    }
+    function getUserFormRadioValueByName(name) {
+        var value = null;
+        var pwNeverPassId = document.getElementsByName(name);
+        for (var i=0; i<pwNeverPassId.length;i++) {
+            if (pwNeverPassId[i].checked===true) {
+                value = pwNeverPassId[i].value;
+                break;
+            }
+        }
+        return value;
+    }
+    function doUserFormSave(entityJSON, dataGrid) {
+        $.ajax({
+            type: "POST",
+            url: "../webresources/login/AuthUser/save",
+            contentType: "application/json",
+            dataType: "json",
+            data: $.toJSON(entityJSON),
+            success: function (data) {
+                if (data.key==='dbPersistSuccess') {           	
+                    HdUtils.dialog.close();
+                    HdUtils.messager.bottomRight('保存成功','保存操作');
+                    dataGrid.datagrid("hdReload");
+                } else {
+                    HdUtils.messager.info(data.message);
+                }
+            },
+            error: function (data) {
+                HdUtils.messager.info(data.responseText);
+            }
+        });
+    }
+    function validateAccountAndDoUserFormSave(entityJSON, dataGrid) {
+        $.ajax({
+            type: "GET",
+            url: "../webresources/login/AuthUser/validateAccount?t=" + Math.random(),
+            contentType: "application/json",
+            dataType: "json",
+            async: false,
+            data: {account : $("input[name='account']").val()},
+            success: function(data) {
+            	if(data.entity=="error") {
+           		    HdUtils.messager.info("用户名重复，请重新输入！");
+                    return false;
+            	} else {
+                	doUserFormSave(entityJSON, dataGrid);
+            	}
+            },
+            error: function(data) {
+               
+            }
+        });
+    }
+    function authUserFormValidate() {
+        var target;
+        target = $("input[name='account']").val();
+        if (target==='') {
+            HdUtils.messager.info('请输入账户！');
+            return false;
+        }
+        var type = HdUtils.dialog.getValue("type");
+        if (type==='ADD') {
+            target = $("input[name='password']").val();
+            if (target==='') {
+                HdUtils.messager.info('请输入密码！');
+                return false;
+            }
+        }
+        target = $("input[name='tenantName']").val();
+        if (target==='') {
+            HdUtils.messager.info('请选择租户！');
+            return false;
+        }
+        target = $("input[name='orgnName']").val();
+        if (target==='') {
+            HdUtils.messager.info('请选择部门！');
+            return false;
+        }
+        target = $("input[name='name']").val();
+        if (target==='') {
+            HdUtils.messager.info('请输入姓名！');
+            return false;
+        }
+        return true;
+    }
+    function showPwValidDays() {
+        $("#pwdVdLabel").show();
+        $("#pwdVdInput").show();
+    }
+    function hidePwValidDays() {
+        $("#pwdVdLabel").hide();
+        $("#pwdVdInput").hide();
+    }
+</script>
+<form id="AuthUserForm" action ="../webresources/login/AuthUser/save" method="post">
+    <input type="hidden" name="userId"/>
+    <input class="easyui-validatebox" required="required" type="hidden" name="tenantId"/> 
+    <input class="easyui-validatebox" required="required" type="hidden" name="orgnId"/>
+    <table id="AuthUserFormTable" style="width:95%" class="tableform">
+        <tr style="height:0px;">
+            <th width="15%"></th>
+            <td width="35%"></td>
+            <th width="15%"></th>
+            <td width="35%"></td>
+        </tr>
+        <tr>
+            <th style="color:red">账户：</th>
+            <td><input name="account" class="easyui-validatebox" required="required" validType="length[3,20]"/></td>
+           	<th id="pwdLabel" style="color:red;display:none;">密码：</th>
+            <td id="pwdInput" style="display:none"><input name="password" id='password8364' class="easyui-validatebox" 
+            data-options="required:true,validType:['password','length[3,20]']"/></td>
+            <th id="companyCodLabel_edit"  style="display:none">所属公司：</th>
+         	<td id="companyCodInput_edit" style="display:none"><input  id="companyCod_userForm_edit"/></td>
+        </tr>
+        <tr>
+            <th style="color:red">租户：</th>
+            <td>
+                <!--<select name="tenantName" class="easyui-combogrid" id="tenantName"></select>-->
+                <input id="tenantName2017" name="tenantName" class="easyui-validatebox" readonly="readonly" required="required"/>
+            </td>
+            <th style="color:red">部门：</th>
+            <td><input id="orgnName2017" name="orgnName" class="easyui-validatebox" readonly="readonly" required="required"/></td>
+        </tr>
+        <tr>
+            <th style="color:red">姓名：</th>
+            <td><input name="name" class="easyui-validatebox" required="required"></td>
+            <th>账户有效期：</th>
+            <td>
+                <input name="accountPassDate" class="easyui-datebox" style="width:130px">
+            </td>
+        </tr>
+        <tr>
+            <th >排序：</th>
+         	<td><input  id="sorter201706281111" name="sorter" onkeyup='this.value=this.value.replace(/\D/gi,"")'/></td>
+         	<th id="companyCodLabel_add"  style="display:none">所属单位：</th>
+         	<td id="companyCodInput_add" style="display:none"><input  id="companyCod_userForm_add"/></td>
+        </tr>
+        <tr>
+            <th>密码不失效：</th><!--密码是否永久有效-->
+            <td>
+                <input type="radio" name="pwNeverPassId" value="1" onclick="hidePwValidDays()" checked="checked">是</input>
+                <input type="radio" name="pwNeverPassId" value="0" onclick="showPwValidDays()">否</input>
+            </td>
+            <th id="pwdVdLabel" style="display:none;">密码有效天数：</th>
+            <td id="pwdVdInput" style="display:none;"><input name="pwValidDays" class="easyui-numberbox"/></td>
+        </tr>
+        <tr>
+            <th>锁定：</th>
+            <td>
+                <input type="radio" name="lockId" value="0" checked="checked">否</input>
+                <input type="radio" name="lockId" value="1">是</input>
+            </td>
+            <th>停用：</th>
+            <td>
+                <input type="radio" name="stopId" value="5" checked="checked">否</input>
+                <input type="radio" name="stopId" value="2">是</input>
+            </td>
+        </tr>
+        <tr>
+            <th>登录先改密：</th>
+            <td>
+                <input type="radio" name="nextChgId" value="0" checked="checked">否</input>
+                <input type="radio" name="nextChgId" value="1">是</input>
+            </td>
+            <th>个人不可改密：</th>
+            <td>
+                <input type="radio" name="donotChgId" value="0" checked="checked">否</input>
+                <input type="radio" name="donotChgId" value="1">是</input>
+            </td>
+        </tr>
+        <tr>
+            <th>描述：</th>
+            <td colspan="3"><textarea rows="5" style="width:420px" name="description" class="easyui-validatebox"></textarea></td>
+        </tr>
+    </table>
+    <input type="hidden" name="pwModifyTim"/>
+    <input type="hidden" name="skin"/>
+    <input type="hidden" name="insAccount"/>
+    <input type="hidden" name="insTimestamp"/>
+    <input type="hidden" name="updAccount"/>
+    <input type="hidden" name="updTimestamp"/>
+</form>

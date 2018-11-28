@@ -1,0 +1,384 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<meta charset="UTF-8">
+<style type="text/css">
+ .tableform{
+margin: 16px auto;
+
+ }
+ .tableform tr{
+ height: 30px; 
+ } 
+ .tableform th{
+ text-align: right;
+ color: #ff3300;
+ white-space: nowrap;
+ }
+ .tableform td{
+ text-align: left;
+ width: 80px; 
+ }
+ .tableform input{ 
+ text-align: left;
+ }
+ </style>
+
+<!-- 工具栏 -->
+<div id="${prefix}ToolBar${stuffix}">
+    <div>
+        <span style="float:right;">
+            <input class="easyui-searchbox" id="${prefix}Searchbox${stuffix}"/>
+        </span>
+        <!-- 标准按钮 -->
+        <!-- 如果存在 查询条件，请开启--><!--<span style="float:right">-->
+        <a class="easyui-linkbutton" iconCls="icon-add" plain="false">增加</a>
+        <a class="easyui-linkbutton" iconCls="icon-edit" plain="false">编辑</a>
+        <a class="easyui-linkbutton" iconCls="icon-remove" plain="false">删除</a>
+        <a class="easyui-linkbutton" iconCls="icon-save" plain="false">保存</a>
+        <a class="easyui-linkbutton" iconCls="icon-reload" plain="false">刷新</a>&nbsp;
+        <!-- 如果存在 查询条件，请开启--><!--</span>-->
+        <!-- 标准按钮 结束-->
+    </div>
+</div>
+<!-- 工具栏 结束 -->
+<!-- Datagrid -->
+<table id="${prefix}Datagrid${stuffix}"  style="height:100%"></table>
+<!-- end Datagrid -->
+<div id="${prefix}Dialog${stuffix}" >
+    <table id="${prefix}Form${stuffix}" style="height:75%;weight:80%" class="tableform">         
+        <#assign iSum=0>
+        <#assign colNum="${colNum}">
+    <#assign colNum2=colNum?number>
+        <#list dgColumns as col>
+        <#if iSum=0>
+        <tr>
+            <#elseif iSum%colNum2=0> 
+        </tr><tr> 
+            </#if> 
+            <th>${col.comments}: </th><td><input  id="${col.columnName}" name="what">
+                                                    <#if "${col.dataType}"=="TIMESTAMP(6)">
+                                                    class="easyui-datetimebox"  required="required" 
+                                                    <#elseif "${col.dataType}"=="NUMBER">
+                                                    class="easyui-numberbox"
+                                                    <#else>
+                                                    class="easyui-validatebox"
+                                                    </#if>
+                                                    /></td>
+            <#assign iSum=iSum+1>
+            </#list>
+
+        </tr>
+    </table>
+</div>
+<!-- 脚本控制 -->
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    var colNum3=${colNum?number};//接收一下，自动调整diog.dialog的宽度
+    var colNum4=${colNum?number};//接收一下，自动调整diog.dialog的高度
+    //接收传入的dialog标题头
+    var dialogTitleAddF="${dialogTitleAddF}";
+    var dialogTitleEditF="${dialogTitleEditF}";
+    if(colNum3>3){colNum3=870}else if(colNum3==1){colNum3=288}else if(colNum3==2){colNum3=480}else if(colNum3=3){colNum3=680}else{colNum3=colNum3*260};
+    if(colNum4==1){colNum4=350}else if(colNum4=2){colNum4=320}else if(colNum4>2&&colNum4<5){colNum4=(290-colNum4*5)} else{colNum4=200};
+    var dg = $("#${prefix}Datagrid${stuffix}");
+    var diog = $("#${prefix}Dialog${stuffix}");
+            // buttons
+            // 增加按钮。
+            $("#${prefix}ToolBar${stuffix} a[iconCls='icon-add']").on("click", function() {
+                 $("input[name='what']").val('');//清空form表单
+                  $(".easyui-numberbox").val('');
+                  $(".easyui-datetimebox").datetimebox("setValue","");
+            diog.dialog({
+                    title: dialogTitleAddF,
+                    //width: colNum3,
+//                    height: colNum4,
+                    minimizable:true,
+                    maximizable:true,
+                    resizable:true,
+                    closed:false,
+                    iconCls:'icon-add',
+                    buttons: [{
+                    text: '增加',
+                    iconCls:'icon-add',
+                            handler: function () {
+                              <#assign iSum=0>
+                              <#list dgColumns as col >  
+                              <#if "${col.dataType}" == "TIMESTAMP(6)" >
+                            var s${iSum} = $("#${col.columnName}").datetimebox("getValue");
+                            var as${iSum} = s${iSum}.split(/[^0-9]/);
+                            var timestamps${iSum} = new Date(as${iSum}[0], as${iSum}[1] - 1, as${iSum}[2], as${iSum}[3], as${iSum}[4], as${iSum}[5]);
+                           <#assign iSum=iSum+1>            
+                         </#if>
+                          </#list>
+
+                            dg.datagrid('appendRow', {
+                            <#list dgColumns as col >
+                                    <#if "${col.dataType}" == "TIMESTAMP(6)" && col?size = (col_index+1) >
+                                    ${col.columnName}:$("#${col.columnName}").datetimebox("getValue")
+                                    <#elseif col?size = (col_index+1) >
+                            ${col.columnName}:$("#${col.columnName}").val(),
+                                    <#elseif "${col.dataType}" == "TIMESTAMP(6)" >
+                                    ${col.columnName}:timestamps0,   //如果是多个时间，只需要填入相应 :timestamps变量                      
+                                    <#else >
+                            ${col.columnName}:$("#${col.columnName}").val(),
+                                    </#if>
+                                    </#list> 
+                                    });
+                                    //  $(':input').val('');
+                                      dg.datagrid("hdSave");
+                                    diog.dialog("close");
+                        }
+                        },{
+                            text: '取消',
+                            iconCls:'icon-undo',
+                            handler: function () {
+                            diog.dialog('close');
+                            }
+ }]                 
+                });              
+                diog.dialog("open");
+                });
+      //双击行编辑
+                dg.datagrid({
+     onDblClickCell: function(index){
+     var rows=$("#${prefix}Datagrid${stuffix}").datagrid("getSelected");
+            <#list dgColumns as col>
+        <#if "${col.dataType}"=="TIMESTAMP(6)">
+        
+     $("#${col.columnName}").datetimebox("setValue",new Date(rows.${col.columnName}).format("yyyy-MM-dd hh:mm:ss"));
+    //alert($("#${col.columnName}").datetimebox("getValue"));
+     <#elseif "${col.dataType}"=="NUMBER">
+     $("#${col.columnName}").numberbox("setValue",rows.${col.columnName});
+    <#else>
+    $("#${col.columnName}").val(rows.${col.columnName});
+    </#if>
+        </#list>
+
+        $("#${prefix}Dialog${stuffix}").dialog({
+                    title: '编辑',
+                    //width: colNum3,
+//                    height: colNum4,
+                    closed: true,
+                    minimizable:true,
+                    maximizable:true,
+                    resizable:true,
+                    iconCls:'icon-edit',
+                    buttons: [{
+                            text: '确定',
+                            iconCls:'icon-save',
+                            handler: function () {
+                            dg.datagrid("beginEdit", index);
+                            diog.dialog("close");
+                            //使用form时请把关于表的ID部分删掉或注释，或者把有关于ID主键的input属性设置为不可编辑，否则保存不上。
+                            <#list dgColumns as col>
+                              <#if "${col.dataType}"=="TIMESTAMP(6)">
+                            var s = new Date($("#${col.columnName}").datetimebox("getValue")).format("yyyy-MM-dd hh:mm:ss");   
+                            var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                            $(ed.target).datetimebox('setValue', s);
+                  
+                              <#elseif "${col.dataType}"=="NUMBER">
+                            var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                             $(ed.target).numberbox('setValue',$("#${col.columnName}").numberbox("getValue") );
+                             <#else>
+                              var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                             $(ed.target).val($("#${col.columnName}").val());
+                             </#if>
+                            </#list>
+                     dg.datagrid("endEdit", index);
+                      dg.datagrid("hdSave");
+                  $("input[name='what']").val('');//清空form表单
+                  $(".easyui-numberbox").val('');
+                  $(".easyui-datetimebox").datetimebox("setValue","");
+                    
+                        }
+                        },{
+     
+                            text: '取消',
+                            iconCls:'icon-undo',
+                            handler: function () {
+                  $("input[name='what']").val('');//清空form表单
+                  $(".easyui-numberbox").val('');
+                  $(".easyui-datetimebox").datetimebox("setValue","");
+                                diog.dialog('close');
+                            }
+                 }]
+               
+                });
+ 
+                diog.dialog("open");
+        }
+    });
+       //双击行编辑结束
+       //编辑按钮开始
+        $("#${prefix}ToolBar${stuffix} a[iconCls='icon-edit']").on("click",function() {
+        //应用DatagridOperation需要在相应页面引入extension.js一般在main.html引入，把选定的行index作为对象来处理。     
+        var operation = new DatagridOperation(dg, "");     
+        var index = operation.getSelectedRowIndex();
+        var rows=$("#${prefix}Datagrid${stuffix}").datagrid("getSelected");
+        if(rows==null) $.messager.alert("提示","请选择一条数据");
+        
+        <#list dgColumns as col>
+        <#if "${col.dataType}"=="TIMESTAMP(6)">
+        
+     $("#${col.columnName}").datetimebox("setValue",new Date(rows.${col.columnName}).format("yyyy-MM-dd hh:mm:ss"));
+    //alert($("#${col.columnName}").datetimebox("getValue"));
+     <#elseif "${col.dataType}"=="NUMBER">
+     $("#${col.columnName}").numberbox("setValue",rows.${col.columnName});
+    <#else>
+    $("#${col.columnName}").val(rows.${col.columnName});
+    </#if>
+        </#list>
+
+        $("#${prefix}Dialog${stuffix}").dialog({
+                    title: dialogTitleEditF,
+                 //  width: colNum3,
+//                    height: colNum4,
+                    closed: true,
+                    minimizable:true,
+                    maximizable:true,
+                    resizable:true,
+                    iconCls:'icon-edit',
+                    buttons: [{
+                            text: '确定',
+                            iconCls:'icon-save',
+                            handler: function () {
+                            dg.datagrid("beginEdit", index);
+                            diog.dialog("close");
+                          //使用form时请把关于表的ID部分删掉或注释，或者把有关于ID主键的input属性设置为不可编辑，否则保存不上。
+                            <#list dgColumns as col>
+                              <#if "${col.dataType}"=="TIMESTAMP(6)">
+                            var s = new Date($("#${col.columnName}").datetimebox("getValue")).format("yyyy-MM-dd hh:mm:ss"); 
+                           //由于火狐浏览器easyui某些不兼容性，编辑时间不成功，请转其他浏览器
+                            var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                            $(ed.target).datetimebox('setValue', s);
+                  
+                              <#elseif "${col.dataType}"=="NUMBER">
+                            var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                             $(ed.target).numberbox('setValue',$("#${col.columnName}").numberbox("getValue") );
+                             <#else>
+                              var ed = dg.datagrid('getEditor', {
+                                index: index,
+                                field: '${col.columnName}'
+                            });
+                             $(ed.target).val($("#${col.columnName}").val());
+                             </#if>
+                            </#list>
+                     dg.datagrid("endEdit", index);
+                     dg.datagrid("hdSave");
+                  $("input[name='what']").val('');//清空form表单
+                  $(".easyui-numberbox").val('');
+                  $(".easyui-datetimebox").datetimebox("setValue","");
+                     
+                        }
+                        },{
+                            text: '取消',
+                            iconCls:'icon-undo',
+                            handler: function () {
+                  $("input[name='what']").val('');//清空form表单
+                  $(".easyui-numberbox").val('');
+                  $(".easyui-datetimebox").datetimebox("setValue","");
+                                diog.dialog('close');
+                            }
+ }]
+               
+                });
+ 
+                diog.dialog("open");
+  
+    });
+            //编辑按钮结束
+            // 删除。
+            $("#${prefix}ToolBar${stuffix} a[iconCls='icon-remove']").on("click", function() {
+    dg.datagrid("hdRemove");
+    });
+            // 保存。
+            $("#${prefix}ToolBar${stuffix} a[iconCls='icon-save']").on("click", function() {
+                dg.datagrid("hdSave",{url:"${dgUrl}/save"});  
+    dg.datagrid("hdSave");
+    });
+            // 刷新。
+            $("#${prefix}ToolBar${stuffix} a[iconCls='icon-reload']").on("click", function() {
+    dg.datagrid("hdReload");
+    });
+           // 条件类。
+           var builder = new HdEzuiQueryParamsBuilder();
+//        var hdConditions = new HdConditions();
+//
+//        // 返回后台参数。
+//        var queryParams = {
+//            hdConditions: hdConditions.getHdConditions(),
+//            queryColumns: {}
+//        };
+            // searchbox
+            $("#${prefix}Searchbox${stuffix}").searchbox({prompt:"请输入...", searcher:function(value, name) {queryParams.q = value; $("#${prefix}Datagrid${stuffix}").datagrid("reload"); }});
+            // datagrid
+$("#${prefix}Datagrid${stuffix}").datagrid({
+        	striped:true,
+    url:"${dgUrl}/find",
+    queryParams:builder.build(),
+    method:"post",
+    pagination:true,
+    singleSelect:true,
+    rownumbers:true,
+    pageSize:20,
+    toolbar:"#${prefix}ToolBar${stuffix}",
+    fit:true,
+    fitColumns:false,
+    columns:[[
+<#list dgColumns as col>
+{
+    field:"${col.columnName}",
+    <#if "${col.nullable?string('true','false')}"== 'true'>
+    title:"${col.comments}",
+    <#else>
+    title:'<font color="red">${col.comments}</font>',
+    </#if>
+    multiSort:true,
+    width:100,
+    halign:"center",
+<#if "${col.dataType}"=="TIMESTAMP(6)">
+formatter:function(value) {
+    if(value != null && value != undefined) {
+    return new Date(value).format("yyyy-MM-dd hh:mm:ss");
+} else {
+    return value;
+}
+},
+<#if "${col.prim?string('true','false')}"== 'false'>
+  editor: {type: "datetimebox"},
+</#if>
+<#else>
+<#if "${col.prim?string('true','false')}"== 'false'>
+<#if "${col.dataType}"=="NUMBER">
+formatter:function(value) {
+  return HdUtils.formatter.precisionCommon(value,${col.dataPrecision!"0"});  
+},
+editor:{type:"numberbox",options:{required:${col.nullable?string("false","true")},precision: ${col.dataPrecision!"0"}, max: ${col.dataScale!"9999999999.999"},groupSeparator:','}},
+<#else>
+editor:{type:"validatebox",options:{required:${col.nullable?string("false","true")}}},
+</#if>
+</#if>
+</#if>
+sortable:true
+},
+</#list>
+]]});
+$("#${prefix}Datagrid${stuffix}").datagrid("hdGetColumnNames");
+});
+</script>

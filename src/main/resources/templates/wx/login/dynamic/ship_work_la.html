@@ -1,0 +1,68 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel"> 
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+   	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">在港驳船</span> 
+   	</div>
+   	<div  class="app_content" >
+   		<div id="shipData" class="througth_content_item" style="font-size: 16px;padding: 0px;margin: 15px;"></div>
+   	</div>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    var params=getUrlParams("code").split(",");
+    var code=params[0];var name=params[1];
+	 $(document).ready(function() {		
+		$(".app_head_title").html(name+"在港驳船")
+		loadShipSchedule();			
+	 });
+	function loadShipSchedule(){
+		$.showLoading();
+		var tempBuilder=new HdEzuiQueryParamsBuilder();
+		tempBuilder.setOtherskeyValue("companyCod",code);
+		jQuery.axs("/webresources/wx/shipWork/findByBarge",tempBuilder.build(), function(result){
+			 $.hideLoading();
+			 var html="";
+			 
+			 var shipCorpCod=""; 
+			 var textColor=['#039BF1','#F34445','#B2B0B0'];
+			
+			 for(var i=0;i<result.data.length;i++){
+				var shipData=result.data[i];
+				if(shipData.WORK_STAT==null||shipData.WORK_STAT>'2'||shipData.WORK_STAT<'0'){
+					shipData.WORK_STAT=0;
+				}
+				html+='<a  class="weui-cell weui-cell_access througth_content_item" href="/wx/init/login/shipWorkDet?id='+shipData.ID+'#"   style="padding: 0px;">'+
+				'	<table class="twoTable">';			
+				if(shipCorpCod!=shipData.SHIP_CORP_COD){
+					html+=
+						'<tr  class="twoTableHeader" >'+
+						'	<td  colspan="2">'+shipData.SHIP_CORP_NAM+'</td>'+
+						'</tr>';
+				}
+				shipCorpCod=shipData.SHIP_CORP_COD;
+				html+=
+				'		<tr >'+
+				'			<td  colspan="2" style="padding-left:15px;line-height:25px;height: 25px;">'+shipData.CN_SHIP_NAM+'（'+shipData.IM_VOYAGE+'/'+shipData.EX_VOYAGE+'）</td>'+
+				'		</tr>'+
+				'		<tr  >'+
+				'			<td style="padding-left:15px;line-height:25px;height: 25px;padding-right:15px;color:'+textColor[shipData.WORK_STAT]+'">'+ shipData.WORK_STAT_NAM +'</td>'+
+				'			<td class="list_item_next_title" style="line-height:25px;height: 25px;padding-right:15px;">详细信息>></td>'+
+				'		</tr>'+
+				'	</table>'+
+				'</a>';
+			 }
+			 
+			
+			 $("#shipData").html(html);
+		 }) ;
+	}
+	 /*]]>*/
+	</script>		
+</div>
+</body>
+</html>

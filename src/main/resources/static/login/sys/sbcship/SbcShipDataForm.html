@@ -1,0 +1,237 @@
+<meta charset="UTF-8">
+<style type="text/css">
+.tableform {
+	margin: 16px auto;
+}
+
+.tableform tr {
+	height: 30px;
+}
+
+.tableform th {
+	text-align: right;
+	width: 80px;
+	white-space: nowrap;
+}
+
+.tableform td {
+	text-align: left;
+	width: 80px;
+}
+
+.tableform input {
+	text-align: left;
+}
+</style>
+<script>
+    $(document).ready(function () {
+        $("#formType").combogrid(HdUtils.code.resources({}));
+        $("#countryCod1212").combogrid(HdUtils.code.sbcCountry({required:false}));
+        $("#shipCorpCod1212").combogrid(HdUtils.code.companyId({required:false}));
+        $("#shipAgentCod1111").combogrid(HdUtils.code.companyId({required:false}));
+        $("#shipServiceCod11213").combogrid(HdUtils.code.sbcShipService({required:false}));
+        $("#shipTypCod1212").combobox(HdUtils.code.scode({fieldCod:'SHIP_TYP_COD'},{required:true}));
+        var formObject = $("#SbcShipDataForm1427702780713");
+        var dataObject = HdUtils.dialog.getValue("data");
+        var dg = HdUtils.dialog.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        if(dataObject.type === "ADD"){   
+        	 $("#shipCod2222").validatebox({//验证代码唯一性
+                 validType:'isCodeRepeat["","SbcShipData","shipCod"]'
+             });
+         }else{  
+         	document.getElementById("shipCod2222").disabled=true; 
+         }
+        HdUtils.dialog.setValue({
+            saveHandler: function () {
+                var tenantObject = formObject.form('getData');
+                //var tenantObject={text: nameObject, phone: phoneObject, address: addressObject};
+                var dataJason = null;
+                if (dataObject.type === "ADD") {
+                    dataJason = {deletedRows: [], insertedRows: [tenantObject], updatedRows: []};
+                } else {
+                    dataJason = {deletedRows: [], insertedRows: [], updatedRows: [tenantObject]};
+                }
+                if(!$("#SbcShipDataForm1427702780713").form("validate")){
+                	HdUtils.messager.info('请填写必输项.');
+                    return ;
+                  }
+                $.ajax({
+                    type: "POST",
+                    url: "../webresources/login/SbcShipData/save",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: $.toJSON(dataJason),
+                    success: function (data) {
+                    	HdUtils.dialog.close();
+                        HdUtils.messager.bottomRight('保存成功','保存操作');                      
+                        dg.datagrid("hdReload");
+                    },
+                    error: function (data) {
+                        HdUtils.messager.info(data.responseText);
+                    }
+                });
+            }});
+    });
+</script>
+<form id="SbcShipDataForm1427702780713">
+	<table id="SbcShipDataTable1427702780713" style="height: 80%; width: 92%"  class="tableform">
+		<!--  <tr style="display: none"> 
+		
+			<th>船舶ID:</th>
+			<td><input id="shipDataId" name="shipDataId"
+				class="easyui-validatebox" required="required" /></td>
+		</tr>  -->
+		<input type="hidden" name="shipDataId"/>
+		<tr>
+			<th><font color="red">*</font>船舶代码:</th>
+			<td><input id="shipCod2222" name="shipCod" maxlength="20" disabled="true"
+				class="easyui-validatebox" data-options="required:true"/></td>
+			<th>船舶中文名称:</th>
+			<td><input id="cnShipNam" name="cnShipNam" maxlength="80" disabled="true"
+				class="easyui-validatebox" /></td>
+			<th>船舶英文船名:</th>
+			<td><input name="enShipNam" id="enShipNam" maxlength="80" disabled="true"
+				class="easyui-validatebox" /></td>
+		</tr>
+		<tr>
+			<th>船舶简称:</th>
+			<td><input id="shortNam" name="shortNam"  maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+			<th><font color="red">*</font>船舶呼号:</th>
+			<td><input id="shipCall" name="shipCall" maxlength="20" disabled="true"
+				class="easyui-validatebox"  /></td>
+			
+			<th>船舶IMO:</th>
+			<td><input id="shipImo" name="shipImo" maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+
+		</tr>
+		<tr>
+			<th>船舶MMSI:</th>
+			<td><input id="shipMmsi" name="shipMmsi" maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+
+
+			<th>所属国家代码:</th>
+			<td><input id="countryCod1212" name="countryCod" maxlength="2" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+			<th>船公司代码:</th>
+			<td><input id="shipCorpCod1212" name="shipCorpCod" maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+		</tr>
+		<tr>
+			<th>船代理代码:</th>
+			<td><input id="shipAgentCod1111" name="shipAgentCod" maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+			<th>航线代码:</th>
+			<td><input id="shipServiceCod11213" name="shipServiceCod" maxlength="20" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+
+			<th>班轮标识:</th>
+			<td><input id="linerMark" name="linerMark" disabled="true"
+				class="easyui-validatebox" /></td>
+			
+
+		</tr>
+		<tr>
+			<th>总吨位:</th>
+			<td><input id="shipGrossWgt" name="shipGrossWgt" disabled="true"
+			           data-options='required:false,precision: 3, max: "99999999999.999",groupSeparator:","'
+				       class="easyui-numberbox" /></td>
+			
+
+			<th>净吨位:</th>
+			<td><input id="shipNetWgt" name="shipNetWgt" disabled="true"
+			           data-options='required:false,precision: 3, max: "99999999999.999",groupSeparator:","'
+				       class="easyui-numberbox" /></td>
+			
+
+			<th>载重吨:</th>
+			<td><input id="shipDeadWgt" name="shipDeadWgt" disabled="true"
+			           data-options='required:false,precision: 3, max: "99999999999.999",groupSeparator:","'
+				       class="easyui-numberbox" /></td>
+			
+		</tr>
+		<tr>
+			<th>船长:</th>
+			<td><input id="shipLength" name="shipLength" disabled="true"
+			    data-options='required:false,precision: 2, max: "9999.99",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			
+
+			<th>船宽:</th>
+			<td><input id="shipWidth" name="shipWidth" disabled="true"
+			    data-options='required:false,precision: 2, max: "9999.99",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			
+
+			<th>船高:</th>
+			<td><input id="shipHigh" name="shipHigh" disabled="true"
+			    data-options='required:false,precision: 2, max: "9999.99",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			
+		</tr>
+		<tr>
+			<th>船速:</th>
+			<td><input id="shipSpeed" name="shipSpeed" disabled="true"
+			     data-options='required:false,precision: 2, max: "999.99",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			<th><font color="red">*</font>船舶类型:</th>
+			<td><input id="shipTypCod1212" name="shipTypCod" disabled="true" /></td>
+			<th>建造日:</th>
+			<td><input id="buildDte" name="buildDte" class="easyui-datebox" disabled="true"/></td>
+			
+		</tr>
+		<tr>
+			<th>总TEU:</th>
+			<td><input id="totalTeu" name="totalTeu" disabled="true"
+			     data-options='required:false,precision: 0, max: "999999",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			
+
+			<th>贝数:</th>
+			<td><input id="bayNum" name="bayNum" disabled="true"
+			    data-options='required:false,precision: 0, max: "999",groupSeparator:","' 
+			    class="easyui-numberbox" /></td>
+			
+
+			<th>舱口数:</th>
+			<td><input id="hatchNum" name="hatchNum" disabled="true"
+			    data-options='required:false,precision: 0, max: "999",groupSeparator:","'
+				class="easyui-numberbox" /></td>
+			
+		</tr>
+		<tr>
+			<th>舱盖数:</th>
+			<td><input id="lidNum" name="lidNum" disabled="true" data-options='required:false,precision: 0, max: "999",groupSeparator:","' 
+			     class="easyui-numberbox" /></td>
+			
+
+			<!-- <th>系统标识:</th>
+			<td data-options="required:true">
+			     <input id="sysMark" name="sysMark" disabled="true" data-options="required:true"  type="checkbox" value='1'/>
+
+			</td> -->
+
+			<th>作废标志:</th>
+			<!-- <td><input id="abandonedMark" name="abandonedMark" class="easyui-validatebox" required="required"/></td> -->
+			
+			<td data-options="required:true">
+			    <input id="abandonedMark" name="abandonedMark" disabled="true" data-options="required:true"  type="checkbox" value='1'/>
+			</td>
+		</tr>
+		<tr>
+			<th>备注/描述:</th>
+			<td colspan="16"><textarea rows="3" style="width: 100%" disabled="true"
+					name="description" class="easyui-validatebox"></textarea></td>
+		</tr>
+	</table>
+</form>

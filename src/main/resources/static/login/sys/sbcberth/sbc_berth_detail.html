@@ -1,0 +1,159 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 16px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        var formObject = $("#SbcBerthForm1486710197888");
+        var dataObject = HdUtils.dialog.getValue("data");
+        var dg = HdUtils.dialog.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        if(dataObject.type === "ADD"){   
+        	$("#berthCod1486710197888").validatebox({//验证代码唯一性
+                validType:'isCodeRepeat["","SbcBerth","berthCod"]'
+            });
+        }else{  
+        	document.getElementById("berthCod1486710197888").disabled=true; 
+        }
+        $("#companyCod1486964579418").combogrid(HdUtils.code.companyId({required:true, textField: 'companyCod', width:124}));
+        $("#berthStat1486710197888").combobox(HdUtils.code.scode({fieldCod: 'BERTH_STAT'},{required:true, width:124}));
+        // TODO 
+        HdUtils.dialog.setValue({
+            saveHandler: function () {
+                var changedObject = formObject.form('getData');
+                var dataJason = null;
+                if (dataObject.type === "ADD") {
+                    dataJason = {deletedRows: [], insertedRows: [changedObject], updatedRows: []};
+                } else {
+                    dataJason = {deletedRows: [], insertedRows: [], updatedRows: [changedObject]};
+                }
+                /*
+                if(!$("#SbcBerthForm1486710197888").form("validate")){
+                	HdUtils.messager.info('请填写必输项.');
+                    return ;
+                }
+                */
+                $.ajax({
+                    type: "POST",
+                    url: "../webresources/login/SbcBerth/save",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: $.toJSON(dataJason),
+                    success: function (data) {
+                        HdUtils.dialog.close();
+                        HdUtils.messager.bottomRight('保存成功','保存操作');
+                        dg.datagrid("hdReload");
+                    },
+                    error: function (data) {
+                        HdUtils.messager.info(data.responseText);
+                    }
+                });
+            }});
+    });
+</script>
+<!-- form 表单 -->
+<form id="SbcBerthForm1486710197888">
+    <table id="SbcBerthTable1486710197888" style="height:75%;width:80%" class="tableform">
+        <tr>
+            <th><font color="red">*</font>泊位代码: </th>
+            <td><input id="berthCod1486710197888" name="berthCod" style=" text-transform:uppercase" onkeyup="this.value = this.value.toUpperCase()" 
+                       data-options="required:true" maxlength="10" class="easyui-validatebox"/></td>
+            <th><font color="red">*</font>泊位名称: </th>
+            <td><input id="berthNam1486710197888" name="berthNam"  data-options="required:true" maxlength="40" class="easyui-validatebox"/></td>
+      
+            <th>主要货种: </th>
+            <td><input id="cargoKinds1486710197888" name="cargoKinds"  data-options="required:false" maxlength="100" class="easyui-validatebox"/></td>        
+        </tr>
+        <tr>
+            <th>吞吐能力: </th>
+            <td><input id="capacity1486710197888" name="capacity"  data-options="min:0,max:999999999.9,precision:1,required:false" class="easyui-numberbox"/></td>
+            <th><font color="red">*</font>泊位长度: </th>
+            <td><input id="length1486710197888" name="length"  data-options="min:0,max:9999.99,precision:2,required:true"  class="easyui-numberbox"/></td>
+     
+            <th>泊位高度: </th>
+            <td><input id="heigh1486710197888" name="heigh"  data-options="min:0,max:999.99,precision:2,required:false"  class="easyui-numberbox"/></td>
+        </tr>
+        <tr>
+            <th>设计水深: </th>
+            <td><input id="designDepth1486710197888" name="designDepth"  data-options="min:0,max:999.99,precision:2,required:false"  class="easyui-numberbox"/></td>
+            <th>实际水深: </th>
+            <td><input id="realDepth1486710197888" name="realDepth"  data-options="min:0,max:999.99,precision:2,required:false"  class="easyui-numberbox"/></td>
+
+            <th>投入使用日期: </th>
+            <td><input id="startDte1486710197888" name="startDte"  data-options="required:false"  class="easyui-datebox"/> </td>
+        </tr>
+        <tr>
+            <th>船舶停靠方向: </th>
+            <td><input id="moorDirection1486710197888" name="moorDirection" maxlength="10" data-options="required:false"  class="easyui-validatebox"/></td>
+            <th>排序编号: </th>
+            <td><input id="sorter1486710197888" name="sorter"  data-options="required:false,min:0,max:99999"  class="easyui-numberbox"/></td>
+
+            <th>锚地标志: </th>
+            <td><input id="anchorMark1486710197888" name="anchorMark"  data-options="required:false"  type="checkbox" value="1"/></td>
+        </tr>
+        <tr>
+            <th>泊位结构类型: </th>
+            <td><input id="structTypCod1486710197888" name="structTypCod" maxlength="2" data-options="required:false"  class="easyui-validatebox"/></td>
+            <th>泊位服务类别: </th>
+            <td><input id="serveTypCod1486710197888" name="serveTypCod" maxlength="2" data-options="required:false"  class="easyui-validatebox"/></td>
+
+            <th>用途分类: </th>
+            <td><input id="berthTypCod1486710197888" name="berthTypCod" maxlength="2" data-options="required:false"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th>货物年通过能力: </th>
+            <td><input id="yearCargoWgt1486710197888" name="yearCargoWgt"  data-options="min:0,max:999999999.999,precision:3,required:false"  class="easyui-numberbox"/></td>
+            <th>集装箱年通过能力: </th>
+            <td><input id="yearCntrWgt1486710197888" name="yearCntrWgt"  data-options="min:0,max:999999999.999,precision:3,required:false"  class="easyui-numberbox"/></td>
+
+            <th>乘客年通过能力: </th>
+            <td><input id="yearPassWgt1486710197888" name="yearPassWgt"  data-options="min:0,max:999999999.999,precision:3,required:false"  class="easyui-numberbox"/></td>
+        </tr>
+        <tr>
+            <th>车辆年通过能力: </th>
+            <td><input id="yearVehicleWgt1486710197888" name="yearVehicleWgt"  data-options="min:0,max:999999999.999,precision:3,required:false"  class="easyui-numberbox"/></td>
+            <th><font color="red">*</font>泊位状态: </th>
+            <td><input id="berthStat1486710197888" name="berthStat" maxlength="2" data-options="required:true"  class="easyui-validatebox"/></td>
+
+            <th><font color="red">*</font>起始位置: </th>
+            <td><input id="beginPosition1486710197888" name="beginPosition"  data-options="min:0,max:9999.99,precision:2,required:true"  class="easyui-numberbox"/></td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>结束位置: </th>
+            <td><input id="endPosition1486710197888" name="endPosition"  data-options="min:0,max:9999.99,precision:2,required:true"  class="easyui-numberbox"/></td>
+            <th>备注/描述: </th>
+            <td><input id="description1486710197888" name="description" maxlength="1000" data-options="required:false"  class="easyui-validatebox"/></td>
+            <th><font color="red">*</font>公司代码</th>
+            <td><input id="companyCod1486964579418" name="companyCod" maxlength="20" /></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input id="insAccount1486964579418" name="insAccount"  data-options="required:true" type="hidden" class="easyui-validatebox"/></td>
+            <th></th>
+            <td><input id="insTimestamp1486964579418" name="insTimestamp"  data-options="required:true" type="hidden" class="easyui-datetime"/> </td>
+            <th></th>
+            <td><input id="updAccount1486964579418" name="updAccount"  data-options="required:true" type="hidden" class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input id="updTimestamp1486964579418" name="updTimestamp"  data-options="required:true" type="hidden" class="easyui-datetime"/> </td>
+            <td><input id="berthId1486964579418" name="berthId"  type="hidden" />
+        </tr>
+    </table>
+</form>

@@ -1,0 +1,137 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+		td{width:25%;}
+	</style>	
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">集疏运统计</span> 
+   	</div>	
+   	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+		<div class="weui-flex" style="margin-top: 15px;line-height: 2.3em;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="month" style="text-align: center;"/>	          		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;">			      		
+	      		<input class="weui-input" id="endDte" type="month" style="text-align: center;"/>			      		
+	      	</div>
+	    </div>
+		<a href="javascript:;" class="weui-btn weui-btn_default" style="margin:10px 0px;" id="transport_query">查询</a>
+	    <div id="transport_list" class="weui-cells" style="margin-bottom: 30px;margin-top: 0px;">
+	    </div>
+	</div>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+	$(document).ready(function() {
+		$("#begDte").val(getNowMonth());
+		$("#endDte").val(getNowMonth());
+		loadPortTransport();
+		$("#transport_query").click(function (){		
+			loadPortTransport();
+		});		
+	});	
+    function loadPortTransport() {      
+    	var begDte=$("#begDte").val().replace("-","");
+		var endDte=$("#endDte").val().replace("-","");
+		if(begDte>endDte){
+			 $.alert("开始时间必须小于结束时间！");
+			 return ;
+		}
+		var builder=new HdEzuiQueryParamsBuilder();
+		builder.setOtherskeyValue("begDte",begDte);
+		builder.setOtherskeyValue("endDte",endDte);
+		builder.setOtherskeyValue("account",localStorage.account);
+    	$.showLoading(); 
+    	jQuery.axs("/webresources/wx/transport/findAll", builder.build(), function(result){
+    		$.hideLoading(); 
+    		var transportHtml="";
+    		 if(result.data.length==0){
+				 $.alert("暂无数据！");
+				 $("#thougthput_company").html(html);
+				 return ;
+			 }
+			 for(var i=0;i<result.data.length;i++){
+				var flag=false;
+				var transportData=result.data[i];
+				var dTeu=transportData.DL_TCK_TEU+transportData.DT_TEU;//内贸
+				var fTeu=transportData.FL_TEU+transportData.FT_TEU;//外贸
+				if(dTeu+fTeu==0){
+					continue;
+				}
+				transportHtml+=
+			 		'<a class="weui-cell weui-cell_access througth_content_item" href="/wx/init/login/transportDet?code='+transportData.COMPANY_COD+'#" style="padding: 0px;">'				
+			 		+'	<table class="twoTable">'
+			 		+'		<tr >'
+			 		+'			<td colspan="4"  class="twoTableHeader">'+transportData.COMPANY_NAM+'（TEU）</td>'
+			 		+'		</tr> ';			 		
+			 	if(dTeu!=0){	
+			 		flag=true;
+			 		transportHtml+=
+			 		'		<tr > '
+			 		+'			<td colspan="4" >内贸：'+dTeu+'</td>'
+			 		+'		</tr> '
+			 		+'		<tr >  '
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">本地：</td>'
+			 		+'			<td class="column_value" colspan="3" style="line-height: 20px;height:20px;">'+transportData.DL_TCK_TEU+'</td>'
+			 		+'		</tr >'
+			 		+'		<tr >'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">中转：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.DT_TEU+'</td>'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">其中&ensp;大船：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.DT_VSL_TEU+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr >'
+			 		+'			<td class="column_title" colspan="3" style="line-height: 20px;height:20px;">驳船：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.DT_BRG_TEU+'</td>'
+			 		+'		</tr>';
+			 	}
+			 	if(fTeu!=0){
+			 		if(flag){
+			 			transportHtml+='<tr><td colspan="4"  style="background:#F2F2F2;height: 1px;"></td></tr>';
+			 		}
+			 		transportHtml+=
+			 		'		<tr >'
+			 		+'			<td colspan="4" style="line-height: 20px;height:20px;">外贸：'+fTeu+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr >'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">本地：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FL_TEU+'</td>'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">其中&ensp;陆运：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FL_TCK_TEU+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr >'
+			 		+'			<td class="column_title" colspan="3" style="line-height: 20px;height:20px;">水闸：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FL_WTR_TEU+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr >'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">中转：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FT_TEU+'</td>'
+			 		+'			<td class="column_title" style="line-height: 20px;height:20px;">其中&ensp;大船：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FT_VSL_TEU+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr >'
+			 		+'			<td class="column_title"  colspan="3" style="line-height: 20px;height:20px;">驳船：</td>'
+			 		+'			<td class="column_value" style="line-height: 20px;height:20px;">'+transportData.FT_BRG_TEU+'</td>'
+			 		+'		</tr>';
+			 	}
+			 	transportHtml+=
+					'		<tr >'
+					+'			<td colspan="4" class="list_item_next_title" >详细信息>></td>'
+					+'		</tr>'
+			 		+'	</table> '
+			 		+'</a>';
+			 }			
+			 $("#transport_list").html(transportHtml);
+		});    	
+    }
+    /*]]>*/
+	</script>	
+</div>
+</body>
+</html>

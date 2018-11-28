@@ -1,0 +1,207 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel"> 
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+	.weui-btn_mini{float: right;
+		margin-right: 30px;
+		font-size:10px;
+		margin-top: -3px;
+		font-size: 13px;
+		color: #000;
+		background-color: #f8f8f8;
+	}
+	</style>
+	<link rel="stylesheet" href="/wx/css/style.css" media="screen" type="text/css" />
+   	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">在港船舶</span> 
+   	</div>
+   	<div class="app_content">
+	    <div id="accordion" class="accordion">
+	    	<ul style="margin-bottom: 5px;">
+	    		<li class="open">
+	    			<div class="link" >南沙一期
+	    				<span id="NCT_num"></span>
+	    				<a href="/wx/init/login/shipWorkLa?code=NCT,南沙一期#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>	    				
+					</div>					
+					<ul class="submenu" style="display: block;">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=NCT,南沙一期#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+		    					<div class="weui-cell__bd" id="nctShipData"></div>	    					
+	    					</a>
+						</li>									
+					</ul>			
+				</li>				
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙二期
+	    				<span id="GOCT_num"></span>
+		    			<a href="/wx/init/login/shipWorkLa?code=GOCT,南沙二期#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=GOCT,南沙二期#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+						    	<div class="weui-cell__bd" id="goctShipData" ></div>
+					    	</a>
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙三期
+	    				<span id="NICT_num"></span>
+		    				<a href="/wx/init/login/shipWorkLa?code=NICT,南沙三期#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=NICT,南沙三期#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+						    	<div class="weui-cell__bd" id="nictShipData"></div>
+					    	</a>
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">新沙公司
+	    				<span id="XSCT_num"></span>
+		    				<a href="/wx/init/login/shipWorkLa?code=XSCT,新沙公司#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=XSCT,新沙公司#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+						    	<div class="weui-cell__bd" id="xsctShipData"></div>
+					    	</a>
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">
+	    				GCT<span id="GCT_num"></span>
+		    				<a href="/wx/init/login/shipWorkLa?code=GCT,GCT#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=GCT,GCT#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+						    	<div class="weui-cell__bd" id="gctShipData"></div>
+					    	</a>
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>	
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">黄埔公司
+	    				<span id="HPCT_num"></span>
+		    				<a href="/wx/init/login/shipWorkLa?code=HPCT,黄埔公司#"  class="weui-btn weui-btn_mini">驳船</a>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>
+							<a href="/wx/init/login/shipWorkCom?code=HPCT,黄埔公司#" class="weui-cell weui-cell_access" style="padding-bottom: 0px;width:100%;">
+						    	<div class="weui-cell__bd" id="hpctShipData"></div>
+					    	</a>
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>    	
+	    </div>
+    </div>
+  	<script src="/wx/js/accordion.js"></script>
+    <script type="text/javascript">   
+    /*<![CDATA[*/
+	 $(document).ready(function() {
+		loadShipSchedule();
+		function loadShipSchedule(){
+			$.showLoading();
+			jQuery.axs("/webresources/wx/shipWork/findAll",null, function(result){
+				 
+				 $.hideLoading();
+				 var htmlNCT=""; //南沙一期
+				 var htmlGOCT=""; //    南沙二期
+				 var htmlNICT=""; //    南沙三期
+				 var htmlHPCT=""; //    黄埔公司
+				 var htmlXSCT=""; //    新沙公司
+				 var htmlGCT=""; //    集装箱(GCT)
+				 for(var i=0;i<result.shipTyp.length;i++){
+					var shipTyp=result.shipTyp[i];
+				 	$("#"+shipTyp.COMPANY_COD+"_num").html("（大船"+shipTyp.CN_NUM+"艘，驳船"+shipTyp.LA_NUM+"艘）");					
+				 }
+				 for(var i=0;i<result.shipData.length;i++){
+					var shipData=result.shipData[i];
+					var imageUrl="";
+					if(shipData.WORK_STAT=="0"){
+						imageUrl="/wx/images/vsl0.png";
+					}else if(shipData.WORK_STAT=="1"){
+						imageUrl="/wx/images/vsl1.png";
+						
+					}else {
+						imageUrl="/wx/images/vsl2.png";
+					}
+					var html=
+						'<p style="margin-top:2px;"><image style="vertical-align:middle;" height="30" src='+imageUrl+'/>&nbsp;'+shipData.SHIP_NAM+'</p>';
+					if(shipData.COMPANY_COD=="NCT"){
+						htmlNCT+=html;
+					}else if(shipData.COMPANY_COD=="GOCT"){
+						htmlGOCT+=html;
+					}else if(shipData.COMPANY_COD=="NICT"){
+						htmlNICT+=html;
+					}else if(shipData.COMPANY_COD=="HPCT"){
+						htmlHPCT+=html;
+					}else if(shipData.COMPANY_COD=="XSCT"){
+						htmlXSCT+=html;
+					}else if(shipData.COMPANY_COD=="GCT"){
+						htmlGCT+=html;
+					}
+				 }
+				var mingxiHtml='<div class="list_item_next_title" style="padding-right:15px;">查看明细>></div>';
+				if(htmlGOCT!=""){
+					htmlNCT+=mingxiHtml;
+				}
+				if(htmlGOCT!=""){
+					htmlGOCT+=mingxiHtml;
+				}
+				if(htmlNICT!=""){
+					htmlNICT+=mingxiHtml
+				}
+				if(htmlHPCT!=""){
+					htmlHPCT+=mingxiHtml;
+				}if(htmlXSCT!=""){
+					htmlXSCT+=mingxiHtml;
+				}
+				if(htmlGCT!=""){
+					htmlGCT+=mingxiHtml;
+				}
+						
+				$("#nctShipData").html(htmlNCT);
+				$("#goctShipData").html(htmlGOCT);
+				$("#nictShipData").html(htmlNICT);
+				$("#hpctShipData").html(htmlHPCT);
+				$("#xsctShipData").html(htmlXSCT);
+				$("#gctShipData").html(htmlGCT);
+			 }) ;
+		}
+	});
+	 /*]]>*/	
+	</script>		
+</div>
+</body>
+</html>

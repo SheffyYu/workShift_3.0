@@ -1,0 +1,156 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/dgModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style type="text/css">
+		.text-title {
+			font-size: 16px;
+		}
+		.text-content {
+			font-size: 16px;
+		}
+	</style>
+<div class="app_header">
+   		<a  onClick="javascript :history.back(-1);">
+   			<img src="/wx/images/back.png"  class="app_head_back" border="0" title="返回上一页"/></a>
+   		<div class="app_head_title" id="app_head_title" >整改信息
+   		  <a id="saveDgHazardCtrlChange" class="head_right">保存</a>
+   		</div> 
+</div>
+   	<div class="app_content">
+	    <div class="weui-cells weui-cells_form">
+  		<div class="weui-cell">
+   			 <div class="weui-cell__hd">
+   			 	<label class="weui-label">名称</label></div>
+   			 <div class="weui-cell__bd">
+      			<input class="weui-input" type="text" id="hazardNam1498115131143" placeholder="请输入名称"></input>
+    		</div>
+  		</div>
+  		<div class="weui-cell">
+   			 <div class="weui-cell__hd">
+   			 	<label class="weui-label" >描述</label></div>
+   		</div>
+   		<div class="weui-cell ">
+   				 <div class="weui-cell__bd ">
+     			 <textarea class="weui-textarea" id="description1498115131143" placeholder="请输入描述" rows="3"></textarea>
+     				 <div class="weui-textarea-counter"><span>0</span>/200
+     				 </div>
+   				 </div>
+  		</div>
+  		<!-- 图片上传 -->
+	  		  <div class="weui-cell">
+                <div class="weui-cell__bd weui-cell-primary">
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd weui-cell">
+                            <div class="weui_cell_bd weui-cell-primary">图片上传</div>
+                            <div class="weui_cell_ft"></div>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files" id='img2x'>
+                            </ul>
+                             <div class="weui-uploader__input-box">
+            					<input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" onchange="previewImage1(this)" multiple="" />
+          					</div>
+                        </div>
+                    </div>
+                </div>
+        	</div> 
+		</div>
+    </div>
+<script type="text/javascript">
+function previewImage1(file) {
+    var MAXWIDTH = 100;
+    var MAXHEIGHT = 200;
+    /*<![CDATA[*/
+    for(var i=0;i<file.files.length;i++){
+    if (file.files && file.files[i]) {
+    	 name[i] = file.files[i].name;
+        var reader = new FileReader();
+        reader.onload = function (evt) {   
+            $('#img2x').append('<li class="weui-uploader__file" style="background-image:url('+evt.target.result+')"></li>');    
+            $('#img2x').append('<input type="hidden" class="weui-uploader__file_input" value='+evt.target.result+'"/>'); 
+        };
+        reader.readAsDataURL(file.files[i]);
+    }
+    /*]]>*/
+    }
+}
+$(document).ready(function() {
+		var hazardRelId = getUrlParams("id");
+		var applyBuilder=new HdEzuiQueryParamsBuilder();
+		applyBuilder.setOtherskeyValue("id",hazardRelId);
+        $.showLoading();
+		jQuery.axs("/webresources/wx/dg/hazard/findDgHazardRelById", applyBuilder.build(), function(result){
+			$.hideLoading();
+			/*<![CDATA[*/
+			if(result.rows.length>0){
+				var data=result.rows[0];
+		 		$("#hazardNam1498115131143").val(data.REL_COD);
+				$("#description1498115131143").html(data.DESCRIPTION);
+				var item=[];
+				for(var i=0;i<data.F_URL.length;i++){
+					var src=data.F_URL[i].FURL;
+					item.push(src);
+					if(src){
+						$('#img2x').append("<li class=\"weui-uploader__file\"><img src=\""+src+"\" style=\"width: 79px;height: 79px;\" class='pb1' ></li>");
+					}
+				}
+				var pb1 = $.photoBrowser({
+			        items:item,
+			        onSlideChange: function(index) {
+			          console.log(this, index);
+			        },
+			        onOpen: function() {
+			          console.log("onOpen", this);
+			        },
+			        onClose: function() {
+			          console.log("onClose", this);
+			        }
+			      });
+			      $(".pb1").click(function() {
+			        pb1.open();
+			     });
+			}
+		 	/*]]>*/
+		});
+		
+		$("#saveDgHazardCtrlChange").on("click",function(){
+			var args={};
+			args.id = hazardRelId;
+			args.hazardNam=$("#hazardNam1498115131143").val();
+			args.description=$("#description1498115131143").val();
+			//图片上传
+			var list = $('.weui-uploader__file_input');
+			var rel  = [];
+			/*<![CDATA[*/
+			for (var i = 0; i < list.length; i++)
+			    {
+			            rel.push(dataToImage(list[i].value));
+			    }
+			/*]]>*/
+			function dataToImage(dataUrl){
+			    var base64Data = dataUrl.replace(/^data:image\/\w+;base64,/,'');
+				return base64Data;
+			}
+			args.img=rel;
+			jQuery.axs("/webresources/wx/dg/hazard/saveDgHazardRELChange", args, function(result){
+				console.info(result);
+				if(result.status==1){
+					//window.location="/wx/dg/init/login/dgHazardCtrl";
+					history.back(-1);
+				}else{
+					$.toast(result.info, "text");
+				}
+			});		
+		});
+		
+		});
+
+
+</script>
+</div>
+</body>
+</html>

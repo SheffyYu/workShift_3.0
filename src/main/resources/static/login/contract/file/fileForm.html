@@ -1,0 +1,169 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 16px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+    	$("#parenContract1493022572342").combogrid(HdUtils.code.contract({
+    		width:150,
+    		editable:true,
+    		required:false
+    	})); 
+    	$("#contractSat1493022572342").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_STAT'},{required:false, width:150,editable:true}));
+    	$("#contractTyp1493022572342").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_TYP'},{required:false, width:150,editable:true}));
+        var formObject = $("#ContractForm1493022572342");
+        var dataObject = HdUtils.dialog3.getValue("data");
+        var dg = HdUtils.dialog3.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        // TODO 
+        HdUtils.dialog.setValue({
+            saveHandler: function () {
+            	var flagSave=true;//保存标志
+                if(!$("#ContractForm1493022572342").form("validate")){
+                    HdUtils.messager.info("请录入必填信息");
+                    return;
+                }
+                var stringtime1=$('#begDte1493022572342').datetimebox("getValue");
+           		var stringtime2=$('#endDte1493022572342').datetimebox("getValue");
+           		var timestamp1=Date.parse(new Date(stringtime1));
+           		var timestamp2=Date.parse(new Date(stringtime2));
+           		if((timestamp2-timestamp1)<=0){
+           			HdUtils.messager.info("有效开始期必须大于有效截止期");
+           			return;
+           		}
+                var changedObject = formObject.form('getData');
+                var dataJason = null;
+                if (dataObject.type === "ADD") {
+                	$("#contractNo1493022572342".validatebox)({
+                		validType:'isCodeRepeat["","Contract","contract_no"]'
+                	});
+                    dataJason = {deletedRows: [], insertedRows: [changedObject], updatedRows: []};
+                } else {
+                    dataJason = {deletedRows: [], insertedRows: [], updatedRows: [changedObject]};
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "../webresources/login/Contract/save",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: $.toJSON(dataJason),
+                    success: function (data) {
+                        HdUtils.dialog.close();
+                        HdUtils.messager.bottomRight('保存成功','保存操作');
+                        dg.datagrid("hdReload");
+                        //重置文件页面
+                        $("#ContractFileDatagrid1493022572342").datagrid("loadData",{total: 0, rows: []});
+                    },
+                    error: function (data) {
+                        HdUtils.messager.info(data.responseText);
+                    }
+                });
+            }});
+        $("#check1493022572342").on("click",function(){
+        	var contractId = $("#contractId1493022572342").val();
+        	$.ajax({
+     			url:"/webresources/login/Contract/modifyIsArchive?contractId="+contractId,
+     			type: 'POST',//请求方式
+     			contentType: 'application/json',
+     			dataType: 'text',//响应信息格式
+     			success: function (data) {
+     				if(data=="true"){
+     					$("#ContractDatagrid1493022572342").datagrid("hdReload");
+         				HdUtils.messager.bottomRight('复核成功！','提示');
+         				HdUtils.dialog3.close();
+     				}else{
+     					HdUtils.messager.bottomRight('复核失败！','提示');
+     				}
+     				
+     		    }
+    		}); 
+        });
+ 		$("#close1493022572342").on("click",function(){
+ 			HdUtils.dialog3.close();
+        });
+    });
+</script>
+<!-- form 表单 -->
+<form id="ContractForm1493022572342">
+    <table id="ContractTable1493022572342" style="height:95%;width:80%" class="tableform">
+        <tr>
+            <td hidden="hidden"><input id="contractId1493022572342" name="contractId"  data-options="required:false"  class="easyui-validatebox"/></td>
+            <th><font color="red">*</font>合同编号：</th>
+            <td><input disabled="disabled" style=" text-transform:uppercase"   onkeyup="this.value=this.value.replace(/[\W]/g,'')" id="contractNo1493022572342" name="contractNo"  data-options="required:true,validType:'length[1,32]'"  class="easyui-validatebox"/></td>
+            <th>经办人：</th>
+            <td><input disabled="disabled" id="signatory1493022572342" name="signatoryNam"  data-options="required:false"  class="easyui-validatebox"/></td>
+            <th>签署日期： </th>
+            <td><input disabled="disabled" id="signDat1493022572342" name="signDat"  data-options="required:false"  class="easyui-datebox"/> </td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>合同名称： </th>
+            <td colspan="5"><input disabled="disabled" style="width: 99.5%" id="contractNam1493022572342" name="contractNam"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>客户名称： </th>
+            <td colspan="5"><input disabled="disabled" style="width: 99.5%" id="custom1493022572342" name="custom"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>签约部门： </th>
+            <td><input disabled="disabled" style="width: 99.5%" id="signDepartment1493022572342" name="signDepartment" data-options="required:true,validType:'length[1,20]'"  class="easyui-validatebox"/></td>
+            <th>主合同： </th>
+            <td><input disabled="disabled" style="width: 99.5%" id="parenContract1493022572342" name="parenContract" data-options="required:false,validType:'length[1,20]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>合同类型： </th>
+            <td><input disabled="disabled" id="contractTyp1493022572342" name="contractTyp" /></td>
+            <th>公司名称： </th>
+            <td><input disabled="disabled" id="companyCod1493022572342" name="companyCod"  data-options="required:false,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+            <th><font color="red">*</font>超期提醒： </th>
+            <td><input disabled="disabled" id="remindDay1493022572342" name="remindDay"  data-options="required:true,precision: 0, max:100" class="easyui-numberbox"/></td>     
+        </tr>
+        <tr>
+       	 	<th><font color="red">*</font>有效开始期： </th>
+            <td><input disabled="disabled" id="begDte1493022572342" name="begDte"  data-options="required:true"  class="easyui-datebox"/> </td>
+            <th><font color="red">*</font>有效截至期： </th>
+            <td><input disabled="disabled" id="endDte1493022572342" name="endDte"  data-options="required:true"  class="easyui-datebox"/> </td>
+            <th>合同状态： </th>
+            <td><input disabled="disabled" id="contractSat1493022572342" name="contractSat"/></td>
+            <!-- <th>是否归档: </th>
+            <td><input id="isArchive1493022572342" name="isArchive"  data-options="required:false"  </td> -->
+        </tr>
+        <tr>
+        	<th>描述： </th>
+            <td colspan="5"><input disabled="disabled" style="width: 99.5%" id="description1493022572342" name="description" data-options="required:false,validType:'length[1,300]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+        	 <td></td>
+            <td></td>
+        	 <td align= "center" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;
+		    		<a class="easyui-linkbutton" id="check1493022572342" plain="false">复核确认</a>&nbsp;&nbsp;
+		    		<a class="easyui-linkbutton" id="close1493022572342" plain="false">关闭</a>
+	    	</td>
+          
+        </tr>
+       
+            
+    </table>
+    	 <input hidden="hidden" id="insAccount1493022572342" name="insAccount"  data-options="required:false" />
+            <input hidden="hidden" id="insTimestamp1493022572342" name="insTimestamp"  data-options="required:false"  />
+            <input hidden="hidden" id="updAccount1493022572342" name="updAccount"  data-options="required:false"  />
+            <input hidden="hidden" id="updTimestamp1493022572342" name="updTimestamp"  data-options="required:false" /> 
+    	
+    	
+    		
+</form>

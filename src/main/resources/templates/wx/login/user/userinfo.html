@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body  class="app_background">
+<div th:fragment="content" th:remove="tag" >	
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">密码修改</span> 
+   	</div>
+	<div class="app_content" style="margin: 0px 15px;">
+		<div class="weui-cells" style="border-radius: 5px;">  
+	        <div class="weui-cell">
+	            <div class="weui-cell__bd">
+	                <input class="weui-input" type="password" id="newPwd"  placeholder="请输入6-20位新密码" maxlength="20"/>
+	            </div>
+	        </div>
+	        <div class="weui-cell">
+	            <div class="weui-cell__bd">
+	                <input class="weui-input" type="password"  id="repeatPwd" placeholder="请再次输入新密码" maxlength="20"/>
+	            </div>
+	        </div>
+	    </div>    
+    	<a id ="btn_useredit"  class="weui-btn weui-btn_default" style="margin: 10px 0px;">确认修改</a> 
+	</div>    
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		$("#btn_useredit").click(function (){			
+			userEditPwd();				
+		});	
+	});
+	function userEditPwd(){
+		var newPwd=$("#newPwd").val().trim();
+        var repeatPwd=$("#repeatPwd").val().trim();
+        if(newPwd==""){
+            $.toast("请输入新密码!","text");
+            return;
+        }
+        if(newPwd.length<6||newPwd.length>20){
+            $.toast("请输入6-20新密码!","text");
+            return;
+        }
+        if(repeatPwd==""){
+            $.toast("请再次输入新密码!","text");
+            return;
+        }
+        if(repeatPwd!=newPwd){
+            $.toast("两次密码输入不一致!","text");
+            return;
+        }
+		var tempBuilder=new HdEzuiQueryParamsBuilder();
+		tempBuilder.setOtherskeyValue("password",newPwd);
+		tempBuilder.setOtherskeyValue("userid",localStorage.userid);
+		$.showLoading();
+		jQuery.axs("/webresources/wx/login/user/editPwd",tempBuilder.build(), function(result){
+			 $.hideLoading();
+			 var html="";
+			 if(result.status==1){
+				 $.alert("密码修改成功！");
+				 localStorage.password=newPwd;
+			 }else{
+				 $.alert("密码修改失败！");
+			 }				
+		 }) ;		
+	}
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

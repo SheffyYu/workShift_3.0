@@ -1,0 +1,40 @@
+
+<script type="text/javascript" src="/login/sys/shipSelected/ship_company_list.js"></script>
+<script type="text/javascript">
+$(function(){
+	initShipCompny(selectedShipCompanyCod);
+});
+</script>
+<style>
+.trStyle{
+height:50px;
+}
+</style>
+<div class="easyui-layout" style="width: 100%; height: 100%;" fit="true">
+	<div data-options="region:'west'" style="width:370px;">
+		<table id="ShipCompanyDatagrid"></table>
+		<div id="ShipCompanyToolBar" style="padding: 0px;margin: 0px;">
+			<input class="easyui-searchbox" id="ShipCompanySearchbox" />
+		</div>
+	</div>
+	<div data-options="region:'center'">
+		<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td align="center" valign="middle"> 
+					<table width="50%"  align="center" cellpadding="0" cellspacing="0">
+						<tr class="trStyle"><td>
+							<a class="easyui-linkbutton"  id="add" plain="false" >>></a>
+						</td></tr>
+						<tr class="trStyle"><td>
+							<a class="easyui-linkbutton" id="return" plain="false" ><<</a>
+						</td></tr>
+					
+					</table> 
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div data-options="region:'east'" style="width:370px;">
+		<table id="ShipCompanySelectedDatagrid"></table>
+	</div>
+</div>

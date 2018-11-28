@@ -1,0 +1,311 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 16px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+</style>
+<div id="EnclosureUploadFile1490341855108" class="easyui-dialog" data-options="closed:true">
+	<form id="uploadForm1490341855108" method="POST" enctype="multipart/form-data"  action="/webresources/login/Contract/impWord" target="message">
+	    <table align="center">
+	       <tr>
+	         	<td colspan="2"> 
+	               <input type="file" name="file" id="enclosureNam1493012840094" style="width:210px;" />
+	           </td>
+	           <td> 
+	               <input type="hidden" id="contractId1493012840095" name="id"/>
+	           </td>
+	       		
+	         </tr>
+	         <tr>
+        		<th>版本号： </th>
+            	<td><input id="version1493012840094" name="version"  data-options="required:false,validType:'length[1,6]'"  class="easyui-validatebox"/></td>
+        	 	<td> 
+	               <input type="submit" value="上传"/>
+	           </td>
+        	 </tr>
+	       <iframe name="message" style="display: none"></iframe>
+	    </table>
+    </form>
+</div>
+
+<script>
+$("#contractSat1493012840094").attr("checked", true);
+    $(document).ready(function () {
+    	//获取登录的用户
+    	var oper=$.main.loginOper;
+    	$("#contractTyp1493012840094").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_TYP'},{required:true, width:150,editable:true}));
+    	var contractbuild=new HdEzuiQueryParamsBuilder();
+    	contractbuild.setAndClause("parenContract",null,"=","and"); 
+    	$("#parenContract1493012840094").combogrid(HdUtils.code.contract({
+    		width:150,
+    		editable:true,
+    		required:false,
+    		queryParams:contractbuild.build()
+    	}));  
+    	$("#contractTyp1493012840094").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_TYP'},{required:false, width:150,editable:true}));
+    	var formObject = $("#ContractForm1493012840094");
+        var dataObject = HdUtils.dialog3.getValue("data");
+        
+        var dg = HdUtils.dialog3.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        if (dataObject.type === "ADD") {
+        	$("#contractNo1493012840094").validatebox({
+        		validType:'isCodeRepeat["","Contract","contractNo"]'
+        	});
+        } else {
+        	$("#ContractForm1493012840094 input[name='contractNo']").attr("disabled","true");
+        }
+        $("#enclosure20170419").on("click", function () {
+        	$("#uploadForm1490341855108").form("clear");
+        	var contractNo = $("#contractNo1493012840094").val();
+        	if(contractNo == ""){
+        		HdUtils.messager.info("请填写合同编号！");
+        	}else{
+/*                 HdUtils.dialog.show({height: 250,width:370, title: "附件上传", href: "../login/contract/contractCreation/enclosure.html",isSaveHandler: true});
+ */        		 $("#EnclosureUploadFile1490341855108").dialog({
+					title:'附件上传',      			
+					closed:false,
+					width:300,
+					height:130,
+					buttons:[{
+					text:'关闭',
+					handler:function(){
+					$("#EnclosureUploadFile1490341855108").dialog({closed:true});
+				}
+				}]
+			}); 
+ 				$("#contractId1493012840095").val(contractNo);
+ 			}
+        });
+    	//保存
+    	$("#save20170419").on("click", function () {
+            var flagSave=true;//保存标志
+            if(!$("#ContractForm1493012840094").form("validate")){
+                HdUtils.messager.info("请录入必填信息");
+                return;
+            }
+            var stringtime1=$('#begDte1493012840094').datetimebox("getValue");
+       		var stringtime2=$('#endDte1493012840094').datetimebox("getValue");
+       		var timestamp1=Date.parse(new Date(stringtime1));
+       		var timestamp2=Date.parse(new Date(stringtime2));
+       		if((timestamp2-timestamp1)<=0){
+       			HdUtils.messager.info("有效开始期必须大于有效截止期");
+       			return;
+       		}
+            var changedObject = formObject.form('getData');
+            changedObject.signatory=$("#signatory149301284009411").val();
+            changedObject.parenContract=$("#parenContract1493012840094").combogrid("getValue");
+            changedObject.contractNo=$("#contractNo1493012840094").val();
+            var contractSat=$("input[name='contractSat']:checked").val();
+            if(contractSat=="1"){
+            	contractSatVal = "RE"
+            }else{
+            	contractSatVal = "URE"
+            }
+            changedObject.contractSat=contractSatVal;
+            var dataJason = null;
+            if (dataObject.type === "ADD") {
+                dataJason = {deletedRows: [], insertedRows: [changedObject], updatedRows: []};
+            } else {
+                dataJason = {deletedRows: [], insertedRows: [], updatedRows: [changedObject]};
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: "/webresources/login/Contract/save",
+                contentType: "application/json",
+                dataType: "json",
+                data: $.toJSON(dataJason),
+                success: function (data) {
+                	if($("#fileName0427").val() != "" && $("#pathUrl0427").val() != "" && $("#account0427").val() != ""){
+                	 var args = {};
+                   	 args.fileName = $("#fileName0427").val();
+                   	 args.pathUrl = $("#pathUrl0427").val();
+                   	 args.id = $("#contractNo1493012840094").val();
+                   	 args.version = $("#version0427").val();
+                   	 args.account = $("#account0427").val();
+                   	 args.type = dataObject.type;
+                       $.ajax({
+                       	type: "POST",
+                       	url: "/webresources/login/ContractFile/fileSave",
+                       	contentType: "application/json",
+                           dataType: "json",
+                           data: $.toJSON(args)
+               		});
+                	} 
+                    HdUtils.dialog3.close();
+                    HdUtils.messager.bottomRight('保存成功','保存操作');
+                    builder= new HdEzuiQueryParamsBuilder();
+                	builder.setOrderByClause("updTimestamp", "desc");
+                	builder.setAndClause("signatory",oper.account,"=","and");
+                    if($("input[name='contractSat']:checked").val() == 1){
+                    	$("#ContractToolBar1493012840094 input[name='file20170428']:eq(1)").attr("checked",'checked');
+                    	builder.setAndClause("contractSat","RE","=","and");
+                    }else{
+                    	$("#ContractToolBar1493012840094 input[name='file20170428']:eq(0)").attr("checked",'checked');
+                    	builder.setAndClause("contractSat","URE","=","and");
+                    }
+                	dg.datagrid("load",builder.build());
+                    /* function saveCallback(){
+                    	$("#ContractMoveToolBar1493177848650 input[name='check1493177848650']:eq(0)").attr("checked",'checked'); 
+                    	builder= new HdEzuiQueryParamsBuilder();
+                    	builder.setOrderByClause("updTimestamp", "desc");//传入orderby
+                    	builder.setAndClause("checkId","1","<>","and");//已申请
+                   		builder.setAndClause("outAccount",admin.account,"=","and");//转出人
+                   		$("#deleteMove1493177848650").linkbutton('enable');
+                   		$("#deleteMove1493177848650").css('display','inline-block');
+                    	dg.datagrid("load",builder.build());
+                    } */
+                    
+                    //dg.datagrid("hdReload");
+                },
+                error: function (data) {
+                    HdUtils.messager.info(data.responseText);
+                }
+            });
+            
+    	});
+    	//关闭按钮点击事件
+        $("#close2017419").on("click", function () {
+        	HdUtils.dialog3.close();
+        });
+      	//上传
+    
+        	
+        		$('#uploadForm1490341855108').form({
+            		success:function(data){
+            			var jsonArray=$.parseJSON(data);
+            			$("#fileName0427").val(jsonArray.entity.fileName);
+            			$("#pathUrl0427").val(jsonArray.entity.pathUrl);
+            			$("#id0427").val(jsonArray.entity.id);
+            			$("#version0427").val(jsonArray.entity.version);
+            			$("#account0427").val(jsonArray.entity.account);
+            			HdUtils.messager.info("上传成功");
+            			$("#EnclosureUploadFile1490341855108").dialog({closed:true});
+      				  /* if(data=="1"){
+      					  
+      				  }else{
+      					  $.messager.alert('Info', data, 'info');
+      				  } */
+      			  	
+      			 }
+    		});
+      
+        /* $('#uploadForm1490341855108').submit(function (event) {
+        	var version = $("#version1493012840094").val();
+        	if(version == ""){
+        		alert("请输入版本号！");
+        	}else{
+        		var formData = new FormData(this);
+     	        var form=$('#uploadForm1490341855108');
+     	        $.ajax({
+     	          type: form.attr('method'),
+     	          url: form.attr('action'),
+     	          data: formData,
+     	          contentType: "application/octet-stream",
+     	          cache: false,
+     	          processData: false
+     	        }).success(function (data) {
+     	        	$("#EnclosureUploadFile1490341855108").dialog({closed:true});
+     	        	//alert(data);
+     	          //成功提交
+     	        }).fail(function (jqXHR, textStatus, errorThrown) {
+     	        	$("#EnclosureUploadFile1490341855108").dialog({closed:true});
+     	          //错误信息
+     	        });
+        	}
+	       
+    	}); */ 
+    });
+</script>
+<!-- form 表单 -->
+<form id="ContractForm1493012840094">
+    <table id="ContractTable1493012840094" style="height:95%;width:80%" class="tableform">
+        <tr>
+            <td hidden="hidden"><input id="contractId1493012840094" name="contractId" /></td>
+            <th><font color="red">*</font>合同编号：</th>
+            <td><input style=" text-transform:uppercase; width:150px" onkeyup="this.value=this.value.replace(/[\W]/g,'')" id="contractNo1493012840094" name="contractNo" maxlength="32" data-options="required:true,validType:'length[1,32]'"  class="easyui-validatebox"/></td>
+            <th>经办人：</th>
+            <td><input disabled="disabled" id="signatory1493012840094" style="width:150px" name="signatoryNam" class="easyui-validatebox"/></td>
+            <th>签署日期： </th>
+            <td><input disabled="disabled" id="signDat1493012840094" style="width:150px" name="signDat"  data-options="required:false"  class="easyui-datebox"/> </td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>合同名称： </th>
+            <td colspan="5"><input style="width: 99.5%" id="contractNam1493012840094" name="contractNam"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>客户名称： </th>
+            <td colspan="5"><input style="width: 99.5%" id="custom1493012840094" name="custom"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>签约部门： </th>
+            <td><input style="width: 99.5%" id="signDepartment1493012840094" name="signDepartment" data-options="required:true,validType:'length[1,20]'"  class="easyui-validatebox"/></td>
+            <th>主合同： </th>
+            <td><input style="width: 99.5%" id="parenContract1493012840094" name="parenContract" data-options="required:false"  class="easyui-validatebox"/></td>
+        </tr>
+      	<tr>
+            <th><font color="red">*</font>合同类型： </th>
+            <td><input id="contractTyp1493012840094" name="contractTyp"   data-options="required:true,validType:'length[1,10]'"/></td>
+            <th>公司名称： </th>
+            <td><input id="companyCod1493012840094" name="companyCod" style="width:150px" data-options="required:false,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+            <th><font color="red">*</font>超期提醒： </th>
+            <td><input id="remindDay1493012840094" name="remindDay" style="width:150px"  data-options="required:true,precision: 0, max:100" class="easyui-numberbox"/></td>     
+        </tr>
+        <tr>
+       	 	<th><font color="red">*</font>有效开始期： </th>
+            <td><input id="begDte1493012840094" name="begDte" style="width:150px"  data-options="required:true"  class="easyui-datebox"/> </td>
+            <th><font color="red">*</font>有效截至期： </th>
+            <td><input id="endDte1493012840094" name="endDte" style="width:150px"  data-options="required:true"  class="easyui-datebox"/> </td>
+            <th>发布： </th>
+            <td><input id="contractSat1493012840094" name="contractSat"  type="checkbox" value="1"/></td>
+            <!-- <th>是否归档: </th>
+            <td><input id="isArchive1493012840094" name="isArchive"  data-options="required:false"  </td> -->
+        </tr>
+        <tr>
+        	<th>描述： </th>
+            <td colspan="5"><input style="width: 99.5%" id="description1493012840094" name="description" data-options="required:false,validType:'length[1,300]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+    		<td align= "center" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;
+	    		<a class="easyui-linkbutton" id="enclosure20170419" plain="false">上传附件</a>&nbsp;&nbsp;
+	    		<a class="easyui-linkbutton" id="save20170419" plain="false">保存</a>&nbsp;&nbsp;
+	    		<a class="easyui-linkbutton" id="close2017419" plain="false">关闭</a>
+    		</td>
+        </tr>    
+    </table>
+    	<input hidden="hidden" id="fileName0427" name="fileName" />
+        <input hidden="hidden" id="pathUrl0427" name="pathUrl" />
+        <input hidden="hidden" id="id0427" name="id" />
+        <input hidden="hidden" id="version0427" name="vension" />
+        <input hidden="hidden" id="account0427" name="account" />
+        <input hidden="hidden" id="isArchive1493012840094" name="isArchive" />
+    	<input hidden="hidden" id="insAccount1493012840094" name="insAccount"   />
+        <input hidden="hidden" id="insTimestamp1493012840094" name="insTimestamp"   />
+        <input hidden="hidden" id="updAccount1493012840094" name="updAccount"    />
+        <input hidden="hidden" id="updTimestamp1493012840094" name="updTimestamp" s />
+        <input hidden="hidden" id="signatory149301284009411" name="signatory" /></td>
+        
+</form>
+<script>
+var dataObject = HdUtils.dialog3.getValue("data");
+if(dataObject.contractSat == "RE"){
+	$("[name = contractSat]:checkbox").attr("checked", true);
+}
+</script>

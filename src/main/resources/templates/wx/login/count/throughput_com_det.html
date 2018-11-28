@@ -1,0 +1,184 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<script th:src="@{/wx/js/echarts-all.js}"></script>
+	<script th:src="@{/wx/js/echarts.min.js}"></script>	
+	<style type="text/css">
+		.list_item_detail_column_value{width:60%}
+    </style>	
+	<script src="/wx/js/jquery-ui.js"></script>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">作业量明细</span> 
+   	</div>
+   	<div class="app_content">		
+		<div style="margin: 15px;background: white;">
+	    	<table style="width:100%;font-size: 14px;" cellspacing="0">
+		    	<tr >
+		    		<td class="list_item_detail_column_title"  colspan="3">公司</td>
+		    		<td class="list_item_detail_column_value" id="COMPANY_NAM"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title"  colspan="3">月份</td>
+		    		<td class="list_item_detail_column_value" id="MONTH_TITLE" ></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title"  colspan="3">合计(TEU)</td>
+		    		<td class="list_item_detail_column_value" id="TOT_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="5">内贸<br/>(TEU)</td>
+		    		<td class="list_item_detail_column_title" colspan="2">小计</td>
+		    		<td class="list_item_detail_column_value" id="D_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="2">进口</td>
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" id="DIE_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" id="DIF_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="2">出口</td>
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" id="DEE_TEU"></td>
+		    	</tr>
+		    	
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" id="DEF_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="5">外贸<br/>(TEU)</td>
+		    		<td class="list_item_detail_column_title" colspan="2">小计</td>
+		    		<td class="list_item_detail_column_value" id="F_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="2">进口</td>
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" id="FIE_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" id="FIF_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="2">出口</td>
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" id="FEE_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" id="FEF_TEU"></td>
+		    	</tr>
+	    	</table> 
+			<div id="throughEchars4" style="height:300px;margin-top: 15px;"></div>		
+		</div>
+	</div>
+	<script type="text/javascript">
+/*<![CDATA[*/	
+	var code=getUrlParams("code");
+	var name=getUrlParams("name");
+	var begDte=getUrlParams("begDte");
+	var endDte=getUrlParams("endDte");
+	if(begDte==endDte){
+		$("#MONTH_TITLE").html(begDte.substring(0,4)+'年'+begDte.substring(4,6)+'月');
+	}else{
+		$("#MONTH_TITLE").html(begDte.substring(0,4)+'年'+begDte.substring(4,6)+'月'
+			+'-'+
+			endDte.substring(0,4)+'年'+endDte.substring(4,6)+'月'
+		);
+	}
+		
+	
+	var shipCorpData=new Array(),shipServiceData=new Array();
+     function loadThroughEchars(){
+ 		var throughputBuilder=new HdEzuiQueryParamsBuilder();
+ 		throughputBuilder.setOtherskeyValue("code",code);
+ 		throughputBuilder.setOtherskeyValue("begDte",begDte);
+		throughputBuilder.setOtherskeyValue("endDte",endDte);
+		throughputBuilder.setOtherskeyValue("account",localStorage.account);
+ 		var xAxisData=[];
+ 		var seriesData=[];
+ 		$.showLoading();	
+ 		jQuery.axs("/webresources/wx/throughput/findDetail",throughputBuilder.build(), function(result){
+			 $.hideLoading();
+			 for(var key in result.data){  
+				 if(key=="COMPANY_NAM"){
+					 $('#'+key).html(result.data[key]);
+				 }else{
+					 var value=result.data[key]+'';
+					 if(value.indexOf(".")>0){
+						 $('#'+key).html(result.data[key]); 
+					 }else{
+						 $('#'+key).html(formatNum(result.data[key]));
+					 }
+					 
+				 }		      
+			 } 
+			document.getElementById("throughEchars4").style.height=100+result.data.echars.length*30+'px';
+	   		for(var i=0; i<result.data.echars.length;i++){
+	   			var echarsData=result.data.echars[i];
+	   			xAxisData.push(echarsData.PROC_MON);
+	   			seriesData.push(echarsData.TOT_TEU);
+	   		}
+			var throughOption4 = {
+					title: {
+				        text: '吞吐量月度趋势图'
+				    },
+				    color: ['#3398DB'],
+				    grid: {
+				        left: '3%',
+				        right: '5%',
+				        bottom: '10%',
+				        containLabel: true
+				    },
+				    yAxis : [
+				        {
+// 				        	axisLabel: {
+// 			        			rotate: 30,
+// 			        			interval:0,
+// 			        		},	
+				            type : 'category',
+				            data : xAxisData,
+				            axisTick: {
+				                alignWithLabel: true
+				            }
+				        }
+				    ],
+				    xAxis : [
+				        {
+				            type : 'value',
+				            axisLabel: {
+			        			rotate: 30,
+			        			interval:0,
+			        		},
+				        }
+				    ],
+				    series : [
+				        {
+				            type:'bar',
+				            barWidth: '60%',
+				            data:seriesData
+				        }
+				    ]
+				};
+			var throughEchars4=echarts.init(document.getElementById("throughEchars4"));
+			throughEchars4.setOption(throughOption4);
+		});
+ 	 } 
+	 $(document).ready(function() {	
+		 loadThroughEchars();
+	 });
+     /*]]>*/    
+	</script>
+</div>
+</body>
+</html>

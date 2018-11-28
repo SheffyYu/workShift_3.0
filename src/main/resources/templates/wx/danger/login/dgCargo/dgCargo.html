@@ -1,0 +1,59 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/dgModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">	
+	<style>
+	  #dgCargoList{font-size:12;}
+      .title{color: #333333;font-weight:bold;font-size:20;!important;}
+      .little_title{font-size:16;!important;}
+      .desc{font-size:12;!important;}
+      
+    </style>
+    <div class="app_header">
+   		<a  onClick="javascript :history.back(-1);">
+   			<img src="/wx/images/back.png"  class="app_head_back" border="0" title="返回上一页"/>
+   		</a>
+   		<div class="app_head_title" id="title" >危货知识</div> 
+   	</div>
+   	<div class="app_content">
+		<div id="dgCargoList">
+			
+		</div>
+	</div>
+    <script type="text/javascript"> 
+    var dgCargoBuilder=new HdEzuiQueryParamsBuilder();
+	$(document).ready(function() {
+		$.showLoading();
+		jQuery.axs("/webresources/wx/dg/dgCargo/findDgCargoList", dgCargoBuilder.build(), function(result){
+			var html="";
+			$.hideLoading();
+			 /*<![CDATA[*/
+			for(var i=0;i<result.rows.length;i++){
+				var data=result.rows[i];
+			 	html+='<div class="weui-panel weui-panel_access">'
+			 		+' 	<div class="title weui-panel__hd">'+data.CARGO_NAM+'</div>'
+        			+'	<div class="weui-media-box__bd">';
+        			for(var j=0;j<data.CONT.length;j++){
+        				var datacon=data.CONT[j];
+        				html+='<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">'
+        				+'<div class="weui-media-box__bd">'
+        				+'<div class="little_title weui-media-box__title">'+datacon.STD_NAM+'</div>'
+        				+'<p class="weui-media-box__desc desc">'+datacon.STD_OBJ+'</p>'
+        				+'</div>'
+        				+'</a>';
+        			}
+        		html+='</div></div>';
+			}
+			 /*]]>*/
+			$("#dgCargoList").html(html);
+		});		
+	});	
+    
+	</script>	
+</div>
+</body>
+</html>

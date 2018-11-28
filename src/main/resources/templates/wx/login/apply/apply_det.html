@@ -1,0 +1,127 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style type="text/css">
+		.text-title {
+			font-size: 14px;
+			width: 30%;
+			text-align: right;
+		}
+		.text-content {
+			font-size: 14px;
+		}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">申请审批</span> 
+   	</div>
+   	<div class="app_content" >
+	    <div style="background: white;padding: 15px;">
+		    <table style="width: 100%" >
+		    	<tr>
+		    		<td class="text-title">申请编号：</td>
+		    		<td class="text-content" id="APPLY_NO"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="text-title">申请日期：</td>
+		    		<td class="text-content" id="APPLY_DTE"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="text-title">申&ensp;请&ensp;人：</td>
+		    		<td class="text-content" id="APPLY_NAM"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="text-title">详细信息：</td>
+		    		<td class="text-content" id="CONTXT"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="text-title">审批状态：</td>
+		    		<td class="text-content" id="APPR_DESC"></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="text-title">退回原因：</td>
+		    		<td class="text-content" id="REJECT_RESN"></td>
+		    	</tr>
+		    </table>
+		    <div class="weui-row weui-no-gutter" style="padding-top: 15px;">
+				<div class="weui-col-50 " style="padding-right: 10px;">
+					 <a href="javascript:;" class="weui-btn weui-btn_default" onclick="applyConfirm()">审批</a>
+				</div>
+				<div class="weui-col-50 " style="padding-left: 10px;">
+					 <a href="javascript:;" class="weui-btn weui-btn_default"  onclick="applyReturn()">退回</a>
+				</div>
+			</div>	
+		</div>
+		
+    </div>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+    var applyBuilder=new HdEzuiQueryParamsBuilder();
+    applyBuilder.setOtherskeyValue("account",localStorage.account)
+    $(document).ready(function() {
+    	loadVwApplication();  	
+	});   
+    function loadVwApplication() {   
+    	
+        applyBuilder.setOtherskeyValue("applyId",getUrlParams("applyId"));
+    	$.showLoading();
+		jQuery.axs("/webresources/wx/findApplyDetail", applyBuilder.build(), function(result){
+			var html="";
+			$.hideLoading();		 
+			if(result.rows.length>0){
+				var data=result.rows[0];
+				for(var key in data){  
+				    $('#'+key).html(data[key]);  
+				} 
+			}			
+		});		
+	}
+    function applyConfirm() { 
+		$.confirm("", "您确定要审批吗?", function() {//确认
+			$.showLoading("正在审批中...");			
+			jQuery.axs("/webresources/wx/apply/confirm", applyBuilder.build(), function(result){
+				$.hideLoading();
+				if(result){
+					$.toast("审批成功");
+					loadVwApplication();
+				}else{
+					$.toast("取消失败", "cancel");
+				}
+				
+			});		
+        }, function() {//取消
+        });
+	}
+    function applyReturn() { 
+   		$.prompt({
+            text: "",
+            title: "请输入退回原因",
+            onOK: function(text) {
+              	//$.alert("您的名字是:"+text, "角色设定成功");
+              	$.showLoading("正在退回中...");	
+              	applyBuilder.setOtherskeyValue("rejectResn",text);
+  				jQuery.axs("/webresources/wx/apply/return", applyBuilder.build(), function(result){
+  				$.hideLoading();
+  				if(result){
+  					$.toast("退回成功");
+  					loadVwApplication();
+  				}else{
+  					$.toast("退回失败", "cancel");
+  				} 				
+  			});	
+            },
+            onCancel: function() {
+            },
+            input: ''
+        });
+	}
+    /*]]>*/
+	</script>		 
+</div>
+</body>
+</html>

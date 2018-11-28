@@ -1,0 +1,84 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+<style>
+.list_item_detail_column_value{width:60%;}
+</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">驳船详请</span> 
+   	</div>
+   	<div class="app_content">
+    <div style="margin: 15px;">
+	    <table  style="font-size: 14px;width:100%" cellspacing="0">
+	    	<tr >
+				<td class="list_item_detail_column_title">公司</td>
+				<td class="list_item_detail_column_value" id="CN_COMPANY_NAM"></td>
+			</tr>
+			<tr >
+				<td class="list_item_detail_column_title">船名</td>
+				<td class="list_item_detail_column_value" id="CN_SHIP_NAM"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >进口航次</td>
+				<td class="list_item_detail_column_value" id="IM_VOYAGE"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >出口航次</td>
+				<td class="list_item_detail_column_value" id="EX_VOYAGE"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >泊位</td>
+				<td class="list_item_detail_column_value" id="BERTH_COD"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >预计到港</td>
+				<td class="list_item_detail_column_value" id="ETA"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >靠泊时间</td>
+				<td class="list_item_detail_column_value" id="RTB"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >预计离泊</td>
+				<td class="list_item_detail_column_value" id="ETD"></td>
+			</tr>
+			<tr>
+				<td class="list_item_detail_column_title" >船舶状态</td>
+				<td class="list_item_detail_column_value" id="STAT"></td>
+			</tr>
+		</table>
+    </div>
+    </div>
+    <script type="text/javascript">  
+	 $(document).ready(function() {
+	 	loadShipSchedule();				
+	 });
+	 function loadShipSchedule(){			
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("companyCod",getUrlParams("company"));
+			tempBuilder.setOtherskeyValue("shipVisitNo",getUrlParams("no"));
+			$.showLoading();
+			jQuery.axs("/webresources/wx/barges/findDet",
+				tempBuilder.build(), 
+				function(result){
+					$.hideLoading();
+					var data;
+					if(result.data.length>0){
+					 data=result.data[0];
+					}
+					for(var key in data){  
+					   $('#'+key).html(isNull(data[key]));  
+					} 
+			 	}
+			);
+		}
+	</script>	
+</div>
+</body>
+</html>

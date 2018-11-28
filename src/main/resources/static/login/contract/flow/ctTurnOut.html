@@ -1,0 +1,233 @@
+<script type="text/javascript"> 
+	$(function(){ 
+		
+		initContranctTree();
+		
+        var dataGrid = $("#dgUserContranct");
+        dataGrid.datagrid({
+            method: "post",
+            pagination: true,
+            singleSelect: true,
+            rownumbers: true,
+            pageSize: 20,
+            fit: true,
+            fitColumns: false,
+            columns: [[
+            	 {field: "userId", hidden:true},
+                 { field: "name", title: "姓名", multiSort: true, halign: "center", sortable: true },
+                 {field: "account", title: "帐号", multiSort: true, halign: "center",sortable: true}
+            ]],
+            onDblClickRow:function (index,row) {
+            	if($("#ckInput").prop('checked')){
+	            	$("#iptAskName").val(row.name);
+	            	$("#iptAskCod").val(row.account);
+	            	$("#ckInput").prop("checked",false);
+            	}else{
+	            	$("#iptAcceptName").val(row.name);
+	            	$("#iptAcceptCod").val(row.account);
+	            	$("#ckInput").prop("checked",true)
+            	}
+            }
+        });
+        //赋值form表单合同信息。
+        if(contranctData)
+        {
+        	$("#iptContranctCod").val(contranctData.contractNo);
+        	$("#iptContranctNam").val(contranctData.contractNam);
+        }
+        
+		$('#fmContanct').form({
+			  success:function(data){
+				
+			  	$.messager.alert('Info', data, 'info');
+			 }
+		 });
+	});
+	
+	
+	//初始化树
+	function initContranctTree()
+	{
+		 $('#treeTurnContanct').tree({
+	          method: "get",
+	          url: "../webresources/login/TenantOrgn/vj/myFindAllForTree?s="+Math.random(),    
+	          loadFilter: LoadOrgnFilter  
+	        }); 
+	}
+	//树的过滤
+	function LoadOrgnFilter(data, parent) {
+   	     var state = $.data(this, 'tree');
+         function setData() {
+             var serno = 1;
+             var todo = [];
+             for (var i = 0; i < data.length; i++) {
+                 todo.push(data[i]);
+             }
+             while (todo.length) {
+                 var node = todo.shift();
+                  if (node.type==='TENANT') {
+                     node.iconCls = "hd-orgtree-folder";
+                 } else if (node.type==='ORGN') {
+                     node.iconCls = "hd-orgtree-file";
+                 }
+                 if (node.id == undefined) {
+                     node.id = '_node_' + (serno++);
+                 }
+                 if(node.level<3){
+                   if (node.children) {
+                     node.children1 = node.children;
+                     todo = todo.concat(node.children1);
+                 }   
+                 }else{
+                     if (node.children) {
+                     node.state = 'closed';
+                     node.children1 = node.children;
+                     node.children = undefined;
+                     todo = todo.concat(node.children1);
+                 } 
+                 }
+                    
+             }
+             state.tdata = data;
+         }
+         
+         function find(id) {
+             var data = state.tdata;
+
+             var cc = [data];
+             while (cc.length) {
+                 var c = cc.shift();
+                 for (var i = 0; i < c.length; i++) {
+                     var node = c[i];
+                     if (node.id == id) {
+                         return node;
+                     } else if (node.children1) {
+                         cc.push(node.children1);
+                     }
+                 }
+             }
+             return null;
+         }
+         setData();
+         var t = $(this);
+         var opts = t.tree('options');
+         opts.onBeforeExpand = function (node) {
+             var n = find(node.id);          
+             if (n.children && n.children.length) {
+                 return
+             }
+             if (n.children1) {
+                 var filter = opts.loadFilter;
+                 opts.loadFilter = function (data) {
+                     return data;
+                 };
+                    t.tree('append', { 
+                     parent: node.target,
+                     data: n.children1
+                 }); 
+                 
+                 opts.loadFilter = filter;
+                 n.children = n.children1;
+             }
+
+         };
+
+         opts.onClick = function (node) {
+             var hdConditions = new HdEzuiQueryParamsBuilder();
+             if (node.type === 'TENANT') {
+                 $("#AuthUserToolBar a[iconCls='icon-add']").linkbutton('disable');
+                 hdConditions.setAndClause("tenantId_tenantId", node.tenantId, "=", "AND");
+             } else if (node.type === 'ORGN') {
+                 $("#AuthUserToolBar a[iconCls='icon-add']").linkbutton('enable');
+                 hdConditions.setAndClause("tenantId_tenantId", node.tenantId, "=", "AND");
+                 hdConditions.setAndClause("orgnId_orgnId", node.orgnId, "=", "AND");
+             } else {
+                 return;
+             }
+             var queryParams = hdConditions.build();
+      
+             $('#dgUserContranct').datagrid({
+           	  url: "../webresources/login/AuthUser/find?t="+Math.random(),
+                 queryParams: queryParams
+             });
+         };
+         opts.onLoadSuccess = function (node) {
+         }
+         return data;
+     }
+
+
+</script> 
+<div class="easyui-layout" style="width:100%; height:100%;">
+	<div data-options="region:'west',split:false"   style="width:420px;height:100%;">
+		
+		<div class="easyui-layout" style="width:100%; height:100%;">
+			<div data-options="region:'center',split:false"  >
+				<div>
+					<ul id="treeTurnContanct" ></ul>
+				</div>
+				
+			</div>
+			<div data-options="region:'south',split:false" style="height:280px;">
+				<table id="dgUserContranct"></table>
+			</div>	 
+		</div>
+	
+	</div>
+    <div data-options="region:'center',split:false" fit="true">
+     	<form id="fmContanct" style="margin: 5px;" method="POST" enctype="multipart/form-data"  
+     			action="../webresources/login/ContractFlow/turnOutAsk" target="message" >
+     		<table >
+     		     <tr>
+     				<td style="padding: 5px;">合同号：</td>
+     				<td>
+     					<input id="iptContranctCod" name="iptContranctCod" type="text" readOnly="true" style="width: 120px;"/>
+     				</td>
+     				<td>合同名称：</td>
+     				<td>
+     					<input id="iptContranctNam" name="iptContranctNam" type="text" readOnly="true" style="width: 120px;" />
+     				</td>
+     			</tr>
+     			<tr>
+     				<td style="padding: 5px;">审批人：</td>
+     				<td>
+     					<input id="iptAskName" name="askName" type="text" readOnly="true" style="width: 120px;"/>
+     					<input id="iptAskCod" name="askCode" type="hidden"/>
+     					<label>《</label>
+     					<input id="ckInput" type="checkbox" checked="checked"/>
+     				</td>
+     				<td>接受人：</td>
+     				<td>
+     					<input id="iptAcceptName" name="acceptName" type="text" readOnly="true" style="width: 120px;"/>
+     					<input id="iptAcceptCod" name="acceptCod" type="hidden"/>
+     				</td>
+     			</tr>
+     			<tr>
+     				<td style="padding: 5px;">描述：</td>
+     				<td colspan="3">
+     					<textarea id="iptDes" name="iptDes" rows="9" cols="49"></textarea>
+     				</td>
+     			</tr>
+     			<tr>	<td colspan="4" style="padding: 5px;">&nbsp;</td></tr>
+     			<tr>	<td colspan="4" style="padding: 5px;">文件信息：</td></tr>
+     			<tr>
+     			<td style="padding: 5px;">附件</td>
+     				<td colspan="3">
+     					<input type="file" id="iptFile"  name="iptFile" style="width:100%"/>   					
+     				</td>
+     			</tr>
+     			<tr>
+     			<td style="padding: 5px;">附件信息：</td>
+     				<td colspan="3">
+     					<textarea id="iptDex1" name="iptDex1" rows="9" cols="49"></textarea>
+     				</td>
+     			</tr>
+     			<tr>
+	     			<td colspan="4" align="center" style="padding: 5px;">
+	     				<input type="submit"  value="提交申请"/>
+	     			</td>
+     			</tr>
+     		</table>
+     	</form>
+    </div>
+</div>

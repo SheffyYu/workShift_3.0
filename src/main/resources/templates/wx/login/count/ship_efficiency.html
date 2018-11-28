@@ -1,0 +1,173 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<link rel="stylesheet" href="/wx/css/style.css" media="screen" type="text/css" />
+	<script src="/wx/js/accordion.js"></script>
+	<style type="text/css">
+		.list_item_column_value{width:60%}		
+	</style> 
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">船时效率</span> 
+   	</div>
+   	<div class="app_content">
+   		<div class="weui-flex" style="margin-top: 15px;line-height: 2.3em;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="date" style="text-align: center;"/>	          		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;/*display: none*/" id="endDte_layout">			      		
+	      		<input class="weui-input" id="endDte" type="date" style="text-align: center;"/>			      		
+	      	</div>
+	    </div>
+	    <a href="javascript:;" class="weui-btn weui-btn_default" id="btn_query" style="margin-top: 5px;">查询</a>  
+		<div id="accordion" class="accordion">
+	    	<ul style="margin-bottom: 5px;">
+	    		<li class="open">
+	    			<div class="link" >南沙一期<span id="NCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>	    				
+					</div>					
+					<ul class="submenu" style="display: block;">
+						<li>								
+							<div class="weui-cell_access througth_content_item"  style="padding: 0px;" id="NCT_barges_list"></div>						
+						</li>									
+					</ul>			
+				</li>				
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙二期<span id="GOCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>						
+							<div class="weui-cell_access througth_content_item"  style="padding: 0px;" id="GOCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙三期<span id="NICT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>							
+							<div class="weui-cell_access througth_content_item"  style="padding: 0px;" id="NICT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">新沙公司<span id="XSCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>							
+							<div class="weui-cell_access througth_content_item"  style="padding: 0px;" id="XSCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">GCT<span id="GCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li >							
+							<div class="weui-cell_access througth_content_item"  style="padding: 0px;" id="GCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>	
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">黄埔公司<span id="HPCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li >							
+							<div class="througth_content_item"  style="padding: 0px;" id="HPCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>    	
+	    </div> 
+    </div>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+    	$("#begDte").val(getNowDay());
+		$("#endDte").val(getNowDay());
+    	loadShipEfficiency();
+    	$("#btn_query").click(function (){			
+    		loadShipEfficiency();		
+		});
+	 });
+    var efficieneyBuilder=new HdEzuiQueryParamsBuilder();
+    function loadShipEfficiency() {
+    	var begDte=$("#begDte").val().replace(/-/g,"");
+		var endDte=$("#endDte").val().replace(/-/g,"");
+		if(begDte>endDte){
+			 $.alert("开始时间必须小于结束时间！");
+			 return ;
+		}
+		var builder=new HdEzuiQueryParamsBuilder();
+		builder.setOtherskeyValue("begDte",begDte);
+		builder.setOtherskeyValue("endDte",endDte);
+		builder.setOtherskeyValue("account",localStorage.account);
+    	$.showLoading();
+		jQuery.axs("/webresources/wx/findShipEfficiendy",
+			 builder.build(), 
+		     function(result){
+				 $.hideLoading();
+				 var html="";			 
+				 for(var i=0;i<result.data.header.length;i++){
+				 	var data=result.data.header[i];
+				 	$("#"+data.COMPANY_COD+"_Heard").html('（共'+data.SHIP_NUM+'艘）');
+				 	$("#"+data.COMPANY_COD+"_barges_list").html('');
+				 }
+				 for(var i=0;i<result.data.list.length;i++){
+					var data=result.data.list[i];
+					html=
+						'<table class="twoTable">'+
+						'	<tr  >'+
+						'		<td colspan="2" class="twoTableHeader" >'+data.CN_SHIP_NAM+'('+data.EN_SHIP_NAM+')</td>'+
+						'	</tr>'+
+						'	<tr>'+
+						'		<td class="list_item_column_title" >航次：</td>'+
+						'		<td class="list_item_column_value">'+data.IM_VOYAGE+'/'+data.EX_VOYAGE+'</td>'+
+						'	</tr>'+
+						'	<tr>'+
+						'		<td class="list_item_column_title" >船时效率(自然箱)：</td>'+
+						'		<td class="list_item_column_value">'+isNull(data.EFFIC_UNIT)+'</td>'+
+						'	</tr>'+
+						'	<tr><td class="list_item_column_title" >船时效率(TEU)：</td>'+
+						'		<td class="list_item_column_value">'+isNull(data.EFFIC_TEU)+'</td>'+
+						'	</tr><tr><td class="list_item_column_title" >船时效率(MOVE)：</td>'+
+						'		<td class="list_item_column_value">'+isNull(data.EFFIC_MOVE)+'</td>'+
+						'	</tr><tr><td class="list_item_column_title" >作业桥吊：</td>'+
+						'		<td class="list_item_column_value">'+isNull(data.CRANE)+'</td>'+
+						'	</tr>'+
+						'</table>';
+					$("#"+data.COMPANY_COD+"_barges_list").append(html);
+				 }		
+		 	}
+		 ) ;
+	}
+    /*]]>*/
+	</script>	
+</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+	.list_item_column_title{width:20%;}
+	.list_item_column_value{width:20%;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">堆场利用率</span> 
+   	</div>
+   	<div class="app_content">
+		<ul id="accordion" class="weui-cells" style="margin-left: 15px;margin-right: 15px;">
+		</ul>
+	</div>
+  	<script src="/wx/js/accordion.js"></script>
+  	<script th:src="@{/wx/js/echarts-all.js}"></script>
+	<script th:src="@{/wx/js/echarts.min.js}"></script>
+  	<script type="text/javascript">
+  	/*<![CDATA[*/
+  	$(document).ready(function() {	 
+  		loadYard(); 		
+	});
+  	function loadYard(){
+		$.showLoading();
+		jQuery.axs("/webresources/wx/findShipYard",null, function(result){
+			 $.hideLoading();
+			 if(result.data.length==0){
+				 $.alert("暂无数据！");
+				 $("#shipData").html(html);
+				 return ;
+			 }
+			 var html="";
+			
+			 for(var i=0;i<result.data.length;i++){
+				var yardData=result.data[i];
+			 	html+=
+			 		'<div class="weui-cell weui-cell_access througth_content_item"  style="padding: 0px;">'+
+					'	<table style="width:100%">'+
+					'		<tr style="background: #7C9EE4;color: white;font-size: 16px"  >'+
+					'			<td colspan="2">'+		yardData.COMPANY_NAM+'&nbsp;&nbsp;堆场利用率：'+isNull(yardData.USAGE_RATE)+'%'+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >空箱TEU：</td>'+
+					'			<td class="list_item_column_value">'+(yardData.DE_TEU+yardData.FE_TEU)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >重箱TEU：</td>'+
+					'			<td class="list_item_column_value">'+(yardData.DF_TEU+yardData.FF_TEU)+'</td>'+
+					'		</tr>'+
+					'		<tr><td class="list_item_column_title" >在场箱总TEU：</td>'+
+					'			<td class="list_item_column_value">'+yardData.TOTAL_TEU+'</td>'+
+					'		</tr><tr><td class="list_item_column_title" >堆存容量TEU：</td>'+
+					'			<td class="list_item_column_value">'+isNull(yardData.CAPACITY_TEU)+'</td>'+
+					'		</tr>'+
+					'		<tr >'+
+					'			<td  colspan="2" ><div id="yard_ecahrs'+i+'" style="height:110px;" ></div></td>'+
+					'		</tr>'+
+					'	</table>'+
+					'</div>';
+			 }
+			
+			$("#accordion").html(html);
+			 for(var i=0;i<result.data.length;i++){
+				 var yardData=result.data[i];			
+			 	initTransportEchars("yard_ecahrs"+i,yardData);
+			 }
+			
+		 }) ;
+	}
+  	/**
+     * id  echars控件Id
+     * lcRat  本地比重
+     * tsRat  中转比重
+     */
+     function initTransportEchars(id,data){
+     	var option = {
+   		    series: [
+   		        {
+   		            name: '比重',
+   		            type: 'gauge',
+   		            startAngle: 180,
+   		            endAngle: 0,
+   		         	splitNumber:4,
+   		         	slient:false,
+                    radius: 90,//半径                  
+                    center: ['50%', '90%'],
+   		            data: [{value: data.USAGE_RATE}]
+   		        }
+   		    ]
+   		};
+     	var yardECharts=echarts.init(document.getElementById(id));
+     	yardECharts.setOption(option);
+     }
+     /*]]>*/
+  </script>  
+</div>
+</body>
+</html>

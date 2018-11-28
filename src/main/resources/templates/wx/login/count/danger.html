@@ -1,0 +1,63 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<style>
+	.list_item_detail_column_title{text-align: center;}
+	table{width: 100%;line-height: 30px;font-size: 14px;}
+	td{width: 25%}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">危品箱统计</span> 
+   	</div>
+	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+		<div id="danger_list" style="padding-top: 15px;padding-bottom: 15px;">
+		</div>	
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		$.showLoading();
+		jQuery.axs("/webresources/wx/danger/findAll",null, 
+			function(result){
+			 	$.hideLoading();
+			 	var html="";
+			 	for(var i=0;i<result.data.length;i++){
+					var data=result.data[i];
+					html+=
+				 		'<a class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;" href="/wx/init/login/dangerDet?company='+data.COMPANY_COD+'#" >'+
+						'	<table  class="twoTable" >'+
+						'		<tr  class="twoTableHeader">'+
+						'			<td colspan="4">'+data.COMPANY_NAM+' 在场箱：'+isNull(data.TEU_NUM)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >本地：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.TRANS0_NUM)+'</td>'+
+						'			<td class="list_item_column_title" >内贸：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.TRADE_D_NUM)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >中转：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.TRANS1_NUM)+'</td>'+
+						'			<td class="list_item_column_title" >外贸：</td>'+
+						'			<td class="list_item_column_value">'+isNull(data.TRADE_F_NUM)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td colspan="4" class="list_item_next_title" >详细信息>></td>'+
+						'		</tr>'+
+						'	</table>'+
+						'</a>';
+				 }
+			 	$("#danger_list").html(html);
+			}
+		);
+	});
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

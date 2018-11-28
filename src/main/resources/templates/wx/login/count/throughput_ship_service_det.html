@@ -1,0 +1,121 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+
+<body class="app_background">
+<div th:fragment="content" th:remove="tag" > 
+    <style type="text/css">
+	.list_item_detail_column_title{width:20%}
+    </style>
+    <div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">作业量明细</span> 
+   	</div>
+    <div class="app_content" >
+    	<div style="background: white; margin: 15px;">
+		    <table style="width:100%;font-size: 14px;" cellspacing="0">
+		    	<tr>
+		    		<td class="list_item_detail_column_title" colspan="2" id="month_title">公司</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="COMPANY_NAM" ></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="list_item_detail_column_title" colspan="2">月度</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="MONTH_TITLE" ></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="list_item_detail_column_title" colspan="2" id="month_title">航线</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="SHIP_SERVICE_NAM" ></td>
+		    	</tr>
+		    	<tr>
+		    		<td class="list_item_detail_column_title" colspan="2">合计(TEU)</td>
+		    		<td class="list_item_detail_column_value" id="TOT_TEU" colspan="2"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="3">进口<br/>(TEU)</td>
+		    		<td class="list_item_detail_column_title">小计</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="I_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="IE_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="IF_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title" rowspan="3">出口<br/>(TEU)</td>
+		    		<td class="list_item_detail_column_title">小计</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="E_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">空箱</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="EE_TEU"></td>
+		    	</tr>
+		    	<tr >
+		    		<td class="list_item_detail_column_title">重箱</td>
+		    		<td class="list_item_detail_column_value" colspan="2" id="EF_TEU"></td>
+		    	</tr>
+		    </table> 
+	    </div>
+	</div> 	
+	<script type="text/javascript"> 
+	 /*<![CDATA[*/ 	
+	var company=getUrlParams("company");
+	var service=getUrlParams("service");
+	var begDte=getUrlParams("begDte");
+	var endDte=getUrlParams("endDte");
+	if(begDte==endDte){
+		$("#MONTH_TITLE").html(begDte.substring(0,4)+'年'+begDte.substring(4,6)+'月');
+	}else{
+		$("#MONTH_TITLE").html(begDte.substring(0,4)+'年'+begDte.substring(4,6)+'月'
+			+'-'+
+			endDte.substring(0,4)+'年'+endDte.substring(4,6)+'月'
+		);
+	}
+	$(document).ready(function() {
+		loadThrough();
+	});	
+	function loadThrough(){
+		var throughputBuilder=new HdEzuiQueryParamsBuilder();
+		throughputBuilder.setOtherskeyValue("company",company);
+		throughputBuilder.setOtherskeyValue("shipServiceCod",service);
+		throughputBuilder.setOtherskeyValue("begDte",begDte);
+		throughputBuilder.setOtherskeyValue("endDte",endDte);
+		throughputBuilder.setOtherskeyValue("account",localStorage.account);
+		var xAxisData=[];
+		var seriesData=[];
+		$.showLoading();	
+		jQuery.axs("/webresources/wx/throughput/findShipServiceDet",throughputBuilder.build(), 
+			function(result){		 	
+			 	$.hideLoading(); 
+			 	
+			 	for(var i=0;i<result.data.length;i++){
+			 		var data=result.data[i];
+			 		for(var key in data){
+			 			if(key=="COMPANY_NAM"||key=="SHIP_SERVICE_NAM"){
+							 $('#'+key).html(data[key]);
+						}else if(key=="PROC_MON"){
+							 var procMonth=data[key].substring(0,4)+'年'+data[key].substring(4,6)+"月";
+							 $('#'+key).html(procMonth);				
+						}else{
+							 var value=data[key]+'';
+							 if(value.indexOf(".")>0){
+								 $('#'+key).html(data[key]); 
+							 }else{
+								 $('#'+key).html(formatNum(data[key]));
+							 }
+						}	
+				 	}
+			 	}
+			 	
+			}
+		);
+	} 
+	/*]]>*/		
+	</script>
+</div>
+</body>
+</html>

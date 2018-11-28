@@ -1,0 +1,124 @@
+@charset "utf-8";
+.tabs
+ {
+  /*border-color: #f5f5f5;*/
+  border:0px;
+}
+
+.tabs-header
+{
+  /*border-color: #f5f5f5;*/
+  border:0px;
+}
+
+.tabs li a.tabs-inner2
+{
+  border-color: #446da3;
+  /*border-bottom:1px solid #f5f5f5;*/
+}
+.tabs li a.tabs-close {
+  background: url('images/tabs_icons1.png') no-repeat -34px center;}
+  
+/*.tabs li a.tabs-close:hover {
+  background: url('../themes/gray/images/tabs_icons.png') no-repeat -34px center;}*/
+
+.tabs li.tabs-selected a.tabs-close { background: url('images/tabs_icons.png') no-repeat -34px center;}
+
+.tabs-header2
+{
+  background-color: #446da3;
+}
+
+.tabs li a.tabs-inner2 {
+  color: #bacded;
+  background-color: #f5f5f5;
+  background: -webkit-linear-gradient(top,#6183b1 0,#6183b1 100%);
+  background: -moz-linear-gradient(top,#6183b1 0,#6183b1 100%);
+  background: -o-linear-gradient(top,#6183b1 0,#6183b1 100%);
+  background: linear-gradient(to bottom,#6183b1 0,#6183b1 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F8F8F8,endColorstr=#eeeeee,GradientType=0);
+}
+
+.tabs-tool
+ {
+  border-bottom:0px; background-color:transparent;
+}
+
+.tabs-wrap2 {
+  position: relative;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color:#456ca3;
+}
+/*向左向右的箭头*/
+.tabs-scroller-left,
+.tabs-scroller-right {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  width: 18px;
+  height: 30px !important;
+  height: 30px;
+  font-size: 1px;
+  display: none;
+  cursor: pointer;
+  border-width: 0px;
+}
+
+.tabs-scroller-left{
+  background: /*#d7dde6*/ url('images/tabs_icons1.png') no-repeat 1px center; border: 0px;}
+
+.tabs-scroller-right {
+  background: /*#d7dde6*/ url('images/tabs_icons1.png') no-repeat -15px center; border: 0px;}
+.tabs-scroller-over {
+  background-color: transparent;
+}
+
+/*查询条件下面线*/
+.datagrid-toolbar {
+  height: auto;
+  padding: 1px 2px;
+  border-width: 0 0 0px 0;
+  border-style: solid;
+  padding:5px 0px;
+}
+/*小按钮上下位置*/
+.datagrid-toolbar1 {
+  height: auto;
+  padding: 1px 2px;
+  border-width: 0 0 0px 0;
+  border-style: solid;
+  padding:0px 0px;
+}
+/*调状态栏位置*/
+.panel-header {
+  padding: 5px;
+  padding-bottom:8px;
+  position: relative;
+}
+/*内容区的左右边距*/
+.datagrid .panel-body {
+  overflow: hidden;
+  position: relative;
+  padding:5px;
+  padding-bottom:0px;
+}
+
+.datagrid-view {/*上左右表格线*/
+  position: relative;
+  overflow: hidden;
+  border-left:1px solid #ddd;
+  border-right:1px solid #ddd;
+  border-top:1px solid #ddd;
+}
+
+.datagrid-toolbar,
+.datagrid-pager {  
+  text-align:right;/*按钮位置靠右*/
+  padding-right:0px;
+  padding-top:0px !important;
+}

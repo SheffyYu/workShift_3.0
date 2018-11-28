@@ -1,0 +1,144 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 16px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+    .divbutton{
+    	margin:0 auto; width:150px; height:30px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+    	var buildContract=new HdEzuiQueryParamsBuilder();
+    	var admin=$.main.loginOper;
+    	buildContract.setAndClause("signatory",admin.account,"=","and");//经办人
+    	$("#contractStat1493177848650").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_STAT'},{required:false, width:131,editable:true}));
+    	//$("#contractTyp1493177848650").combobox(HdUtils.code.scode({fieldCod: 'CONTRACT_TYP'},{required:false, width:131,editable:true}));
+    	$("#contractNam1493177848650").combogrid(HdUtils.code.contract({
+    		width:131,
+    		editable:true,
+    		queryParams: buildContract.build(),
+    		onSelect:function(index,row){
+    			$("#contractNo1493177848650").val(row.contractNo);
+    			//$("input[name='contractNo']").val(row.contractNo);
+    			$("#contractStat1493177848650").combobox("setValue",row.contractSat);
+    			$("#outAccount1493177848650").val(admin.account);
+    			$("#outAccountNam1493177848650").val(admin.name);
+    			$("#outDepartment1493177848650").val(row.signDepartment);
+    		}
+    	}));
+        var formObject = $("#ContractMoveForm1493177848650");
+        var dataObject = HdUtils.dialog3.getValue("data");
+        var dg = HdUtils.dialog3.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        
+        //关闭窗口
+ 		$("#closeApply1493177848650").on("click",function(){
+ 			HdUtils.dialog3.close();
+        });
+        //复核申请
+        $("#checkApply1493177848650").on("click",function(){
+        	 if(!$("#ContractMoveForm1493177848650").form("validate")){
+                 HdUtils.messager.info("请录入必填信息");
+                 return;
+             }
+        	var moveId = $("#moveId1493177848650").val();
+        	var inDate=$("#inDate1493177848650").datebox("getValue");
+        	var args={};
+        	args.moveId=moveId;
+        	args.inDate=inDate;
+        	$.ajax({
+     			url:"/webresources/login/ContractMove/modifyIsCheck",
+     			type: 'POST',//请求方式
+     			data:$.toJSON(args),
+     			dataType:"JSON",
+     			contentType: 'application/json',
+     			dataType: 'text',//响应信息格式
+     			success: function (data) {
+     				var jsonArray=$.parseJSON(data);
+     				if(jsonArray.code=="0x21000000"){//复核成功
+     					$("#ContractMoveDatagrid1493177848650").datagrid("hdReload");
+         				HdUtils.messager.bottomRight('复核成功！','提示');
+         				HdUtils.dialog3.close();
+     				}else{
+     					HdUtils.messager.bottomRight('复核失败！','提示');
+     				} 
+     				
+     		    }
+    		}); 
+        });
+    });
+</script>
+<!-- form 表单 -->
+<form id="ContractMoveForm1493177848650">
+    <table id="ContractMoveTable1493177848650" style="height:95%;width:80%" class="tableform">
+        <tr>
+            <th><font color="red">*</font>合同名称：</th>
+            <td><select disabled="disabled" id="contractNam1493177848650" name="contractNam"  style="width:131"></select></td>
+            <th>合同编号：</th>
+            <td><input id="contractNo1493177848650" name="contractNo"  disabled="disabled"/></td>
+        </tr>
+        <tr>
+        	<th>合同状态： </th>
+            <td><input disabled="disabled" id="contractStat1493177848650" name="contractStat"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        	<th>移出部门： </th>
+            <td><input disabled="disabled" id="outDepartment1493177848650" name="outDepartment"  data-options="required:true,validType:'length[1,50]'"  class="easyui-validatebox"/></td>
+        </tr>
+        <tr>
+            <th>移出人： </th>
+            <td><input disabled="disabled" id="outAccountNam1493177848650" name="outAccountNam" data-options="required:true,validType:'length[1,20]'"  class="easyui-validatebox"/></td>
+            <th>移出时间： </th>
+            <td><input disabled="disabled" id="outDate1493177848650" name="outDate" class="easyui-datebox"/></td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>移入部门： </th>
+            <td><input disabled="disabled" id="inDepartment1493177848650" name="inDepartment"/></td> 
+            <th><font color="red">*</font>移入人： </th>
+            <td><input disabled="disabled" id="inAccount1493177848650" name="inAccountNam"  /></td>
+                
+        </tr>
+        <tr>
+       	 	<th>移入时间： </th>
+       	 	<td><input  id="inDate1493177848650" name="inDate"  class="easyui-datebox" data-options="required:true"/></td>     
+        </tr>
+        <tr>
+        	<th>转移说明： </th>
+            <td colspan="3">
+            	<textarea disabled="disabled" rows="2" cols="3" style="width:400px;height:80px" name="description"></textarea>
+            </td>
+        </tr>
+        <tr>
+	    	<td colspan="4" align="center" valign="middle">
+        		<div class="divbutton">
+	        		<a class="easyui-linkbutton" id="checkApply1493177848650" plain="false">复核申请</a>
+		    		<a class="easyui-linkbutton" id="closeApply1493177848650" plain="false">关闭</a>
+        		</div>
+	    	</td>
+          
+        </tr>
+       
+            
+    </table>
+    		
+    	 	<input type="hidden" id="insAccount1493177848650" name="insAccount"  data-options="required:false" />
+            <input type="hidden" id="insTimestamp1493177848650" name="insTimestamp"  data-options="required:false"  />
+            <input type="hidden" id="updAccount1493177848650" name="updAccount"  data-options="required:false"  />
+            <input type="hidden" id="updTimestamp1493177848650" name="updTimestamp"  data-options="required:false" />
+            <input type="hidden" id="moveId1493177848650" name="moveId"  data-options="required:false"  class="easyui-validatebox"/>
+    		<input type="hidden" id="outAccount1493177848650" name="outAccount" />
+</form>

@@ -1,0 +1,199 @@
+<meta charset="UTF-8"/>
+<style type="text/css">
+    .getstartlink {
+        color:blue;
+        cursor:pointer;
+        text-decoration:underline;
+    }
+</style>
+<script type="text/javascript">
+function openOrDownload(url) {
+    window.open(url);
+}
+</script>
+<div style="margin: 10px;font-size:15px;color:black;">
+    <pre>
+&nbsp;&nbsp;&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;&nbsp;录
+<a href="#link0" style="color:blue;">0. 写在最前</a>
+<a href="#link1" style="color:blue;">1.	准备工作</a>
+<a href="#link11" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;1.1.JDK</a>
+<a href="#link12" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;1.2.Maven</a>
+<a href="#link13" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;1.3.GlassFish</a>
+<a href="#link14" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;1.4.NetBeans</a>
+<a href="#link15" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;1.5.Git</a>
+
+<a href="#link2" style="color:blue;">2.	开发环境搭建</a>
+<a href="#link21" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;2.1.启动并配置NetBeans</a>
+<a href="#link22" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;2.2.下载项目</a>
+<a href="#link23" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;2.3.构建和运行</a>
+
+<a href="#link3" style="color:blue;">3.	代码机使用</a>
+<a href="#link31" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;3.1.单表</a>
+<a href="#link32" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;3.2.多表</a>
+
+<a href="#link4" style="color:blue;">4.	典型用法示例</a>
+<a href="#link41" style="color:blue;">&nbsp;&nbsp;&nbsp;&nbsp;4.1.树-Tree</a>
+</pre>
+    <hr/>
+    <h1><a href="link0">0.  写在最前</a></h1>
+        <p>
+<br># 感谢事业部领导给予的大力支持，及各部门的支持，更感谢团队成员默默的努力付出。
+<br>* 项目总监：梁海玉
+<br>* 基础研发负责人：蔡永继
+<br>* 开发人员（按姓氏拼音）：【蔡永继、高阳阳、贺传勃、曲杰、王耸、肖君楠、徐希龙、杨熙栋】
+<br>【HDPF移植到iDev3】 蔡永继、高阳阳、徐希龙
+<br>【wbEzuiEx、wbUtils移植到hd-idev】 蔡永继
+<br>【曹妃甸原生sql移植】   贺传勃
+<br>【租户管理】 高阳阳
+<br>【组织管理】 徐希龙
+<br>【用户管理】 肖君楠
+<br>【角色管理】 曲杰
+<br>【权限管理】 王耸
+<br>【权限分配管理】 曲杰、杨熙栋
+<br>【参数管理】 肖君楠
+<br>【日志管理、访问日志管理】 杨熙栋、王耸
+<br>【代码生成器】 高阳阳、徐希龙
+<br>【下拉代码表管理】 贺传勃、杨熙东
+<br>【datagrid通用数据结构及操作机制】 贺传勃、蔡永继
+<br>【form表单通用数据结构及操作机制】 贺传勃、蔡永继
+<br>【窗口操作方法】 蔡永继
+<br>【弹出窗口多种方式】 蔡永继
+<br>【开发者指南】 蔡永继、高阳阳、贺传勃、曲杰、王耸、肖君楠(独立完成快速开发)、徐希龙、杨熙栋
+<br>
+<br># 相关网站
+<br>* DEMO网站：<a href="http://idev3.huadong.net:8088/hd-tpl-war">http://idev3.huadong.net:8088/hd-tpl-war</a>    账户：admin  密码：ok
+<br>* 华东wiki：<a href="http://wiki.huadong.net:81">http://wiki.huadong.net:81</a>
+<br># 技术框架：
+<br>* JPA               持久层，采用的eclipselink-2.5.1的JPA实现。
+<br>* EJB3              只用无状态BEAN。
+<br>* jersey    提供对象或Map的xml、json、jsonp的转换。
+<br>* POI               apche poi通用导出excel。
+<br>* JEasyUI   前端UI展现。
+</p>
+    <h1><a name="link1">1.	准备工作</a></h1>
+    <h2><a name="link11">1.1.	JDK</a></h2>
+    <p>
+JDK是框架编译和运行所必须的Java环境，使用7或以上版本。<br/>
+Windows 32位操作系统请下载：
+<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/JDK/jdk-7u72-windows-i586.exe')">JDK 32位系统安装版</span>
+或
+<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/JDK/jdk1.7.0_72_32bit.zip')">JDK 32位系统解压版</span>
+<br/>
+Windows 64位操作系统请下载：
+<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/JDK/jdk-7u72-windows-x64.exe')">JDK 64位系统安装版</span>
+或
+<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/JDK/jdk1.7.0_72_64bit.zip')">JDK 64位系统安装版</span>
+<br/>
+执行相应exe文件，根据提示默认安装即可。安装在“JAVA_HOME”。
+    </p>
+    <h2><a name="link12">1.2.	Maven</a></h2>
+    <pre>
+Maven是框架编译、发布的工具，使用3.1.1或以上版本。<br/>
+下载<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/Maven/apache-maven-3.1.1.zip')">Apache Maven 3.1.1</span>
+解压zip到“MAVEN_HOME”。
+    </pre>
+    <h2><a name="link13">1.3.	GlassFish</a></h2>
+    <p>
+GlassFish是系统运行的应用服务器，使用4.0版本。<br/>
+下载<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/GlassFish/glassfish-4.0.zip')">GlassFish 4.0</span><br/>
+解压zip到“GLASSFISH_HOME”。<br/>
+<i>
+注意，如果从官网下载4.0，需要用
+<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/GlassFish/nucleus-grizzly-all.jar')">nucleus-grizzly-all.jar</span>
+替换%GLASSFISH_HOME%\glassfish\modules\下的同名文件。
+</i>
+    </p>
+    <h2><a name="link14">1.4.	NetBeans</a></h2>
+    <pre>
+NetBeans是开发时所使用的IDE，使用8.0版本。
+下载<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/NetBeans/netbeans-8.0.1-javaee-windows.exe')">NetBeans 8.0</span>
+执行exe文件，根据提示默认安装即可，其中可以不选择内置的glassfish服务器。
+如果使用的是非安装版的jdk，可以在命令行模式执行如下指令：
+<span style="background-color: black;color: white;font-weight: bold;">&gt;netbeans-8.0.1-javaee-windows.exe --javahome %JAVA_HOME%</span>
+其中%JAVA_HOME%为jdk的解压路径。
+    </pre>
+    <h2><a name="link15">1.5.	Git</a></h2>
+    <pre>
+Git是推荐使用的分布式代码版本控制软件。使用1.9或以上版本
+下载<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/Git/Git-1.9.5-preview20150319.exe')">Git 1.9.5</span>
+执行相应exe文件，根据提示默认安装即可。
+    </pre>
+    <h1><a name="link2">2.	开发环境搭建</a></h1>
+    <h2><a name="link21">2.1.	启动并配置NetBeans</a></h2>
+    <pre>
+1、配置Maven
+修改Maven的配置文件（%MAVEN_HOME%/conf/settings.xml）修改本地依赖库位置和远程依赖库位置，可参考<span class="getstartlink" onclick="openOrDownload('http://10.18.7.66:81/idev3/Maven/settings.xml')">settings.xml</span>。
+2、NetBeans指定Maven
+点击NetBeans菜单项【工具】【选项】，打开“Java”选项卡的Maven标签页，如下图所示：
+<img src="system/demo/getstart/images/image001.png" style="width:70%"></img>
+将“已捆绑”的Maven修改为安装的Maven。
+3、NetBeans指定GlassFish
+点击NetBeans菜单项【工具】【服务器】，打开服务器配置窗口，点击【添加服务器】，打开如下图界面：
+<img src="system/demo/getstart/images/image002.png" style="width:70%"></img>
+
+<img src="system/demo/getstart/images/image003.png" style="width:70%"></img>
+    </pre>
+    <h2><a name="link22">2.2.	下载项目</a></h2>
+    <pre>
+使用Maven项目模板：在%MAVEN_HOME%\bin下执行（或将其加入环境变量）：<br/>
+内网：
+<span style="background-color: black;color: white;font-weight: bold;">&gt;mvn archetype:generate -DarchetypeGroupId=idev3.tpl -DarchetypeArtifactId=hd-tpl-war-archetype -DarchetypeVersion=1.0-SNAPSHOT -DarchetypeRepository="http://10.18.7.66:7080/repository/snapshots"</span>
+外网：
+<span style="background-color: black;color: white;font-weight: bold;">&gt;mvn archetype:generate -DarchetypeGroupId=idev3.tpl -DarchetypeArtifactId=hd-tpl-war-archetype -DarchetypeVersion=1.0-SNAPSHOT -DarchetypeRepository="http://maven.huadong.net:7080/repository/snapshots"</span>
+执行完成后，会提示输入groupId和artifactId，如下图：
+<img src="system/demo/getstart/images/image016.png"></img>
+    </pre>
+    <h2><a name="link23">2.3.	构建和运行</a></h2>
+    <pre>
+在NetBeans中，右键单击项目选择【构建】，如下图所示
+
+<img src="system/demo/getstart/images/image007.png"></img>
+出现如下窗口，则构建完成：
+
+<img src="system/demo/getstart/images/image008.png" style="width:70%"></img>
+右击项目选择【运行】，完成后如图：
+<img src="system/demo/getstart/images/image009.png" style="width:70%"></img>
+在浏览器输入地址<span class="getstartlink" onclick="openOrDownload('http://localhost:8080/hd-tpl-war')">http://localhost:8080/hd-tpl-war</span>，打开登录页面：
+
+<img src="system/demo/getstart/images/image010.png" style="width:70%"></img>
+    </pre>
+    <h1><a name="link3">3.	代码机使用</a></h1>
+    <pre>
+使用代码机前请先在数据库建表并加注释。
+运行项目后，浏览器中输入<span class="getstartlink" onclick="openOrDownload('http://localhost:8080/hd-tpl-war/dev.jsp')">http://localhost:8080/hd-tpl-war/dev.jsp</span>，打开如下页面：
+
+<img src="system/demo/getstart/images/image011.png" style="width:70%"></img>
+    </pre>
+    <h2><a name="link31">3.1.	单表</a></h2>
+    <pre>
+<img src="system/demo/getstart/images/image012.png"></img>
+实体名：数据库表对应实体的类名，如数据库表为AUTH_USER则实体名应为AuthUser。
+Facade类名：
+Resource类名：RESTful类名。
+反转效果：可以选择以可编辑列表或表单形式进行增加/修改。
+输入完成后，依次点击【获取属性】【生成代码】，生成的代码在右侧三栏，如下图：
+
+<img src="system/demo/getstart/images/image013.png" style="width:70%"></img>
+将其中的代码放到对应包路径下即可。注意要将Resource在ApplicationConfig中注册一下。
+生成实体类的方法：在源文件包中右键，【新建】【实体类】，如图：
+
+<img src="system/demo/getstart/images/image014.png"></img>
+
+<img src="system/demo/getstart/images/image015.png"></img>
+根据提示点击【下一步】【完成】即可。最后要将生成的实体类在persistence.xml中注册上。
+生成代码后需添加权限资源等，具体请查看《开发人员指南》。
+    </pre>
+    <h2><a name="link32">3.2.	多表</a></h2>
+    <pre>
+操作与单表类似，区别仅在于多表需要指定查询URL和增加修改页面标题。此处不再赘述。
+    </pre>
+    <h1><a name="link4">4.	典型用法示例</a></h1>
+    <h2><a name="link41">4.1.	树-Tree</a></h2>
+    <pre>
+1、首先在后台增加树节点实体，注意其中要有当前节点编码和上级节点编码两个属性，并且增加OneToMany的联合查询获取的Collection：children。
+实体关键代码示例请查看SysDemoTree.java。
+2、增加Facade和Resource对应方法，示例代码请查看SysDemoTreeFacade和SysDemoTreeResource。
+3、这样后台实现完成，进行前台的编写，首先在jsp中声明一个树控件，代码请查看sysdemotree.jsp：
+其中url是rest地址，loadFilter属性是对Tree的数据进行拦截处理的，比如要在树节点上增加onclick事件
+    </pre>
+</div>

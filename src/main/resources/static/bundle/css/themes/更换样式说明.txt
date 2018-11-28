@@ -1,0 +1,14 @@
+本目录下的所有样式都经过改动不能用官方的样式替换。
+
+在更换样式时，注意修改easyui.css中
+1、.tabs-p-tool a 中的  margin: 0;为  margin: 0 5px; 防止小图标靠在一起。
+
+2、.validatebox-invalid 样式新增如下内容，验证时提示红色三角警示
+		.validatebox-invalid {
+		  background-image: url('images/validatebox_warning.png');
+		  background-repeat: no-repeat;
+		  background-position: right center;
+		  border-color: #ffa8a8;
+		  background-color: #fff3f3;
+		  color: #404040;
+		}

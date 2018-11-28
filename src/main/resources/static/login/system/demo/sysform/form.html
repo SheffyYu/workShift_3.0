@@ -1,0 +1,82 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+        margin: 16px auto;
+    }
+    .tableform tr{
+        height: 30px; 
+    } 
+    .tableform th{
+        text-align: right;
+        color: #ff3300;
+        white-space: nowrap;
+    }
+    .tableform td{
+        text-align: left;
+        width: 80px; 
+    }
+    .tableform input{ 
+        text-align: left;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#formType").combogrid(HdUtils.code.resources({}));
+        var formObject = $("#SysFormForm1427702780713");
+        var dataObject = HdUtils.dialog.getValue("data");
+        var dg = HdUtils.dialog.getValue("dataGrid");
+        formObject.form("loadData", dataObject);
+        HdUtils.dialog.setValue({
+            saveHandler: function () {
+                var tenantObject = formObject.form('getData');
+
+                //var tenantObject={text: nameObject, phone: phoneObject, address: addressObject};
+                var dataJason = null;
+                if (dataObject.type === "ADD") {
+                    dataJason = {deletedRows: [], insertedRows: [tenantObject], updatedRows: []};
+                } else {
+                    dataJason = {deletedRows: [], insertedRows: [], updatedRows: [tenantObject]};
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "../webresources/login/SysForm/save",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: $.toJSON(dataJason),
+                    success: function (data) {
+                    	HdUtils.dialog.close();
+                        HdUtils.messager.bottomRight('保存成功','保存操作');
+                        
+                        dg.datagrid("hdReload");
+                    },
+                    error: function (data) {
+                        HdUtils.messager.info(data.responseText);
+                    }
+                });
+            }});
+    });
+//    function perNum() {
+//        $("#formNumber").val(HdUtils.formatter.precisionCommon($("#formNumber").val(), 2));
+//    }
+</script>
+<form id="SysFormForm1427702780713">
+    <table id="SysFormTable1427702780713" style="height:75%;width:80%" class="tableform">         
+        <tr>
+            <th>标识: </th>
+            <td><input id="formId" name="formId"  class="easyui-validatebox" /></td>
+
+            <th>名称: </th>
+            <td><input id="formText" name="formText"  class="easyui-validatebox" /></td>
+        </tr>
+        <tr> 
+            <th>日期: </th>
+            <td><input id="ft1111" name="formTime"  class="easyui-datebox" required="required" /></td>
+            <th>类型: </th>
+            <td><select name="formType" id="formType"></select></td>
+        </tr>
+        <tr> 
+            <th>数值: </th>
+            <td><input id="formNumber" name="formNumber" class="easyui-numberbox" precision="2" /></td><!-- onchange="perNum();"-->
+        </tr>
+    </table>
+</form>

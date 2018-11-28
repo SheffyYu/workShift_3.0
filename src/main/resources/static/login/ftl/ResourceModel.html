@@ -1,0 +1,132 @@
+package net.huadong.idev.tpl.privilege.resources;
+
+import HdEzuiDatagridData;
+import HdEzuiSaveDatagridDataWithMap;
+import net.huadong.idev.ezui.resource.HdAbstractResource;
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import net.huadong.idev.tpl.privilege.entity.AuthUser;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import net.huadong.idev.tpl.privilege.util.Constants;
+import net.huadong.idev.tpl.privilege.util.CreateId;
+import org.apache.shiro.SecurityUtils;
+import net.huadong.idev.tpl.privilege.entity.AuthUser;
+import net.huadong.idev.tpl.privilege.facade.${JavaClass};
+
+@Path("login/${dgUrl}")
+public class ${ResourceClass} extends HdAbstractResource<${JavaClass}> {
+
+    @Context
+    private UriInfo context;
+
+    //static AuthUser authUser=(AuthUser)SecurityUtils.getSubject().getSession().getAttribute("user");
+    public ${ResourceClass}() {
+        super(Constants.HD_PRIVILEGE_EJB_URI,${JavaClass}.class,true,null,null);//如果想打Log日志,"第二个参数"false"改为true,第三个参数为获取当前用户ID,第四个参数为获取当前用户名,
+    }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("find")
+    public Response findAllData(HdEzuiQueryParams params) {
+        String sql="${SQL}";
+        Response res = super.findWithNativeQuery(sql, params)
+        return res;
+    }
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("save")
+    //--------重写保存方法--------
+    public Response ezuiSave(HdEzuiSaveDatagridDataWithMap menu) {
+        LinkedHashMap linkMap = new LinkedHashMap();
+        if (menu.getDeletedRows().size() > 0) {
+        linkMap = (LinkedHashMap) menu.getDeletedRows().get(0);
+        <#if deleteList ?exists>
+        <#assign iSum=0>
+        <#list deleteList as dl>
+        <#if iSum!=1>  
+        String sql${iSum} ="${dl}"; 
+        super.executeNativeSql(sql${iSum},null);
+         <#assign iSum=iSum+1>
+         <#else>
+         String sql${iSum} ="${dl}";
+         return super.executeNativeSql(sql${iSum},null);
+          </#if>
+        </#list>
+        </#if>
+        
+        }
+       //增加方法
+       if(menu.getInsertedRows().size()>0){
+            linkMap=(LinkedHashMap)menu.getInsertedRows().get(0);
+           //如果有第三张关联表，需要开发人员手动输入关联表的插入语句
+            <#if insertList ?exists>
+           <#assign iSum=0>
+           <#list insertList as inl>
+            <#if iSum!=1>  
+           String id${iSum}=CreateId.Uuid();
+           String sql${iSum} ="${inl}"; 
+           super.executeNativeSql(sql${iSum},null);
+           <#assign iSum=iSum+1>
+           <#else>
+           String id${iSum}=CreateId.Uuid();
+           String sql${iSum} ="${inl}"; 
+           return super.executeNativeSql(sql${iSum},null);
+          </#if>
+          </#list>
+          </#if>
+          
+        }
+   //编辑方法
+        if (menu.getUpdatedRows().size() > 0) {
+            linkMap=(LinkedHashMap)menu.getUpdatedRows().get(0);
+            <#if updateList ?exists>
+           <#assign iSum=0>
+           <#list updateList as ul>
+           <#if iSum!=1>
+           String sql${iSum} ="${ul}"; 
+           super.executeNativeSql(sql${iSum},null);
+           <#assign iSum=iSum+1>
+           <#else>
+           String sql${iSum} ="${ul}"; 
+            return super.executeNativeSql(sql${iSum},null);
+           </#if>
+          </#list>
+          </#if>
+           
+        }
+        return null;
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    @Path("exportExcel")
+    public Response exportExcel(@FormParam("sort") String sort,
+            @FormParam("order") String order, @FormParam("q") String q,
+            @FormParam("queryColumns") String queryColumns, @FormParam("showColumns") String showColumns,
+            @FormParam("hdConditions") String hdConditions,
+            @FormParam("hdExportExcel") String hdExportExcel) {
+        try {
+            String sql="${SQL}";
+            List list=this.getFacade().findAllMuti();
+            
+            return super.exportExcelExMutil(new String(hdExportExcel.getBytes("ISO-8859-1")), list);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(${ResourceClass}.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+}
+
+

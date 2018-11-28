@@ -1,0 +1,9 @@
+        <div>测试dailog</div>
+        <div id="value"></div>
+        <div><a id="callback">点击：调用callback函数</a></div>
+        <script>
+            $("#value").html("获取参数：param1="+HdUtils.dialog.getValue("param1"));
+            $("#callback").click(function(e) {
+               HdUtils.dialog.getValue("callback")(); 
+            });
+        </script>

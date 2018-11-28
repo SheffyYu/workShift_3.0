@@ -1,0 +1,32 @@
+
+package net.huadong.idev.tpl.privilege.facade;
+
+import HdAbstractFacade;
+import net.huadong.idev.tpl.privilege.entity.AuthUser;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import net.huadong.idev.tpl.privilege.util.Constants;
+
+@Stateless
+public class ${JavaClass} extends HdAbstractFacade<AuthUser> {
+   
+    @PersistenceContext(unitName = "huadongtechPU")
+    private EntityManager em;
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return Constants.getEmf().createEntityManager();
+    }
+     public ${JavaClass}() {
+        super(AuthUser.class);
+    }
+     public List findAllMuti(){
+         String sql="${SQL}";
+          return  super.findWithNativeQuery(sql,null);
+     }
+     
+}

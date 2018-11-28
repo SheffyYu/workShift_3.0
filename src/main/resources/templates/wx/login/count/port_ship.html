@@ -1,0 +1,107 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background" >
+<div th:fragment="content" th:remove="tag"> 
+	<style>
+	.list_item_detail_column_title{text-align: center;}
+	.list_item_detail_column_value{width:50%}
+	.list_item_0{background:#ACCDF9;}
+	.list_item_1{background: #B7F9BC;}
+	table{width: 100%;line-height: 25px;font-size: 14px;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">到港船舶统计</span> 
+   	</div>
+	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+		<div class="weui-flex" style="margin-top: 15px;line-height: 2.3em;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="month" style="text-align: center;"/>	          		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;/*display: none*/" id="endDte_layout">			      		
+	      		<input class="weui-input" id="endDte" type="month" style="text-align: center;"/>			      		
+	      	</div>
+	    </div>
+	    <a href="javascript:;" class="weui-btn weui-btn_default" id="btn_query" style="margin-top: 5px;">查询</a>  
+		<div >
+			<div  style="margin-top:5px ">单位：艘次</div>
+        	<table id="port_ship_list" style="widrh:100%;margin-bottom: 30px; " cellspacing="0">		          	
+        	</table>	
+    	</div>		
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		$("#begDte").val(getNowMonth());
+		$("#endDte").val(getNowMonth());
+		loadShipPortData();
+		$("#btn_query").click(function (){			
+			loadShipPortData();		
+		});
+	});
+	function loadShipPortData(){
+		var begDte=$("#begDte").val().replace("-","");
+		var endDte=$("#endDte").val().replace("-","");
+		if(begDte>endDte){
+			 $.alert("开始时间必须小于结束时间！");
+			 return ;
+		}
+		var builder=new HdEzuiQueryParamsBuilder();
+		builder.setOtherskeyValue("begDte",begDte);
+		builder.setOtherskeyValue("endDte",endDte);
+		builder.setOtherskeyValue("account",localStorage.account);
+		$.showLoading();
+		jQuery.axs("/webresources/wx/findPortShip",builder.build(), 
+			 function(result){
+				 $.hideLoading();
+				 if(result.data.length==0){
+					 $.alert("该时间范围暂无数据！");
+					 $("#port_ship_list").html('');
+					 return ;
+				 }
+				 var html=""
+				 var backgroundColr=["#D0DFEF",""];
+				 for(var i=0;i<result.data.length;i++){
+					 var data=result.data[i]
+					 html+=
+					 '	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" rowspan="6" >'+data.COMPANY_NAM+'</td>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'"rowspan="3" >班轮</td>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >内贸</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.D_CN_SHIP_NUM+'</td>'
+					 +'	</tr>'
+					 +'	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >外贸</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.F_CN_SHIP_NUM+'</td>'
+					 +'	</tr>'
+					 +'	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >合计</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.CN_SHIP_NUM+'</td>'
+					 +'	</tr>'
+					 +'	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'"rowspan="3" >驳船</td>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >内贸</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.D_LA_SHIP_NUM+'</td>'
+					 +'	</tr>'
+					 
+					 +'	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >外贸</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.F_LA_SHIP_NUM+'</td>'
+					 +'	</tr>'
+					 +'	<tr>'
+					 +'		<td class="list_item_detail_column_title list_item_'+(i%2)+'" >合计</td>'
+					 +'		<td class="list_item_detail_column_value">'+data.LA_SHIP_NUM+'</td>'
+					 +'	</tr>';
+				 }
+				 $("#port_ship_list").html(html);
+			}
+		);
+	}
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

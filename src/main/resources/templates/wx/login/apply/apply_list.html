@@ -1,0 +1,45 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">申请审批</span> 
+   	</div>
+   	<div class="app_content">  	
+	    <div class="weui-cells" id="applyList" style="margin-bottom: 15px;font-size: 14px;">
+	    </div>
+    </div>
+    <script type="text/javascript"> 
+    $(document).ready(function() {
+    	loadVwApplication();
+	 });
+    var applyBuilder=new HdEzuiQueryParamsBuilder();
+    function loadVwApplication() {
+    	$.showLoading();
+		jQuery.axs("/webresources/wx/findVwApplication", applyBuilder.build(), function(result){
+			var html="";
+			$.hideLoading();
+			 /*<![CDATA[*/
+			for(var i=0;i<result.rows.length;i++){
+				var data=result.rows[i];
+			 	html+='<a class="weui-cell weui-cell_access" href="/wx/init/login/applyDet?applyId='+data.APPLY_ID+'#">'+
+        			'	<div class="weui-cell__bd">'+
+          			'		<div><image style="vertical-align:middle;" height="30" src="/wx/images/newsIcon.png"/>'+data.CONTXT+'</div>'+
+          			'		<div style="color: gray;float: left;margin-left:30px;">'+data.APPLY_DTE+'</div>'+
+        			'	</div>'+
+        			'	<div class="weui-cell__ft"></div>'+
+      				'</a>';
+			}
+			 /*]]>*/
+			$("#applyList").html(html);
+		});		
+	}
+	</script>		 
+</div>
+</body>
+</html>

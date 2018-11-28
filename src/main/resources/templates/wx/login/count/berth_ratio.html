@@ -1,0 +1,120 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">泊位利用率</span> 
+   	</div>
+   	<div class="app_content">
+	    <div class="weui-cells weui-cells_form">
+	   		<div class="weui-cell weui-cell_select">
+		        <div class="weui-cell__bd">
+		          	<select class="weui-select" id="selectCompany" >
+			          	<option value="-1">请选择公司</option>
+			            <option value="NCT">南沙一期</option>
+						<option value="GOCT">南沙二期</option>
+						<option value="NICT">南沙三期</option>
+						<option value="HPCT">黄埔公司</option>
+						<option value="XSCT">GCT</option>
+						<option value="GCT">新沙公司</option>
+		          	</select>
+		        </div>
+	      	</div>
+	    </div>
+	    <div id="shipData" style="margin-left: 15px;margin-right: 15px;"></div> 
+    </div>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+	$(document).ready(function() {
+		$("#selectCompany").change(function(){
+			var companyCod=$("#selectCompany").val();
+		    tempBuilder.setOtherskeyValue("companyCod",companyCod);
+	    	loadBerthRatio();
+		}); 
+	});
+	var tempBuilder=new HdEzuiQueryParamsBuilder();
+	tempBuilder.hdEzuiQueryParams.page = 1;
+	tempBuilder.hdEzuiQueryParams.rows = 20;
+	function loadBerthRatio(){
+		$.showLoading();
+		 jQuery.axs("/webresources/wx/findShipBerthRatio", tempBuilder.build(), function(result){
+			 $.hideLoading();
+			 if(result.rows.length==0){
+				 $.alert("该公司暂无数据！");
+				 $("#shipData").html("");
+				 return ;
+			 }
+			 var html="";
+			 
+			 for(var i=0;i<result.rows.length;i++){
+				var shipData=result.rows[i];
+			 	html+=
+			 		'<div class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;">'
+			 		+'	<table style="width:100%">'
+			 		+'		<tr >'
+			 		+'			<td colspan="2" style="background: #7C9EE4;color: white;font-size: 16px">泊位：'+shipData.BERTH_COD+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr>'
+			 		+'			<td class="list_item_column_title" >占有小时：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.OCCU_TIM+'小时</td>'
+			 		+'		</tr>'
+			 		+'		<tr>'
+			 		+'			<td class="list_item_column_title" >作业小时：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.WORK_TIM+'小时</td>'
+			 		+'		</tr>'
+			 		+'		<tr><td class="list_item_column_title" >日历小时：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.LAST_TIM+'小时</td>'
+			 		+'		</tr><tr><td class="list_item_column_title" >吞吐量：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.TEU_NUM+'</td>'
+			 		+'		</tr><tr><td class="list_item_column_title" >艘次数：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.SHIP_NUM+'</td>'
+			 		+'		</tr>'
+			 		+'		<tr>'
+			 		+'			<td class="list_item_column_title" >泊位占用率：</td>'
+			 		+'			<td class="list_item_column_value">'
+			 		+'				<div class="process-bar skin-green">'
+			 		+'				<div class="pb-wrapper">'
+			 		+'					<div class="pb-container">'
+			 		+'						<div class="pb-text">'+shipData.OCCU_RAT+'%</div>'
+			 		+'						<div class="pb-value" style="width:'+shipData.OCCU_RAT+'%"></div>'
+			 		+'					</div>'
+			 		+'				</div>'
+			 		+'				</div>'
+			 		+'			<td>'
+			 		+'		</tr>'
+			 		+'		<tr>'
+			 		+'			<td class="list_item_column_title" >泊位作业率：</td>'
+			 		+'			<td class="list_item_column_value">'
+			 		+'				<div class="process-bar skin-green">'
+			 		+'					<div class="pb-wrapper">'
+			 		+'						<div class="pb-container">'
+			 		+'							<div class="pb-text">'+shipData.WORK_RAT+'%</div>'
+			 		+'							<div class="pb-value" style="width:'+shipData.WORK_RAT+'%"></div>'
+			 		+'						</div>'
+			 		+'					</div>'
+			 		+'				</div>'
+			 		+'			</td>'
+			 		+'		</tr>'
+			 		+'		</tr><tr><td class="list_item_column_title" >泊位长度：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.BERTH_LENGTH+'米</td>'
+			 		+'		</tr><tr><td class="list_item_column_title" >每米码头吞吐量：</td>'
+			 		+'			<td class="list_item_column_value">'+shipData.TEU_BPM+'</td>'
+			 		+'		</tr>'
+			 		+'	</table>'
+			 		+'</div>';
+			 }
+			 
+			 $("#shipData").html(html);
+			 
+		 }) ;
+	}
+	/*]]>*/
+	</script>	
+</div>
+</body>
+</html>

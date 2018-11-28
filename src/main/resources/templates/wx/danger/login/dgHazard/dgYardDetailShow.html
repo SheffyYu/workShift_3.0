@@ -1,0 +1,179 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+		td{width:15%;}
+		table{width: 100%;line-height: 30px;font-size: 14px;}
+	</style>	
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">危品箱信息</span> 
+   	</div>	
+   	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+		<div class="weui-cells">
+	      	<div class="weui-cell" style="text-align: center">
+	        	<div class="weui-cell__bd">
+	        		<input class="weui-input" id="danger_cntr" placeholder="请输入箱号"  style="text-align: center;"/>		
+	        	</div>
+	      	</div>
+		</div>
+		<a href="javascript:;" class="weui-btn weui-btn_default" style="margin:15px 0px;" id="dangerCntr_query">查询</a>
+		<a class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;" >
+					<table  class="twoTable" >
+						<tr  class="twoTableHeader">
+							<td style="align-text:center" id="companyNam" colspan="4"></td>
+						</tr>
+					</table>
+				</a>
+	    <div id="dangerCntr_list" class="weui-cells" style="margin-bottom: 30px;">
+	    </div>
+	</div>
+    <script type="text/javascript"> 
+    /*<![CDATA[*/
+	$(document).ready(function() {
+		var companyNam = getUrlParams("companyNam");
+		$("#companyNam").text(companyNam+"分类汇总");
+		loadPortTransport1(companyNam);
+		$("#dangerCntr_query").click(function (){	
+			var selectCntr=$("#danger_cntr").val();
+			if(selectCntr != ""){
+				loadPortTransport(companyNam);
+			}else{
+				loadPortTransport1(companyNam); 
+			}
+			
+		});		
+	});	
+    function loadPortTransport(companyNam) {      
+    	var selectCntr=$("#danger_cntr").val();
+		var transportBuilder=new HdEzuiQueryParamsBuilder();
+		transportBuilder.setOtherskeyValue("cntr",selectCntr);
+		transportBuilder.setOtherskeyValue("company_Nam",companyNam);
+    	$.showLoading(); 
+    	jQuery.axs("/webresources/wx/dg/danger/findDangerCntr", transportBuilder.build(), function(result){
+    		$.hideLoading(); 
+    		var cntrHtml="";
+    		 if(result.rows.length==0){
+				 $.alert("暂无数据！");
+				 $("#dangerCntr_list").html(" ");
+				 return ;
+			 }
+    		 
+			 for(var i=0;i<result.rows.length;i++){
+				var cntrData=result.rows[i];
+				function add0(m){return m<10?'0'+m:m }
+				function format(shijianchuo)
+				{
+					if(shijianchuo !=""){
+						var time = new Date(shijianchuo);
+						var y = time.getFullYear();
+						var m = time.getMonth()+1;
+						var d = time.getDate();
+						var h = time.getHours();
+						var mm = time.getMinutes();
+						var s = time.getSeconds();
+						return y+'-'+m+'-'+d;
+					}
+					return "";
+				}
+				var IE_MARK="";
+				if(cntrData.IE_MARK == "I"){
+					IE_MARK="进口";
+				}else if(cntrData.IE_MARK == "E"){
+					IE_MARK="出口";
+				}
+				var TRADE_MARK="";
+				if(cntrData.TRADE_MARK == "F"){
+					TRADE_MARK="外贸";
+				}else if(cntrData.TRADE_MARK == "D"){
+					TRADE_MARK="内贸";
+				}
+				var EF_MARK="";
+				if(cntrData.EF_MARK == "E"){
+					EF_MARK="空箱";
+				}else if(cntrData.EF_MARK == "F"){
+					EF_MARK="重箱";
+				}
+				cntrHtml+=
+					'<a class="weui-cell weui-cell_access througth_content_item " style="padding: 0px;" >'+
+					'	<table class="shipWorkTable">'+
+					'		<tr>'+
+					'			<td colspan="2" class="shipWorkTableHeader" >箱号：'+isNull(cntrData.CNTR)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >箱类型：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.CNTR_TYP_COD)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >箱公司：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.CN_CNTR_CORP_NAM)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >危险品等级：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.DANG_CLASS)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title" >国际危规号：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.UNDG_NO)+'</td>'+
+					'		</tr>'+
+					'		<tr><td class="list_item_column_title" >箱位：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.CY_SLOT_NO)+'</td>'+
+					'		</tr>'+
+					'		<tr><td class="list_item_column_title" >进场日期：</td>'+
+					'			<td class="list_item_column_value">'+format(isNull(cntrData.IN_CY_TIM))+'</td>'+
+					'		</tr>'+
+					'		<tr><td class="list_item_column_title" >提单号：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.BILL_NO)+'</td>'+
+					'		</tr>'+
+					'	</table>'+
+					'</a>';
+			 }			
+			 $("#dangerCntr_list").html(cntrHtml);
+		});    	
+    }
+    function loadPortTransport1(companyNam) {      
+		var transportBuilder=new HdEzuiQueryParamsBuilder();
+		transportBuilder.setOtherskeyValue("company_Nam",companyNam);
+    	$.showLoading(); 
+    	jQuery.axs("/webresources/wx/dg/danger/findDangerClass", transportBuilder.build(), function(result){
+    		$.hideLoading(); 
+    		var cntrHtml="";
+    		 /* if(result.rows.length==0){
+				 $.alert("暂无数据！");
+				 $("#dangerCntr_list").html(html);
+				 return ;
+			 } */
+			 for(var i=0;i<result.rows.length;i++){
+				var cntrData=result.rows[i];
+				cntrHtml+=
+					'<a class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;" href="/wx/dg/init/login/dgCntrDetailShow?companyNam='+companyNam+'&dangClass='+cntrData.DANG_CLASS+'#" >'+
+					'	<table  class="twoTable" >'+
+					'		<tr>'+
+					'			<td class="list_item_column_title">'+isNull(cntrData.DANG_CLASS)+'类</td>'+
+					'			<td class="list_item_column_title">自然箱：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.SUM_DANG_CLASS)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td class="list_item_column_title"></td>'+
+					'			<td class="list_item_column_title">TEU：</td>'+
+					'			<td class="list_item_column_value">'+isNull(cntrData.TEU_NUM)+'</td>'+
+					'		</tr>'+
+					'		<tr>'+
+					'			<td colspan="4" class="list_item_next_title" >详细信息>></td>'+
+					'		</tr>'+
+					'	</table>'+
+					'</a>';
+			 }			
+			 $("#dangerCntr_list").html(cntrHtml);
+		});    	
+    }
+    /*]]>*/
+	</script>	
+</div>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel"> 
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<link rel="stylesheet" href="/wx/css/style.css" media="screen" type="text/css" />
+	<script src="/wx/js/accordion.js"></script>
+	<style>
+		.barges_heard{line-height: 33px;font-size: 14px;color: white;background:#7C9EE4;
+		}
+		.barges_list{margin-top: 0px;font-size: 14px;margin-bottom: 5px;
+		}
+	</style>
+   	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">驳船信息</span> 
+   	</div>
+   	<div  class="app_content" >
+   		<div id="accordion" class="accordion">
+	    	<ul style="margin-bottom: 5px;">
+	    		<li class="open">
+	    			<div class="link" >南沙一期<span id="NCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>	    				
+					</div>					
+					<ul class="submenu" style="display: block;">
+						<li>								
+							<div class="weui-cells barges_list" id="NCT_barges_list"></div>						
+						</li>									
+					</ul>			
+				</li>				
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙二期<span id="GOCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>						
+							<div class="weui-cells barges_list" id="GOCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">南沙三期<span id="NICT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>							
+							<div class="weui-cells barges_list" id="NICT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">新沙公司<span id="XSCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li>							
+							<div class="weui-cells barges_list" id="XSCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">GCT<span id="GCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li >							
+							<div class="weui-cells barges_list" id="GCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>	
+			<ul style="margin-bottom: 5px;">
+	    		<li>
+	    			<div class="link">黄埔公司<span id="HPCT_Heard"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu">
+						<li >							
+							<div class="weui-cells barges_list" id="HPCT_barges_list"></div>		
+						</li>									
+					</ul>
+				
+				</li>
+			</ul>    	
+	    </div> 		
+   	</div>
+    <script type="text/javascript">
+    /*<![CDATA[*/
+	 $(document).ready(function() {	
+		 loadBargesData();			
+	 });
+	function loadBargesData(){
+		$.showLoading();
+		var tempBuilder=new HdEzuiQueryParamsBuilder();
+		jQuery.axs("/webresources/wx/barges/findByCompany",null, function(result){
+			 $.hideLoading();
+			 
+			 for(var i=0;i<result.data.title.length;i++){
+				var data=result.data.title[i];			
+				$("#"+data.COMPANY_COD+"_Heard").html("&ensp;（靠泊"+data.Y_NUM+"艘，预报"+data.E_NUM+"艘）");
+			 }
+			 var html="";
+			 for(var i=0;i<result.data.list.length;i++){
+				var data=result.data.list[i];
+				var textColor="";
+				if(data.STAT=="Y"){
+					textColor="red";
+					data.STAT="靠泊";
+				}else{
+					textColor="blue";
+					data.STAT="预报";
+				}
+				html=
+				'<a class="weui-cell weui-cell_access througth_content_item " style="padding: 0px;" href="/wx/init/login/bargesDet?company='+data.COMPANY_COD+'&no='+data.SHIP_VISIT_NO+'#">'+
+				'	<table style="width:100%;line-height:20px;padding-left:15px;padding-right:15px;" >'+			
+				'		<tr>'+
+				'			<td>'+data.CN_SHIP_NAM+'（'+data.IM_VOYAGE+'/'+data.EX_VOYAGE+'）</td>'+
+				'			<td style="text-align:right"><span style="color:'+textColor+'">'+data.STAT+'</span></td>'+
+				'		</tr>'+
+				'		<tr>'+
+				'			<td colspan="2" class="list_item_next_title" >详细信息>></td>'+
+				'		</tr>'+
+				'	</table>'+
+				'</a>';
+				$("#"+data.COMPANY_COD+"_barges_list").append(html);
+			 }			
+		 }) ;
+	}
+	 /*]]>*/
+	</script>		
+</div>
+</body>
+</html>

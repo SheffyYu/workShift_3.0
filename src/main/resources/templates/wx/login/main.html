@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="main_body">
+<div th:fragment="content" th:remove="tag" >	
+	    <!--header-->
+   	<div style="width:100%; padding:0px;">
+	    <div style="width:100%;">
+	      	<div class="main_div_header"> <img src="/wx/images/swiper-1.jpg" style="width:100%;"/></div>
+	      	<a href="/wx/init/login/userinfo#" class="" style="font-size: 14px;float: right;padding-right: 5px;margin-top:-5px;color: white;">
+	      		欢迎您，<span id="userinfo" ></span><i class="fa fa-chevron-down" style="font-size: 1px;padding-left: 3px;"></i>
+	      	</a>
+	    </div>    
+	    <!--内容区开始-->
+	    <div class="main_div_content">
+	      	<div class="main_menu"  style="float:left; width:100%;margin-top:0px; ">
+		        <div class="menu_title"><span class="menu_title_span1">生产动态</span></div>
+		        <a onclick="menuItem(11)" class="qlink"><img src="/wx/images/qlink1.png" alt="" width="50" height="50" border="0"/><br/>在港船舶</a>
+		        <a onclick="menuItem(12)" class="qlink"><img src="/wx/images/qlink2.png" width="50" height="50" border="0"/><br/>船期预报</a>
+		     	<a onclick="menuItem(13)" class="qlink"><img src="/wx/images/qlink14.png" width="50" height="50" border="0"/><br/>驳船信息</a>
+		    	<a onclick="menuItem(14)" class="qlink"><img src="/wx/images/qlink7.png" width="50" height="50" border="0"/><br/>船时效率</a>			 
+		    	<a onclick="menuItem(15)" class="qlink"><img src="/wx/images/qlink19.png" width="50" height="50" border="0"/><br/>在港危品箱</a>
+		    	<a onclick="menuItem(16)" class="qlink"><img src="/wx/images/qlink3.png" width="50" height="50" border="0"/><br/>在场箱量</a>		    
+		    </div>
+		    <div class="main_menu"  style="float:left; width:100%; ">
+		      	<div class="menu_title"><span class="menu_title_span2">统计分析</span></div>
+		      	<a onclick="menuItem(17)" class="qlink"><img src="/wx/images/qlink6.png" width="50" height="50" border="0"/><br/>生产快报</a>	
+		      	<a onclick="menuItem(18)" class="qlink"><img src="/wx/images/qlink0.png" width="50" height="50" border="0"/><br/>港口吞吐量</a>		      			      		      	
+		      	<a onclick="menuItem(19)" class="qlink"><img src="/wx/images/qlink4.png" width="50" height="50" border="0"/><br/>码头作业量</a>
+		      	<a onclick="menuItem(20)" class="qlink"><img src="/wx/images/qlink17.png" width="50" height="50" border="0"/><br/>航线作业量</a>
+		      	<a onclick="menuItem(21)" class="qlink"><img src="/wx/images/qlink18.png" width="50" height="50" border="0"/><br/>船公司作业量</a>
+		      	<a onclick="menuItem(22)" class="qlink"><img src="/wx/images/qlink12.png" width="50" height="50" border="0"/><br/>铁路作业量</a>
+		      	<a onclick="menuItem(23)" class="qlink"><img src="/wx/images/qlink16.png" width="50" height="50" border="0"/><br/>到港船舶统计</a>
+		      	<a onclick="menuItem(24)" class="qlink"><img src="/wx/images/qlink5.png" width="50" height="50" border="0"/><br/>集疏运统计</a>	      	
+		      	<a onclick="menuItem(25)" class="qlink"><img src="/wx/images/qlink13.png" width="50" height="50" border="0"/><br/>危品箱统计</a>
+		    </div>
+		    <div class="main_menu"  style="float:left; width:100%;">
+		      	<div class="menu_title"><span class="menu_title_span4">日常管理</span></div>
+		      	<a onclick="menuItem(26)" class="qlink"><img src="/wx/images/qlink10.png" width="50" height="50" border="0"/><br/>申请审批</a>
+		      	<a onclick="menuItem(27)" class="qlink"><img src="/wx/images/qlink11.png" width="50" height="50" border="0"/><br/>意见建议</a>
+		    </div>
+      	</div>
+	    <!--内容区结束-->
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		$("#userinfo").html(localStorage.username);
+		//$('.app_head_title').html(localStorage.username+'，欢迎您！');
+	});
+	function menuItem(menuId){
+		var url="/wx/init/login/menu/"+localStorage.userid+"/"+menuId;	
+		window.location = loadIFrame(url);		
+	};
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

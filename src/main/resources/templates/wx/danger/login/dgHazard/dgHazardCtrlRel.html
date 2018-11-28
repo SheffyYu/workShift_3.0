@@ -1,0 +1,178 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/dgModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<style>
+	.app_head_back_add{
+	float:right;
+	}
+    .container {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #fff;
+        transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;
+        -webkit-transition: left cubic-bezier(.68,.69,.11,.4) 0.2s;
+    }
+    .weui-cell_swiped > .weui-cell__ft {
+	  position: absolute;
+	  right: 0;
+	  top: 0;
+	  bottom: 0;
+	  display: -webkit-box;
+	  display: -webkit-flex;
+	  display: flex;
+	  color: #FFFFFF;
+	}
+	.weui-cell_swiped {
+	  display: block;
+	  padding: 0;
+	  border-bottom:1px solid #ccc;
+	}
+	.weui-cell_swiped > .weui-cell__bd {
+	  position: relative;
+	  z-index: 1;
+	  background-color: #FFFFFF;
+	}
+	.weui-swiped-btn {
+	  display: block;
+	  padding: 25px 1em;
+	  line-height: 1.47058824;
+	  color: inherit;
+	}
+	.weui-swiped-btn_warn {
+	  background-color: #FF3B30;
+	}
+	</style>
+	<div class="app_header">
+		<a  id="backRel">
+   			<img src="/wx/images/back.png"  class="app_head_back" border="0" title="返回上一页"/>
+   		</a>
+		<div class="app_head_title" id="title">整改信息
+		<a id="addDgHazardCtrlRel"><img class="app_head_right" src="/wx/images/add.png"   border="0" title="添加"  /></a>
+		</div> 
+		
+	</div>
+	
+	    <div class="app_content" > 
+	    	<div class="weui-cells" id="dgHazardDealList"></div><!-- list展示 -->
+	    </div> 
+    
+    <script > 
+    function deleteS(id){	
+            	var applyBuilder=new HdEzuiQueryParamsBuilder();
+                applyBuilder.setOtherskeyValue("id",id);
+        			jQuery.axs("/webresources/wx/dg/hazard/deleteDgHazardCtrlDealById",applyBuilder.build(), function(result){
+        			if(result.status==1){
+        		 	window.location.reload();
+        			}else{
+        				$.toast(result.info, "text");
+        			}
+        		});	   	
+    	
+	}
+    $(function(){ 	
+    	var hazardcod = getUrlParams("cod");
+    	var id = getUrlParams("id");
+ 	    //加载数据
+ 	    $("#addDgHazardCtrlRel").on("click",function(){
+ 	    	window.location="/wx/dg/init/login/dgHazardCtrlRelAdd?cod="+hazardcod;
+ 	    });
+ 	    $("#backRel").on("click",function(){
+ 	    	window.location="/wx/dg/init/login/dgHazardCtrl_Detail?id="+id;
+ 	    });
+ 	  	var dgHazardRelBuilder=new HdEzuiQueryParamsBuilder();
+ 	  	dgHazardRelBuilder.setOtherskeyValue("cod",hazardcod);
+ 	  	$.showLoading();
+		jQuery.axs("/webresources/wx/dg/hazard/findDgHazardRel", dgHazardRelBuilder.build(), function(result){
+			$.hideLoading();
+			var html="";
+			var str;
+			 /*<![CDATA[*/
+			for(var i=0;i<result.rows.length;i++){
+				var data=result.rows[i];	
+				var str="";
+		       		  if(data.DESCRIPTION!=null){
+		       			  str=data.DESCRIPTION.substring(0,10);		    			
+		       		  }else{
+		       			str=data.DESCRIPTION;		
+		       		  }
+		       		var imgHtml="";
+		       		 if(data.F_URL!=null){
+		       			imgHtml='<div  style="float: right;"><img name="img"  src="'+data.F_URL+'"  height="60" width="60"/></div>';
+		       		 } 	
+				    html+='<div class="weui-cell weui-cell_swiped" >'
+		       			+'     	<div class="weui-cell__bd container" >'
+		       			+'      	<a class="weui-cell weui-cell_access" href="/wx/dg/init/login/dgHazardCtrlRelDetail?id='+data.ID+'">'
+		       			+'          	<div class="weui-cell__bd">'
+	       			    +'					<div>'
+		         		+'        			<div style="float:left;height:60px;width:70%;">'
+						+'						<div>'+data.REL_COD+'</div>'
+						+'						<div>'+str+'······</div>'
+						+'					</div>'
+						+imgHtml
+		         		+'        			</div>' 		         		
+		         		+'				</div>'	
+		         		+'				<div class="weui-cell__ft"></div>'
+		         		+'			</a>'
+		         		+'		</div>'
+		         		+'		<div class="weui-cell__ft"><a class="weui-swiped-btn weui-swiped-btn_warn" id='+data.ID+' onclick="deleteS(this.id)" >删除</a></div>'
+		         		+' </div>'
+			}		  
+			 
+			 
+			 /*]]>*/	 
+			$("#dgHazardDealList").append(html);	
+		    /*<![CDATA[*/
+		     var container = document.querySelectorAll('.container');
+		    for(var i=0; i<container.length; i++) {
+		        var x, y, X, Y, swipeX, swipeY;
+		        container[i].addEventListener('touchstart', function(event) {
+		            x = event.changedTouches[0].pageX;
+		            y = event.changedTouches[0].pageY;
+		            swipeX = true;
+		            swipeY = true ;
+		        });
+		        container[i].addEventListener('touchmove', function(event) {
+		            X = event.changedTouches[0].pageX;
+		            Y = event.changedTouches[0].pageY;          
+		            // 左右滑动
+		            if(swipeX && Math.abs(X-x) - Math.abs(Y-y) > 0) {
+		                // 阻止事件冒泡
+		                event.stopPropagation();
+
+		                if(X - x > 10) {
+		                    event.preventDefault();
+		                    this.style.left = '0px';
+		                }
+		                if(x - X > 10) {
+		                    event.preventDefault();
+		                    this.style.left = '-68px';
+		                }
+		                swipeY = false;
+		            }
+		            // 上下滑动
+		            if(swipeY && Math.abs(X-x) - Math.abs(Y-y) < 0) {
+		                swipeX = false;
+		            } 
+		        });
+		    } 
+		    /*]]>*/     	
+			 
+		});		
+		
+   });
+  
+    
+   
+
+	</script>		
+	 
+</div>
+</body>
+</html>

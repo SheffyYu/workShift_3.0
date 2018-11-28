@@ -1,0 +1,87 @@
+package net.huadong.idev.tpl.privilege.resources;
+
+import HdEzuiDatagridData;
+import net.huadong.idev.tpl.privilege.util.Constants;
+import HdEzuiSaveDatagridData;
+import HdFacadeFactory;
+import net.huadong.idev.tpl.privilege.entity.${entity};
+import net.huadong.idev.tpl.privilege.facade.${facadename};
+import net.huadong.idev.ezui.resource.HdAbstractResource;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.List;
+import org.apache.shiro.SecurityUtils;
+import net.huadong.idev.tpl.privilege.entity.AuthUser;
+import HdEzuiQueryParams;
+import net.huadong.idev.tpl.privilege.resources.PrivilegeResource;
+@Path("login/${entity}")
+public class ${resourcename} extends HdAbstractResource<${facadename}> {
+
+@Context
+private UriInfo context;
+public ${resourcename}() {
+    super(Constants.HD_PRIVILEGE_EJB_URI, ${facadename}.class);
+}
+@POST
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Path("find")
+public Response ezuiFind(HdEzuiQueryParams params) {
+    return super.find(params);
+    // return super.find(page, rows, sort, order, q, queryColumns, showColumns, hdConditions);
+}
+@POST
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+@Path("save")
+public Response ezuiSave(HdEzuiSaveDatagridData<${entity}> menu) {
+   // AuthUser user = (AuthUser) SecurityUtils.getSubject().getSession().getAttribute(PrivilegeResource.SESSION_USER);
+    List<${entity}> insertRows = menu.getInsertedRows();
+    for (${entity} entity : insertRows) {
+        //at.setTenantId(CreateId.Uuid());
+        //at.setInsAccount(user.getAccount());
+        //at.setInsTimestamp(new Date());
+       //at.setUpdAccount(user.getAccount());
+        //at.setUpdTimestamp(new Date());
+    }
+    List<${entity}> updateRows = menu.getUpdatedRows();
+    for (${entity} entity : updateRows) {
+        //at.setUpdAccount(user.getAccount());
+        //at.setUpdTimestamp(new Date());
+    }
+    return super.save(menu, SecurityUtils.getSubject().getPrincipal().toString());
+}
+@POST
+@Produces(MediaType.APPLICATION_OCTET_STREAM)
+@Path("exportExcel")
+public Response exportExcel(@FormParam("q") String q, @FormParam("sort") String sort,
+    @FormParam("order") String order, @FormParam("queryColumns") String queryColumns, @FormParam("showColumns") String showColumns,
+    @FormParam("hideColumns") String hideColumns, @FormParam("hdConditions") String hdConditions,
+    @FormParam("others") String others) {
+    try {
+        HdEzuiQueryParams p = new HdEzuiQueryParams(null, null, q == null ? null : new String(q.getBytes("iso8859-1"),"UTF-8"),
+        sort, order, queryColumns, showColumns,
+        hideColumns, hdConditions == null ? null : new String(hdConditions.getBytes("iso8859-1"),"UTF-8"), 
+        others == null ? null : new String(others.getBytes("iso8859-1"),"UTF-8"));
+        HdEzuiDatagridData data = (HdEzuiDatagridData) this.ezuiFind(p).getEntity();
+        return super.exportExcelEx(p.getHdConditions().getHdExportExcel(), data);
+    } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(${resourcename}.class.getName()).log(Level.SEVERE, null, ex);
+        return null;
+    }
+}
+
+}

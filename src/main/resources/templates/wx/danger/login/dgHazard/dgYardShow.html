@@ -1,0 +1,107 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<style>
+	.list_item_detail_column_title{text-align: center;}
+	table{width: 100%;line-height: 30px;font-size: 14px;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>
+   		<span class="app_head_title">在港危险品</span> 
+   	</div>
+	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+	<!-- <div id="danger_list1" style="padding-top: 15px;padding-bottom: 15px;">
+						</div> -->
+		<div id="danger_list" style="margin-top: 15px;margin-bottom: 30px;">
+		
+		
+		</div>
+	</div>
+	<script>
+	/*<![CDATA[*/
+	$(document).ready(function () {	
+		$.showLoading();
+		 	jQuery.axs("/webresources/wx/dg/hazard/findDgMapImg",null, function(result){
+		 	$.hideLoading();
+		 	var html="";
+		 	var item=[];
+			var companyNam="";
+			var a=1;
+			var b=1;
+			var sum_cntr=0;
+			var sum_teu=0;
+			for(var i=0; i<result.footer.length;i++){
+				var allDate=result.footer[i];
+				sum_cntr+=Number(allDate.CNTR_NUM);
+				sum_teu+=Number(allDate.TEU_NUM);
+			}
+			html+=
+		 		'<a class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;margin-bottom:20px;" >'+
+				'	<table  class="twoTable">'+
+				'		<tr  class="twoTableHeader">'+
+				'			<td colspan="5">集团公司&nbsp&nbsp&nbsp&nbsp自然箱:'+isNull(sum_cntr)+'&nbsp&nbsp&nbsp&nbspTEU:'+isNull(sum_teu)+'</td>'+
+				'		</tr>'+
+				'<tr>'+
+			    '<td class="list_item_detail_column_title" rowspan="2">类别</td>'+
+			    '<td class="list_item_detail_column_title" colspan="2">自然箱</td>'+
+			    '<td class="list_item_detail_column_title" colspan="2">TEU</td>'+
+				'</tr>'+
+				'<tr>'+
+				'<td class="list_item_detail_column_title" >内贸</td>'+
+			    '<td class="list_item_detail_column_title" >外贸</td>'+
+			    '<td class="list_item_detail_column_title" >内贸</td>'+
+			    '<td class="list_item_detail_column_title" >外贸</td>'+
+				'</tr>';
+				for(var i=0; i<result.footer.length;i++){
+					var allDate=result.footer[i];
+					html+='<tr >'+
+					'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(allDate.DANG_CLASS)+'</td>'+
+					'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(allDate.D_CNTR_NUM)+'</td>'+
+					'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(allDate.F_CNTR_NUM)+'</td>'+
+					'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(allDate.D_TEU_NUM)+'</td>'+
+					'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(allDate.F_TEU_NUM)+'</td>'+
+					'</tr>';
+				}
+				'</table>'+
+				'</a>';
+		 	for(var i=0; i<result.rows.length; i++){
+				var data=result.rows[i];
+				var imgNam = data.F_NAME;
+				var str = imgNam.split("_");
+				var src=data.F_URL;
+				var str1=str[1].split(".");
+				item.push(src);
+				if(companyNam!=data.COMPANY_NAM || a==b){
+					html+=
+				 		'<a class="weui-cell weui-cell_access througth_content_item" style="padding: 0px;margin-top:3px;" >'+
+						'	<table  class="twoTable" >'+
+						'		<tr  class="twoTableHeader">'+
+						'			<td colspan="4">'+data.COMPANY_NAM+'&nbsp&nbsp&nbsp&nbsp自然箱:'+isNull(data.TEU_NUM)+'&nbsp&nbsp&nbsp&nbspTEU:'+isNull(data.TUE_NUM1)+'</td>'+
+						'		</tr>'+
+						'	</table>'+
+						'</a>';
+						a=2;
+				}
+				companyNam = data.COMPANY_NAM;
+				html+=
+					'<div style="text-align:center">'+str1[0]+'场</div>'+
+					'<div>'+
+					'	<a href="/wx/dg/init/login/dgYardDetailShow?companyNam='+data.COMPANY_NAM+'&blockNo='+str1[0]+'#">'+
+					'		<img src="'+src+'" style="width: 100%;height: 79px;"/>'+
+					'		<div style="text-align:right"><span class="list_item_next_title">查看明细>></span></div>'+
+					'	</a>'+
+					
+					'</div>';
+			 }
+		 	$("#danger_list").html(html);
+		 	});	
+	});
+	/*]]>*/
+	</script>
+</div>
+</body>
+</html>

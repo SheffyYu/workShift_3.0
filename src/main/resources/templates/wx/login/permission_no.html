@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body style="margin:0px; padding:0px;">
+<div th:fragment="content" th:remove="tag">
+	<div  data-role="page" id="_hdMain" style="width:100%; padding:0px;" >
+	  <div role="main" class="ui-content" style="width:100%; padding:0px;">   
+	    <!--内容区开始-->
+	    <div style="width:100%; padding:0px; margin:0px;">
+	      	<div class="main_div_header"> <img src="/wx/images/swiper-1.jpg" style="width:100%;"/></div>
+	    </div> 
+	    <div class="main_div function-con">
+	     	<h3 style="text-align: center;" >此权限未开通，如有需求，<br/>请联系生产业务部！</h3>
+	    </div>
+	    <!--内容区结束-->
+	  </div>
+	</div>
+</div>
+</body>
+</html>

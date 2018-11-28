@@ -1,0 +1,71 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title"></span> 
+   	</div>
+	<div class="app_content">
+	    <div id="shipData" style="padding: 15px;">
+	    </div>
+    </div>
+    <script type="text/javascript">
+     var code=getUrlParams("code").split(",");
+	 $(document).ready(function() {		
+		$(".app_head_title").html(code[1]+"船期预报")
+		loadShipSchedule();			
+	 });
+	 function loadShipSchedule(){			
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("companyCod",code[0]);
+			$.showLoading();
+			jQuery.axs("/webresources/wx/shipSchedule/findByCompany",tempBuilder.build(), function(result){
+				 $.hideLoading();
+				 var html="";
+				 if(result.rows.length==0){
+					 $.alert("该公司暂无数据！");
+					 $("#shipData").html(html);
+					 return ;
+				 }
+				 /*<![CDATA[*/
+				 for(var i=0;i<result.rows.length;i++){
+					var shipData=result.rows[i];
+					html+=
+				 		'<a class="weui-cell weui-cell_access througth_content_item"  style="padding: 0px;" href="/wx/init/login/shipScheduleDet?id='+shipData.ID+'#" >'+
+						'	<table class="twoTable">'+
+						'		<tr class="twoTableHeader" >'+
+						'			<td colspan="2">'+shipData.SHIP_NAM+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >航次：</td>'+
+						'			<td class="list_item_column_value">'+isNull(shipData.VOYAGE)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td class="list_item_column_title" >泊位：</td>'+
+						'			<td class="list_item_column_value">'+isNull(shipData.BERTH_COD)+'</td>'+
+						'		</tr>'+
+						'		<tr><td class="list_item_column_title" >预计到港：</td>'+
+						'			<td class="list_item_column_value">'+isNull(shipData.ETA)+'</td>'+
+						'		</tr><tr><td class="list_item_column_title" >预计离泊：</td>'+
+						'			<td class="list_item_column_value">'+isNull(shipData.ETD)+'</td>'+
+						'		</tr>'+
+						'		<tr>'+
+						'			<td colspan="2" class="list_item_next_title" >详细信息>></td>'+
+						'		</tr>'+
+						'	</table>'+
+						'</a>';
+				 }
+				 $("#shipData").html(html);
+				 /*]]>*/
+				
+			 }) ;
+		}
+	</script>	
+</div>
+</body>
+</html>

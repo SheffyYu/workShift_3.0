@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/dgModel">
+<body style="background: white;">
+<div th:fragment="content" th:remove="tag" >
+	<style>
+      .swiper-container {
+        width: 100%;
+        height:180px;
+      } 
+      .swiper-container img {
+        display: block;
+        width: 100%;
+        height:100%;
+      }
+    
+     .barges_list{float:right;margin-top: 0px;font-size: 12px;margin-bottom: 5px;
+		}
+		.name_list{
+		float:left;margin-top: 0px;font-size: 14px;margin-bottom: 5px;
+		}
+    
+      .title-1{padding-left: 15px;padding-right:15px;color: #FD6601;font-weight:bold;}
+      .llh_header{ height:30px; padding:4px 2% 0; background-color:#fff; border-bottom:#ddd 1px solid;}
+      .llh_lg{ width:40%;float: left;color: #006394;font-weight:bold;}
+	  .llh_user{float:right;}
+	  .f_grey{ color:#939393;font-size:10px;}
+	  .f_orange{ color:#f63;font-size:10px;cursor:pointer;}
+    </style>
+	<div class="llh_header">
+   		<div class="llh_lg">危化品监管平台</div>
+    	<div class="llh_user" id="login">
+	    	<span class="f_grey"><span id="msisdnWelcome"></span>，欢迎您！</span>
+	    	<span class="f_orange" id="logoutSystem">退出</span>
+    	</div>
+    </div> 
+	<div class="swiper-container">
+	    <div class="swiper-wrapper">
+	      <div class="swiper-slide"><img src="/wx/images/swiper-1.jpg" /></div>
+	      <div class="swiper-slide"><img src="/wx/images/swiper-2.jpg" /></div>
+	      <div class="swiper-slide"><img src="/wx/images/swiper-3.jpg" /></div>
+	    </div>
+	   	<div class="swiper-pagination"></div>
+    </div>
+    <div class="weui-cells"></div>
+    <div class="weui-grids"></div>
+    <div class="weui-grids" >
+    	<a class="weui-grid " href="/wx/dg/init/login/dgCargo">
+        	<div class="weui-grid__icon">
+          		<img src="/wx/images/qlink_1.png" alt=""  border="0"/>
+        	</div>
+        	<p class="weui-grid__label">危货知识</p>
+      	</a>
+      	<a class="weui-grid js_grid" href="/wx/dg/init/login/dgHazardCtrl">
+      	<!-- <a class="weui-grid js_grid" href="/wx/dg/init/login/dangerMonitor"> -->
+        	<div class="weui-grid__icon">
+          		<img src="/wx/images/qlink_2.png" alt=""  border="0" />
+       		</div>
+	        <p class="weui-grid__label">危品监管</p>
+         </a>
+        <!--   <a class="weui-grid js_grid" href="/wx/dg/init/login/dangerReport" >  -->
+		<a class="weui-grid js_grid" href="/wx/dg/init/login/workerRecorderRel" > 
+			<div class="weui-grid__icon">
+	        	<img src="/wx/images/qlink_3.png" alt=""  border="0" />
+	        </div>
+	        <p class="weui-grid__label">违规上报</p>
+      	</a>    
+    </div>
+    <div class="weui-cells" id="dgHazardLastList">
+	</div>
+	
+    <script>
+      $(".swiper-container").swiper({
+        loop: true,
+        autoplay: 3000
+      });
+      $(function(){
+    	   var userNam=HdUtils.global.config.username();
+    	   $("#msisdnWelcome").html(userNam);
+    	  //用户解绑
+    	  $("#logoutSystem").on("click",function(){
+    		  $.confirm("下次来您需要重新登录，确定退出吗？", "确认退出?", function() {
+    			  $.ajax({
+                      url :'/webresources/wx/dg/divideBind',  
+                      type : 'GET',
+                      success : function(result){                    
+    						if (result.status != 1) {
+    							$.toast(result.info, "text");
+    						} else {
+    							window.location = "/wx/dg/init/login";
+    						}
+                      },
+                  }); 
+    	        }, function() {
+    	          //取消操作
+    	        });
+          });
+
+    	  //加载数据
+    	  var dgHazardBuilder=new HdEzuiQueryParamsBuilder();
+          function loadDgHazardApplication() {
+      		jQuery.axs("/webresources/wx/dg/hazard/findDgHazardLast", dgHazardBuilder.build(), function(result){
+      			var html="";
+      			 /*<![CDATA[*/
+      			for(var i=0;i<result.rows.length;i++){
+      				var data=result.rows[i];
+      				var content=""
+      				if(data.DESCRIPTION!=null){
+      					content=data.DESCRIPTION.substring(0,10);		    			
+		       		  }else{
+		       			content=data.DESCRIPTION;		
+		       		  }	
+      			 	html+='<div class="weui-cell">'
+              			  +'<div class="weui-cell__bd">'
+                		  +'<div>'
+                		  +'<div class="name_list"><div>'+data.HAZARD_NAM+'</div><div>'+content+"......"+'</div></div>'
+                		  +'<div class="barges_list" >'+data.REPORT_DATE+'</div>'
+              			  +'</div>'
+              			  +'<div class="weui-cell__ft "></div>'
+              		      +'</div>'
+              			  +'</div>';
+      			}
+      			 /*]]>*/
+      			$("#dgHazardLastList").html(html);
+      		});		
+      	  }
+          loadDgHazardApplication();
+          
+            
+      });
+      
+      
+      
+    </script>  
+   
+</div>
+</body>
+</html>

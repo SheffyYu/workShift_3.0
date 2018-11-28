@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+<body   class="login_body" style="margin: 0px;padding: 0px;">
+<div th:fragment="content" th:remove="tag">
+	<div>
+	<div  style="text-align:center;" >
+		<img src="/wx/images/login_logo.png" width="280" height="107"  alt="" style="margin-top:60px; margin-bottom:40px;"/>	
+	</div>
+   <div class="weui-cells" style="margin: 15px;border-radius: 5px;">
+        
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" id="mobileCode"  placeholder="请输入账号" maxlength="30"/>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="password"  id="password" placeholder="请输入密码" maxlength="30"/>
+            </div>
+        </div>
+    </div>    
+    <a id ="loginbtn"  class="weui-btn weui_btn_primary" style="margin:15px;background-color:#04709F">登录</a> 
+    <script type="text/javascript">    
+        $(document).ready(function () {
+        	$("#mobileCode").val(localStorage.account);
+            $("#password").val(localStorage.password);
+            $("#loginbtn").click(function (){
+            	var account=$("#mobileCode").val().trim();
+                var password=$("#password").val().trim();
+                if(account===""){
+                    $.toast("请输入账号","text");
+                    return;
+                }
+                if(password===""){
+                    $.toast("请输入密码","text");
+                    return;
+                }              
+                $.showLoading("登录中...");
+                $.ajax({
+                    url :'/webresources/wx/isLogin',  
+                    type : 'GET',
+                    data:{
+                    	"userCod" : account,
+						"password" : password
+					},
+                    success : function(result){                    
+                        $.hideLoading();
+						if (result.status == 1) {
+							localStorage.account=account;
+							localStorage.password=password;
+							localStorage.userid=result.data.id;
+							localStorage.username=result.data.name;
+// 							localStorage.menuid=result.data.menuid;
+							var url="/wx/init/login/main"
+							window.location = loadIFrame(url);							
+						} else {
+							$.toast(result.info, "text");
+						}
+                    },
+                    error: function(e){
+                    	$.hideLoading();
+                    }         
+                });  
+            });
+        });      
+    </script>
+    </div>
+</div>	
+</body>
+</html>

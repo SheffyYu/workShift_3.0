@@ -1,0 +1,147 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+
+<body class="app_background">
+<div th:fragment="content" th:remove="tag" > 
+    <style type="text/css">
+	.column_title2{width:20%}
+	.list_item_detail_column_value{width:25%}
+    </style>
+    <div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">铁路作业量明细</span> 
+   	</div>
+    <div class="app_content" style="margin: 15px;" >
+		<table style="width:100%;font-size: 14px; " cellspacing="0">
+	    	<tr>
+	    		<td class="list_item_detail_column_title" id="month_title">公司</td>
+	    		<td class="list_item_detail_column_value" colspan="3" id="COMPANY_NAM" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >月度</td>
+	    		<td class="list_item_detail_column_value" colspan="3" id="PROC_RANGE" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >重箱(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="FL_TEU" ></td>
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="FL_RAT" ></td>		    		
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >空箱(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="EP_TEU"></td>
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="EP_RAT"></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >本地(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="LC_TEU" ></td>
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="LC_RAT" ></td>
+	    		
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >中转(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="TS_TEU"></td>
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="TS_RAT"></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >外贸(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="FT_TEU" ></td>
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="FT_RAT" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >内贸(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="DT_TEU" ></td>
+	    		
+	    		<td class="list_item_detail_column_title column_title2" >比重(%)</td>
+	    		<td class="list_item_detail_column_value" id="DT_RAT" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title " >本月(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="TOT_TEU" colspan="3"></td>
+	    		
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >去年同期(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="LY_TOT_TEU" ></td>
+	    		
+	    		<td class="list_item_detail_column_title column_title2" >同比(%)</td>
+	    		<td class="list_item_detail_column_value" id="YOY_RAT" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >上期(TEU)</td>
+	    		<td class="list_item_detail_column_value" id="LM_TOT_TEU" ></td>
+	    		
+	    		<td class="list_item_detail_column_title" >环比(%)</td>
+	    		<td class="list_item_detail_column_value" id="QOQ_RAT" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >货重(万吨)</td>
+	    		<td class="list_item_detail_column_value" id="TOT_CARGO_WGT" colspan="3"></td>
+	    	</tr>   	
+	    	<tr>
+	    		<td class="list_item_detail_column_title " >去年同期(万吨)</td>
+	    		<td class="list_item_detail_column_value " id="LS_TOT_CARGO_WGT"></td>
+	    			
+	    		<td class="list_item_detail_column_title column_title2" >同比(%)</td>
+	    		<td class="list_item_detail_column_value" id="LS_CARGO_RAT" ></td>
+	    	</tr>
+	    	<tr>    		
+	    		<td class="list_item_detail_column_title" >上期(万吨)</td>
+	    		<td class="list_item_detail_column_value" id="AC_TOT_CARGO_WGT"></td>
+	    		<td class="list_item_detail_column_title column_title2" >环比(%)</td>
+	    		<td class="list_item_detail_column_value" id="AC_CARGO_RAT" ></td>
+	    	</tr>
+	    	<tr>
+	    		<td class="list_item_detail_column_title" >火车班列数</td>
+	    		<td class="list_item_detail_column_value" id="TRAIN_NUM" colspan="3"></td>
+	    		
+	    	</tr>
+	    </table>
+	</div> 	
+	<script type="text/javascript"> 
+	 /*<![CDATA[*/ 	
+	var company=getUrlParams("code");
+	$(document).ready(function() {
+		loadThrough();
+	});	
+	function loadThrough(){
+		var trainBuilder=new HdEzuiQueryParamsBuilder();
+		trainBuilder.setOtherskeyValue("company",company);
+		trainBuilder.setOtherskeyValue("account",localStorage.account);
+		$.showLoading();	
+		jQuery.axs("/webresources/wx/train/findDet",trainBuilder.build(), 
+			function(result){		 	
+			 	$.hideLoading(); 		 	
+			 	for(var i=0;i<result.data.length;i++){
+			 		var data=result.data[i];
+			 		for(var key in data){  
+				    	for(var key in data){  
+					    	if(key=="COMPANY_NAM"||key=="SHIP_CORP_NAM"||key=="PROC_RANGE"){
+								 $('#'+key).html(data[key]);
+							}else{
+								 var value=data[key]+'';
+								 if(value.indexOf(".")>0){
+									 $('#'+key).html(data[key]); 
+								 }else{
+									 $('#'+key).html(formatNum(data[key]));
+								 }
+							}	
+					 	}
+				 	}
+			 	}
+			 	
+			}
+		);
+	} 
+	/*]]>*/		
+	</script>
+</div>
+</body>
+</html>

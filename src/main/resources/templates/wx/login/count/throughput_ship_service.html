@@ -1,0 +1,331 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+
+<body class="app_background">
+<div th:fragment="content" th:remove="tag"> 
+	<style type="text/css">
+	td{width:20%}
+    </style>	
+	<link href="/wx/css/font-awesome.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/wx/css/style.css" media="screen" type="text/css" />
+	<script src="/wx/js/accordion.js"></script>
+	<script src="/wx/js/jquery-ui.js"></script>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">航线作业量</span> 
+   	</div>
+   	<div class="app_content" style="margin-left: 15px;margin-right: 15px;">
+        <div class="weui-flex" style="margin-top: 15px;line-height: 40px;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<input class="weui-input" id="begDte" type="month" style="text-align: center;"/>	          		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;" id="endDte_layout">			      		
+	      		<input class="weui-input" id="endDte" type="month" style="text-align: center;"/>			      		
+	      	</div>
+	    </div>
+	    <div class="weui-flex" style="margin-top: 2px;">
+	    	<div class="weui-flex__item" style="background: white;margin-right: 3px">			      	
+	      		<div class="weui-cell weui-cell_select">
+			        <div class="weui-cell__bd"  style="text-align: center;background: white;">
+			          	<select class="weui-select" id="selectCompany" >
+			          	</select>
+			        </div>
+		      	</div>        		
+         	</div>
+	      	<div class="weui-flex__item" style="background: white;margin-left: 3px;">			      		
+	      		<div class="weui-search-bar" id="searchBar" style="margin: 0px;margin-top: 3px;">
+		            <form class="weui-search-bar__form">
+		                <div class="weui-search-bar__box" style="padding: 0px 5px;" >
+		                    <input type="search"  class="weui-search-bar__input" id="searchInput" name="searchInput" placeholder="请输入航线" />
+		                	<a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+		                </div>
+		            </form>
+		        </div>			      		
+	      	</div>
+	    </div>      
+        <div class="weui-cells searchBar-result" id="searchResult" style="margin: 0px;">           			
+        </div> 
+   		<a href="javascript:;" class="weui-btn weui-btn_default" id="througth_query" style="margin-top: 5px;">查询</a>  
+	    <div id="accordion" class="accordion" style="border:1px solid #D6E5F5;margin:5px 0px;">
+	    	<ul style="margin-bottom: 5px;">
+	    		<li class="open"> 
+	    			<div class="link">内贸前十&ensp;&ensp;合计(TEU)：<span id="d_tot_teu"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu" id="menu_d" style="display: block;">
+						<li id="d_list">
+						</li>
+						<a href="javascript:;" class="weui-btn" style="color: black;margin: 5px;" onclick="loadShipServiceByDTrade()">加载更多</a>									
+					</ul>
+				
+				</li>
+			</ul>
+			<ul style="margin-bottom: 5px;">
+	    		<li >
+	    			<div class="link">外贸前十&ensp;&ensp;合计(TEU)：<span id="f_tot_teu"></span>
+	    				<i class="fa fa-chevron-down"></i>
+					</div>
+					<ul class="submenu" id="menu_f" >
+						<li id="f_list">
+						</li>
+						<a href="javascript:;" class="weui-btn" style="color: black;margin: 5px;" onclick="loadShipServiceByFTrade()">加载更多</a>									
+					</ul>
+				
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript">
+	/*<![CDATA[*/	
+	var begDte="";
+	var endDte="";
+	var pageD=0,pageF=0,dTotTeu=0;fTotTeu=0
+	var shipServiceData=new Array();	
+      /****航线控件初始化******/
+      function hideship_service_searchResult(){
+          $('#searchResult').hide();
+          $('#searchInput').val('');
+      }
+      function cancelShipServiceSearch(){
+          $('#searchBar').removeClass('weui-search-bar_focusing');
+      }
+      $('#searchClear').on('click', function(){
+          hideship_service_searchResult();
+          $('#searchInput').focus();
+      });
+      $('#searchInput')
+          .on('blur', function () {
+              if(!this.value.length) cancelShipServiceSearch();
+          })
+          .on('input', function(){
+              if(this.value.length) {
+                  $('#searchResult').show();
+              } else {
+                  $('#searchResult').hide();
+              }
+          })
+      ;
+      function selectShipService(searchText){  
+           hideship_service_searchResult();
+           $('#searchInput').val(shipServiceData[searchText].CN_SHIP_SERVICE_NAM);     
+       }; 
+	
+	 $(document).ready(function() {
+// 		 if(getMillisecond()-getUrlParams('timestamp')<=1000*5){
+			
+// 		} 
+		$("#begDte").val(getNowMonth());
+	    $("#endDte").val(getNowMonth());
+	    begDte=$("#begDte").val().replace("-","");
+		endDte=$("#endDte").val().replace("-","");
+	    loadSelectWorkCompany("selectCompany");				    
+		loadShipServiceByDTrade();
+		loadShipServiceByFTrade();		
+		$("#searchInput").autocomplete({
+            source: function( request, response ) {
+            	var searchText=$('#searchInput').val().trim();
+            	var searchshipServiceBuilder=new HdEzuiQueryParamsBuilder();
+             	searchshipServiceBuilder.setOtherskeyValue("searchText",searchText);
+             	jQuery.axs("/webresources/wx/search/shipService",searchshipServiceBuilder.build(), 
+             		function(result){
+	        			var html="";
+	        			shipServiceData=result.data;
+	        			for(var i=0;i<result.data.length;i++){			
+	        				var srarchData=result.data[i];
+	        				html+=
+	        				'<div class="weui-cell weui-cell_access" onclick="selectShipService('+i+')">'
+	                        +'	<div class="weui-cell__bd weui-cell_primary ship_service_search_result_list_item">'
+	                        +'  	<p>'+srarchData.CN_SHIP_SERVICE_NAM+'</p>'
+	                        +'	</div>'
+	                    	+'</div>';
+	        			}
+	        			$("#searchResult").html(html);
+	        			$('#searchResult').show();
+	        		}
+             	);             
+            },
+            minLength:1,
+            select: function( event, ui ) {          
+            }
+        });	
+		$("#througth_query").click(function (){
+			begDte=$("#begDte").val().replace("-","");
+			endDte=$("#endDte").val().replace("-","");
+			if(begDte>endDte){
+				 $.alert("开始时间必须小于结束时间！");
+				 return ;
+			}
+			pageD=0,pageF=0;
+			dTotTeu=0;fTotTeu=0;
+			$("#d_list").html('');
+		 	$("#f_list").html('');
+		 	$("#f_tot_teu").html('');  
+		 	$("#d_tot_teu").html(''); 
+		 	document.getElementById('menu_d').style.display ="block";  
+			document.getElementById('menu_f').style.display ="block";  
+			loadShipServiceByDTrade();
+			loadShipServiceByFTrade();
+		});	
+		
+	});
+	 //加载内贸
+	function loadShipServiceByDTrade(){			
+		var shipServiceBuilder=new HdEzuiQueryParamsBuilder();
+		shipServiceBuilder.setOtherskeyValue("begDte",begDte);
+		shipServiceBuilder.setOtherskeyValue("endDte",endDte);
+		shipServiceBuilder.setOtherskeyValue("company",$("#selectCompany").val()==null?"GPG":$("#selectCompany").val());
+		shipServiceBuilder.setOtherskeyValue("shipServiceName",$('#searchInput').val().trim());
+		shipServiceBuilder.setOtherskeyValue("account",localStorage.account);
+		shipServiceBuilder.setOtherskeyValue("tradeMark",'D');
+		pageD++;
+		shipServiceBuilder.hdEzuiQueryParams.page = pageD;
+		shipServiceBuilder.hdEzuiQueryParams.rows = 10;
+		$.showLoading();
+      	jQuery.axs("/webresources/wx/throughput/findShipService",shipServiceBuilder.build(), 
+      		function(result){
+      			$.hideLoading();
+					if(result.data.length==0){	
+						//$.alert("暂无数据！");
+					 	return ;
+					}	
+					for(var i=0;i<result.data.length;i++){
+						 var html="";
+						 var data=result.data[i];
+						 if(isNull(data.TOT_TEU)==""||isNull(data.TOT_TEU)==0){
+							 continue;
+						 }
+						 if(data.SHIP_SERVICE_NAM==null)
+						 {
+							 data.SHIP_SERVICE_NAM=data.SHIP_SERVICE_COD;
+						 }
+						 html+=
+						  '<a class="weui-cell weui-cell_access througth_content_item" href="/wx/init/login/throughputServiceDet?company='+data.COMPANY_COD+'&service='+data.SHIP_SERVICE_COD+'&begDte='+begDte+'&endDte='+endDte+'#" style="padding: 0px;">'					
+						 +'	<table  class="twoTable" >'
+						 +'		<tr >'
+						 +'			<td colspan="4" class="twoTableHeader">'+data.SHIP_SERVICE_NAM+'（TEU）</td>'
+					 	 +'		</tr>'
+						 +'		<tr>'
+						 +'			<td class="column_title"  style="width:25%">合计：</td> '
+						 +'			<td class="column_value"  style="width:25%">'+formatNum(data.TOT_TEU)+'</td>'
+						 +'			<td class="column_title"  style="width:25%">比重(%)：</td>'
+						 +'			<td class="column_value"  style="width:25%">'+isNull(data.OCC_RAT)+'</td>'
+						 +'		</tr>                                       '
+						 +'		<tr>'
+						 +'			<td class="column_title" style="width:25%">去年同期：</td>'
+						 +'			<td class="column_value" style="width:25%">'+formatNum(data.LY_TOT_TEU)+'</td>'
+						 +'			<td class="column_title" style="width:25%">同比(%)：</td>'
+						 +'			<td class="column_value" style="width:25%">'+isNull(data.YOY_RAT)+'</td>'
+						 +'		</tr>                                       '
+						 +'		<tr>'
+						 +'			<td class="column_title" style="width:25%">上期：</td>'
+						 +'			<td class="column_value" style="width:25%">'+formatNum(data.LM_TOT_TEU)+'</td>'
+						 +'			<td class="column_title" style="width:25%">环比(%)：</td>'
+						 +'			<td class="column_value" style="width:25%">'+isNull(data.QOQ_RAT)+'</td>'
+						 +'		</tr>';
+					 	if(begDte==endDte){
+							html+=
+							  '		<tr>'
+							 +'			<td class="column_title" style="width:25%">本年累计：</td>'
+							 +'			<td class="column_value" style="width:25%">'+formatNum(data.AC_TOT_TEU)+'</td>'
+							 +'			<td class="column_title" style="width:25%">比重(%)：</td>'
+							 +'			<td class="column_value" style="width:25%">'+isNull(data.AC_OCC_RAT)+'</td>'
+							 +'		</tr>';
+					 	}	
+				 		html+=
+						 '		<tr>'
+						 +'			<td colspan="4" class="list_item_next_title" >查看明细>></td>'
+						 +'		</tr>'
+						 +'	</table>'
+						 +'</a>';
+						dTotTeu+=data.TOT_TEU;
+						
+						$("#d_list").append(html);
+					}
+					$("#d_tot_teu").html(formatNum(dTotTeu));
+     		}
+      	);  
+	}
+	 //加载外贸
+	function loadShipServiceByFTrade(){
+		var shipServiceBuilder=new HdEzuiQueryParamsBuilder();
+		shipServiceBuilder.setOtherskeyValue("begDte",begDte);
+		shipServiceBuilder.setOtherskeyValue("endDte",endDte);
+		shipServiceBuilder.setOtherskeyValue("company",$("#selectCompany").val()==null?"GPG":$("#selectCompany").val());
+		shipServiceBuilder.setOtherskeyValue("shipServiceName",$('#searchInput').val().trim());
+		shipServiceBuilder.setOtherskeyValue("account",localStorage.account);
+		shipServiceBuilder.setOtherskeyValue("tradeMark",'F');
+		pageF++;
+		shipServiceBuilder.hdEzuiQueryParams.page = pageF;
+		shipServiceBuilder.hdEzuiQueryParams.rows = 10;
+		$.showLoading();
+      	jQuery.axs("/webresources/wx/throughput/findShipService",shipServiceBuilder.build(), 
+      		function(result){
+      			$.hideLoading();
+					if(result.data.length==0){
+						//$.alert("暂无数据！");
+					 	return ;
+					}
+					for(var i=0;i<result.data.length;i++){
+						 var html="";
+						 var data=result.data[i];
+						 if(isNull(data.TOT_TEU)==""||isNull(data.TOT_TEU)==0){
+							 continue;
+						 }
+						 if(data.SHIP_SERVICE_NAM==null)
+						 {
+							 data.SHIP_SERVICE_NAM=data.SHIP_SERVICE_COD;
+						 }
+						 html+=
+						  '<a class="weui-cell weui-cell_access througth_content_item" href="/wx/init/login/throughputServiceDet?company='+data.COMPANY_COD+'&service='+data.SHIP_SERVICE_COD+'&begDte='+begDte+'&endDte='+endDte+'#" style="padding: 0px;">'					
+						 +'	<table  class="twoTable" >'
+						 +'		<tr >'
+						 +'			<td colspan="4" class="twoTableHeader">'+data.SHIP_SERVICE_NAM+'（TEU）</td>'
+					 	 +'		</tr>'
+						 +'		<tr>'
+						 +'			<td class="column_title"  style="width:25%">合计：</td> '
+						 +'			<td class="column_value"  style="width:25%">'+formatNum(data.TOT_TEU)+'</td>'
+						 +'			<td class="column_title"  style="width:25%">比重(%)：</td>'
+						 +'			<td class="column_value"  style="width:25%">'+isNull(data.OCC_RAT)+'</td>'
+						 +'		</tr>                                       '
+						 +'		<tr>'
+						 +'			<td class="column_title" style="width:25%">去年同期：</td>'
+						 +'			<td class="column_value" style="width:25%">'+formatNum(data.LY_TOT_TEU)+'</td>'
+						 +'			<td class="column_title" style="width:25%">同比(%)：</td>'
+						 +'			<td class="column_value" style="width:25%">'+isNull(data.YOY_RAT)+'</td>'
+						 +'		</tr>                                       '
+						 +'		<tr>'
+						 +'			<td class="column_title" style="width:25%">上期：</td>'
+						 +'			<td class="column_value" style="width:25%">'+formatNum(data.LM_TOT_TEU)+'</td>'
+						 +'			<td class="column_title" style="width:25%">环比(%)：</td>'
+						 +'			<td class="column_value" style="width:25%">'+isNull(data.QOQ_RAT)+'</td>'
+						 +'		</tr>';
+					 	if(begDte==endDte){
+							html+=
+							  '		<tr>'
+							 +'			<td class="column_title" style="width:25%">本年累计：</td>'
+							 +'			<td class="column_value" style="width:25%">'+formatNum(data.AC_TOT_TEU)+'</td>'
+							 +'			<td class="column_title" style="width:25%">比重(%)：</td>'
+							 +'			<td class="column_value" style="width:25%">'+isNull(data.AC_OCC_RAT)+'</td>'
+							 +'		</tr>';
+					 	}	
+				 		html+=
+						 '		<tr>'
+						 +'			<td colspan="4" class="list_item_next_title" >查看明细>></td>'
+						 +'		</tr>'
+						 +'	</table>'
+						 +'</a>';
+						 fTotTeu+=data.TOT_TEU;
+						$("#f_list").append(html);
+					}
+					$("#f_tot_teu").html(formatNum(fTotTeu));    			 	
+     		}
+      	);  
+	}
+/*]]>*/    
+	</script>
+</div>
+</body>
+</html>

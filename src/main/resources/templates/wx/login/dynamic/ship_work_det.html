@@ -1,0 +1,103 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel">
+  
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+<style>
+.list_item_detail_column_title{width:40%;}
+.list_item_detail_column_value{width:60%;}
+table {
+	font-size: 14px;
+}
+</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">在港船舶详请</span> 
+   	</div>
+   	<div class="app_content" style="margin: 15px;">
+	    <table style="width:100%;" cellspacing="0">
+		    <tr>
+		    	<td class="list_item_detail_column_title">作业公司</td><td class="list_item_detail_column_value" id="COMPANY_NAM"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船名</td><td class="list_item_detail_column_value" id="SHIP_NAM"></td>
+		    </tr>	    
+		    <tr>
+		    	<td class="list_item_detail_column_title">航次</td><td class="list_item_detail_column_value" id="VOYAGE"></td>
+		    </tr>	    
+		    <tr>
+		    	<td class="list_item_detail_column_title">船公司</td><td class="list_item_detail_column_value" id="SHIP_CORP_NAM"></td>
+		    </tr> 
+		     <tr>
+		    	<td class="list_item_detail_column_title">航线</td><td class="list_item_detail_column_value" id="SHIP_SERVICE_NAM"></td>
+		    </tr> 
+		    <tr>
+		    	<td class="list_item_detail_column_title">泊位代码</td><td class="list_item_detail_column_value" id="BERTH_COD"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">实际靠泊时间</td><td class="list_item_detail_column_value" id="RTB"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">预计离泊时间</td><td class="list_item_detail_column_value" id="ETD"></td>
+		    </tr>
+		   
+		    <tr>
+		    	<td class="list_item_detail_column_title">卸船计划(自然箱)</td><td class="list_item_detail_column_value" id="DISC_PLAN"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">装船计划(自然箱)</td><td class="list_item_detail_column_value" id="LOAD_PLAN"></td>
+		    </tr>		    
+		    <tr>
+		    	<td class="list_item_detail_column_title">整船进度(TEU)</td><td class="list_item_detail_column_value" id="TOT_PLAN"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船时效率(自然箱)</td><td class="list_item_detail_column_value" id="EFFIC_UNIT"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船时效率(TEU)</td><td class="list_item_detail_column_value" id="EFFIC_TEU"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船时效率(MOVE)</td><td class="list_item_detail_column_value" id="EFFIC_MOVE"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">作业桥吊</td><td class="list_item_detail_column_value" id="CRANE"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船长</td><td class="list_item_detail_column_value" id="SHIP_LENGTH"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">船宽</td><td class="list_item_detail_column_value" id="SHIP_WIDTH"></td>
+		    </tr>
+		    <tr>
+		    	<td class="list_item_detail_column_title">吃水</td><td class="list_item_detail_column_value" id="DRAFT"></td>
+		    </tr> 
+		    <tr>
+		    	<td class="list_item_detail_column_title">作业状态</td><td class="list_item_detail_column_value" id="WORK_STAT"></td>
+		    </tr>    
+		    <tr>
+		    	<td class="list_item_detail_column_title">挂靠港</td><td class="list_item_detail_column_value" id="CN_ROUTING"></td>
+		    </tr>
+	    </table>
+    </div>
+    <script type="text/javascript">  
+	 $(document).ready(function() {
+	 	loadShipSchedule();				
+	 });
+	 function loadShipSchedule(){			
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("id",getUrlParams("id"));
+			$.showLoading();
+			jQuery.axs("/webresources/wx/shipWork/findById",tempBuilder.build(), function(result){
+				 $.hideLoading();
+				 for(var key in result){  
+				    $('#'+key).html(result[key]);  
+				 } 
+			 }) ;
+		}
+	</script>	
+</div>
+</body>
+</html>

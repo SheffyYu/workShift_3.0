@@ -1,0 +1,84 @@
+<meta charset="UTF-8">
+<style type="text/css">
+    .tableform{
+       margin: 16px auto;
+    }
+    .tableform tr{
+       height: 30px; 
+    } 
+    .tableform th{
+       text-align: right;
+       color: #ff3300;
+       white-space: nowrap;
+    }
+    .tableform td{
+       text-align: left;
+       width: 80px; 
+    }
+    .tableform input{ 
+       text-align: left;
+    }
+ </style>
+ <script>
+   $(document).ready(function() {
+     var formObject=$("#TestDevMaterKindForm1428042322276");
+     var dataObject=HdUtils.dialog.getValue("data");
+     var dg=HdUtils.dialog.getValue("dataGrid");
+        formObject.form("loadData",dataObject);
+        HdUtils.dialog.setValue({
+        saveHandler: function () {
+        var TestDevMaterKindObject={};
+            TestDevMaterKindObject.id=$("input[name='id']").val();   
+            TestDevMaterKindObject.materKindCod=$("input[name='materKindCod']").val();   
+            TestDevMaterKindObject.materKindNam=$("input[name='materKindNam']").val();   
+            TestDevMaterKindObject.recordTim=$("input[name='recordTim']").val();   
+            TestDevMaterKindObject.recordNam=$("input[name='recordNam']").val();   
+            TestDevMaterKindObject.updateNam=$("input[name='updateNam']").val();   
+            TestDevMaterKindObject.buyTypCod=$("input[name='buyTypCod']").val();   
+       //var tenantObject={text: nameObject, phone: phoneObject, address: addressObject};
+        var dataJason=null;
+        if (dataObject.type==="ADD") {
+            dataJason={deletedRows:[],insertedRows:[TestDevMaterKindObject],updatedRows:[]};
+        }else{
+            dataJason={deletedRows:[],insertedRows:[],updatedRows:[TestDevMaterKindObject]};
+        }
+        $.ajax({
+            type: "POST",
+            url: "../webresources/login/TestDevMaterKind/save",
+            contentType: "application/json",
+            dataType: "json",
+            data: $.toJSON(dataJason),
+            success: function (data) {               
+                    HdUtils.messager.info('保存成功');
+                    HdUtils.dialog.close(); 
+                    dg.datagrid("hdReload");
+            },
+            error: function (data) {
+                HdUtils.messager.info(data.responseText);
+            }
+        });
+    }});
+     });
+</script>
+    <form id="TestDevMaterKindForm1428042322276">
+    <table id="TestDevMaterKindTable1428042322276" style="height:75%;width:80%" class="tableform">         
+        <tr>
+            <th>ID: </th>
+            <td><input id="id" name="id"  class="easyui-validatebox" /></td>
+            <th>类别编码: </th>
+            <td><input id="materKindCod" name="materKindCod"  class="easyui-validatebox" /></td>
+            <th>类别名称: </th>
+            <td><input id="materKindNam" name="materKindNam"  class="easyui-validatebox" /></td>
+            <th>创建时间: </th>
+            <td><input id="recordTim" name="recordTim"  class="easyui-validatebox" /></td>
+            <th>创建人: </th>
+            <td><input id="recordNam" name="recordNam"  class="easyui-validatebox" /></td>
+        </tr>
+        <tr> 
+            <th>更新人: </th>
+            <td><input id="updateNam" name="updateNam"  class="easyui-validatebox" /></td>
+            <th>采购类型（1集团采购2公司采购）: </th>
+            <td><input id="buyTypCod" name="buyTypCod"  class="easyui-validatebox" /></td>
+        </tr>
+    </table>
+    </form>

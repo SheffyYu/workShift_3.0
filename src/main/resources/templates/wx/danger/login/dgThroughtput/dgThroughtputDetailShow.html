@@ -1,0 +1,106 @@
+<html
+	lang="zh-CN"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    layout:decorator="fragments/wx/webModel"> 
+<body class="app_background">
+<div th:fragment="content" th:remove="tag">
+   	<link href="/wx/css/font-awesome.min.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="/wx/css/style.css" media="screen" type="text/css" />
+	<style>
+	.list_item_detail_column_title{text-align: center;}
+	table{width: 100%;line-height: 30px;font-size: 14px;}
+	</style>
+	<div class="app_header">
+   		<span class="app_head_left app_head_back"><i class="fa fa-chevron-left "></i></span>	
+   		<span class="app_head_title">危品箱详情</span> 
+   	</div>	
+   	<div class="app_content" style="padding-left: 15px;padding-right: 15px;">
+	<!-- <div id="danger_list1" style="padding-top: 15px;padding-bottom: 15px;">
+						</div> -->
+		<div id="danger_list" style="padding-top: 15px;padding-bottom: 15px;">
+		
+		
+		</div>
+	</div>
+  	<script src="/wx/js/accordion.js"></script>
+    <script type="text/javascript">  
+    /*<![CDATA[*/
+	 $(document).ready(function() {
+		loadShipSchedule();
+		function loadShipSchedule(){
+			var tempBuilder=new HdEzuiQueryParamsBuilder();
+			tempBuilder.setOtherskeyValue("companyCod",getUrlParams("company"));
+			tempBuilder.setOtherskeyValue("account",localStorage.account);
+			$.showLoading();
+			jQuery.axs("/webresources/wx/dg/throughtput/findDgThroughtputDetailAll",tempBuilder.build(), function(result){
+				 $.hideLoading();
+				 var html="",html1="";
+				 var dgClass='-1',endClass='-1';
+				 var inNum=0,chgNum=0,tolNum=0;
+				 for(var i=0; i<result.rows.length; i++){
+					 var data = result.rows[i];
+					 var dgStr=(data.DANG_CLASS+"").replace(".","_");
+					 if(dgClass!=data.DANG_CLASS)
+					 {
+						 endClass=(dgClass+"").replace(".","_");
+
+						if(dgClass!='-1')
+						{
+							html1+='</table></div><div style="height:5px;"></div>';
+							html+='$("#spInNum'+endClass+'").text("'+inNum+'");'+' $("#spchNum'+endClass+'").text("'+chgNum+'");'+'$("#sptlNum'+endClass+'").text("'+tolNum+'");';
+						}
+						
+						html1+='<a class="weui-cell weui-cell_access througth_content_item" style="padding:0px;" >'+
+						'	<table  class="twoTable" >'+
+						'		<tr  class="twoTableHeader">'+
+						'			<td colspan="4">危险分类:'+data.DANG_CLASS+'&nbsp&nbsp&nbsp&nbsp内贸:<span id="spInNum'+dgStr+'"></span>&nbsp&nbsp&nbsp&nbsp外贸:<span id="spchNum'+dgStr+'"></span>&nbsp&nbsp&nbsp&nbsp总计:<span id="sptlNum'+dgStr+'"></span></td>'+
+						'		</tr>'+
+						'	</table>'+
+						'</a>'+
+						'<div  class="weui-tab__bd-item weui-tab__bd-item--active">'+
+        				'<table  style="width:100% " cellspacing="1">'+
+						    '<tr>'+
+						    '<td class="list_item_detail_column_title" style="width:40%">箱公司</td>'+
+						    '<td class="list_item_detail_column_title">内贸</td>'+
+							'<td class="list_item_detail_column_title">外贸</td>'+
+							'<td class="list_item_detail_column_title">总计</td>'+
+							'</tr><tr >'+
+							'<td class="list_item_detail_column_value" style="text-align:center">'+isNull(data.CN_CNTR_CORP_NAM)+'</td>'+
+							'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(data.I_NUM)+'</td>'+
+							'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(data.E_NUM)+'</td>'+
+							'<td class="list_item_detail_column_value"style="text-align:right;padding-right:8px;">'+isNull(data.CNTR_TEU)+'</td>'+
+							'</tr>';
+						inNum=0,chgNum=0,tolNum=0;
+							
+					 }else
+					 {
+						 html1+= '<tr >'+
+							'<td class="list_item_detail_column_value" style="text-align:center">'+isNull(data.CN_CNTR_CORP_NAM)+'</td>'+
+							'<td class="list_item_detail_column_value" style="text-align:right;padding-right:8px;">'+isNull(data.I_NUM)+'</td>'+
+							'<td class="list_item_detail_column_value" style="text-align:right;padding-right:8px;">'+isNull(data.E_NUM)+'</td>'+
+							'<td class="list_item_detail_column_value" style="text-align:right;padding-right:8px;">'+isNull(data.CNTR_TEU)+'</td>'+
+							'</tr>';
+					  }
+					 
+					 inNum+=data.I_NUM;
+					 chgNum+=data.E_NUM;
+					 tolNum+=data.CNTR_TEU;
+					 
+					 dgClass=data.DANG_CLASS;
+				 }
+				// console.log(html1);
+				 $("#danger_list").html(html1+'</table></div>');
+				// eval("x=10;y=20;document.write(x*y)");
+				html+='$("#spInNum'+dgStr+'").text("'+inNum+'");'+' $("#spchNum'+dgStr+'").text("'+chgNum+'");'+'$("#sptlNum'+dgStr+'").text("'+tolNum+'");';
+				eval(html);
+	
+
+			 });
+		}
+	});	 
+	 /*]]>*/
+	</script>		
+</div>
+</body>
+</html>
