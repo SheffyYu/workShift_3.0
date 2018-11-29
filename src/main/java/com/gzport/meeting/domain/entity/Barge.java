@@ -3,9 +3,8 @@ package com.gzport.meeting.domain.entity;
 import org.eclipse.persistence.annotations.UuidGenerator;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/11/28.
@@ -46,12 +45,14 @@ public class Barge implements Serializable {
     private String insAccount;
 
     @Column(name="INS_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date insTimestamp;
 
     @Column(name="UPD_ACCOUNT")
     private String updAccount;
 
     @Column(name="UPD_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
     public String getInsAccount() {

@@ -1,22 +1,19 @@
 package com.gzport.meeting.domain.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by yushihui on 2018/11/29.
  */
 @Entity
-@Table(name = "ROLES")
-public class Roles {
+@Table(name = "AUTH_ROLE")
+public class AuthRole {
     @Id
+    @Column(name = "AUTH_ID")
+    private String authId;
     @Column(name = "ROLE_ID")
     private String roleId;
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "DESCRIPTION")
-    private String description;
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -29,28 +26,20 @@ public class Roles {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
+
     public String getRoleId() {
         return roleId;
     }
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getInsAccount() {

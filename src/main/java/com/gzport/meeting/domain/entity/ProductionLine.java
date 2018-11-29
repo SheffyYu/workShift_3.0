@@ -2,15 +2,15 @@ package com.gzport.meeting.domain.entity;
 
 import org.eclipse.persistence.annotations.UuidGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/11/28.
  */
+@Entity
+@Table(name = "PRODUCTION_LINE")
 public class ProductionLine implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,14 @@ public class ProductionLine implements Serializable {
     private String insAccount;
 
     @Column(name="INS_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date insTimestamp;
 
     @Column(name="UPD_ACCOUNT")
     private String updAccount;
 
     @Column(name="UPD_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
     public static long getSerialVersionUID() {

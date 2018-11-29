@@ -1,22 +1,23 @@
 package com.gzport.meeting.domain.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by yushihui on 2018/11/29.
  */
 @Entity
-@Table(name = "ROLES")
-public class Roles {
+@Table(name = "MENU")
+public class Menu {
     @Id
-    @Column(name = "ROLE_ID")
-    private String roleId;
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column(name = "MENU_ID")
+    private String menuId;
+    @Column(name = "PARENT_ID")
+    private String parentId;
+    @Column(name = "TEXT")
+    private String text;
+    @Column(name = "URL")
+    private String url;
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -29,28 +30,36 @@ public class Roles {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
-    public String getRoleId() {
-        return roleId;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
-    public String getName() {
-        return name;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
-    public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getInsAccount() {

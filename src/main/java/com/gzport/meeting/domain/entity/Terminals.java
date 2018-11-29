@@ -1,11 +1,8 @@
 package com.gzport.meeting.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/11/28.
@@ -48,9 +45,11 @@ public class Terminals implements Serializable {
     private String casInsertuser;
 
     @Column(name="CAS_INSERTDT")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date casInsertdt;
 
     @Column(name="TER_LSTUPDDT")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date terLstupddt;
 
     @Column(name="TER_LSUPDUSER")

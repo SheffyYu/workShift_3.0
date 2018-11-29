@@ -1,40 +1,51 @@
 package com.gzport.meeting.domain.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by yushihui on 2018/11/29.
  */
 @Entity
-@Table(name = "ROLES")
-public class Roles {
+@Table(name = "AUTH")
+public class Auth {
     @Id
-    @Column(name = "ROLE_ID")
-    private String roleId;
+    @Column(name = "USER_ID")
+    private String userId;
+    @Column(name = "ACCOUNT")
+    private String account;     //账号
     @Column(name = "NAME")
-    private String name;
+    private String name;        //用户名称
+    @Column(name = "PASSWORD")
+    private String password;    //密码
     @Column(name = "DESCRIPTION")
-    private String description;
+    private String description;    //描述
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
     @Column(name = "INS_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date insTimestamp;
+    private Date insTimeStamp;
     @Column(name = "UPD_ACCOUNT")
     private String updAccount;
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updTimestamp;
+    private Date updTimeStamp;
 
-    public String getRoleId() {
-        return roleId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getName() {
@@ -43,6 +54,14 @@ public class Roles {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getDescription() {
@@ -61,12 +80,12 @@ public class Roles {
         this.insAccount = insAccount;
     }
 
-    public Date getInsTimestamp() {
-        return insTimestamp;
+    public Date getInsTimeStamp() {
+        return insTimeStamp;
     }
 
-    public void setInsTimestamp(Date insTimestamp) {
-        this.insTimestamp = insTimestamp;
+    public void setInsTimeStamp(Date insTimeStamp) {
+        this.insTimeStamp = insTimeStamp;
     }
 
     public String getUpdAccount() {
@@ -77,11 +96,11 @@ public class Roles {
         this.updAccount = updAccount;
     }
 
-    public Date getUpdTimestamp() {
-        return updTimestamp;
+    public Date getUpdTimeStamp() {
+        return updTimeStamp;
     }
 
-    public void setUpdTimestamp(Date updTimestamp) {
-        this.updTimestamp = updTimestamp;
+    public void setUpdTimeStamp(Date updTimeStamp) {
+        this.updTimeStamp = updTimeStamp;
     }
 }
