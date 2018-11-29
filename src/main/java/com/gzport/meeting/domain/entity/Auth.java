@@ -1,6 +1,10 @@
 package com.gzport.meeting.domain.entity;
 
+import org.eclipse.persistence.annotations.UuidGenerator;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -10,8 +14,13 @@ import java.util.Date;
 @Table(name = "AUTH")
 public class Auth {
     @Id
+    @NotNull
+    @Size(min = 1, max = 36)
+    @UuidGenerator(name = "UUID")
+    @GeneratedValue(generator = "UUID")
     @Column(name = "USER_ID")
     private String userId;
+
     @Column(name = "ACCOUNT")
     private String account;     //账号
     @Column(name = "NAME")
