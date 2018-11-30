@@ -23,7 +23,7 @@ html{*overflow:auto;}
 .hd-top .setting .setting-main{ float:left; width:192px;}
 .hd-top .setting .setting-main li{ float:left; width:38px;text-align:center; margin-right: 10px;}
 .hd-top .setting .setting-main li a{color:#fff;}
-.hd-top .setting .setting-main li a:hover{text-decoration:none;color:#000;}
+.hd-top .setting .setting-main li a:hover{text-decoration:none;color:#f24a39;}
 /*.hd-top .setting .setting-main li a.close-btn{ float:left; margin:16px 0 0 11px; width:20px; height:20px;background:url(../../img/skin_/quit.png);}*/
 /*.hd-top .setting .setting-main li a.close-btn:hover{ background-position:-20px 0;}*/
 /*顶部导航*/

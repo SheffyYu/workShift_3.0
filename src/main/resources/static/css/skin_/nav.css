@@ -2,7 +2,7 @@
 /*左侧栏*/
 .sidebar{ position:relative; float:left; width:203px; height:100%; margin-left:-203px;width:203px;}
 .sidebar a:hover{ text-decoration:none;}
-.sidebar .sidebar-bg{ position:absolute; width:4px; right:0; top:0; bottom:0;background:url(../../img/skin_/leftbg.png) repeat-y right; z-index:2;}
+.sidebar .sidebar-bg{ position:absolute; width:1px; right:0; top:0; bottom:0;background:#047db6; z-index:2;}
 .sidebar .sidebar-hide{ position:absolute; top:7px; right:0; width:19px; height:26px; background:url(../../img/skin_/toleft.png); cursor:pointer; z-index:1;}
 .sidebar h2{ height:40px; line-height:40px; background:#047db6}
 .sidebar h2 a{ display:block;}
@@ -16,6 +16,7 @@
 .sidebar .nav .nav-li.current{*height:auto;*margin-bottom:0;}
 .sidebar .nav .nav-li.current>a{ background:url(../../img/skin_/mbbg.png) repeat-x;}
 .sidebar .nav .nav-li>a .nav-ivon{ float:left; margin:13px 0 0 12px; width:9px; height:9px; background:url(../../img/skin_/leftmenu.png) no-repeat center center;}
+.sidebar .nav .nav-li>a .nav-home{ float:left; margin:13px 0 0 12px; width:9px; height:9px;}
 .sidebar .nav .nav-li.current>a .nav-ivon{ background:url(../../img/skin_/leftmenu1.png) no-repeat center center;}
 .sidebar .nav .nav-li>a .nav-text{ float:left; margin-left:11px; color:#4a4a4a; font-size:14px;}
 .sidebar .nav .nav-li.current>a .nav-text{ color:#047db6; font-weight:bold;}
@@ -36,7 +37,7 @@
 
 /*页面主体*/
 .main{ position:relative; padding-top:8px;}
-.main .title{ position:relative; border-bottom:1px solid #d7d7d7;height:31px; }
+.main .title{ position:relative; border-bottom:1px solid #047db6;height:31px; }
 /*更多tab*/
 .main .title .tab-more{display:none;float:left;margin:8px 0 0 5px;width:15px;height:14px;background:url(../../img/skin_/switch-system/tabright.png); cursor:pointer;}
 .main .title .tab-more:hover,.main .tab-more.active{background:url(../../img/skin_/switch-system/tabrighthover.png);}
