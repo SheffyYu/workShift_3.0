@@ -31,9 +31,11 @@ public class GzRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 
-        System.out.println("shiro执行登录");
+
 
         Auth user = authService.findByAccount(token.getUsername());
+
+
         if (user != null) {
             return new SimpleAuthenticationInfo(user.getAccount(), user.getPassword(), getName());
         } else {

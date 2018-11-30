@@ -16,8 +16,6 @@ public class Auth {
     @Id
     @NotNull
     @Size(min = 1, max = 36)
-    @UuidGenerator(name = "UUID")
-    @GeneratedValue(generator = "UUID")
     @Column(name = "USER_ID")
     private String userId;
 
