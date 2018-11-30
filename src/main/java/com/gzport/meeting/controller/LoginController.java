@@ -37,7 +37,7 @@ public class LoginController {
     }
 
 
-    @PostMapping("/dologin")
+    @GetMapping("/dologin")
     public LoginResult doLogin(@RequestParam("account") String account, @RequestParam("password") String password,@RequestParam("validateCode") String validateCode) {
         String vc = SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_RANDOMCOD).toString();
         if (validateCode==null
@@ -53,5 +53,4 @@ public class LoginController {
         else
             return LoginResult.getInstance(LoginResult.WRONG_PASSWORD);
     }
-
 }

@@ -1,6 +1,10 @@
 package com.gzport.meeting.domain.entity;
 
+import org.eclipse.persistence.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,6 +19,9 @@ public class Terminals implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Size(min = 1, max = 36)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "TER_CODE")
     private String terCode;
     @Column(name = "TER_NAME")
@@ -287,6 +294,7 @@ public class Terminals implements Serializable {
     public void setTerIsview(String terIsview) {
         this.terIsview = terIsview;
     }
+
 
 
 }

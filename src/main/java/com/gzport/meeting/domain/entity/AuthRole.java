@@ -1,6 +1,11 @@
 package com.gzport.meeting.domain.entity;
 
+import org.eclipse.persistence.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,8 +13,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "AUTH_ROLE")
-public class AuthRole {
+public class AuthRole implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @Size(min = 1, max = 36)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "AUTH_ID")
     private String authId;
     @Column(name = "ROLE_ID")
@@ -72,5 +83,21 @@ public class AuthRole {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
+    }
+
+
+    @PrePersist
+    protected void prePersist(){
+        if(this.insTimestamp == null){
+            insTimestamp= new Date();
+        }
+        if(this.updTimestamp == null){
+            updTimestamp=new Date();
+        }
+    }
+
+    @PreUpdate
+    protected void preUpdate(){
+        this.updTimestamp=new Date();
     }
 }

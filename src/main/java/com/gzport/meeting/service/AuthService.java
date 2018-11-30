@@ -2,6 +2,7 @@ package com.gzport.meeting.service;
 
 import com.gzport.meeting.domain.entity.Auth;
 import net.huadong.idev.ezui.HdEzuiDatagridData;
+import net.huadong.idev.ezui.HdEzuiQueryParams;
 import net.huadong.idev.ezui.HdEzuiSaveDatagridData;
 import net.huadong.idev.hdmessagecode.HdMessageCode;
 
@@ -15,5 +16,6 @@ public interface AuthService {
     Auth checkLogin(String accout,String password);
     Auth findByAccount(String account);
     HdMessageCode ezuiSave(HdEzuiSaveDatagridData data);
+    HdEzuiDatagridData ezuiFind(HdEzuiQueryParams hdEzuiQueryParams);
     Auth createAuth(Auth auth);
 }

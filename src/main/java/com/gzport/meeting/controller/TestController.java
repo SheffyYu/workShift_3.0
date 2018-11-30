@@ -37,10 +37,9 @@ public class TestController {
     @PostMapping("/create")
     public Auth create(@RequestParam("account") String account,@RequestParam("password") String password){
         Auth auth=new Auth();
-        Long time = System.currentTimeMillis();
-        auth.setUserId(time.toString());
         auth.setAccount(account);
         auth.setPassword(HdCipher.getMD(password, "MD5"));
+        auth.setName("系统管理员");
         return authService.createAuth(auth);
     }
 
