@@ -88,10 +88,10 @@
         	console.log("账号提交验证");
         	console.log($("#validateCode").val());
                $.ajax({
-                 url: "PrivilegeController/login?t=" + Math.random(),
+                 url: "/logincontroller/dologin",
                  contentType: "application/json",
                  dataType: "json",
-                 type: "GET",
+                 type: "POST",
                  data: {
                      name: $("#name").val(),
                      password: $("#password").val(),
@@ -161,7 +161,7 @@
             //刷新验证码
         function _refreshValidateCode() {
             $('#validateCode').val('');
-            $('#imageCode').attr("src", "PrivilegeController/getValidateCode?t=" + Math.random());
+            $('#imageCode').attr("src", "/logincontroller/getValidateCode?t=" + Math.random());
         }
 
         $(document).ready(
@@ -221,12 +221,12 @@
                     // 验证码获取。
 
 
-                    $('#imageCode').attr("src", "PrivilegeController/getValidateCode?t=" + Math.random());
+                    $('#imageCode').attr("src", "/logincontroller/getValidateCode?t=" + Math.random());
 
                     console.log($('#imageCode').attr("src"));
 
                     $("#imageCode").click(function() {
-                        $('#imageCode').attr("src", "PrivilegeController/getValidateCode?t=" + Math.random());
+                        $('#imageCode').attr("src", "/logincontroller/getValidateCode?t=" + Math.random());
                         console.log($('#imageCode').attr("src"));
                     });
 
