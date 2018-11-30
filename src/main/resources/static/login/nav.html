@@ -5,11 +5,11 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="css/skin_/nav.css" />
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/global.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="../css/skin_/nav.css" />
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/global.js"></script>
 <title>底部内容页</title>
 </head>
 
@@ -19,12 +19,12 @@
     	<div class="sidebar">
         	<div class="sidebar-bg"></div>
             <i class="sidebar-hide"></i>
-            <h2><a href="javascript:;"><i class="h2-icon" title="切换到树型结构"></i><span>安全管理</span></a></h2>
+            <h2><a href="javascript:;"><i class="h2-icon" title="切换到树型结构"></i><span></span></a></h2>
             <ul class="nav">
                 <li class="nav-li">
                 	<a href="javascript:;" class="ue-clear"><i class="nav-ivon"></i><span class="nav-text">新闻管理</span></a>
                     <ul class="subnav">
-                    	<li class="subnav-li" href="index.html" data-id="8"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">新闻视频管理</span></a></li>
+                    	<li class="subnav-li" href="mPort/form.html" data-id="8"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">新闻视频管理</span></a></li>
                         <li class="subnav-li" href="form.html" data-id="9"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">黄埔</span></a></li>
                         <li class="subnav-li" href="table.html" data-id="10"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">地方新闻管理</span></a></li>
                         <li class="subnav-li" data-id="11"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">自定义设置1</span></a></li>
@@ -33,7 +33,7 @@
                 <li class="nav-li current">
                 	<a href="javascript:;" class="ue-clear"><i class="nav-ivon"></i><span class="nav-text">用户信息设置</span></a>
                 	<ul class="subnav">
-                    	<li class="subnav-li current" href="index.html" data-id="1"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">首页</span></a></li>
+                    	<li class="subnav-li current" href="signal.html" data-id="1"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">首页</span></a></li>
                         <li class="subnav-li" href="form.html" data-id="2"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">表单</span></a></li>
                         <li class="subnav-li" href="table.html" data-id="3"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">表格</span></a></li>
                         <li class="subnav-li" data-id="4"><a href="javascript:;" class="ue-clear"><i class="subnav-icon"></i><span class="subnav-text">自定义设置2</span></a></li>
@@ -84,9 +84,9 @@
     <div class="opt-panel-bl"></div>
 </div>
 </body>
-<script type="text/javascript" src="js/nav.js"></script>
-<script type="text/javascript" src="js/Menu.js"></script>
-<script type="text/javascript" src="js/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="../js/nav.js"></script>
+<script type="text/javascript" src="../js/Menu.js"></script>
+<script type="text/javascript" src="../js/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript">
 	var menu = new Menu({
 		defaultSelect: $('.nav').find('li[data-id="1"]')
@@ -98,30 +98,30 @@
 		var zNodes =[
 			{ name:"新闻管理",
 			   children: [
-				 { name:"新闻视频管理",icon:'img/skin_/leftlist.png'},
-				 { name:"黄埔",icon:'img/skin_/leftlist.png'},
-				 { name:"地方新闻管理",icon:'img/skin_/leftlist.png'}
+				 { name:"新闻视频管理"},
+				 { name:"黄埔"},
+				 { name:"地方新闻管理"}
 			]},
 			{ name:"用户信息设置", open:true,
 			   children: [
-				 { name:"首页", checked:true,icon:'img/skin_/leftlist.png'},
-				 { name:"表单",icon:'img/skin_/leftlist.png'},
-				 { name:"表格",icon:'img/skin_/leftlist.png'},
-				 { name:"自定义设置",icon:'img/skin_/leftlist.png'}
+				 { name:"首页", checked:true},
+				 { name:"表单"},
+				 { name:"表格"},
+				 { name:"自定义设置"}
 			]},
 			{ name:"工作安排",
 			   children: [
-				 { name:"工作安排",icon:'img/skin_/leftlist.png'},
-				 { name:"安排管理",icon:'img/skin_/leftlist.png'},
-				 { name:"类型选择",icon:'img/skin_/leftlist.png'},
-				 { name:"自定义设置",icon:'img/skin_/leftlist.png'}
+				 { name:"工作安排"},
+				 { name:"安排管理"},
+				 { name:"类型选择"},
+				 { name:"自定义设置"}
 			]},
 			{ name:"数据管理",
 			   children: [
-				 { name:"工作安排",icon:'img/skin_/leftlist.png'},
-				 { name:"安排管理",icon:'img/skin_/leftlist.png'},
-				 { name:"类型选择",icon:'img/skin_/leftlist.png'},
-				 { name:"自定义设置",icon:'img/skin_/leftlist.png'}
+				 { name:"工作安排"},
+				 { name:"安排管理"},
+				 { name:"类型选择"},
+				 { name:"自定义设置"}
 			]}
 		];
 
