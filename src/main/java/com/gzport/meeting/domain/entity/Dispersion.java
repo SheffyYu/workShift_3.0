@@ -1,8 +1,10 @@
 package com.gzport.meeting.domain.entity;
 
 import org.eclipse.persistence.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,8 +18,9 @@ public class Dispersion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @UuidGenerator(name = "UUID")
-    @GeneratedValue(generator = "UUID")
+    @Size(min = 1, max = 36)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name ="DISPERSION_ID")
     private String dispersionId;
 
@@ -143,5 +146,20 @@ public class Dispersion implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    @PrePersist
+    protected void prePersist(){
+        if(this.insTimestamp == null){
+            insTimestamp= new Date();
+        }
+        if(this.updTimestamp == null){
+            updTimestamp=new Date();
+        }
+    }
+
+    @PreUpdate
+    protected void preUpdate(){
+        this.updTimestamp=new Date();
     }
 }

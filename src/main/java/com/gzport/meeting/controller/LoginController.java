@@ -53,5 +53,4 @@ public class LoginController {
         else
             return LoginResult.getInstance(LoginResult.WRONG_PASSWORD);
     }
-
 }

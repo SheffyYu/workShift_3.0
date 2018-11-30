@@ -4,6 +4,8 @@ import com.gzport.meeting.controller.TestController;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.repository.AuthRepository;
 import com.gzport.meeting.service.AuthService;
+import net.huadong.idev.ezui.HdEzuiDatagridData;
+import net.huadong.idev.ezui.HdEzuiQueryParams;
 import net.huadong.idev.ezui.HdEzuiSaveDatagridData;
 import net.huadong.idev.ezui.utils.HdCipher;
 import net.huadong.idev.hdmessagecode.HdMessageCode;
@@ -62,6 +64,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public HdMessageCode ezuiSave(HdEzuiSaveDatagridData data) {
+        return null;
+    }
+
+    @Override
+    public HdEzuiDatagridData ezuiFind(HdEzuiQueryParams hdEzuiQueryParams) {
         return null;
     }
 

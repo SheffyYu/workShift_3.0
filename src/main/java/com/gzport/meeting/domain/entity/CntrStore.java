@@ -1,6 +1,11 @@
 package com.gzport.meeting.domain.entity;
 
+import org.eclipse.persistence.annotations.UuidGenerator;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,8 +14,14 @@ import java.util.Date;
 
 @Entity
 @Table(name = "CNTR_STORE")
-public class CntrStore {
+public class CntrStore implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @Size(min = 1, max = 36)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "CNTR_STORE_ID")
     private String cntrStoreId;
     @Column(name = "TER_CODE")
@@ -114,5 +125,20 @@ public class CntrStore {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
+    }
+
+    @PrePersist
+    protected void prePersist(){
+        if(this.insTimestamp == null){
+            insTimestamp= new Date();
+        }
+        if(this.updTimestamp == null){
+            updTimestamp=new Date();
+        }
+    }
+
+    @PreUpdate
+    protected void preUpdate(){
+        this.updTimestamp=new Date();
     }
 }
