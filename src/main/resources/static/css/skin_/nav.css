@@ -4,7 +4,7 @@
 .sidebar a:hover{ text-decoration:none;}
 .sidebar .sidebar-bg{ position:absolute; width:4px; right:0; top:0; bottom:0;background:url(../../img/skin_/leftbg.png) repeat-y right; z-index:2;}
 .sidebar .sidebar-hide{ position:absolute; top:7px; right:0; width:19px; height:26px; background:url(../../img/skin_/toleft.png); cursor:pointer; z-index:1;}
-.sidebar h2{ height:40px; line-height:40px; background:url(../../img/skin_/leftmenubg.png) repeat-x;}
+.sidebar h2{ height:40px; line-height:40px; background:#376ea6}
 .sidebar h2 a{ display:block;}
 .sidebar h2 a .h2-icon{float:left;margin:15px 0 0 10px; width:12px; height:12px; background:url(../../img/skin_/lefticon.png);}
 .sidebar h2 a:hover .h2-icon{background:url(../../img/skin_/left_tree.png);}
