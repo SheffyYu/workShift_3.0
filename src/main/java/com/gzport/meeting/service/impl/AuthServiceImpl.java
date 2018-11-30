@@ -30,13 +30,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Auth checkLogin(String accout, String password) throws Exception {
+    public Auth checkLogin(String accout, String password){
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(accout, password);
         token.setRememberMe(true);
         try {
             SecurityUtils.getSubject().login(token);
-
         } catch (UnknownAccountException uae) {
             //LOG.info("There is no user with username of " + token.getPrincipal());
         } catch (IncorrectCredentialsException ice) {
@@ -51,7 +50,8 @@ public class AuthServiceImpl implements AuthService {
         }
         password= HdCipher.getMD(password, "MD5");
         Auth user=authRepository.findByAccountAndPassword(accout,password);
-        SecurityUtils.getSubject().getSession().setAttribute(TestController.SESSION_USER, user);
+        if(user!=null)
+            SecurityUtils.getSubject().getSession().setAttribute(TestController.SESSION_USER, user);
         return user;
     }
 

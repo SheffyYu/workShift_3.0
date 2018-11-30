@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface AuthService {
     List<Auth> findAll();
-    Auth checkLogin(String accout,String password) throws Exception;
+    Auth checkLogin(String accout,String password);
     Auth findByAccount(String account);
     HdMessageCode ezuiSave(HdEzuiSaveDatagridData data);
     Auth createAuth(Auth auth);
