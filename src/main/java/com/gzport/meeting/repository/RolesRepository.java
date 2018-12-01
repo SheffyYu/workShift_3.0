@@ -7,6 +7,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * Created by zhangxiang on 2018/11/30.
  */
 public interface RolesRepository extends PagingAndSortingRepository<Roles,String> {
-
-
+    Roles findByRoleId(String roleId);
 }

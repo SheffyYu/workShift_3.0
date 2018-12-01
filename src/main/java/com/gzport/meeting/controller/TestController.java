@@ -1,12 +1,8 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.common.Constants;
-import com.gzport.meeting.domain.entity.Auth;
-import com.gzport.meeting.domain.entity.Menu;
-import com.gzport.meeting.domain.entity.Roles;
-import com.gzport.meeting.service.AuthService;
-import com.gzport.meeting.service.MenuService;
-import com.gzport.meeting.service.RolesService;
+import com.gzport.meeting.domain.entity.*;
+import com.gzport.meeting.service.*;
 import net.huadong.idev.ezui.utils.HdCipher;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -38,6 +34,12 @@ public class TestController {
     @Autowired
     MenuService menuService;
 
+    @Autowired
+    RoleMenuService roleMenuService;
+
+    @Autowired
+    AuthRoleService authRoleService;
+
     @GetMapping("/login")
     public String testLogin(@RequestParam("account")String accunt,@RequestParam("password") String password) throws Exception {
         authService.checkLogin(accunt,password);
@@ -49,7 +51,6 @@ public class TestController {
         Auth auth=new Auth();
         auth.setAccount(account);
         auth.setPassword(HdCipher.getMD(password, "MD5"));
-        auth.setName("系统管理员");
         return authService.createAuth(auth);
     }
 
@@ -62,6 +63,16 @@ public class TestController {
     @PostMapping("/createMenu")
     public Menu createMenu(Menu menu){
         return menuService.create(menu);
+    }
+
+    @PostMapping("/createAuthRole")
+    public AuthRole createAuthRole(AuthRole authRole){
+        return authRoleService.createAuthRole(authRole);
+    }
+
+    @PostMapping("/createRoleMenu")
+    public RoleMenu createRoleMenu(RoleMenu roleMenu){
+        return roleMenuService.save(roleMenu);
     }
 
     @GetMapping("/user")

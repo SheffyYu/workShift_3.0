@@ -20,7 +20,10 @@ public class RoleMenu implements Serializable {
     @Size(min = 1, max = 36)
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "ROLE_ID")
+    @Column(name = "ROLEMENU_ID")
+    private String rolemenuId;
+
+    @Column(name="ROLE_ID")
     private String roleId;
     @Column(name = "MENU_ID")
     private String menuId;
@@ -35,6 +38,14 @@ public class RoleMenu implements Serializable {
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
+
+    public String getRolemenuId() {
+        return rolemenuId;
+    }
+
+    public void setRolemenuId(String rolemenuId) {
+        this.rolemenuId = rolemenuId;
+    }
 
     public String getRoleId() {
         return roleId;

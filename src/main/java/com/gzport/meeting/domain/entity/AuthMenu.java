@@ -1,6 +1,5 @@
 package com.gzport.meeting.domain.entity;
 
-import org.eclipse.persistence.annotations.UuidGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,26 +8,31 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by yushihui on 2018/11/29.
+ * Created by zhangxiang on 2018/12/1.
  */
 @Entity
-@Table(name = "AUTH_ROLE")
-public class AuthRole implements Serializable {
-
+@Table(name = "VJ_AUTHMENU")
+public class AuthMenu implements Serializable {
     private static final long serialVersionUID = 1L;
-
     @Id
+    @Basic(optional = false)
     @Size(min = 1, max = 36)
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name="AUTHROLE_ID")
-    private String authroleId;
+    @Column(name = "ID")
+    private String id;
 
+    @Column(name = "ACCOUNT")
+    private String account;
 
-    @Column(name = "AUTH_ID")
-    private String authId;
-    @Column(name = "ROLE_ID")
-    private String roleId;
+    @Column(name = "TEXT")
+    private String text;
+
+    @Column(name = "URL")
+    private String url;
+
+    @Column(name="PARENT_ID")
+    private String parentId;
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -41,28 +45,44 @@ public class AuthRole implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
-    public String getAuthroleId() {
-        return authroleId;
+    public String getId() {
+        return id;
     }
 
-    public void setAuthroleId(String authroleId) {
-        this.authroleId = authroleId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getAuthId() {
-        return authId;
+    public String getAccount() {
+        return account;
     }
 
-    public void setAuthId(String authId) {
-        this.authId = authId;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public String getRoleId() {
-        return roleId;
+    public String getText() {
+        return text;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getInsAccount() {
@@ -95,21 +115,5 @@ public class AuthRole implements Serializable {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
-    }
-
-
-    @PrePersist
-    protected void prePersist(){
-        if(this.insTimestamp == null){
-            insTimestamp= new Date();
-        }
-        if(this.updTimestamp == null){
-            updTimestamp=new Date();
-        }
-    }
-
-    @PreUpdate
-    protected void preUpdate(){
-        this.updTimestamp=new Date();
     }
 }
