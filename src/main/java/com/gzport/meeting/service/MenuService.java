@@ -13,4 +13,7 @@ import net.huadong.tech.springboot.core.HdEzuiSaveDatagridData;
 public interface MenuService {
     HdMessageCode ezuiSave(HdEzuiSaveDatagridData<Menu> data);
     HdEzuiDatagridData ezuiFind(HdEzuiQueryParams hdEzuiQueryParams);
+
+    Menu create(Menu menu);
+
 }

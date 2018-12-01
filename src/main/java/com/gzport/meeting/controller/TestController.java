@@ -2,7 +2,11 @@ package com.gzport.meeting.controller;
 
 import com.gzport.meeting.common.Constants;
 import com.gzport.meeting.domain.entity.Auth;
+import com.gzport.meeting.domain.entity.Menu;
+import com.gzport.meeting.domain.entity.Roles;
 import com.gzport.meeting.service.AuthService;
+import com.gzport.meeting.service.MenuService;
+import com.gzport.meeting.service.RolesService;
 import net.huadong.idev.ezui.utils.HdCipher;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -28,6 +32,12 @@ public class TestController {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    RolesService rolesService;
+
+    @Autowired
+    MenuService menuService;
+
     @GetMapping("/login")
     public String testLogin(@RequestParam("account")String accunt,@RequestParam("password") String password) throws Exception {
         authService.checkLogin(accunt,password);
@@ -41,6 +51,17 @@ public class TestController {
         auth.setPassword(HdCipher.getMD(password, "MD5"));
         auth.setName("系统管理员");
         return authService.createAuth(auth);
+    }
+
+
+    @PostMapping("/createRoles")
+    public Roles createRoles(Roles roles){
+        return rolesService.create(roles);
+    }
+
+    @PostMapping("/createMenu")
+    public Menu createMenu(Menu menu){
+        return menuService.create(menu);
     }
 
     @GetMapping("/user")

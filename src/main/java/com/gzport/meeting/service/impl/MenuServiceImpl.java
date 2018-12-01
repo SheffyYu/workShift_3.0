@@ -1,6 +1,7 @@
 package com.gzport.meeting.service.impl;
 
 import com.gzport.meeting.domain.entity.Menu;
+import com.gzport.meeting.repository.MenuRepository;
 import com.gzport.meeting.repository.hdrepository.HDMenuRepository;
 import com.gzport.meeting.service.MenuService;
 import net.huadong.idev.hdmessagecode.HdMessageCode;
@@ -19,6 +20,9 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     HDMenuRepository hdMenuRepository;
 
+    @Autowired
+    MenuRepository menuRepository;
+
     @Override
     public HdMessageCode ezuiSave(HdEzuiSaveDatagridData<Menu> data) {
         return hdMenuRepository.save(data);
@@ -27,5 +31,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public HdEzuiDatagridData ezuiFind(HdEzuiQueryParams hdEzuiQueryParams) {
         return hdMenuRepository.ezuiFind(hdEzuiQueryParams);
+    }
+
+    @Override
+    public Menu create(Menu menu) {
+        return menuRepository.save(menu);
     }
 }
