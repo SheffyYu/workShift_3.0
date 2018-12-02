@@ -163,6 +163,19 @@
 
   });
 
+  $.ajax({
+    url: "/login/getMenuForTree",
+    contentType: "application/json",
+    dataType: "json",
+    type: "GET",
+    success: function (data) {
+        console.log(data);
+    },
+    error: function (data) {
+      console.info($.toJSON(data));
+    }
+  });
+
 //  $('.exitDialog').Dialog({
 //    title:'提示信息',
 //    autoOpen: false,

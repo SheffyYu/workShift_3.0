@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.JedisCluster;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by zhangxiang on 2018/11/29.
  */
@@ -39,6 +42,9 @@ public class TestController {
 
     @Autowired
     AuthRoleService authRoleService;
+
+    @Autowired
+    AuthMenuService authMenuService;
 
     @GetMapping("/login")
     public String testLogin(@RequestParam("account")String accunt,@RequestParam("password") String password) throws Exception {
@@ -74,6 +80,7 @@ public class TestController {
     public RoleMenu createRoleMenu(RoleMenu roleMenu){
         return roleMenuService.save(roleMenu);
     }
+
 
     @GetMapping("/user")
     public void test(){

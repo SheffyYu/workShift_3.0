@@ -8,5 +8,6 @@ import java.util.Map;
  */
 public interface AuthMenuService {
 
-    List<Map> findTreeByAccount(String account);
+    List<Map> getTreeByAccount(String account);
+
 }
