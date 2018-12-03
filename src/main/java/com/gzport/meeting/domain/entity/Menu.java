@@ -22,10 +22,13 @@ public class Menu implements Serializable {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "MENU_ID")
     private String menuId;
+
     @Column(name = "PARENT_ID")
     private String parentId;
+
     @Column(name = "TEXT")
     private String text;
+
     @Column(name = "URL")
     private String url;
 

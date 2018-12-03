@@ -1,13 +1,15 @@
 package com.gzport.meeting.service;
 
+import com.gzport.meeting.domain.entity.DispersionCargo;
+
 /**
  * Created by zhangxiang on 2018/12/3.
  */
 
-public interface DispersionCargo {
+public interface DispersionCargoService {
 
     DispersionCargo save(DispersionCargo dispersionCargo);
 
-    DispersionCargo delete(DispersionCargo dispersionCargo);
+    void delete(DispersionCargo dispersionCargo);
 
 }

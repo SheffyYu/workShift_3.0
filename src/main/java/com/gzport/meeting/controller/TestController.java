@@ -46,6 +46,8 @@ public class TestController {
     @Autowired
     AuthMenuService authMenuService;
 
+
+
     @GetMapping("/login")
     public String testLogin(@RequestParam("account")String accunt,@RequestParam("password") String password) throws Exception {
         authService.checkLogin(accunt,password);

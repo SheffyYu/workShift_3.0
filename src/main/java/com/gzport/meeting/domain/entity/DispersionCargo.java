@@ -21,15 +21,15 @@ public class DispersionCargo implements Serializable {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name ="CARGO_CODE_ID")
-    private String cargoCodeId;
+    private String cargoCodeId;  //货物ID
 
-    @Column(name="CARGO_NAME")
+    @Column(name="CARGO_NAME")    //货物名称
     private String cargoName;
 
-    @Column(name="CARGO_CODE",columnDefinition = "VARCHAR2(20)")
+    @Column(name="CARGO_CODE",columnDefinition = "VARCHAR2(20)")   //货物代码
     private String cargoCode;
 
-    @Column(name="DESCRIPTION",columnDefinition = "VARCHAR2(1000)")
+    @Column(name="DESCRIPTION",columnDefinition = "VARCHAR2(1000)")   //货物描述
     private String description;
 
     @Column(name="INS_ACCOUNT")

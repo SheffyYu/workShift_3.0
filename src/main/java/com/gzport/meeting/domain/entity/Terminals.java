@@ -295,6 +295,4 @@ public class Terminals implements Serializable {
         this.terIsview = terIsview;
     }
 
-
-
 }
