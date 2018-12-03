@@ -34,6 +34,8 @@ public class Auth implements Serializable {
     private String password;    //密码
     @Column(name = "DESCRIPTION")
     private String description;    //描述
+    @Column(name = "COMPANY")
+    private String company; //公司
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -116,6 +118,14 @@ public class Auth implements Serializable {
 
     public void setUpdTimeStamp(Date updTimeStamp) {
         this.updTimeStamp = updTimeStamp;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     @PrePersist
