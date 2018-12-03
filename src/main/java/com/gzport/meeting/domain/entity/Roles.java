@@ -28,7 +28,7 @@ public class Roles implements Serializable {
     private String description;
 
     @Column(name="DEFAULT_URL")
-    private String defautlUrl;
+    private String defaultUrl;
 
 
     @Column(name = "INS_ACCOUNT")
@@ -98,12 +98,12 @@ public class Roles implements Serializable {
         this.updTimestamp = updTimestamp;
     }
 
-    public String getDefautlUrl() {
-        return defautlUrl;
+    public String getDefaultUrl() {
+        return defaultUrl;
     }
 
-    public void setDefautlUrl(String defautlUrl) {
-        this.defautlUrl = defautlUrl;
+    public void setDefaultUrl(String defaultUrl) {
+        this.defaultUrl = defaultUrl;
     }
 
     @PrePersist
