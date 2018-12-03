@@ -30,6 +30,9 @@ public class Roles implements Serializable {
     @Column(name="DEFAULT_URL")
     private String defaultUrl;
 
+    @Column(name="DEFAULT_MENU")
+    private String defaultMenu;
+
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -41,6 +44,15 @@ public class Roles implements Serializable {
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
+
+
+    public String getDefaultMenu() {
+        return defaultMenu;
+    }
+
+    public void setDefaultMenu(String defaultMenu) {
+        this.defaultMenu = defaultMenu;
+    }
 
     public String getRoleId() {
         return roleId;

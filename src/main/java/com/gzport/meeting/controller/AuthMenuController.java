@@ -1,5 +1,6 @@
 package com.gzport.meeting.controller;
 
+import com.gzport.meeting.domain.entity.RoleMenu;
 import com.gzport.meeting.service.AuthMenuService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class AuthMenuController {
 
     @GetMapping("/getMenuForTree")
     public List<Map> getMenu(){
+
         return authMenuService.getTreeByAccount(SecurityUtils.getSubject().getPrincipal().toString());
     }
 }

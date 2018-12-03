@@ -33,8 +33,9 @@ public class AuthMenu implements Serializable {
 
     @Column(name="PARENT_ID")
     private String parentId;
-    @Column(name = "DEFAULT_URL")
-    private String defaultUrl;
+
+    @Column(name="DEFAULT_MENU")
+    private String defaultMenu;
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -46,6 +47,15 @@ public class AuthMenu implements Serializable {
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
+
+
+    public String getDefaultMenu() {
+        return defaultMenu;
+    }
+
+    public void setDefaultMenu(String defaultMenu) {
+        this.defaultMenu = defaultMenu;
+    }
 
     public String getId() {
         return id;
@@ -119,11 +129,4 @@ public class AuthMenu implements Serializable {
         this.updTimestamp = updTimestamp;
     }
 
-    public String getDefaultUrl() {
-        return defaultUrl;
-    }
-
-    public void setDefaultUrl(String defaultUrl) {
-        this.defaultUrl = defaultUrl;
-    }
 }
