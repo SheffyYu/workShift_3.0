@@ -85,7 +85,6 @@ public class LoginFilter implements Filter {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        System.out.println("监听程序执行");
 
         if (!SecurityUtils.getSubject().isAuthenticated()) {
             HttpServletRequest hrequest=(HttpServletRequest) request;

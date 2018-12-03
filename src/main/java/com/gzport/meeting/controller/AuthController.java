@@ -21,7 +21,9 @@ public class AuthController {
 
     @GetMapping("/getLoginUser")
     public String getLoginUser(){
+        System.out.println("user : "+SecurityUtils.getSubject().getPrincipal().toString());
         Auth auth=authService.findByAccount(SecurityUtils.getSubject().getPrincipal().toString());
+        System.out.println(auth.getName());
         return auth.getName();
     }
 }

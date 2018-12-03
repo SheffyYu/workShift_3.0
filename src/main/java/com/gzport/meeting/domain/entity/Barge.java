@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/11/28.
+ * 驳船实体类
  */
 @Entity
 @Table(name="BARGE")
