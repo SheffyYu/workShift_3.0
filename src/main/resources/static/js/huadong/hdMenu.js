@@ -25,6 +25,10 @@
               			    //其他情况不处理
               		}
               	}
+              	//选中默认url
+
+
+
               	//console.info(mainMenu1.html());
                  // controlMenuColor();
                  // mouseenterOut();//鼠标移入移出

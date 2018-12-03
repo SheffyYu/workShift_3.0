@@ -33,6 +33,8 @@ public class AuthMenu implements Serializable {
 
     @Column(name="PARENT_ID")
     private String parentId;
+    @Column(name = "DEFAULT_URL")
+    private String defaultUrl;
 
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
@@ -115,5 +117,13 @@ public class AuthMenu implements Serializable {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
+    }
+
+    public String getDefaultUrl() {
+        return defaultUrl;
+    }
+
+    public void setDefaultUrl(String defaultUrl) {
+        this.defaultUrl = defaultUrl;
     }
 }

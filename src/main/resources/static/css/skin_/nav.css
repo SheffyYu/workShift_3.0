@@ -1,10 +1,13 @@
+/*修改记录：
+*2018.12.3 将树结构背景由#047db6修改为#38a3d5
+*/
 #bd{ padding-left:203px;}
 /*左侧栏*/
 .sidebar{ position:relative; float:left; width:203px; height:100%; margin-left:-203px;width:203px;}
 .sidebar a:hover{ text-decoration:none;}
 .sidebar .sidebar-bg{ position:absolute; width:1px; right:0; top:0; bottom:0;background:#047db6; z-index:2;}
 .sidebar .sidebar-hide{ position:absolute; top:7px; right:0; width:19px; height:26px; background:url(../../img/skin_/toleft.png); cursor:pointer; z-index:1;}
-.sidebar h2{ height:40px; line-height:40px; background:#047db6}
+.sidebar h2{ height:40px; line-height:40px; background:#38a3d5}/*此处为树结构的背景*/
 .sidebar h2 a{ display:block;}
 .sidebar h2 a .h2-icon{float:left;margin:15px 0 0 10px; width:12px; height:12px; background:url(../../img/skin_/left_tree.png);}
 .sidebar h2 a:hover .h2-icon{background:url(../../img/skin_/lefticon.png);}
