@@ -78,13 +78,14 @@ textarea{height:80px; background:none;}
   表单样式
   ===================================*/
 .kv-item{margin-bottom:10px;font-size:12px;}
-.kv-item label,.kv-item .kv-item-label{position:relative;float:left;padding-left:7px;width:6em;height:26px;line-height:26px;}
+.kv-item span {position:relative;float:left;padding-left:7px;width:4em;height:26px;line-height:26px;font-weight: bolder;font-size: 15px}
+.kv-item label,.kv-item .kv-item-label{position:relative;float:left;padding-left:7px;width:5.5em;height:26px;line-height:26px;}
 .kv-item label .impInfo,.kv-item .kv-item-label .impInfo{ position:absolute;left:0;}
 .kv-item-content{float:left;}
 .kv-item .input{float:left;width:100%;margin-top:5px;}
 .kv-item .input:first-child{margin-top:0;}
 /*输入框，文本域， 密码输入框样式*/
-.kv-item input[type=text],.kv-item textarea,.kv-item input[type=password],.kv-item input[type=file],.kv-item .file{width:375px;height:26px;border-width:1px;border-style:solid;border-left-color:#c5c5c5;border-top-color:#c5c5c5;border-right-color:#e0e0e0;border-bottom-color:#e0e0e0;*line-height:26px;outline:none; background:url(../img/skin_/inputbg.png);padding:0 10px;}
+.kv-item input[type=text],.kv-item textarea,.kv-item input[type=password],.kv-item input[type=file],.kv-item .file{width:150px;height:26px;border-width:1px;border-style:solid;border-left-color:#c5c5c5;border-top-color:#c5c5c5;border-right-color:#e0e0e0;border-bottom-color:#e0e0e0;*line-height:26px;outline:none; background:url(../img/skin_/inputbg.png);padding:0 10px;}
 .kv-item input[type=text].error-input,.kv-item textarea.error-input,.kv-item input[type=password].error-input{border:1px solid #e60000;background:#fff2f4;}
 .kv-item textarea{height:80px;overflow-y:auto;resize:none; background:none;padding:5px 10px;}
 .kv-item select{width:397px;height:30px;}
