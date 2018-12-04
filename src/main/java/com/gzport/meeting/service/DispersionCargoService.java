@@ -12,4 +12,7 @@ public interface DispersionCargoService {
 
     void delete(DispersionCargo dispersionCargo);
 
+    DispersionCargo findByName(String name);
+
+
 }

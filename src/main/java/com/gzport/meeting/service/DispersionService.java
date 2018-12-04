@@ -11,4 +11,6 @@ import java.util.List;
 public interface DispersionService {
     Dispersion save(Dispersion dispersion);
     Dispersion findCurrentDispersionByWharf(String terId);
+
+    Iterable<Dispersion> saveInterable(Iterable<Dispersion> iterable);
 }

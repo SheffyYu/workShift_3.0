@@ -1,6 +1,7 @@
 package com.gzport.meeting.repository;
 
 import com.gzport.meeting.domain.entity.Dispersion;
+import com.gzport.meeting.domain.entity.DispersionCargo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -15,5 +16,7 @@ public interface DispersionRepository extends PagingAndSortingRepository<Dispers
 //    @Modifying
 //    @Query(value = "",nativeQuery = true)
 //    public List<Dispersion> findCurrentDataByWharf();
+
+    Iterable<Dispersion> save(Iterable<? extends Dispersion> entities);
 
 }

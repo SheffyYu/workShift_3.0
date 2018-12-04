@@ -26,4 +26,9 @@ public class DispersionCargoServiceImpl implements DispersionCargoService {
     public void delete(DispersionCargo dispersionCargo) {
          dispersionCargoRepository.delete(dispersionCargo);
     }
+
+    @Override
+    public DispersionCargo findByName(String name) {
+        return dispersionCargoRepository.findByCargoName(name);
+    }
 }

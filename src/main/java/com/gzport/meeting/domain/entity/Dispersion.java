@@ -131,6 +131,14 @@ public class Dispersion implements Serializable {
         return cargoNumber;
     }
 
+    public Long getCargoUnworkNumber() {
+        return cargoUnworkNumber;
+    }
+
+    public void setCargoUnworkNumber(Long cargoUnworkNumber) {
+        this.cargoUnworkNumber = cargoUnworkNumber;
+    }
+
     public void setCargoNumber(Long cargoNumber) {
         this.cargoNumber = cargoNumber;
     }

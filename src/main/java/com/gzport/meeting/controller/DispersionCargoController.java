@@ -3,10 +3,9 @@ package com.gzport.meeting.controller;
 import com.gzport.meeting.domain.entity.DispersionCargo;
 import com.gzport.meeting.service.DispersionCargoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 /**
  * Created by zhangxiang on 2018/12/3.
@@ -27,5 +26,10 @@ public class DispersionCargoController {
     @DeleteMapping("/deleteCargo")
     public void delete(DispersionCargo dispersionCargo){
         dispersionCargoService.delete(dispersionCargo);
+    }
+
+    @GetMapping("/findByName/{name}")
+    public DispersionCargo findByName(@PathParam("name") String name){
+        return dispersionCargoService.findByName(name);
     }
 }
