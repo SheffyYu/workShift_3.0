@@ -1,5 +1,7 @@
 package com.gzport.meeting.controller;
 
+import com.gzport.meeting.domain.AuthConverter;
+import com.gzport.meeting.domain.dto.AuthInfo;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.service.AuthService;
 import org.apache.shiro.SecurityUtils;
@@ -19,11 +21,12 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    AuthConverter authConverter;
+
     @GetMapping("/getLoginUser")
-    public String getLoginUser(){
-        System.out.println("user : "+SecurityUtils.getSubject().getPrincipal().toString());
+    public AuthInfo getLoginUser(){
         Auth auth=authService.findByAccount(SecurityUtils.getSubject().getPrincipal().toString());
-        System.out.println(auth.getName());
-        return auth.getName();
+        return authConverter.convert(auth);
     }
 }

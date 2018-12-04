@@ -36,6 +36,9 @@ public class Dispersion implements Serializable {
     @Column(name="CARGO_STATE")
     private String cargoState;
 
+    @Column(name="CARGO_UNWORK_NUMBER")
+    private Long cargoUnworkNumber;
+
     @Column(name="REMARK")
     private String remark;
 
@@ -147,6 +150,9 @@ public class Dispersion implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+
+
 
     @PrePersist
     protected void prePersist(){

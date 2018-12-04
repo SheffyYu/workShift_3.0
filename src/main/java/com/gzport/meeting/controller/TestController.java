@@ -46,6 +46,8 @@ public class TestController {
     @Autowired
     AuthMenuService authMenuService;
 
+    @Autowired
+    DispersionCargoService dispersionCargoService;
 
 
     @GetMapping("/login")
@@ -83,6 +85,11 @@ public class TestController {
         return roleMenuService.save(roleMenu);
     }
 
+
+    @PostMapping("/createCargo")
+    public DispersionCargo createCargo(DispersionCargo dispersionCargo){
+        return dispersionCargoService.save(dispersionCargo);
+    }
 
     @GetMapping("/user")
     public void test(){
