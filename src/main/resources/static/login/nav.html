@@ -66,9 +66,9 @@
 <script type="text/javascript" src="../js/Menu.js"></script>
 <script type="text/javascript" src="../js/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript">
-	var menu = new Menu({
-		defaultSelect: $('.nav').find('li[data-id="1"]')
-	});
+  var menu = new Menu({
+    defaultSelect: $('.nav').find('li[data-id="1"]')
+  });
   $.ajax({
     url: "/login/getMenuForTree",
     contentType: "application/json",
@@ -77,11 +77,9 @@
     success: function (data) {
       // 左侧树结构加载
       var setting = {};
-//      for (var i=0;i < data.length;i++){
-//
-//      }
-      var zNodes =data;
-      $.fn.zTree.init($(".tree"), setting, zNodes);
+
+//      var zNodes =data;
+      $.fn.zTree.init($(".tree"), setting, data);
 
 
       $('.sidebar h2').click(function(e) {

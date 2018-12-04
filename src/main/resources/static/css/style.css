@@ -78,7 +78,7 @@ textarea{height:80px; background:none;}
   表单样式
   ===================================*/
 .kv-item{margin-bottom:10px;font-size:12px;}
-.kv-item span {position:relative;float:left;padding-left:7px;width:4em;height:26px;line-height:26px;font-weight: bolder;font-size: 15px}
+.kv-item span {position:relative;float:left;padding-left:7px;width:4.5em;height:26px;line-height:26px;font-weight: bolder;font-size: 15px}
 .kv-item label,.kv-item .kv-item-label{position:relative;float:left;padding-left:7px;width:5.5em;height:26px;line-height:26px;}
 .kv-item label .impInfo,.kv-item .kv-item-label .impInfo{ position:absolute;left:0;}
 .kv-item-content{float:left;}

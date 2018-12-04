@@ -19,12 +19,23 @@
               			 var li=" <li id='"+node.ID+"' class='nav-li'><a href='javascript:;' class='ue-clear'><i class='nav-ivon'></i><span class='nav-text'>"+node.TEXT+"</span></a><ul class='subnav'><div id='"+node.ID+"one'></div></ul></li>";
                     mainMenu1.append(li);
               		} else if(node.LEVEL=='2') {    //id=0one/1one/2one....为了避免和首页的data-id混淆
-    	                        $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li' href='"+node.URL+"' data-id='"+node.URL+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
-    	                        	subPartid=node.PARENT_ID;
+                    //判断是否为默认打开的页面
+                    if(node.ID != node.DEFAULT_MENU){
+                      $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li' href='"+node.URL+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                    }
+                    else{
+                      $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li current' href='"+node.URL+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                      menu._createContent($('.nav').find('li[data-id="'+node.ID+'"]'))
+                    }
+
               		}else{
               			    //其他情况不处理
               		}
               	}
+
+                // var menu = new Menu({
+                //   defaultSelect: $('.nav').find('li[data-id="1"]'),
+                // });
 
               	//console.info(mainMenu1.html());
                  // controlMenuColor();
