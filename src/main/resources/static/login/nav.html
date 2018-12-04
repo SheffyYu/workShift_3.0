@@ -69,6 +69,8 @@
   var menu = new Menu({
     defaultSelect: $('.nav').find('li[data-id="1"]')
   });
+  var setting = {};
+  var znodes=[{name:"首页",id:"",url:"",children:[]}];
   $.ajax({
     url: "/login/getMenuForTree",
     contentType: "application/json",
@@ -76,26 +78,56 @@
     type: "GET",
     success: function (data) {
       // 左侧树结构加载
-      var setting = {};
 
-//      var zNodes =data;
-      $.fn.zTree.init($(".tree"), setting, data);
-
-
-      $('.sidebar h2').click(function(e) {
-        $('.tree-list').toggleClass('outwindow');
-        $('.nav').toggleClass('outwindow');
-      });
-
-      $(document).click(function(e) {
-        if(!$(e.target).is('.tab-more')){
-          $('.tab-more').removeClass('active');
-          $('.more-bab-list').hide();
+      for(var count=0;data.length>count;count++) {
+        var obj = {
+          name: data[count].TEXT,
+          url: data[count].URL,
+          id: data[count].ID,
+          children:[]
+        };
+        if (data[count].LEVEL == '1') {
+          znodes.push(obj);
+        } else {
+          for (var k = znodes.length - 1; k >= 0; k--) {
+            if (data[count].PARENT_ID == znodes[k].id) {
+                if(data[count].DEFAULT_MENU == data[count].ID){
+                  var subobj={
+                    name: data[count].TEXT,
+                    url: data[count].URL,
+                    id: data[count].ID,
+                    checked:true
+                  };
+                }else{
+                  var subobj={
+                    name: data[count].TEXT,
+                    url: data[count].URL,
+                    id: data[count].ID
+                  };
+                }
+              znodes[k].children.push(subobj);
+            }
+          }
         }
-      });
+      }
+
+      $.fn.zTree.init($(".tree"), setting, znodes);
     },
     error: function (data) {
       console.info($.toJSON(data));
+    }
+  });
+
+  //隐藏树结构，只有点击图标才会出现
+  $('.sidebar h2 a').click(function(e) {
+    $('.tree-list').toggleClass('outwindow');
+    $('.nav').toggleClass('outwindow');
+  });
+
+  $(document).click(function(e) {
+    if(!$(e.target).is('.tab-more')){
+      $('.tab-more').removeClass('active');
+      $('.more-bab-list').hide();
     }
   });
 //	// 左侧树结构加载

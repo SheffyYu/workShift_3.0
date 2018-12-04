@@ -2,7 +2,6 @@
 	showLeftMenu();
     //3 主菜单
     var mainMenu1 = $("#mainnav");
-
     function showLeftMenu(){
     	  $.ajax({
               method: "get",
@@ -10,12 +9,12 @@
           contentType: "application/json",
           dataType: "json",
               success: function(nodes){
+
                 console.log(nodes);
-                  var maxTextLength = 0;
               	for(var i=0;i<nodes.length;i++) {
 
               		var node=nodes[i];
-              		if(node.LEVEL=='1') {
+             		if(node.LEVEL=='1') {
               			 var li=" <li id='"+node.ID+"' class='nav-li'><a href='javascript:;' class='ue-clear'><i class='nav-ivon'></i><span class='nav-text'>"+node.TEXT+"</span></a><ul class='subnav'><div id='"+node.ID+"one'></div></ul></li>";
                     mainMenu1.append(li);
               		} else if(node.LEVEL=='2') {    //id=0one/1one/2one....为了避免和首页的data-id混淆
@@ -25,7 +24,7 @@
                     }
                     else{
                       $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li current' href='"+node.URL+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
-                      menu._createContent($('.nav').find('li[data-id="'+node.ID+'"]'))
+                      menu._createContent($('.nav').find('li[data-id="'+nodes[0].DEFAULT_MENU+'"]'));
                     }
 
               		}else{
