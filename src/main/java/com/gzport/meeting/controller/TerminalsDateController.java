@@ -112,6 +112,7 @@ public class TerminalsDateController {
             for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
                 terminalVO.getTruckStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getTruckStoreList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getTruckStoreList().get(i).setTerCode(auth.getCompany());
             }
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
         }
@@ -127,7 +128,8 @@ public class TerminalsDateController {
         dispersions=dispersionService.findCurrentDispersionByWharf(auth.getCompany());
         for(int i=0;i<dispersions.size();i++){
             DispersionVO dispersionVO=new DispersionVO();
-            dispersionVO.setTerminal(auth.getCompany());
+            dispersionVO.setTerCode(auth.getCompany());
+            dispersionVO.setCargoName(dispersionCargoService.findByCargoCode(dispersions.get(i).getCargoCode()).getCargoName());
             dispersionVO.setMechanicalNumber(dispersions.get(i).getMechanicalNumber());
             dispersionVO.setWorkingNumber(dispersions.get(i).getCargoNumber());
             dispersionVO.setUnWorkNumber(dispersions.get(i).getCargoUnworkNumber());
@@ -138,6 +140,7 @@ public class TerminalsDateController {
         terminalVO.setBargeXSList(bargeXSService.getCurrentBargeByTerId(auth.getAccount()));
         terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getAccount()));
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getAccount()));
+        terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getAccount()));
         return terminalVO;
     }
 }

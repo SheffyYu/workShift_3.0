@@ -36,7 +36,7 @@ public class DispersionController {
             dispersion.setCargoNumber(dispersionVOS.get(i).getWorkingNumber());
             dispersion.setCargoUnworkNumber(dispersionVOS.get(i).getUnWorkNumber());
             dispersion.setMechanicalNumber(dispersionVOS.get(i).getMechanicalNumber());
-            dispersion.setTerCode(dispersionVOS.get(i).getTerminal());
+            dispersion.setTerCode(dispersionVOS.get(i).getTerCode());
             DispersionCargo dispersionCargo=dispersionCargoService.findByName(dispersionVOS.get(i).getCargoName());
             if(dispersionCargo==null){
                 DispersionCargo newCargo=new DispersionCargo();

@@ -4,19 +4,19 @@ package com.gzport.meeting.domain.vo;
  * Created by zhangxiang on 2018/12/4.
  */
 public class DispersionVO {
-    private String terminal;
+    private String terCode;
     private String cargoName;
     private Long workingNumber;
     private Long unWorkNumber;
     private Integer mechanicalNumber;
 
 
-    public String getTerminal() {
-        return terminal;
+    public String getTerCode() {
+        return terCode;
     }
 
-    public void setTerminal(String terminal) {
-        this.terminal = terminal;
+    public void setTerCode(String terCode) {
+        this.terCode = terCode;
     }
 
     public String getCargoName() {

@@ -31,4 +31,9 @@ public class DispersionCargoServiceImpl implements DispersionCargoService {
     public DispersionCargo findByName(String name) {
         return dispersionCargoRepository.findByCargoName(name);
     }
+
+    @Override
+    public DispersionCargo findByCargoCode(String cargoCode) {
+        return dispersionCargoRepository.findByCargoCode(cargoCode);
+    }
 }

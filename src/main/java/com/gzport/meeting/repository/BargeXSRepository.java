@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface BargeXSRepository extends PagingAndSortingRepository<BargeXS,String> {
     @Modifying
-    @Query(value = "SELECT * FROM BARGE_XS  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2;",nativeQuery = true)
+    @Query(value = "SELECT * FROM BARGE_XS  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
     public List<BargeXS> findCurrentDataByWharf(String date, String terId);
 }
