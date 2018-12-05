@@ -54,6 +54,7 @@ public class TerminalsDateController {
     public void saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
+        System.out.println(terminalVO.getBulkStoreList().size());
         if(terminalVO.getDispersionVOList().size()>0){
             List<DispersionVO> dispersionVOS=terminalVO.getDispersionVOList();
             List<Dispersion> dispersions=new ArrayList();

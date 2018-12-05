@@ -79,7 +79,7 @@ function truckCargoOper() {
   document.getElementById("allcgo").value=(trkmt-0)+(trkks-0)+(trkzh-0);
 }
 //目前只有西基需要计算总疏运量
-function xjbarge() {
+function xjBarge() {
   var total=0;
   $(".dispersion1").each(function () {
     var str=document.getElementsByClassName("dispersion1").value;
@@ -341,38 +341,38 @@ function truckData() {
 function xsCntrData() {
 var xstitle=[],xsShen=[],xsI=[],xsE=[],xsBus=[],xstotal=[];
 var i=0;
-$("#xsCntr .kv-item span").each(function () {
+$("#xsCntr .subfild span").each(function () {
   var node=$(this).attr("title");
     xstitle[i]=node;
     i++;
 });
 i=0;
 $("#xsCntr .xsShen").each(function () {
-  var node=$(this).value;
+  var node=$(this).val();
   xsShen[i]=node;
   i++;
 });
   i=0;
   $("#xsCntr .xsI").each(function () {
-    var node=$(this).value;
+    var node=$(this).val();
     xsI[i]=node;
     i++;
   });
   i=0;
   $("#xsCntr .xsE").each(function () {
-    var node=$(this).value;
+    var node=$(this).val();
     xsE[i]=node;
     i++;
   });
   i=0;
   $("#xsCntr .xsBus").each(function () {
-    var node=$(this).value;
+    var node=$(this).val();
     xsBus[i]=node;
     i++;
   });
   i=0;
   $("#xsCntr .xstotal").each(function () {
-    var node=$(this).value;
+    var node=$(this).val();
     xstotal[i]=node;
     i++;
   });
@@ -382,10 +382,10 @@ $("#xsCntr .xsShen").each(function () {
       terCode:"",		//码头代码，不用填
       workType:xstitle[k],		//类型
       totalNumber:xstotal[k],		//总数
-      ShenzhenNumber:xsShen[k],	//深圳数量
+      shenzhenNumber:xsShen[k],	//深圳数量
       shuttlebusNumber:xsBus[k],	//穿巴数
-      ItNumber:xsI[k],		//内贸
-      EtNumber:xsE[k]		//外贸
+      itNumber:xsI[k],		//内贸
+      etNumber:xsE[k]		//外贸
     };
     bargeXS.push(obj);
   }

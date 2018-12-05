@@ -1,9 +1,13 @@
 package com.gzport.meeting.service.impl;
 
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.repository.BulkStoreRepository;
 import com.gzport.meeting.service.BulkStoreService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,18 +16,23 @@ import java.util.List;
 
 @Service
 public class BulkStoreServiceImpl implements BulkStoreService {
+
+    @Autowired
+    BulkStoreRepository bulkStoreRepository;
+
     @Override
     public BulkStore save(BulkStore barge) {
-        return null;
+        return bulkStoreRepository.save(barge);
     }
 
     @Override
     public Iterable<BulkStore> saveAll(Iterable<BulkStore> barges) {
-        return null;
+        return bulkStoreRepository.saveAll(barges);
     }
 
     @Override
     public List<BulkStore> getCurrentBargeByTerId(String terId) {
-        return null;
+        String date=new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+        return bulkStoreRepository.findCurrentDataByWharf(date,terId);
     }
 }
