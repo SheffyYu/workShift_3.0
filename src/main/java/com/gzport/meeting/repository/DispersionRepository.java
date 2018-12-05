@@ -4,8 +4,10 @@ import com.gzport.meeting.domain.entity.Dispersion;
 import com.gzport.meeting.domain.entity.DispersionCargo;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import java.util.Date;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -13,10 +15,8 @@ import java.util.List;
  */
 public interface DispersionRepository extends PagingAndSortingRepository<Dispersion,String>{
 
-//    @Modifying
-//    @Query(value = "",nativeQuery = true)
-//    public List<Dispersion> findCurrentDataByWharf();
-
-    Iterable<Dispersion> save(Iterable<? extends Dispersion> entities);
+    @Modifying
+    @Query(value = "SELECT * FROM DISPERSION  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
+    public List<Dispersion> findCurrentDataByWharf(String date,String terId);
 
 }

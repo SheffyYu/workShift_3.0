@@ -23,6 +23,8 @@ public class TruckStore implements Serializable {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(name = "TRUCK_STORE_ID")
     private String truckStoreId;
+    @Column(name="TER_CODE")
+    private String terCode;      //码头Id
     @Column(name = "TOTAL_LOAD")
     private long totalLoad;     //新港片装车合计
     @Column(name = "LOAD_INPORT")
@@ -222,6 +224,14 @@ public class TruckStore implements Serializable {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
+    }
+
+    public String getTerCode() {
+        return terCode;
+    }
+
+    public void setTerCode(String terCode) {
+        this.terCode = terCode;
     }
 
     @PrePersist

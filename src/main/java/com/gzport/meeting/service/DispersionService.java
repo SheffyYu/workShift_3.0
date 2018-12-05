@@ -2,6 +2,7 @@ package com.gzport.meeting.service;
 
 import com.gzport.meeting.domain.entity.Dispersion;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface DispersionService {
     Dispersion save(Dispersion dispersion);
-    Dispersion findCurrentDispersionByWharf(String terId);
+    List<Dispersion> findCurrentDispersionByWharf(String terId);
+    Iterable<Dispersion> saveInterable(Iterable<Dispersion> dispersions);
 
-    Iterable<Dispersion> saveInterable(Iterable<Dispersion> iterable);
 }

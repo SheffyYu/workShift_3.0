@@ -2,6 +2,7 @@ package com.gzport.meeting.controller;
 
 import com.gzport.meeting.common.Constants;
 import com.gzport.meeting.domain.entity.*;
+import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.service.*;
 import net.huadong.idev.ezui.utils.HdCipher;
 import org.apache.shiro.SecurityUtils;
@@ -12,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.JedisCluster;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhangxiang on 2018/11/29.
@@ -48,6 +48,9 @@ public class TestController {
 
     @Autowired
     DispersionCargoService dispersionCargoService;
+
+    @Autowired
+    DispersionService dispersionService;
 
 
     @GetMapping("/login")
@@ -90,6 +93,7 @@ public class TestController {
     public DispersionCargo createCargo(DispersionCargo dispersionCargo){
         return dispersionCargoService.save(dispersionCargo);
     }
+
 
     @GetMapping("/user")
     public void test(){
