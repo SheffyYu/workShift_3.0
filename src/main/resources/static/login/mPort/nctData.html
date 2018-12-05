@@ -60,58 +60,63 @@
                     </div>
                   </div>
 
-        <h2 class="subfild">
-          <span>集装箱驳船</span>
-        </h2>
-        <!--<div class="subfild-content base-info">-->
-          <!--<div class="kv-item ue-clear">-->
-            <!--<label>总作业量</label>-->
-            <!--<div class="kv-item-content">-->
-              <!--<input type="text"/>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="subfild-content base-info">-->
-        <!--<div class="kv-item ue-clear">-->
-          <!--<label>作业量</label>-->
-          <!--<div class="kv-item-content">-->
-            <!--<input type="text"/>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>在港艘数</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+        <div id="barge">
+          <h2 class="subfild">
+            <span>集&nbsp;装&nbsp;箱&nbsp;驳&nbsp;船</span>
+          </h2>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>在港艘数</label>
+              <div class="kv-item-content" onpropertychange="work()" oninput="work()">
+                <input type="number" id="inPort"/>
+              </div>
+            </div>
+          </div>
+          <!--"onpropertychange"用于ie核心的浏览器，"oninput"用于firefox-->
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>作业量</label>
+              <div class="kv-item-content">
+                <input type="number" id="finishWork" onpropertychange="work()" oninput="work()"/>
+              </div>
+            </div>
+          </div>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>待作业量</label>
+              <div class="kv-item-content">
+                <input type="number" id="unWork"/>
+              </div>
             </div>
           </div>
         </div>
 
-        <h2 class="subfild">
-          <span>集装箱作业线</span>
-        </h2>
+        <div id="productionLine">
+          <h2 class="subfild">
+            <span>集装箱作业线</span>
+          </h2>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>大船作业线</label>
+              <div class="kv-item-content">
+                <input type="number" id="shipProLine" onpropertychange="proLine()" oninput="proLine()"/>
+              </div>
+            </div>
+          </div>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>驳船作业线</label>
+              <div class="kv-item-content">
+                <input type="number" id="bargeProLine"/>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
             <label>总作业线</label>
             <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>大船作业线</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>驳船作业线</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" id="allProLine"/>
             </div>
           </div>
         </div>

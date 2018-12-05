@@ -1,5 +1,8 @@
 <!--修改记录
 2018.12.3 驳船作业线自动算出
+2018.12.4 增加数据的拼接，增加id和class
+2018.12.5 驳船作业线自动与作业量同步，待作业=在港艘数-作业
+          将需要输入数字的输入框type改为number
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -24,165 +27,162 @@
     </div>
     <div id="bd">
     	<div id="main">
+        <div id="dispersion">
         <h2 class="subfild">
           <span>散&nbsp;&nbsp;货&nbsp;&nbsp;疏&nbsp;&nbsp;运</span>
         </h2>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>钢&nbsp;&nbsp;&nbsp;&nbsp;材:</span>
+            <span title="钢材">钢&nbsp;&nbsp;&nbsp;&nbsp;材:</span>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>饲&nbsp;&nbsp;&nbsp;&nbsp;料:</span>
+            <span title="饲料">饲&nbsp;&nbsp;&nbsp;&nbsp;料:</span>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>纸&nbsp;&nbsp;&nbsp;&nbsp;浆:</span>
+            <span title="纸浆">纸&nbsp;&nbsp;&nbsp;&nbsp;浆:</span>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>石&nbsp;&nbsp;&nbsp;&nbsp;膏:</span>
+            <span title="石膏">石&nbsp;&nbsp;&nbsp;&nbsp;膏:</span>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>货&nbsp;类&nbsp;5:</span>
+            <span title="other">货&nbsp;类&nbsp;5:</span>
             <label>货&nbsp;类&nbsp;名</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" class="cargo"/>
             </div>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <span>货&nbsp;类&nbsp;6:</span>
+            <span title="other">货&nbsp;类&nbsp;6:</span>
             <label>货&nbsp;类&nbsp;名</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" class="cargo"/>
             </div>
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1"/>
             </div>
             <label>待疏运量</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
+        </div>
         </div>
 
+        <div id="barge">
         <h2 class="subfild">
           <span>集&nbsp;装&nbsp;箱&nbsp;驳&nbsp;船</span>
         </h2>
-        <!--<div class="subfild-content base-info">-->
-          <!--<div class="kv-item ue-clear">-->
-            <!--<label>总作业量</label>-->
-            <!--<div class="kv-item-content">-->
-              <!--<input type="text"/>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="subfild-content base-info">-->
-          <!--<div class="kv-item ue-clear">-->
-            <!--<label>作业量</label>-->
-            <!--<div class="kv-item-content">-->
-              <!--<input type="text"/>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
             <label>在港艘数</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+            <div class="kv-item-content" onpropertychange="work()" oninput="work()">
+              <input type="number" id="inPort"/>
             </div>
           </div>
         </div>
+          <!--"onpropertychange"用于ie核心的浏览器，"oninput"用于firefox-->
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>作业量</label>
+            <div class="kv-item-content">
+              <input type="number" id="finishWork" onpropertychange="work()" oninput="work()"/>
+            </div>
+          </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>待作业量</label>
+            <div class="kv-item-content">
+              <input type="number" id="unWork"/>
+            </div>
+          </div>
+        </div>
+        </div>
 
+        <div id="productionLine">
         <h2 class="subfild">
           <span>集装箱作业线</span>
         </h2>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>总作业线</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
             <label>大船作业线</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" id="shipProLine" onpropertychange="proLine()" oninput="proLine()"/>
             </div>
           </div>
         </div>
@@ -190,20 +190,29 @@
           <div class="kv-item ue-clear">
             <label>驳船作业线</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" id="bargeProLine"/>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>总作业线</label>
+            <div class="kv-item-content">
+              <input type="number" id="allProLine"/>
             </div>
           </div>
         </div>
 
           <div class="buttons">
-            <input class="button" type="button" value="确认提交" />
-            <input class="button" type="button" value="修改数据" />
+            <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+            <input class="button" type="button" value="修改数据" id="editBtn"/>
           </div>
 
     </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>

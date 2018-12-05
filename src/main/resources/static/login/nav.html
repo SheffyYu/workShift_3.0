@@ -1,5 +1,6 @@
-<!--获取用户资源，根据用户资源使用hidden属性显示用户的页面-->
-
+<!--修改记录：
+2018.12.4 整理左侧树结构，目前存在点击菜单会打开新的标签页面的问题，并且不能使默认的第一层菜单显示为打开状态
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -66,11 +67,12 @@
 <script type="text/javascript" src="../js/Menu.js"></script>
 <script type="text/javascript" src="../js/jquery.ztree.core-3.5.js"></script>
 <script type="text/javascript">
+  //初始化菜单，并默认首页为打开且不可关闭
   var menu = new Menu({
     defaultSelect: $('.nav').find('li[data-id="1"]')
   });
   var setting = {};
-  var znodes=[{name:"首页",id:"",url:"",children:[]}];
+  var znodes=[{name:"首页",id:"",url:"",open:"",children:[]}];
   $.ajax({
     url: "/login/getMenuForTree",
     contentType: "application/json",
@@ -84,27 +86,22 @@
           name: data[count].TEXT,
           url: data[count].URL,
           id: data[count].ID,
+          open:"",
           children:[]
         };
+        if(count == 0){
+            obj.open=true;
+        }
         if (data[count].LEVEL == '1') {
           znodes.push(obj);
         } else {
           for (var k = znodes.length - 1; k >= 0; k--) {
             if (data[count].PARENT_ID == znodes[k].id) {
-                if(data[count].DEFAULT_MENU == data[count].ID){
-                  var subobj={
-                    name: data[count].TEXT,
-                    url: data[count].URL,
-                    id: data[count].ID,
-                    checked:true
-                  };
-                }else{
                   var subobj={
                     name: data[count].TEXT,
                     url: data[count].URL,
                     id: data[count].ID
                   };
-                }
               znodes[k].children.push(subobj);
             }
           }
