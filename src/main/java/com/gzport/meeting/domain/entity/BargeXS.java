@@ -35,13 +35,13 @@ public class BargeXS implements Serializable {
     private Integer totalNumber;
 
     @Column(name="SHENZHEN_NUMBER")
-    private Integer ShenzhenNumber;
+    private Integer shenzhenNumber;
 
     @Column(name="IT_NUMBER")
-    private Integer ItNumber;
+    private Integer itNumber;
 
     @Column(name="ET_NUMBER")
-    private Integer EtNumber;
+    private Integer etNumber;
 
     @Column(name="SHUTTLEBUS_NUMBER")
     private Integer shuttlebusNumber;
@@ -94,27 +94,27 @@ public class BargeXS implements Serializable {
     }
 
     public Integer getShenzhenNumber() {
-        return ShenzhenNumber;
+        return shenzhenNumber;
     }
 
     public void setShenzhenNumber(Integer shenzhenNumber) {
-        ShenzhenNumber = shenzhenNumber;
+        this.shenzhenNumber = shenzhenNumber;
     }
 
     public Integer getItNumber() {
-        return ItNumber;
+        return itNumber;
     }
 
     public void setItNumber(Integer itNumber) {
-        ItNumber = itNumber;
+        this.itNumber = itNumber;
     }
 
     public Integer getEtNumber() {
-        return EtNumber;
+        return etNumber;
     }
 
     public void setEtNumber(Integer etNumber) {
-        EtNumber = etNumber;
+        this.etNumber = etNumber;
     }
 
     public Integer getShuttlebusNumber() {
