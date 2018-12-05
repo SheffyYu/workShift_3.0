@@ -16,6 +16,8 @@ var bargeXS;
 var truck;
 //集装箱堆存
 var cntrStore;
+//汽车库存
+var vehicle;
 //判断是否有条件不满足,不满足则为false,不进行操作
 var isContinue;
 
@@ -27,7 +29,8 @@ function initData() {
     bargeList: [],
     truckStoreList: [],
     cntrStoreList: [],
-    bargeXSList: []
+    bargeXSList: [],
+    bulkStoreList:[]
   };
   disper=[];
   barge=[];
@@ -35,6 +38,7 @@ function initData() {
   bargeXS=[];
   truck=[];
   cntrStore=[];
+  vehicle=[];
   isContinue=true;
 }
 
@@ -112,6 +116,10 @@ function submitBtn() {
     //新沙集装箱
     xsCntrData();
   }
+  if(document.getElementById("bulkBus")){
+    //汽车库存
+    bulkVehicleData();
+  }
 
   //整合数据
   submitJson.dispersionVOList=disper;
@@ -120,6 +128,7 @@ function submitBtn() {
   submitJson.truckStoreList=truck;
   submitJson.bargeXSList=bargeXS;
   submitJson.cntrStoreList=cntrStore;
+  submitJson.bulkStoreList=vehicle;
 
   console.log(submitJson);
 
@@ -371,15 +380,26 @@ $("#xsCntr .xsShen").each(function () {
     var obj={
       bargeXSId:"",		//新沙驳船Id,没有可不填
       terCode:"",		//码头代码，不用填
-      shipNumber:"",		//同barge
-      workingNumber:"",	//同barge
-      unWorkNumber:"",	//同barge
+      workType:xstitle[k],		//类型
+      totalNumber:xstotal[k],		//总数
+      ShenzhenNumber:xsShen[k],	//深圳数量
       shuttlebusNumber:xsBus[k],	//穿巴数
-      bargeItNumber:xsI[k],	//深圳内贸
-      bargeShenzhen:xsShen[k],
-      bargeEtNumber:xsE[k]	//外贸
+      ItNumber:xsI[k],		//内贸
+      EtNumber:xsE[k]		//外贸
     };
     bargeXS.push(obj);
   }
   console.log(bargeXS);
+}
+
+//汽车库存
+function bulkVehicleData() {
+  var busNum=document.getElementById("busNumBulk").value;
+  var obj={
+    bulkStoreId:"",		//
+    terCode:"",		//码头Id
+    carStore:busNum		//汽车库存
+  }
+  vehicle.push(obj);
+  console.log(vehicle);
 }
