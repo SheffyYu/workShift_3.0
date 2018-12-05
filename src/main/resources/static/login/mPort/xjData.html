@@ -21,53 +21,63 @@
     </div>
     <div id="bd">
     	<div id="main">
+        <div id="dispersion">
         <h2 class="subfild">
           <span>散&nbsp;&nbsp;货&nbsp;&nbsp;疏&nbsp;&nbsp;运</span>
         </h2>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>驳&nbsp;&nbsp;&nbsp;&nbsp;船</label>
+            <label title="驳船">驳&nbsp;&nbsp;&nbsp;&nbsp;船</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1" onpropertychange="xjBarge()" oninput="xjBarge()"/>
             </div>
             <label>待装煤驳</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion2"/>
             </div>
             <label>机械数</label>
             <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-          </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>火&nbsp;&nbsp;&nbsp;&nbsp;车</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>汽&nbsp;&nbsp;&nbsp;&nbsp;车</label>
+            <label title="火车">火&nbsp;&nbsp;&nbsp;&nbsp;车</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1" onpropertychange="xjBarge()" oninput="xjBarge()"/>
+              <input type="number" class="dispersion2" hidden/>
+              <input type="number" class="dispersion3" hidden/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>黄&nbsp;&nbsp;&nbsp;&nbsp;电</label>
+            <label title="汽车">汽&nbsp;&nbsp;&nbsp;&nbsp;车</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1" onpropertychange="xjBarge()" oninput="xjBarge()"/>
+              <input type="number" class="dispersion2" hidden/>
+              <input type="number" class="dispersion3" hidden/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>恒&nbsp;&nbsp;&nbsp;&nbsp;电</label>
+            <label title="黄电">黄&nbsp;&nbsp;&nbsp;&nbsp;电</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="dispersion1" onpropertychange="xjBarge()" oninput="xjBarge()"/>
+              <input type="number" class="dispersion2" hidden/>
+              <input type="number" class="dispersion3" hidden/>
+            </div>
+          </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label title="恒电">恒&nbsp;&nbsp;&nbsp;&nbsp;电</label>
+            <div class="kv-item-content">
+              <input type="number" class="dispersion1" onpropertychange="xjBarge()" oninput="xjBarge()"/>
+              <input type="number" class="dispersion2" hidden/>
+              <input type="number" class="dispersion3" hidden/>
             </div>
           </div>
         </div>
@@ -75,21 +85,22 @@
             <div class="kv-item ue-clear">
               <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
               <div class="kv-item-content">
-                <input type="text"/>
+                <input type="text" id="xjtotal"/>
               </div>
             </div>
           </div>
+        </div>
 
 
             <div class="buttons">
-                <input class="button" type="button" value="确认提交" />
-              <input class="button" type="button" value="修改数据" />
+              <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+              <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeBtn()"/>
             </div>
         </div>
     </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>
