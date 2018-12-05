@@ -37,8 +37,8 @@ public class BargeXS implements Serializable {
     @Column(name="IS_WORKING_NUMBER")
     private Integer unWorkNumber;
 
-    @Column(name="SHENZHEN_SHIP")
-    private Integer shenzhenBarge;
+    @Column(name="BARGE_SHENZHEN_NUMBER")
+    private Integer bargeShenzhenNumber;
 
     @Column(name="BARGE_IT_NUMBER")
     private Integer bargeItNumber;
@@ -118,12 +118,12 @@ public class BargeXS implements Serializable {
         this.unWorkNumber = unWorkNumber;
     }
 
-    public Integer getShenzhenBarge() {
-        return shenzhenBarge;
+    public Integer getBargeShenzhenNumber() {
+        return bargeShenzhenNumber;
     }
 
-    public void setShenzhenBarge(Integer shenzhenBarge) {
-        this.shenzhenBarge = shenzhenBarge;
+    public void setBargeShenzhenNumber(Integer bargeShenzhenNumber) {
+        this.bargeShenzhenNumber = bargeShenzhenNumber;
     }
 
     public Integer getBargeItNumber() {
