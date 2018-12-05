@@ -59,7 +59,6 @@ public class TerminalsDateController {
                 dispersion.setCargoNumber(dispersionVOS.get(i).getWorkingNumber());
                 dispersion.setCargoUnworkNumber(dispersionVOS.get(i).getUnWorkNumber());
                 dispersion.setMechanicalNumber(dispersionVOS.get(i).getMechanicalNumber());
-                dispersion.setTerCode(dispersionVOS.get(i).getTerminal());
                 dispersion.setInsAccount(auth.getAccount());
                 dispersion.setUpdAccount(auth.getAccount());
                 dispersion.setTerCode(auth.getCompany());
