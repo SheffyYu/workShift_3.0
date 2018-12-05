@@ -81,7 +81,7 @@
     success: function(data){
   //显示用户名字
       console.log(data);
-      $("#userName").text(data);
+      $("#userName").text(data.name);
     },
     error: function (data) {
       console.info(data);
