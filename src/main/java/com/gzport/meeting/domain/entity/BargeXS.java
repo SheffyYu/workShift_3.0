@@ -1,6 +1,5 @@
 package com.gzport.meeting.domain.entity;
 
-import org.eclipse.persistence.annotations.UuidGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,12 +8,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by zhangxiang on 2018/11/28.
- * 驳船实体类
+ * Created by zhangxiang on 2018/12/4.
  */
+
 @Entity
-@Table(name="BARGE")
-public class Barge implements Serializable {
+@Table(name = "BARGE_XS")
+public class BargeXS implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -36,6 +36,15 @@ public class Barge implements Serializable {
     @Column(name="IS_WORKING_NUMBER")
     private Integer isWorkingNumber;
 
+    @Column(name="SHUTTLEBUS_NUMBER")
+    private Integer shuttlebusNumber;
+
+    @Column(name="BARGE_DT_NUMBER")
+    private Integer bargeDtNumber;
+
+    @Column(name="BARGE_FT_NUMBER")
+    private Integer bargeFtNumber;
+
     @Column(name="INS_ACCOUNT")
     private String insAccount;
 
@@ -50,41 +59,8 @@ public class Barge implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
-    public String getInsAccount() {
-        return insAccount;
-    }
-
-    public void setInsAccount(String insAccount) {
-        this.insAccount = insAccount;
-    }
-
-    public Date getInsTimestamp() {
-        return insTimestamp;
-    }
-
-    public void setInsTimestamp(Date insTimestamp) {
-        this.insTimestamp = insTimestamp;
-    }
-
-    public String getUpdAccount() {
-        return updAccount;
-    }
-
-    public void setUpdAccount(String updAccount) {
-        this.updAccount = updAccount;
-    }
-
-    public Date getUpdTimestamp() {
-        return updTimestamp;
-    }
-
-    public void setUpdTimestamp(Date updTimestamp) {
-        this.updTimestamp = updTimestamp;
-    }
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
-
     }
 
     public String getBargeId() {
@@ -127,19 +103,59 @@ public class Barge implements Serializable {
         this.isWorkingNumber = isWorkingNumber;
     }
 
-
-    @PrePersist
-    protected void prePersist(){
-        if(this.insTimestamp == null){
-            insTimestamp= new Date();
-        }
-        if(this.updTimestamp == null){
-            updTimestamp=new Date();
-        }
+    public Integer getShuttlebusNumber() {
+        return shuttlebusNumber;
     }
 
-    @PreUpdate
-    protected void preUpdate(){
-        this.updTimestamp=new Date();
+    public void setShuttlebusNumber(Integer shuttlebusNumber) {
+        this.shuttlebusNumber = shuttlebusNumber;
+    }
+
+    public Integer getBargeDtNumber() {
+        return bargeDtNumber;
+    }
+
+    public void setBargeDtNumber(Integer bargeDtNumber) {
+        this.bargeDtNumber = bargeDtNumber;
+    }
+
+    public Integer getBargeFtNumber() {
+        return bargeFtNumber;
+    }
+
+    public void setBargeFtNumber(Integer bargeFtNumber) {
+        this.bargeFtNumber = bargeFtNumber;
+    }
+
+    public String getInsAccount() {
+        return insAccount;
+    }
+
+    public void setInsAccount(String insAccount) {
+        this.insAccount = insAccount;
+    }
+
+    public Date getInsTimestamp() {
+        return insTimestamp;
+    }
+
+    public void setInsTimestamp(Date insTimestamp) {
+        this.insTimestamp = insTimestamp;
+    }
+
+    public String getUpdAccount() {
+        return updAccount;
+    }
+
+    public void setUpdAccount(String updAccount) {
+        this.updAccount = updAccount;
+    }
+
+    public Date getUpdTimestamp() {
+        return updTimestamp;
+    }
+
+    public void setUpdTimestamp(Date updTimestamp) {
+        this.updTimestamp = updTimestamp;
     }
 }

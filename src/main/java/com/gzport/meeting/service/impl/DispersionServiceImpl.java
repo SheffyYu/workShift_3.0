@@ -6,6 +6,11 @@ import com.gzport.meeting.service.DispersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by zhangxiang on 2018/12/3.
  */
@@ -20,12 +25,15 @@ public class DispersionServiceImpl implements DispersionService {
     }
 
     @Override
-    public Dispersion findCurrentDispersionByWharf(String terId) {
-        return null;
+    public List<Dispersion> findCurrentDispersionByWharf(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return dispersionRepository.findCurrentDataByWharf(date,terId);
     }
 
     @Override
-    public Iterable<Dispersion> saveInterable(Iterable<Dispersion> iterable) {
-        return dispersionRepository.save(iterable);
+    public Iterable<Dispersion> saveInterable(Iterable<Dispersion> dispersions) {
+        return dispersionRepository.saveAll(dispersions);
     }
+
+
 }

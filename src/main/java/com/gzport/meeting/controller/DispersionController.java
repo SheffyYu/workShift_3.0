@@ -8,11 +8,10 @@ import com.gzport.meeting.service.DispersionCargoService;
 import com.gzport.meeting.service.DispersionService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,10 +27,10 @@ public class DispersionController {
     @Autowired
     DispersionCargoService dispersionCargoService;
 
-    @PutMapping("/dispersionsSave")
-    public Iterable<Dispersion> saveDispersion(List<DispersionVO> dispersionVOS){
-        List<Dispersion> dispersions=new ArrayList<>();
-        Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+    @PostMapping("/createDispersion")
+    @ResponseBody
+    public Iterable<Dispersion> saveAll(@RequestBody List<DispersionVO> dispersionVOS){
+        List<Dispersion> dispersions=new ArrayList();
         for(int i=0;i<dispersionVOS.size();i++){
             Dispersion dispersion=new Dispersion();
             dispersion.setCargoNumber(dispersionVOS.get(i).getWorkingNumber());
@@ -42,16 +41,13 @@ public class DispersionController {
             if(dispersionCargo==null){
                 DispersionCargo newCargo=new DispersionCargo();
                 newCargo.setCargoName(dispersionVOS.get(i).getCargoName());
-                newCargo.setInsAccount(user.getAccount());
-                newCargo.setUpdAccount(user.getAccount());
                 dispersion.setCargoCode(dispersionCargoService.save(newCargo).getCargoCodeId());
             }else{
                 dispersion.setCargoCode(dispersionCargo.getCargoCodeId());
             }
             dispersions.add(dispersion);
         }
-        Iterable<Dispersion> iterable= (Iterable<Dispersion>) dispersions.iterator();
-        return dispersionService.saveInterable(iterable);
+        return dispersionService.saveInterable(dispersions);
     }
 
 }

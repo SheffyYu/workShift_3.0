@@ -1,5 +1,6 @@
 package com.gzport.meeting.domain.entity;
 
+import com.google.common.base.MoreObjects;
 import org.eclipse.persistence.annotations.UuidGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -159,6 +160,17 @@ public class Dispersion implements Serializable {
         this.remark = remark;
     }
 
+
+    protected MoreObjects.ToStringHelper toStringHelper(){
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id",dispersionId)
+                .add("terCode",terCode)
+                .add("cargoCode",cargoCode)
+                .add("cargoNumber",cargoNumber);
+    }
+
+    public String toString(){
+        return toStringHelper().toString();
+    }
 
 
 
