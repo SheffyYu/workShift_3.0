@@ -46,7 +46,7 @@ public class TerminalsDateController {
     AuthService authService;
 
 
-    @PostMapping("/saveDate")
+    @PostMapping("/saveData")
     @ResponseBody
     public void saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);

@@ -9,20 +9,29 @@ var disper;
 var barge;
 //集装箱作业线的数据
 var proroductionLine;
+//新沙集装箱驳船
+var bargeXS;
+//车卡
+var truck;
+//集装箱堆存
+var cntrStore;
 
 //初始化数据格式
 function initData() {
-  submitJson=[{
-    dispersionVOList:[],
-    productionLineList:[],
-    bargeList:[],
-    truckStoreList:[],
-    cntrStoreList:[],
-    bargeXSList:[]
-  }];
+  submitJson= {
+    dispersionVOList: [],
+    productionLineList: [],
+    bargeList: [],
+    truckStoreList: [],
+    cntrStoreList: [],
+    bargeXSList: []
+  };
   disper=[];
   barge=[];
   proroductionLine=[];
+  bargeXS=[];
+  truck=[];
+  cntrStore=[];
 }
 
 //待作业=在港艘数-作业
@@ -52,9 +61,12 @@ function submitBtn() {
   proLineData();
 
   //整合数据
-  submitJson[0].dispersionVOList.push(disper);
-  submitJson[0].productionLineList.push(proroductionLine);
-  submitJson[0].bargeList.push(barge);
+  submitJson.dispersionVOList=disper;
+  submitJson.productionLineList=proroductionLine;
+  submitJson.bargeList=barge;
+  submitJson.truckStoreList=truck;
+  submitJson.bargeXSList=bargeXS;
+  submitJson.cntrStoreList=cntrStore;
 
   console.log(submitJson);
 
@@ -73,9 +85,6 @@ function postJson() {
     data:JSON.stringify(submitJson),
     success: function (data) {
       console.log("提交成功！");
-    },
-    error: function (data) {
-      console.info($.toJSON(data));
     }
   });
 }
