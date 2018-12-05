@@ -18,7 +18,7 @@ import java.util.List;
  * Created by zhangxiang on 2018/12/4.
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/login")
 public class TerminalsDateController {
 
     @Autowired
