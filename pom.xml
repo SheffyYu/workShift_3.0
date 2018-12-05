@@ -159,6 +159,12 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional></dependency>
 
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

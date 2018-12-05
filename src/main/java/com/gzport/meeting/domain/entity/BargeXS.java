@@ -1,5 +1,6 @@
 package com.gzport.meeting.domain.entity;
 
+import io.swagger.models.auth.In;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -27,8 +28,8 @@ public class BargeXS implements Serializable {
     @Column(name="TER_CODE")
     private String terCode;
 
-    @Column(name="SHIP_NUMBER")
-    private Integer shipNumber;
+    @Column(name="BARGE_NUMBER")
+    private Integer bargeNumber;
 
     @Column(name="WORKING_NUMBER")
     private Integer workingNumber;
@@ -36,14 +37,32 @@ public class BargeXS implements Serializable {
     @Column(name="IS_WORKING_NUMBER")
     private Integer unWorkNumber;
 
-    @Column(name="SHUTTLEBUS_NUMBER")
-    private Integer shuttlebusNumber;
+    @Column(name="SHENZHEN_SHIP")
+    private Integer shenzhenBarge;
 
-    @Column(name="BARGE_DT_NUMBER")
-    private Integer bargeDtNumber;
+    @Column(name="BARGE_IT_NUMBER")
+    private Integer bargeItNumber;
 
-    @Column(name="BARGE_FT_NUMBER")
-    private Integer bargeFtNumber;
+    @Column(name="BARGE_ET_NUMBER")
+    private Integer bargeEtNumber;
+
+    @Column(name="BARGE_SHUTTLEBUS_NUMBER")
+    private Integer bargeShuttlebusNumber;
+
+    @Column(name="LINE_NUMBER")
+    private Integer lineNumber;
+
+    @Column(name="LINE_SHUTTLEBUS_NUMBER")
+    private Integer lineShuttlebusNumber;
+
+    @Column(name="LINE_SHENZHEN_NUMBER")
+    private Integer lineShenzhenNumber;
+
+    @Column(name="LINE_IT_NUMBER")
+    private Integer lineItNumber;
+
+    @Column(name="LINE_ET_NUMBER")
+    private Integer lineEtNumber;
 
     @Column(name="INS_ACCOUNT")
     private String insAccount;
@@ -58,10 +77,6 @@ public class BargeXS implements Serializable {
     @Column(name="UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getBargeXSId() {
         return bargeXSId;
@@ -79,12 +94,12 @@ public class BargeXS implements Serializable {
         this.terCode = terCode;
     }
 
-    public Integer getShipNumber() {
-        return shipNumber;
+    public Integer getBargeNumber() {
+        return bargeNumber;
     }
 
-    public void setShipNumber(Integer shipNumber) {
-        this.shipNumber = shipNumber;
+    public void setBargeNumber(Integer bargeNumber) {
+        this.bargeNumber = bargeNumber;
     }
 
     public Integer getWorkingNumber() {
@@ -103,28 +118,76 @@ public class BargeXS implements Serializable {
         this.unWorkNumber = unWorkNumber;
     }
 
-    public Integer getShuttlebusNumber() {
-        return shuttlebusNumber;
+    public Integer getShenzhenBarge() {
+        return shenzhenBarge;
     }
 
-    public void setShuttlebusNumber(Integer shuttlebusNumber) {
-        this.shuttlebusNumber = shuttlebusNumber;
+    public void setShenzhenBarge(Integer shenzhenBarge) {
+        this.shenzhenBarge = shenzhenBarge;
     }
 
-    public Integer getBargeDtNumber() {
-        return bargeDtNumber;
+    public Integer getBargeItNumber() {
+        return bargeItNumber;
     }
 
-    public void setBargeDtNumber(Integer bargeDtNumber) {
-        this.bargeDtNumber = bargeDtNumber;
+    public void setBargeItNumber(Integer bargeItNumber) {
+        this.bargeItNumber = bargeItNumber;
     }
 
-    public Integer getBargeFtNumber() {
-        return bargeFtNumber;
+    public Integer getBargeEtNumber() {
+        return bargeEtNumber;
     }
 
-    public void setBargeFtNumber(Integer bargeFtNumber) {
-        this.bargeFtNumber = bargeFtNumber;
+    public void setBargeEtNumber(Integer bargeEtNumber) {
+        this.bargeEtNumber = bargeEtNumber;
+    }
+
+    public Integer getBargeShuttlebusNumber() {
+        return bargeShuttlebusNumber;
+    }
+
+    public void setBargeShuttlebusNumber(Integer bargeShuttlebusNumber) {
+        this.bargeShuttlebusNumber = bargeShuttlebusNumber;
+    }
+
+    public Integer getLineNumber() {
+        return lineNumber;
+    }
+
+    public void setLineNumber(Integer lineNumber) {
+        this.lineNumber = lineNumber;
+    }
+
+    public Integer getLineShuttlebusNumber() {
+        return lineShuttlebusNumber;
+    }
+
+    public void setLineShuttlebusNumber(Integer lineShuttlebusNumber) {
+        this.lineShuttlebusNumber = lineShuttlebusNumber;
+    }
+
+    public Integer getLineShenzhenNumber() {
+        return lineShenzhenNumber;
+    }
+
+    public void setLineShenzhenNumber(Integer lineShenzhenNumber) {
+        this.lineShenzhenNumber = lineShenzhenNumber;
+    }
+
+    public Integer getLineItNumber() {
+        return lineItNumber;
+    }
+
+    public void setLineItNumber(Integer lineItNumber) {
+        this.lineItNumber = lineItNumber;
+    }
+
+    public Integer getLineEtNumber() {
+        return lineEtNumber;
+    }
+
+    public void setLineEtNumber(Integer lineEtNumber) {
+        this.lineEtNumber = lineEtNumber;
     }
 
     public String getInsAccount() {
@@ -157,5 +220,20 @@ public class BargeXS implements Serializable {
 
     public void setUpdTimestamp(Date updTimestamp) {
         this.updTimestamp = updTimestamp;
+    }
+
+    @PrePersist
+    protected void prePersist(){
+        if(this.insTimestamp == null){
+            insTimestamp= new Date();
+        }
+        if(this.updTimestamp == null){
+            updTimestamp=new Date();
+        }
+    }
+
+    @PreUpdate
+    protected void preUpdate(){
+        this.updTimestamp=new Date();
     }
 }
