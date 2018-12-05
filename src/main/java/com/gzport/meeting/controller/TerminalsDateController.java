@@ -45,6 +45,9 @@ public class TerminalsDateController {
     @Autowired
     AuthService authService;
 
+    @Autowired
+    BulkStoreService bulkStoreService;
+
 
     @PostMapping("/saveData")
     @ResponseBody
@@ -115,6 +118,14 @@ public class TerminalsDateController {
                 terminalVO.getTruckStoreList().get(i).setTerCode(auth.getCompany());
             }
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
+        }
+        if(terminalVO.getBulkStoreList().size()>0){
+            for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
+                terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
+                terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
+                terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
+            }
+            bulkStoreService.saveAll(terminalVO.getBulkStoreList());
         }
     }
 

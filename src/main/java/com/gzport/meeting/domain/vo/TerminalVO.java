@@ -15,7 +15,15 @@ public class TerminalVO {
     List<TruckStore> truckStoreList;
     List<CntrStore> cntrStoreList;
     List<BargeXS> bargeXSList;
+    List<BulkStore> bulkStoreList;
 
+    public List<BulkStore> getBulkStoreList() {
+        return bulkStoreList;
+    }
+
+    public void setBulkStoreList(List<BulkStore> bulkStoreList) {
+        this.bulkStoreList = bulkStoreList;
+    }
 
     public List<BargeXS> getBargeXSList() {
         return bargeXSList;

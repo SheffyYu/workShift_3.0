@@ -28,41 +28,24 @@ public class BargeXS implements Serializable {
     @Column(name="TER_CODE")
     private String terCode;
 
-    @Column(name="BARGE_NUMBER")
-    private Integer bargeNumber;
+    @Column(name="WORK_TYPE")
+    private String workType;
 
-    @Column(name="WORKING_NUMBER")
-    private Integer workingNumber;
+    @Column(name="TOTAL_NUMBER")
+    private Integer totalNumber;
 
-    @Column(name="IS_WORKING_NUMBER")
-    private Integer unWorkNumber;
+    @Column(name="SHENZHEN_NUMBER")
+    private Integer ShenzhenNumber;
 
-    @Column(name="BARGE_SHENZHEN_NUMBER")
-    private Integer bargeShenzhenNumber;
+    @Column(name="IT_NUMBER")
+    private Integer ItNumber;
 
-    @Column(name="BARGE_IT_NUMBER")
-    private Integer bargeItNumber;
+    @Column(name="ET_NUMBER")
+    private Integer EtNumber;
 
-    @Column(name="BARGE_ET_NUMBER")
-    private Integer bargeEtNumber;
+    @Column(name="SHUTTLEBUS_NUMBER")
+    private Integer shuttlebusNumber;
 
-    @Column(name="BARGE_SHUTTLEBUS_NUMBER")
-    private Integer bargeShuttlebusNumber;
-
-    @Column(name="LINE_NUMBER")
-    private Integer lineNumber;
-
-    @Column(name="LINE_SHUTTLEBUS_NUMBER")
-    private Integer lineShuttlebusNumber;
-
-    @Column(name="LINE_SHENZHEN_NUMBER")
-    private Integer lineShenzhenNumber;
-
-    @Column(name="LINE_IT_NUMBER")
-    private Integer lineItNumber;
-
-    @Column(name="LINE_ET_NUMBER")
-    private Integer lineEtNumber;
 
     @Column(name="INS_ACCOUNT")
     private String insAccount;
@@ -94,100 +77,52 @@ public class BargeXS implements Serializable {
         this.terCode = terCode;
     }
 
-    public Integer getBargeNumber() {
-        return bargeNumber;
+    public String getWorkType() {
+        return workType;
     }
 
-    public void setBargeNumber(Integer bargeNumber) {
-        this.bargeNumber = bargeNumber;
+    public void setWorkType(String workType) {
+        this.workType = workType;
     }
 
-    public Integer getWorkingNumber() {
-        return workingNumber;
+    public Integer getTotalNumber() {
+        return totalNumber;
     }
 
-    public void setWorkingNumber(Integer workingNumber) {
-        this.workingNumber = workingNumber;
+    public void setTotalNumber(Integer totalNumber) {
+        this.totalNumber = totalNumber;
     }
 
-    public Integer getUnWorkNumber() {
-        return unWorkNumber;
+    public Integer getShenzhenNumber() {
+        return ShenzhenNumber;
     }
 
-    public void setUnWorkNumber(Integer unWorkNumber) {
-        this.unWorkNumber = unWorkNumber;
+    public void setShenzhenNumber(Integer shenzhenNumber) {
+        ShenzhenNumber = shenzhenNumber;
     }
 
-    public Integer getBargeShenzhenNumber() {
-        return bargeShenzhenNumber;
+    public Integer getItNumber() {
+        return ItNumber;
     }
 
-    public void setBargeShenzhenNumber(Integer bargeShenzhenNumber) {
-        this.bargeShenzhenNumber = bargeShenzhenNumber;
+    public void setItNumber(Integer itNumber) {
+        ItNumber = itNumber;
     }
 
-    public Integer getBargeItNumber() {
-        return bargeItNumber;
+    public Integer getEtNumber() {
+        return EtNumber;
     }
 
-    public void setBargeItNumber(Integer bargeItNumber) {
-        this.bargeItNumber = bargeItNumber;
+    public void setEtNumber(Integer etNumber) {
+        EtNumber = etNumber;
     }
 
-    public Integer getBargeEtNumber() {
-        return bargeEtNumber;
+    public Integer getShuttlebusNumber() {
+        return shuttlebusNumber;
     }
 
-    public void setBargeEtNumber(Integer bargeEtNumber) {
-        this.bargeEtNumber = bargeEtNumber;
-    }
-
-    public Integer getBargeShuttlebusNumber() {
-        return bargeShuttlebusNumber;
-    }
-
-    public void setBargeShuttlebusNumber(Integer bargeShuttlebusNumber) {
-        this.bargeShuttlebusNumber = bargeShuttlebusNumber;
-    }
-
-    public Integer getLineNumber() {
-        return lineNumber;
-    }
-
-    public void setLineNumber(Integer lineNumber) {
-        this.lineNumber = lineNumber;
-    }
-
-    public Integer getLineShuttlebusNumber() {
-        return lineShuttlebusNumber;
-    }
-
-    public void setLineShuttlebusNumber(Integer lineShuttlebusNumber) {
-        this.lineShuttlebusNumber = lineShuttlebusNumber;
-    }
-
-    public Integer getLineShenzhenNumber() {
-        return lineShenzhenNumber;
-    }
-
-    public void setLineShenzhenNumber(Integer lineShenzhenNumber) {
-        this.lineShenzhenNumber = lineShenzhenNumber;
-    }
-
-    public Integer getLineItNumber() {
-        return lineItNumber;
-    }
-
-    public void setLineItNumber(Integer lineItNumber) {
-        this.lineItNumber = lineItNumber;
-    }
-
-    public Integer getLineEtNumber() {
-        return lineEtNumber;
-    }
-
-    public void setLineEtNumber(Integer lineEtNumber) {
-        this.lineEtNumber = lineEtNumber;
+    public void setShuttlebusNumber(Integer shuttlebusNumber) {
+        this.shuttlebusNumber = shuttlebusNumber;
     }
 
     public String getInsAccount() {
