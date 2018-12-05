@@ -21,8 +21,8 @@ public class BargeXS implements Serializable {
     @Size(min = 1, max = 36)
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name ="BARGE_ID")
-    private String bargeId;
+    @Column(name ="BARGEXS_ID")
+    private String bargeXSId;
 
     @Column(name="TER_CODE")
     private String terCode;
@@ -34,7 +34,7 @@ public class BargeXS implements Serializable {
     private Integer workingNumber;
 
     @Column(name="IS_WORKING_NUMBER")
-    private Integer isWorkingNumber;
+    private Integer unWorkNumber;
 
     @Column(name="SHUTTLEBUS_NUMBER")
     private Integer shuttlebusNumber;
@@ -63,12 +63,12 @@ public class BargeXS implements Serializable {
         return serialVersionUID;
     }
 
-    public String getBargeId() {
-        return bargeId;
+    public String getBargeXSId() {
+        return bargeXSId;
     }
 
-    public void setBargeId(String bargeId) {
-        this.bargeId = bargeId;
+    public void setBargeXSId(String bargeXSId) {
+        this.bargeXSId = bargeXSId;
     }
 
     public String getTerCode() {
@@ -95,12 +95,12 @@ public class BargeXS implements Serializable {
         this.workingNumber = workingNumber;
     }
 
-    public Integer getIsWorkingNumber() {
-        return isWorkingNumber;
+    public Integer getUnWorkNumber() {
+        return unWorkNumber;
     }
 
-    public void setIsWorkingNumber(Integer isWorkingNumber) {
-        this.isWorkingNumber = isWorkingNumber;
+    public void setUnWorkNumber(Integer unWorkNumber) {
+        this.unWorkNumber = unWorkNumber;
     }
 
     public Integer getShuttlebusNumber() {

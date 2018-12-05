@@ -34,7 +34,7 @@ public class Barge implements Serializable {
     private Integer workingNumber;
 
     @Column(name="IS_WORKING_NUMBER")
-    private Integer isWorkingNumber;
+    private Integer unWorkNumber;
 
     @Column(name="INS_ACCOUNT")
     private String insAccount;
@@ -119,14 +119,13 @@ public class Barge implements Serializable {
         this.workingNumber = workingNumber;
     }
 
-    public Integer getIsWorkingNumber() {
-        return isWorkingNumber;
+    public Integer getUnWorkNumber() {
+        return unWorkNumber;
     }
 
-    public void setIsWorkingNumber(Integer isWorkingNumber) {
-        this.isWorkingNumber = isWorkingNumber;
+    public void setUnWorkNumber(Integer unWorkNumber) {
+        this.unWorkNumber = unWorkNumber;
     }
-
 
     @PrePersist
     protected void prePersist(){
