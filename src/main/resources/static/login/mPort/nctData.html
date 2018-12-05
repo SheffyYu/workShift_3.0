@@ -24,6 +24,7 @@
     </div>
     <div id="bd">
     	<div id="main">
+        <div id="cntrSto">
             <h2 class="subfild">
             	<span>集装箱堆存</span>
             </h2>
@@ -31,7 +32,7 @@
             	<div class="kv-item ue-clear">
                 	<label>重箱内贸</label>
                 	<div class="kv-item-content">
-                    	<input type="text"/>
+                    	<input type="number" id="LIn" onpropertychange="cntrOper()" oninput="cntrOper()"/>
                     </div>
                 </div>
             </div>
@@ -39,7 +40,7 @@
                 <div class="kv-item ue-clear">
                   <label>重箱外贸</label>
                   <div class="kv-item-content">
-                    <input type="text"/>
+                    <input type="number" id="LOut" onpropertychange="cntrOper()" oninput="cntrOper()"/>
                   </div>
                 </div>
               </div>
@@ -47,7 +48,7 @@
                   <div class="kv-item ue-clear">
                     <label>空箱堆存</label>
                     <div class="kv-item-content">
-                      <input type="text"/>
+                      <input type="number" id="Emp" onpropertychange="cntrOper()" oninput="cntrOper()"/>
                     </div>
                   </div>
                 </div>
@@ -55,10 +56,11 @@
                     <div class="kv-item ue-clear">
                       <label>总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计</label>
                       <div class="kv-item-content">
-                        <input type="text"/>
+                        <input type="number" id="allSto"/>
                       </div>
                     </div>
                   </div>
+        </div>
 
         <div id="barge">
           <h2 class="subfild">
@@ -123,14 +125,14 @@
 
 
             <div class="buttons">
-                <input class="button" type="button" value="确认提交" />
-              <input class="button" type="button" value="修改数据" />
+              <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+              <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeBtn()"/>
             </div>
         </div>
     </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>

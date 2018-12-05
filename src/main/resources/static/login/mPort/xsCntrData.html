@@ -12,7 +12,7 @@
   <script type="text/javascript" src="../../js/WdatePicker.js"></script>
   <script type="text/javascript">
   </script>
-<title>新沙信息</title>
+<title>新沙集装箱信息</title>
 </head>
 
 <body>
@@ -21,80 +21,82 @@
     </div>
     <div id="bd">
     	<div id="main">
+        <div id="xsCntr">
         <h2 class="subfild">
-          <span>驳&nbsp;&nbsp;船&nbsp;&nbsp;动&nbsp;&nbsp;态</span>
+          <span title="驳船">驳&nbsp;&nbsp;船&nbsp;&nbsp;动&nbsp;&nbsp;态</span>
         </h2>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-            <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>深&nbsp;&nbsp;&nbsp;&nbsp;圳</label>
+              <div class="kv-item-content">
+                <input type="number" class="xsShen"/>
+              </div>
+              <label>内&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
+              <div class="kv-item-content">
+                <input type="number" class="xsI"/>
+              </div>
+              <label>外&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
+              <div class="kv-item-content">
+                <input type="number" class="xsE"/>
+              </div>
             </div>
           </div>
-        </div>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
+              <div class="kv-item-content">
+                <input type="number" class="xsBus"/>
+              </div>
+              <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
+              <div class="kv-item-content">
+                <input type="number" class="xstotal"/>
+              </div>
+            </div>
+          </div>
+        <h2 class="subfild">
+          <span title="作业线">作&nbsp;&nbsp;&nbsp;业&nbsp;&nbsp;&nbsp;线</span>
+        </h2>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
             <label>深&nbsp;&nbsp;&nbsp;&nbsp;圳</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="xsShen"/>
             </div>
             <label>内&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="xsI"/>
             </div>
             <label>外&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="number" class="xsE"/>
             </div>
           </div>
         </div>
-        <h2 class="subfild">
-          <span>作&nbsp;&nbsp;&nbsp;业&nbsp;&nbsp;&nbsp;线</span>
-        </h2>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-            <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>深&nbsp;&nbsp;&nbsp;&nbsp;圳</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-            <label>内&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
-            <div class="kv-item-content">
-              <input type="text"/>
-            </div>
-            <label>外&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
-            <div class="kv-item-content">
-              <input type="text"/>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
+              <div class="kv-item-content">
+                <input type="number" class="xsBus"/>
+              </div>
+              <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
+              <div class="kv-item-content">
+                <input type="number" class="xstotal"/>
+              </div>
             </div>
           </div>
         </div>
 
 
           <div class="buttons">
-            <input class="button" type="button" value="确认提交" />
-            <input class="button" type="button" value="修改数据" />
+            <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+            <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeBtn()"/>
           </div>
 
         </div>
     </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>

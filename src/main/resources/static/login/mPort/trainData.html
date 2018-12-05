@@ -24,6 +24,7 @@
     </div>
     <div id="bd">
     	<div id="main">
+        <div id="truck">
             <h2 class="subfild">
             	<span>车&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卡</span>
             </h2>
@@ -34,11 +35,11 @@
           <div class="kv-item ue-clear">
             <label>新&nbsp;&nbsp;&nbsp;&nbsp;港</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkxg" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
             <label>西&nbsp;&nbsp;&nbsp;&nbsp;基</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkxj" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
           </div>
         </div>
@@ -46,11 +47,11 @@
           <div class="kv-item ue-clear">
             <label>集&nbsp;&nbsp;&nbsp;&nbsp;司</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkgct" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
             <label>新&nbsp;&nbsp;&nbsp;&nbsp;沙</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkxs" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
           </div>
         </div>
@@ -58,7 +59,7 @@
           <div class="kv-item ue-clear">
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="allcmp"/>
             </div>
           </div>
         </div>
@@ -69,15 +70,15 @@
           <div class="kv-item ue-clear">
             <label>煤&nbsp;&nbsp;&nbsp;&nbsp;炭</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkmt" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
             <label>矿&nbsp;&nbsp;&nbsp;&nbsp;石</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkks" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
             <label>杂&nbsp;&nbsp;&nbsp;&nbsp;货</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkzh" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
           </div>
         </div>
@@ -85,7 +86,7 @@
           <div class="kv-item ue-clear">
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="allcgo"/>
             </div>
           </div>
         </div>
@@ -97,15 +98,19 @@
           <div class="kv-item ue-clear">
             <label>煤&nbsp;&nbsp;&nbsp;&nbsp;炭</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkmte"/>
             </div>
             <label>矿&nbsp;&nbsp;&nbsp;&nbsp;石</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkkse"/>
+            </div>
+            <label>其&nbsp;&nbsp;&nbsp;&nbsp;它</label>
+            <div class="kv-item-content">
+              <input type="text" id="trkothere"/>
             </div>
             <label>合&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="alle"/>
             </div>
           </div>
         </div>
@@ -117,26 +122,25 @@
           <div class="kv-item ue-clear">
             <label>卸&nbsp;&nbsp;&nbsp;&nbsp;车</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkload"/>
             </div>
             <label>待卸车</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="trkunload"/>
             </div>
           </div>
         </div>
-
-
+        </div>
 
             <div class="buttons">
-                <input class="button" type="button" value="确认提交" />
-              <input class="button" type="button" value="修改数据" />
+              <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+              <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeBtn()"/>
             </div>
         </div>
     </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>
