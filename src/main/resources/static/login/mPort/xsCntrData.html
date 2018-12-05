@@ -29,15 +29,15 @@
             <div class="kv-item ue-clear">
               <label>深&nbsp;&nbsp;&nbsp;&nbsp;圳</label>
               <div class="kv-item-content">
-                <input type="number" class="xsShen"/>
+                <input type="number" class="xsShen" id="xsBS" onpropertychange="xsbOper()" oninput="xsbOper()"/>
               </div>
               <label>内&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
               <div class="kv-item-content">
-                <input type="number" class="xsI"/>
+                <input type="number" class="xsI" id="xsBI" onpropertychange="xsbOper()" oninput="xsbOper()"/>
               </div>
               <label>外&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
               <div class="kv-item-content">
-                <input type="number" class="xsE"/>
+                <input type="number" class="xsE" id="xsBE" onpropertychange="xsbOper()" oninput="xsbOper()"/>
               </div>
             </div>
           </div>
@@ -45,11 +45,11 @@
             <div class="kv-item ue-clear">
               <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
               <div class="kv-item-content">
-                <input type="number" class="xsBus"/>
+                <input type="number" class="xsBus" id="xsBB" onpropertychange="xsbOper()" oninput="xsbOper()"/>
               </div>
               <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
               <div class="kv-item-content">
-                <input type="number" class="xstotal"/>
+                <input type="number" class="xstotal" id="xsBT"/>
               </div>
             </div>
           </div>
@@ -60,15 +60,15 @@
           <div class="kv-item ue-clear">
             <label>深&nbsp;&nbsp;&nbsp;&nbsp;圳</label>
             <div class="kv-item-content">
-              <input type="number" class="xsShen"/>
+              <input type="number" class="xsShen" id="xsLS" onpropertychange="lineOper()" oninput="lineOper()"/>
             </div>
             <label>内&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
             <div class="kv-item-content">
-              <input type="number" class="xsI"/>
+              <input type="number" class="xsI" id="xsLI" onpropertychange="lineOper()" oninput="lineOper()"/>
             </div>
             <label>外&nbsp;&nbsp;&nbsp;&nbsp;贸</label>
             <div class="kv-item-content">
-              <input type="number" class="xsE"/>
+              <input type="number" class="xsE" id="xsLE" onpropertychange="lineOper()" oninput="lineOper()"/>
             </div>
           </div>
         </div>
@@ -76,11 +76,11 @@
             <div class="kv-item ue-clear">
               <label>穿&nbsp;&nbsp;&nbsp;&nbsp;巴</label>
               <div class="kv-item-content">
-                <input type="number" class="xsBus"/>
+                <input type="number" class="xsBus" id="xsLB" onpropertychange="lineOper()" oninput="lineOper()"/>
               </div>
               <label>总&nbsp;&nbsp;&nbsp;&nbsp;数</label>
               <div class="kv-item-content">
-                <input type="number" class="xstotal"/>
+                <input type="number" class="xstotal" id="xsLT"/>
               </div>
             </div>
           </div>
@@ -98,6 +98,19 @@
 </body>
 <script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
-
+function xsbOper() {
+  var xsBS=document.getElementById("xsBS").value;
+  var xsBI=document.getElementById("xsBI").value;
+  var xsBE=document.getElementById("xsBE").value;
+  var xsBB=document.getElementById("xsBB").value;
+  document.getElementById("xsBT").value=(xsBS-0)+(xsBI-0)+(xsBE-0)+(xsBB-0);
+}
+function lineOper() {
+  var xsLS=document.getElementById("xsLS").value;
+  var xsLI=document.getElementById("xsLI").value;
+  var xsLE=document.getElementById("xsLE").value;
+  var xsLB=document.getElementById("xsLB").value;
+  document.getElementById("xsLT").value=(xsLS-0)+(xsLI-0)+(xsLE-0)+(xsLB-0);
+}
 </script>
 </html>

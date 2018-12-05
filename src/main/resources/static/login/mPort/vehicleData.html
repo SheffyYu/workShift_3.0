@@ -21,6 +21,7 @@
   </div>
   <div id="bd">
     <div id="main">
+      <div id="bulkBus">
       <h2 class="subfild">
         <span>汽&nbsp;车&nbsp;库&nbsp;存</span>
       </h2>
@@ -28,21 +29,22 @@
         <div class="kv-item ue-clear">
           <label>汽车库存量</label>
           <div class="kv-item-content">
-            <input type="text"/>
+            <input type="number" id="busNumBulk"/>
           </div>
         </div>
       </div>
+      </div>
 
       <div class="buttons">
-        <input class="button" type="button" value="确认提交" />
-        <input class="button" type="button" value="修改数据" />
+        <input class="button" type="button" value="确认提交" id="inputBtn" onclick="submitBtn()"/>
+        <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeBtn()"/>
       </div>
 
     </div>
   </div>
 </div>
 </body>
-
+<script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
 
 </script>
