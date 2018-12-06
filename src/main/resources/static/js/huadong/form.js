@@ -128,6 +128,27 @@ function submitBtn() {
   }
 }
 
+//修改按钮点击的事件
+function changeBtn() {
+  //点击修改，输入框可编辑，提交按钮出现，再加一个取消修改
+  $("#inputBtn").show();
+  $("#cancel").show();
+  $("#editBtn").hide();
+  $(".kv-item input").each(function () {
+    $(this).attr("disabled",false);
+  });
+}
+
+//取消按钮的点击事件
+function cancelBtn() {
+  $("#inputBtn").hide();
+  $("#cancel").hide();
+  $("#editBtn").show();
+  $(".kv-item input").each(function () {
+    $(this).attr("disabled",true);
+  });
+}
+
 //提交数据
 function postJson() {
   //提交数据
@@ -146,6 +167,8 @@ function postJson() {
       });
       //隐藏提交按钮
       $("#inputBtn").hide();
+      //显示修改按钮
+      $("#editBtn").show();
       showTips("提交成功！",200,0.5);
     }
   });
