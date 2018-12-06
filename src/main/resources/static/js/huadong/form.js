@@ -131,9 +131,9 @@ function submitBtn() {
 //修改按钮点击的事件
 function changeBtn() {
   //点击修改，输入框可编辑，提交按钮出现，再加一个取消修改
+  $("#editBtn").hide();
   $("#inputBtn").show();
   $("#cancel").show();
-  $("#editBtn").hide();
   $(".kv-item input").each(function () {
     $(this).attr("disabled",false);
   });
