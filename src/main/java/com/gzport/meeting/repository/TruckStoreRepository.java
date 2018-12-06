@@ -14,4 +14,8 @@ public interface TruckStoreRepository extends PagingAndSortingRepository<TruckSt
     @Modifying
     @Query(value = "SELECT * FROM TRUCK_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
     public List<TruckStore> findCurrentDataByWharf(String date, String terId);
+
+    @Modifying
+    @Query(value = "DELETE FROM TRUCK_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
+    public void deleteCurrentDataByWharf(String date, String terId);
 }

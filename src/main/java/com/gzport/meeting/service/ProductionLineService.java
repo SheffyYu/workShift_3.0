@@ -15,5 +15,6 @@ public interface ProductionLineService {
 
     List<ProductionLine> findCurrentProByTerID(String terId);
 
+    void deleteCurrentBargeByTerId(String terId);
 
 }

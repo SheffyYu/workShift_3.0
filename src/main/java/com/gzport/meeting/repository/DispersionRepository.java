@@ -19,4 +19,9 @@ public interface DispersionRepository extends PagingAndSortingRepository<Dispers
     @Query(value = "SELECT * FROM DISPERSION  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
     public List<Dispersion> findCurrentDataByWharf(String date,String terId);
 
+    @Modifying
+    @Query(value = "DELETE FROM DISPERSION  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
+    public void deleteCurrentDataByWharf(String date,String terId);
+
+
 }

@@ -34,4 +34,10 @@ public class CntrStoreServiceImpl implements CntrStoreService {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return cntrStoreRepsitory.findCurrentDataByWharf(date,terId);
     }
+
+    @Override
+    public void deleteCurrentBargeByTerId(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        cntrStoreRepsitory.deleteCurrentDataByWharf(date,terId);
+    }
 }

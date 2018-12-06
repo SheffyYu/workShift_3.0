@@ -34,4 +34,10 @@ public class BargeServiceImpl implements BargeService {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return bargeRepository.findCurrentDataByWharf(date,terId);
     }
+
+    @Override
+    public void deleteCurrentBargeByTerId(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        bargeRepository.deleteCurrentDataByWharf(date,terId);
+    }
 }

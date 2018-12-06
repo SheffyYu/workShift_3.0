@@ -54,10 +54,11 @@ public class TerminalsDateController {
     public void saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
-        System.out.println(terminalVO.getBulkStoreList().size());
         if(terminalVO.getDispersionVOList().size()>0){
             List<DispersionVO> dispersionVOS=terminalVO.getDispersionVOList();
             List<Dispersion> dispersions=new ArrayList();
+            if(dispersionService.findCurrentDispersionByWharf(auth.getCompany()).size()>0)
+                dispersionService.deleteCurrentBargeByTerId(auth.getCompany());
             for(int i=0;i<dispersionVOS.size();i++){
                 Dispersion dispersion=new Dispersion();
                 dispersion.setCargoNumber(dispersionVOS.get(i).getWorkingNumber());
@@ -80,6 +81,8 @@ public class TerminalsDateController {
         }
 
         if(terminalVO.getProductionLineList().size()>0){
+            if(productionLineService.findCurrentProByTerID(auth.getCompany()).size()>0)
+                productionLineService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getProductionLineList().size(); i++) {
                 terminalVO.getProductionLineList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getProductionLineList().get(i).setInsAccount(auth.getAccount());
@@ -89,6 +92,8 @@ public class TerminalsDateController {
         }
 
         if(terminalVO.getBargeList().size()>0){
+            if(bargeService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
+                bargeService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getBargeList().size(); i++) {
                 terminalVO.getBargeList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getBargeList().get(i).setInsAccount(auth.getAccount());
@@ -97,6 +102,8 @@ public class TerminalsDateController {
             bargeService.saveAll(terminalVO.getBargeList());
         }
         if(terminalVO.getBargeXSList().size()>0){
+            if(bargeXSService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
+                bargeXSService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getBargeXSList().size(); i++) {
                 terminalVO.getBargeXSList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getBargeXSList().get(i).setUpdAccount(auth.getAccount());
@@ -105,6 +112,8 @@ public class TerminalsDateController {
             bargeXSService.saveAll(terminalVO.getBargeXSList());
         }
         if(terminalVO.getCntrStoreList().size()>0){
+            if(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()).size()>0)
+                cntrStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getCntrStoreList().size(); i++) {
                 terminalVO.getCntrStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getCntrStoreList().get(i).setUpdAccount(auth.getAccount());
@@ -113,6 +122,8 @@ public class TerminalsDateController {
             cntrStoreService.saveAll(terminalVO.getCntrStoreList());
         }
         if(terminalVO.getTruckStoreList().size()>0){
+            if(truckStoreService.findCurrentProByTerID(auth.getCompany()).size()>0)
+                truckStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
                 terminalVO.getTruckStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getTruckStoreList().get(i).setUpdAccount(auth.getAccount());
@@ -121,10 +132,13 @@ public class TerminalsDateController {
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
         }
         if(terminalVO.getBulkStoreList().size()>0){
+            if(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
+                bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
                 terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
                 terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()).get(0).getBulkStoreId());
             }
             bulkStoreService.saveAll(terminalVO.getBulkStoreList());
         }
@@ -142,8 +156,6 @@ public class TerminalsDateController {
             DispersionVO dispersionVO=new DispersionVO();
             dispersionVO.setTerCode(auth.getCompany());
             dispersionVO.setDispersionId(dispersions.get(i).getDispersionId());
-            System.out.println(dispersions.get(i).getCargoCode());
-            System.out.println(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
             dispersionVO.setCargoName(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
             dispersionVO.setMechanicalNumber(dispersions.get(i).getMechanicalNumber());
             dispersionVO.setWorkingNumber(dispersions.get(i).getCargoNumber());

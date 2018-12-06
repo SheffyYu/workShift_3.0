@@ -15,4 +15,8 @@ public interface ProductionLineRepository extends PagingAndSortingRepository<Pro
     @Modifying
     @Query(value = "SELECT * FROM PRODUCTION_LINE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
     public List<ProductionLine> findCurrentDataByWharf(String date, String terId);
+
+    @Modifying
+    @Query(value = "DELETE FROM PRODUCTION_LINE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
+    public void deleteCurrentDataByWharf(String date, String terId);
 }

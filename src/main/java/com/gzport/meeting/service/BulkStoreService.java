@@ -11,4 +11,5 @@ public interface BulkStoreService {
     BulkStore save(BulkStore barge);
     Iterable<BulkStore> saveAll(Iterable<BulkStore> barges);
     List<BulkStore> getCurrentBargeByTerId(String terId);
+    void deleteCurrentBargeByTerId(String terId);
 }

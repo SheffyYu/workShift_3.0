@@ -11,4 +11,6 @@ public interface BargeService {
     Barge save(Barge barge);
     Iterable<Barge> saveAll(Iterable<Barge> barges);
     List<Barge> getCurrentBargeByTerId(String terId);
+
+    void deleteCurrentBargeByTerId(String terId);
 }

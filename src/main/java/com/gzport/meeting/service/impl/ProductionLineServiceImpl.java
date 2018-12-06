@@ -34,4 +34,10 @@ public class ProductionLineServiceImpl implements ProductionLineService {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return productionLineRepository.findCurrentDataByWharf(date,terId);
     }
+
+    @Override
+    public void deleteCurrentBargeByTerId(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        productionLineRepository.deleteCurrentDataByWharf(date,terId);
+    }
 }

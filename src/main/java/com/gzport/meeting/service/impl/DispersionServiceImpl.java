@@ -35,5 +35,11 @@ public class DispersionServiceImpl implements DispersionService {
         return dispersionRepository.saveAll(dispersions);
     }
 
+    @Override
+    public void deleteCurrentBargeByTerId(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        dispersionRepository.deleteCurrentDataByWharf(date,terId);
+    }
+
 
 }

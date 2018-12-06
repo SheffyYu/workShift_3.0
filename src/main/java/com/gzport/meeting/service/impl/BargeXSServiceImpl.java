@@ -34,4 +34,10 @@ public class BargeXSServiceImpl implements BargeXSService {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return bargeXSRepository.findCurrentDataByWharf(date,terId);
     }
+
+    @Override
+    public void deleteCurrentBargeByTerId(String terId) {
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        bargeXSRepository.deleteCurrentDataByWharf(date,terId);
+    }
 }

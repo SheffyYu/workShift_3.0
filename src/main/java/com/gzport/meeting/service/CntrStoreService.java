@@ -11,4 +11,5 @@ public interface CntrStoreService {
     CntrStore save(CntrStore cntrStore);
     Iterable<CntrStore> saveAll(Iterable<CntrStore> cntrStores);
     List<CntrStore> getCurrentCntrStroeByTerId(String terId);
+    void deleteCurrentBargeByTerId(String terId);
 }

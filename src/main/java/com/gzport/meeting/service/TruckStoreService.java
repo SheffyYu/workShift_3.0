@@ -14,4 +14,5 @@ public interface TruckStoreService {
     Iterable<TruckStore> saveAll(Iterable<TruckStore> truckStores);
 
     List<TruckStore> findCurrentProByTerID(String terId);
+    void deleteCurrentBargeByTerId(String terId);
 }
