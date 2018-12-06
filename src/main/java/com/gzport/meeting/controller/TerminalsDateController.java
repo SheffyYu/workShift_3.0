@@ -142,6 +142,8 @@ public class TerminalsDateController {
             DispersionVO dispersionVO=new DispersionVO();
             dispersionVO.setTerCode(auth.getCompany());
             dispersionVO.setDispersionId(dispersions.get(i).getDispersionId());
+            System.out.println(dispersions.get(i).getCargoCode());
+            System.out.println(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
             dispersionVO.setCargoName(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
             dispersionVO.setMechanicalNumber(dispersions.get(i).getMechanicalNumber());
             dispersionVO.setWorkingNumber(dispersions.get(i).getCargoNumber());
