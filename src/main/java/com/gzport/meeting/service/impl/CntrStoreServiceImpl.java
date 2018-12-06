@@ -31,7 +31,7 @@ public class CntrStoreServiceImpl implements CntrStoreService {
 
     @Override
     public List<CntrStore> getCurrentCntrStroeByTerId(String terId) {
-        String date=new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return cntrStoreRepsitory.findCurrentDataByWharf(date,terId);
     }
 }

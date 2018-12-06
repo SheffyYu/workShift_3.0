@@ -11,7 +11,5 @@ public interface DispersionCargoRepository extends PagingAndSortingRepository<Di
 
     DispersionCargo findByCargoName(String name);
 
-    DispersionCargo findByCargoCode(String cargoCode);
-
     DispersionCargo findByCargoCodeId(String cargoCodeId);
 }

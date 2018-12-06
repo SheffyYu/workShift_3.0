@@ -149,11 +149,12 @@ public class TerminalsDateController {
             dispersionVOS.add(dispersionVO);
         }
         terminalVO.setDispersionVOList(dispersionVOS);
-        terminalVO.setBargeList(bargeService.getCurrentBargeByTerId(auth.getAccount()));
-        terminalVO.setBargeXSList(bargeXSService.getCurrentBargeByTerId(auth.getAccount()));
-        terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getAccount()));
-        terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getAccount()));
-        terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getAccount()));
+        terminalVO.setBargeList(bargeService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setBargeXSList(bargeXSService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
+        terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()));
         return terminalVO;
     }
 }

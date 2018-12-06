@@ -31,7 +31,7 @@ public class TruckStoreServiceImpl implements TruckStoreService {
 
     @Override
     public List<TruckStore> findCurrentProByTerID(String terId) {
-        String date=new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return truckStoreRepository.findCurrentDataByWharf(date,terId);
     }
 }

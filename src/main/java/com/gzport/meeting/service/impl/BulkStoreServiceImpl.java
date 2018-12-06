@@ -32,7 +32,7 @@ public class BulkStoreServiceImpl implements BulkStoreService {
 
     @Override
     public List<BulkStore> getCurrentBargeByTerId(String terId) {
-        String date=new SimpleDateFormat("yyyy-mm-dd").format(new Date());
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return bulkStoreRepository.findCurrentDataByWharf(date,terId);
     }
 }
