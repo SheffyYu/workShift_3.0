@@ -14,7 +14,7 @@ public interface DispersionCargoService {
 
     DispersionCargo findByName(String name);
 
-    DispersionCargo findByCargoCode(String cargoCode);
+    DispersionCargo findByCargoCodeId(String cargoCodeId);
 
 
 }

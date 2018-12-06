@@ -1,24 +1,13 @@
 /**
  * Created by yushihui on 2018/12/5.
  */
+//弹出提示框
 document.write("<script language=javascript src='../../js/huadong/tips.js'></script>");
 //最终传递的数据
 var submitJson;
-//散货疏运的数据
-var disper;
-//集装箱驳船的数据
-var barge;
-//集装箱作业线的数据
-var proroductionLine;
-//新沙集装箱驳船
-var bargeXS;
-//车卡
-var truck;
-//集装箱堆存
-var cntrStore;
-//汽车库存
-var vehicle;
-//判断是否有条件不满足,不满足则为false,不进行操作
+//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
+var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
+// 判断是否有条件不满足,不满足则为false,不进行操作
 var isContinue;
 
 //初始化数据格式
@@ -82,7 +71,8 @@ function truckCargoOper() {
 function xjBarge() {
   var total=0;
   $(".dispersion1").each(function () {
-    var str=document.getElementsByClassName("dispersion1").value;
+    var str=$(this).val();
+    console.log(str);
     total=total+(str-0);
   });
   document.getElementById("xjtotal").value=total;
@@ -150,8 +140,13 @@ function postJson() {
     success: function (data) {
       //刷新窗口
       // window.location.reload();
+      //设置输入框不可编辑以及提交按钮不可点击
+      $(".kv-item input").each(function () {
+        $(this).attr("disabled",true);
+      });
+      //隐藏提交按钮
+      $("#inputBtn").hide();
       showTips("提交成功！",200,0.5);
-      // setTimeout(location.reload(), 1000 );
     }
   });
 }

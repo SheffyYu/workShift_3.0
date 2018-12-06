@@ -31,9 +31,17 @@
                 <label>疏&nbsp;运&nbsp;量</label>
                 	<div class="kv-item-content">
                     <input type="number" class="dispersion1"/>
-                    <input type="number" class="dispersion2" hidden/>
-                    <input type="number" class="dispersion3" hidden/>
+                    <!--<input type="number" class="dispersion2" hidden/>-->
+                    <!--<input type="number" class="dispersion3" hidden/>-->
                     </div>
+                <label>待疏运量</label>
+                <div class="kv-item-content">
+                  <input type="number" class="dispersion2"/>
+                </div>
+                <label>机械数</label>
+                <div class="kv-item-content">
+                  <input type="number" class="dispersion3"/>
+                </div>
                 </div>
             </div>
               <div class="subfild-content base-info">
@@ -42,8 +50,16 @@
                   <label>疏&nbsp;运&nbsp;量</label>
                   <div class="kv-item-content">
                     <input type="number" class="dispersion1"/>
-                    <input type="number" class="dispersion2" hidden/>
-                    <input type="number" class="dispersion3" hidden/>
+                    <!--<input type="number" class="dispersion2" hidden/>-->
+                    <!--<input type="number" class="dispersion3" hidden/>-->
+                  </div>
+                  <label>待疏运量</label>
+                  <div class="kv-item-content">
+                    <input type="number" class="dispersion2"/>
+                  </div>
+                  <label>机械数</label>
+                  <div class="kv-item-content">
+                    <input type="number" class="dispersion3"/>
                   </div>
                 </div>
               </div>
@@ -53,8 +69,16 @@
                     <label>疏&nbsp;运&nbsp;量</label>
                     <div class="kv-item-content">
                       <input type="number" class="dispersion1"/>
-                      <input type="number" class="dispersion2" hidden/>
-                      <input type="number" class="dispersion3" hidden/>
+                      <!--<input type="number" class="dispersion2" hidden/>-->
+                      <!--<input type="number" class="dispersion3" hidden/>-->
+                    </div>
+                    <label>待疏运量</label>
+                    <div class="kv-item-content">
+                      <input type="number" class="dispersion2"/>
+                    </div>
+                    <label>机械数</label>
+                    <div class="kv-item-content">
+                      <input type="number" class="dispersion3"/>
                     </div>
                   </div>
                 </div><div class="subfild-content base-info">
@@ -63,8 +87,16 @@
           <label>疏&nbsp;运&nbsp;量</label>
           <div class="kv-item-content">
             <input type="number" class="dispersion1"/>
-            <input type="number" class="dispersion2" hidden/>
-            <input type="number" class="dispersion3" hidden/>
+            <!--<input type="number" class="dispersion2" hidden/>-->
+            <!--<input type="number" class="dispersion3" hidden/>-->
+          </div>
+          <label>待疏运量</label>
+          <div class="kv-item-content">
+            <input type="number" class="dispersion2"/>
+          </div>
+          <label>机械数</label>
+          <div class="kv-item-content">
+            <input type="number" class="dispersion3"/>
           </div>
         </div>
       </div>
@@ -78,8 +110,16 @@
             <label>疏&nbsp;运&nbsp;量</label>
             <div class="kv-item-content">
               <input type="number" class="dispersion1"/>
-              <input type="number" class="dispersion2" hidden/>
-              <input type="number" class="dispersion3" hidden/>
+              <!--<input type="number" class="dispersion2" hidden/>-->
+              <!--<input type="number" class="dispersion3" hidden/>-->
+            </div>
+            <label>待疏运量</label>
+            <div class="kv-item-content">
+              <input type="number" class="dispersion2"/>
+            </div>
+            <label>机械数</label>
+            <div class="kv-item-content">
+              <input type="number" class="dispersion3"/>
             </div>
           </div>
         </div>
@@ -274,6 +314,16 @@
 </body>
 <script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
-
+  $.ajax({
+    method: "get",
+    url: "/login/getData",
+    contentType: "application/json",
+    success: function(data){
+      console.log(data);
+    },
+    error: function (data) {
+      console.info(data);
+    }
+  });
 </script>
 </html>

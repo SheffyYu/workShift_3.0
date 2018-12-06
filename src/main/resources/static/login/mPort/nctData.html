@@ -134,6 +134,16 @@
 </body>
 <script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
-
+  $.ajax({
+    method: "get",
+    url: "/login/getData",
+    contentType: "application/json",
+    success: function(data){
+      console.log(data);
+    },
+    error: function (data) {
+      console.info(data);
+    }
+  });
 </script>
 </html>
