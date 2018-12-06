@@ -18,9 +18,11 @@ $(document).ready(function () {
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.bulkStoreList == ""){
         //隐藏修改按钮
         $("#editBtn").hide();
+        $("#cancelBtn").hide();
       }else{
         //当天已经提交过数据
         $("#inputBtn").hide();
+        $("#cancelBtn").hide();
         //向输入框插入数据
         insertIntoFormData();
         //禁用所有输入框
@@ -45,33 +47,47 @@ function insertIntoFormData() {
   cntrStore=submitJson.cntrStoreList;
   vehicle=submitJson.bulkStoreList;
 
-  //疏运部分数据插入
-  if(disper != "") {
-    insertDisperData();
+  if(document.getElementById("dispersion")){
+    //疏运部分数据插入
+    if(disper != "") {
+      insertDisperData();
+    }
   }
-  //作业线部分数据插入
-  if(proroductionLine != ""){
-    insertProductionLineData();
+  if(document.getElementById("barge")){
+    //集装箱驳船
+    if(barge != ""){
+      insertBargeData();
+    }
   }
-  //集装箱驳船部分数据插入
-  if(barge != ""){
-    insertBargeData();
+  if(document.getElementById("productionLine")){
+    //集装箱作业线
+    if(proroductionLine != ""){
+      insertProductionLineData();
+    }
   }
-  //车卡
-  if(truck != ""){
-    insertTruckData();
+  if(document.getElementById("cntrSto")){
+    //集装箱堆存
+    if(cntrStore != ""){
+      insertCntrStoreData();
+    }
   }
-  //新沙驳船
-  if(bargeXS != ""){
-    insertBargeXSData();
+  if(document.getElementById("truck")){
+    //车卡
+    if(truck != ""){
+      insertTruckData();
+    }
   }
-  //集装箱堆存
-  if(cntrStore != ""){
-    insertCntrStoreData();
+  if(document.getElementById("xsCntr")){
+    //新沙集装箱
+    if(bargeXS != ""){
+      insertBargeXSData();
+    }
   }
-  //汽车库存
-  if(vehicle != ""){
-    insertVehicleData();
+  if(document.getElementById("bulkBus")){
+    //汽车库存
+    if(vehicle != ""){
+      insertVehicleData();
+    }
   }
   }
 
@@ -119,12 +135,14 @@ function insertDisperData(){
       }
     );
     count=0;
+    var xjtotal=0;
     $(".cargo").each(function () {
       $(this).attr("value",name[mark]);
       mark++;
     });
     $(".dispersion1").each(function () {
       $(this).attr("value",dis1[count]);
+      xjtotal=xjtotal+(dis1[count]-0);
       count++;
     });
     count=0;
@@ -137,6 +155,9 @@ function insertDisperData(){
       $(this).attr("value",dis3[count]);
       count++;
     });
+    if(document.getElementById("xjtotal")) {
+      document.getElementById("xjtotal").value = xjtotal;
+    }
 }
 
 //作业线部分数据插入
