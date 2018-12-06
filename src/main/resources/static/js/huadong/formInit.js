@@ -16,13 +16,13 @@ $(document).ready(function () {
       submitJson=data;
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.bulkStoreList == ""){
-        //隐藏修改按钮
+        //隐藏修改和取消按钮
         $("#editBtn").hide();
-        $("#cancelBtn").hide();
+        $("#cancel").hide();
       }else{
         //当天已经提交过数据
         $("#inputBtn").hide();
-        $("#cancelBtn").hide();
+        $("#cancel").hide();
         //向输入框插入数据
         insertIntoFormData();
         //禁用所有输入框
