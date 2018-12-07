@@ -3,6 +3,7 @@
  */
 //弹出提示框
 document.write("<script language=javascript src='../../js/huadong/tips.js'></script>");
+document.write("<script language=javascript src='../../js/huadong/formInit.js'></script>");
 //最终传递的数据
 var submitJson;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
@@ -251,7 +252,10 @@ function bargeData(){
   if(inPort == "" || finishWork == "" || unWork ==""){
     isContinue=false;
     alert("集装箱驳船中数据不能为空，请返回填写！");//返回界面
-  }else{
+  }else if(inPort < 0 || finishWork < 0 || unWork < 0){
+    isContinue=false;
+    alert("集装箱驳船中数据存在负数，请返回修改！");//返回界面
+  } else{
     var obj={
       bargeId:"",		//驳船Id，没有可以不填
       terCode:"",		//码头代码，不用填
@@ -272,6 +276,9 @@ function proLineData() {
   if(allLine == "" || shipLine == "" || bargeLine == ""){
     isContinue=false;
     alert("集装箱作业线中数据不能为空，请返回填写！");//返回界面
+  }else if(allLine < 0 || shipLine < 0 || bargeLine < 0){
+    isContinue=false;
+    alert("集装箱作业线中数据存在负数，请返回修改！");//返回界面
   } else{
     var obj={
       productionId:"",	//作业线Id,没有可以不填
@@ -291,10 +298,7 @@ function cntrStoreData() {
   var LOut=document.getElementById("LOut").value;
   var Emp=document.getElementById("Emp").value;
   var allSto=document.getElementById("allSto").value;
-  if(LIn == "" || LOut == "" || Emp == "" || allSto == ""){
-    isContinue=false;
-    alert("集装箱堆存中数据不能为空，请返回填写！");
-  }else {
+  if(!(LIn == "" && LOut == "" && Emp == "" && allSto == "")){
     var obj={
       cntrStoreId:"",
       terCode:"",

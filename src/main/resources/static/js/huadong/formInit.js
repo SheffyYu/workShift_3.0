@@ -13,13 +13,13 @@ $(document).ready(function () {
     contentType: "application/json",
     success: function(data){
       console.log(data);
-      submitJson=data;
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.bulkStoreList == ""){
         //隐藏修改和取消按钮
         $("#editBtn").hide();
         $("#cancel").hide();
       }else{
+        submitJson=data;
         //当天已经提交过数据
         $("#inputBtn").hide();
         $("#cancel").hide();
