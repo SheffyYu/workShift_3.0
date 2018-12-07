@@ -32,10 +32,16 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     }
 
     @Override
-    public List<BulkStore> getCurrentBargeByTerId(String terId) {
+    public List<BulkStore> getBulkByTime(String time) {
+        return bulkStoreRepository.findBulkBytime(time);
+    }
+
+    @Override
+    public List<BulkStore> getCurrentBulkByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return bulkStoreRepository.findCurrentDataByWharf(date,terId);
     }
+
 
     @Override
     @Transactional

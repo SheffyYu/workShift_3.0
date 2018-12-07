@@ -132,13 +132,13 @@ public class TerminalsDateController {
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
         }
         if(terminalVO.getBulkStoreList().size()>0){
-            if(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
+            if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
                 bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
                 terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
                 terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
-                terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()).get(0).getBulkStoreId());
+                terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).get(0).getBulkStoreId());
             }
             bulkStoreService.saveAll(terminalVO.getBulkStoreList());
         }
@@ -168,7 +168,7 @@ public class TerminalsDateController {
         terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
-        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()));
         return terminalVO;
     }
 }

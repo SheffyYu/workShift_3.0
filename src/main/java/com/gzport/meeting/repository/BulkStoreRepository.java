@@ -17,6 +17,10 @@ public interface BulkStoreRepository extends PagingAndSortingRepository<BulkStor
     public List<BulkStore> findCurrentDataByWharf(String date, String terId);
 
     @Modifying
+    @Query(value = "SELECT * FROM BULK_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd')",nativeQuery = true)
+    public List<BulkStore> findBulkBytime(String date);
+
+    @Modifying
     @Query(value = "DELETE FROM BULK_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
     public void deleteCurrentDataByWharf(String date, String terId);
 }

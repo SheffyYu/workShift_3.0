@@ -10,6 +10,7 @@ import java.util.List;
 public interface BulkStoreService {
     BulkStore save(BulkStore barge);
     Iterable<BulkStore> saveAll(Iterable<BulkStore> barges);
-    List<BulkStore> getCurrentBargeByTerId(String terId);
+    List<BulkStore> getBulkByTime(String time);
+    List<BulkStore> getCurrentBulkByTerId(String terId);
     void deleteCurrentBargeByTerId(String terId);
 }

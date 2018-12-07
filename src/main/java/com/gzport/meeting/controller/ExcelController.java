@@ -20,10 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/12/5.
@@ -38,15 +40,21 @@ public class ExcelController {
 
     @PostMapping("/daily")
     public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file){
-        String reg = "^[0-9]+(.[0-9]+)?$";
         int startRow=7;
         int endRow=11;
-        List<BulkStore> bulkStoreList=new ArrayList<>();
+        String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
         DecimalFormat df = new DecimalFormat("#.0");
         String[][] data=new String[endRow-startRow+1][];
         Map<String,BulkStore> mapMap=new HashMap<>();
-        for(BulkTerEnum e:BulkTerEnum.values()){
-            mapMap.put(e.toString(),new BulkStore());
+        if(bulkStoreList.size()>0) {
+            for (BulkTerEnum e : BulkTerEnum.values()) {
+                for(int i=0;i<bulkStoreList.size();i++){
+                    if(bulkStoreList.get(i).getTerCode().equals(e.toString())){
+                        mapMap.put(e.toString(),bulkStoreList.get(i));
+                    }
+                }
+            }
         }
         try {
             InputStream inputStream=file.getInputStream();
@@ -67,62 +75,29 @@ public class ExcelController {
                         }
                     }
                 }
-                int sum=0;
-                for(BulkTerEnum e:BulkTerEnum.values()){
-                    BulkStore bulkStore=mapMap.get(e.toString());
-                    bulkStore.setTerCode(e.toString());
-                    if(StringFundation.isNumber(data[0][sum]))
-                        bulkStore.setTotalStore(Long.parseLong(data[0][sum]));
-                    if(StringFundation.isNumber(data[1][sum]))
-                        bulkStore.setOreStore(Long.parseLong(data[1][sum]));
-                    if(StringFundation.isNumber(data[2][sum]))
-                        bulkStore.setCoalStore(Long.parseLong(data[2][sum]));
-                    if(StringFundation.isNumber(data[3][sum]))
-                        bulkStore.setFoodStore(Long.parseLong(data[3][sum]));
-                    if(StringFundation.isNumber(data[4][sum]))
-                        bulkStore.setSteelStore(Long.parseLong(data[4][sum]));
-                    bulkStoreList.add(bulkStore);
-                    sum++;
-                }
+                bulkStoreList=ExcelDeal.dailyDataDeal(data,mapMap);
             }
-//            if("xlsx".equals(fileType)){
-//                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
-//                XSSFSheet xssfSheet=xssfWorkbook.getSheet("调度值班日报");
-//                for(int rowNum=startRow;rowNum<=endRow;rowNum++){
-//                    XSSFRow xhssfRow = xssfSheet.getRow(rowNum);
-//                    int minColIx = xhssfRow.getFirstCellNum()+1;
-//                    int maxColIx = xhssfRow.getLastCellNum();
-//                    data[rowNum-startRow]=new String[maxColIx];
-//                    for(int colIx=minColIx;colIx<maxColIx;colIx++){
-//                        XSSFCell cell = xhssfRow.getCell(colIx);
-//                        if(cell!=null){
-//                            data[rowNum-startRow][colIx-minColIx]=new String();
-//                            data[rowNum-startRow][colIx-minColIx]= ExcelDeal.getXCellValue(cell);
-//                        }
-//                    }
-//                }
-//                int sum=0;
-//                for(BulkTerEnum e:BulkTerEnum.values()){
-//                    BulkStore bulkStore=mapMap.get(e.toString());
-//                    bulkStore.setTerCode(e.toString());
-//                    if(StringFundation.isNumber(data[0][sum]))
-//                        bulkStore.setTotalStore(Long.parseLong(data[0][sum]));
-//                    if(StringFundation.isNumber(data[1][sum]))
-//                        bulkStore.setOreStore(Long.parseLong(data[1][sum]));
-//                    if(StringFundation.isNumber(data[2][sum]))
-//                        bulkStore.setCoalStore(Long.parseLong(data[2][sum]));
-//                    if(StringFundation.isNumber(data[3][sum]))
-//                        bulkStore.setFoodStore(Long.parseLong(data[3][sum]));
-//                    if(StringFundation.isNumber(data[4][sum]))
-//                        bulkStore.setSteelStore(Long.parseLong(data[4][sum]));
-//                    bulkStoreList.add(bulkStore);
-//                    sum++;
-//                }
-//            }
+            if("xlsx".equals(fileType)){
+                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
+                XSSFSheet xssfSheet=xssfWorkbook.getSheet("调度值班日报");
+                for(int rowNum=startRow;rowNum<=endRow;rowNum++){
+                    XSSFRow xhssfRow = xssfSheet.getRow(rowNum);
+                    int minColIx = xhssfRow.getFirstCellNum()+1;
+                    int maxColIx = xhssfRow.getLastCellNum();
+                    data[rowNum-startRow]=new String[maxColIx];
+                    for(int colIx=minColIx;colIx<maxColIx;colIx++){
+                        XSSFCell cell = xhssfRow.getCell(colIx);
+                        if(cell!=null){
+                            data[rowNum-startRow][colIx-minColIx]=new String();
+                            data[rowNum-startRow][colIx-minColIx]= ExcelDeal.getXCellValue(cell);
+                        }
+                    }
+                }
+                bulkStoreList=ExcelDeal.dailyDataDeal(data,mapMap);
+            }
          } catch (IOException e) {
             e.printStackTrace();
         }
-
         return bulkStoreService.saveAll(bulkStoreList);
     }
 }

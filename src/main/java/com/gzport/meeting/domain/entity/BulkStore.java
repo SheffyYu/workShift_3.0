@@ -25,17 +25,17 @@ public class BulkStore implements Serializable {
     @Column(name = "TER_CODE")
     private String terCode;     //公司
     @Column(name = "TOTAL_STORE")
-    private Long totalStore;    //各公司库存
+    private Float totalStore;    //各公司库存
     @Column(name = "ORE_STORE")
-    private Long oreStore;      //矿石
+    private Float oreStore;      //矿石
     @Column(name = "COAL_STORE")
-    private Long coalStore;     //煤炭
+    private Float coalStore;     //煤炭
     @Column(name = "FOOD_STORE")
-    private Long foodStore;     //粮食
+    private Float foodStore;     //粮食
     @Column(name = "STEEL_STORE")
-    private Long steelStore;    //钢材
+    private Float steelStore;    //钢材
     @Column(name = "CAR_STORE")
-    private Long carStore;      //汽车
+    private Float carStore;      //汽车
 
     @Column(name = "BULK_COMMENT")
     private String bulkComment;      //备注
@@ -68,51 +68,51 @@ public class BulkStore implements Serializable {
         this.terCode = terCode;
     }
 
-    public Long getTotalStore() {
+    public Float getTotalStore() {
         return totalStore;
     }
 
-    public void setTotalStore(Long totalStore) {
+    public void setTotalStore(Float totalStore) {
         this.totalStore = totalStore;
     }
 
-    public Long getOreStore() {
+    public Float getOreStore() {
         return oreStore;
     }
 
-    public void setOreStore(Long oreStore) {
+    public void setOreStore(Float oreStore) {
         this.oreStore = oreStore;
     }
 
-    public Long getCoalStore() {
+    public Float getCoalStore() {
         return coalStore;
     }
 
-    public void setCoalStore(Long coalStore) {
+    public void setCoalStore(Float coalStore) {
         this.coalStore = coalStore;
     }
 
-    public Long getFoodStore() {
+    public Float getFoodStore() {
         return foodStore;
     }
 
-    public void setFoodStore(Long foodStore) {
+    public void setFoodStore(Float foodStore) {
         this.foodStore = foodStore;
     }
 
-    public Long getSteelStore() {
+    public Float getSteelStore() {
         return steelStore;
     }
 
-    public void setSteelStore(Long steelStore) {
+    public void setSteelStore(Float steelStore) {
         this.steelStore = steelStore;
     }
 
-    public Long getCarStore() {
+    public Float getCarStore() {
         return carStore;
     }
 
-    public void setCarStore(Long carStore) {
+    public void setCarStore(Float carStore) {
         this.carStore = carStore;
     }
 
