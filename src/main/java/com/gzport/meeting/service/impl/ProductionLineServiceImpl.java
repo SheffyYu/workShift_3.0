@@ -6,6 +6,7 @@ import com.gzport.meeting.service.ProductionLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class ProductionLineServiceImpl implements ProductionLineService {
     }
 
     @Override
+    @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         productionLineRepository.deleteCurrentDataByWharf(date,terId);
