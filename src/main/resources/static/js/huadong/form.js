@@ -168,6 +168,7 @@ function postJson() {
       });
       //隐藏提交按钮
       $("#inputBtn").hide();
+      $("#cancel").hide();
       //显示修改按钮
       $("#editBtn").show();
       showTips("提交成功！",200,0.5);

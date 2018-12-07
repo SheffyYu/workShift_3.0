@@ -1,0 +1,378 @@
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/hdStyle.css" />
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
+<link rel="stylesheet" type="text/css" href="../../css/skin_/form.css" />
+<script type="text/javascript" src="../../js/jquery.js"></script>
+<script type="text/javascript" src="../../js/global.js"></script>
+<script type="text/javascript" src="../../js/jquery.select.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../css/themes/icon.css" />
+<link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery.cycle.all.min.js"></script>
+<script src="../../js/jquery.jcarousel.min.js"></script>
+<script src="../../js/jquery.easyui.min.js"></script>
+<script src="../../js/plugins/jquery.international.js"></script>
+<script type="text/javascript" src="../../js/datagrid-bufferview.js"></script>
+<script type="text/javascript" src="../../js/jquery.json-2.4.js"></script>
+<script type="text/javascript" src="../../js/jquery-migrate-1.2.1.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../../login/css/jsmind.css" />
+
+<script charset="utf-8" src="../../js/ueditor/ueditor.config.js"></script>
+<script charset="utf-8" src="../../js/ueditor/ueditor.all.min.js"></script>
+<script charset="utf-8" src="../../js/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script charset="utf-8" src="../../js/ueditor/ueditor.all.js"></script>
+
+<script type="text/javascript">
+  $.hd = $.hd || {};
+  $.fn.form.methods.defaultSubmit = $.fn.form.methods.submit || function() {  };
+</script>
+<!-- END: 在公司idev库之前执行 -->
+<script type="text/javascript" src="../../js/datagrid-dnd.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.tabs.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.combo.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.datagrid.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.form.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.datebox.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.datetimebox.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.combogrid.js"></script>
+<script src="../../js/hdEzuiEx_js/ezui.ex.treegrid.js"></script>
+<script src="../../js/hdEzuiEx_js/HdObject.js"></script>
+<script src="../../js/hdEzuiEx_js/HdConditions.js"></script>
+<script src="../../js/hdUtils/HdUtils.js"></script>
+<script src="../../js/hdUtils/commonUtils.js"></script>
+<script src="../../js/hdEzuiEx_js/HdEzuiQueryParams.js"></script>
+<script src="../../js/hdEzuiEx_js/ezuiCode.js" type="text/javascript"></script>
+<script src="../../js/hdEzuiEx_js/ezuiComboGridCode.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../js/hdEzuiEx_js/extension.js"></script>
+<script type="text/javascript" src="../../js/huadong/main.js"></script>
+<script type="text/javascript" src="../../js/huadong/hdMenu.js"></script>
+<!-- 下拉 -->
+<script type="text/javascript" src="../../js/hdDropList/comboDropListBase.js"></script>
+<!-- BEGIN: 国际化 -->
+<script type="text/javascript"  src="../../js/jquery.i18n.properties-min-1.0.9.js"></script>
+<script id="language2" src="../../js/hdEzuiEx_js/ezuiEx-lang-zh.js"></script>
+<script id="language" src="../../i18n/locale/easyui-lang-zh.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="../../css/colorpicker.css"/>
+<script src="/static/js/colorpicker.js" type="text/javascript"></script>
+<!-- 工具栏 -->
+<div class="easyui-layout" data-options="fit: true">
+  <div id="uploadMaintainToolBar" style="float:left;">
+    <input type="file" id="selectFilePath" name="Url" maxlength="500" data-options="选择上传文件..." class="easyui-filebox" hidden onchange="getFilePath()"/>
+    <input type="button" id="uploadBtn" class="button" value="上传文件"/>
+    <input type="button" class="button" id="editBtn" value="编辑"/>
+    <input type="button" class="button" id="saveBtn" value="保存">
+  </div>
+<div data-options="region:'center',split:false,collapsible:false,border:false;fit=true" class="easyui-panel" style="margin-left: 50px;margin-top: 10px;width: 200px">
+  <table id="uploadMaintainDatagrid" style="height:100%"></table>
+</div>
+  <div data-options="region:'south',split:false,collapsible:false,border:false;fit=true" class="easyui-panel" style="height:800px;margin-left: 50px;margin-top: 50px">
+    <table id="uploadMaintainDatagrid2" style="height:100%"></table>
+</div>
+</div>
+<!-- 脚本控制 -->
+<script src="../../js/huadong/uploadFile.js"></script>
+<script type="text/javascript">
+  var editIndex = undefined;
+  //判断是否结束编辑
+  function endEditing(){
+    var dg = $("#uploadMaintainDatagrid");
+    var dg2 = $("#uploadMaintainDatagrid2");
+    if (editIndex == undefined){return true}
+    if (dg.datagrid('validateRow', editIndex)){
+      dg.datagrid('getEditor', {index : editIndex,field : 'typeName'});
+      dg.datagrid('getEditor', {index : editIndex,field : 'typeDescription'});
+      dg.datagrid('getEditor', {index : editIndex,field : 'typeMark'});
+      editIndex = undefined;
+      return true;
+    }else if (dg2.datagrid('validateRow', editIndex)){
+      dg2.datagrid('getEditor', {index : editIndex,field : 'typeName'});
+      dg2.datagrid('getEditor', {index : editIndex,field : 'typeDescription'});
+      dg2.datagrid('getEditor', {index : editIndex,field : 'typeMark'});
+      editIndex = undefined;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  //选中编辑行
+  function onClickRow(index){
+    var dg = $("#uploadMaintainDatagrid");
+    var dg2 = $("#uploadMaintainDatagrid2");
+    if (editIndex != index){
+      if (endEditing()){
+        dg.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        dg2.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        editIndex = index;
+      } else {
+        dg.datagrid('selectRow', editIndex);
+        dg2.datagrid('selectRow', editIndex);
+      }
+    }
+  }
+
+  //这里要注意一个问题，shiro的iconCls的命名不能相同，相同会造成浏览器读取混乱
+  $(document).ready(function () {
+      var dg = $("#uploadMaintainDatagrid");
+      var dg2 = $("#uploadMaintainDatagrid2");
+      //上传
+      $("#uploadBtn").on("click", function () {
+//        $("#uploadMaintainDialog").show();
+//        HdUtils.dialog.show({height: 470,width:850, title: dialogTitleAddF, href: "../login/info/docMaintainAddType.html", isSaveHandler: true});
+//        HdUtils.dialog.setValue({data: {type: "ADD"},dataGrid:dg});
+        $("#selectFilePath").trigger("click");
+      });
+      // 编辑。
+      $("#editBtn").on("click", function () {
+        dg.datagrid("hdEdit");
+        dg2.datagrid("hdEdit");
+        var selectIdx = dg.datagrid("options").hdCurrentRowIndex;
+        onClickRow(selectIdx);
+        var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
+        onClickRow(selectIdx2);
+      });
+      // 保存。
+      $("#saveBtn").on("click", function() {
+//          dg.datagrid("hdSave",{url : "http://10.197.33.139:8080/webresources/login/DocumentType/save?userId="+userId});
+        });
+
+      var builder = new HdEzuiQueryParamsBuilder();
+      builder.hdEzuiQueryParams.page = 1;
+      builder.hdEzuiQueryParams.rows = 50;
+      builder.setOrderByClause("typeMark","asc");
+
+      $("#uploadMaintainDatagrid").datagrid({
+        striped:true,
+//        url:"http://10.197.33.139:8080/webresources/login/DocumentType/find",
+        queryParams: builder.build(),
+        method: "POST",
+//        pagination: true,
+        singleSelect: true,
+        selectOnCheck:false,
+        checkOnSelect:false,
+        sortOrder: 'asc',
+        sortName: 'typeMark',
+        remoteSort:false,
+        rownumbers: true,
+        toolbar: "#uploadMaintainToolBar",
+        fit: true,
+        fitColumns: false,
+        columns: [[
+//          {//选择框
+//            field: "ck",
+//            checkbox: true,
+//            // editor: {type: "validebox", options: {validType: 'length[0,200]'}},
+//          },
+          {
+            field: "typeName",
+            title: "公司",
+            multiSort: true,
+            halign: "center",
+            sortable: true,
+            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
+            width:80
+          },
+          {
+            field: "typeDescription",
+            title: "库存",
+            multiSort: true,
+            halign: "center",
+            width:80,
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true
+          },
+          {
+            field: "typeMark",
+            title: "矿石",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "煤炭",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "粮食（含豆粕）",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "钢材",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "insAccount",
+            title: "创建人",
+            multiSort: true,
+            halign: "center",
+            width:100,
+            sortable: true
+          },
+          {
+            field: "insTimestamp",
+            title: "创建时间",
+            multiSort: true,
+            halign: "center",
+            width:140,
+            formatter: HdUtils.formatter.datetime,
+            sortable: true
+          },
+          {
+            field: "updAccount",
+            title: "更新人",
+            multiSort: true,
+            halign: "center",
+            width:100,
+            sortable: true
+          },
+          {
+            field: "updTimestamp",
+            title: "更新时间",
+            multiSort: true,
+            halign: "center",
+            width:140,
+            formatter: HdUtils.formatter.datetime,
+            sortable: true
+          }
+        ]],
+        onBeforeEdit:function(index,row){
+          row.editing = true;
+          dg.datagrid('refreshRow', index);
+        },
+        onAfterEdit:function(index,row){
+          row.editing = false;
+          dg.datagrid('refreshRow', index);
+        },
+        onCancelEdit:function(index,row){
+          row.editing = false;
+          dg.datagrid('refreshRow', index);
+        },
+        //双击单元格编辑
+        onDblClickCell: function (index) {
+          dg.datagrid("hdEdit");
+          onClickRow(index);
+        }
+      });
+$("#uploadMaintainDatagrid2").datagrid({
+        striped:true,
+//        url:"http://10.197.33.139:8080/webresources/login/DocumentType/find",
+        queryParams: builder.build(),
+        method: "POST",
+//        pagination: true,
+        singleSelect: true,
+        selectOnCheck:false,
+        checkOnSelect:false,
+        sortOrder: 'asc',
+        sortName: 'typeMark',
+        remoteSort:false,
+        rownumbers: true,
+//        toolbar: "#uploadMaintainToolBar",
+        fit: true,
+        fitColumns: false,
+        columns: [[
+//          {//选择框
+//            field: "ck",
+//            checkbox: true,
+//            // editor: {type: "validebox", options: {validType: 'length[0,200]'}},
+//          },
+          {
+            field: "typeName",
+            title: "公司",
+            multiSort: true,
+            halign: "center",
+            sortable: true,
+            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
+            width:280
+          },
+          {
+            field: "typeDescription",
+            title: "库存",
+            multiSort: true,
+            halign: "center",
+            width:280,
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true
+          },
+          {
+            field: "typeMark",
+            title: "矿石",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "煤炭",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "粮食（含豆粕）",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          },
+          {
+            field: "typeMark",
+            title: "钢材",
+            multiSort: true,
+            halign: "center",
+            editor: {type: "numberbox",options:{precision:0}},
+            sortable: true,
+            width:80
+          }
+        ]],
+        onBeforeEdit:function(index,row){
+          row.editing = true;
+          dg2.datagrid('refreshRow', index);
+        },
+        onAfterEdit:function(index,row){
+          row.editing = false;
+          dg2.datagrid('refreshRow', index);
+        },
+        onCancelEdit:function(index,row){
+          row.editing = false;
+          dg2.datagrid('refreshRow', index);
+        },
+        //双击单元格编辑
+        onDblClickCell: function (index) {
+          dg2.datagrid("hdEdit");
+          onClickRow(index);
+        }
+      });
+
+    });
+
+</script>
