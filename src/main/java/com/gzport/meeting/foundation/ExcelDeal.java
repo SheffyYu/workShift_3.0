@@ -48,28 +48,28 @@ public class ExcelDeal {
         return value;
     }
 
-    public static String getXCellValue(XSSFCell cell) {
-        String value = null;
-        if (cell != null) {
-            switch (cell.getCellType()) {
-                case 2:
-                    // cell.getCellFormula();
-                    try {
-                        value = String.valueOf(cell.getNumericCellValue());
-                    } catch (IllegalStateException e) {
-                        value = String.valueOf(cell.getRichStringCellValue());
-                    }
-                    break;
-                case 0:
-                    value = String.valueOf(cell.getNumericCellValue());
-                    break;
-                case 1:
-                    value = String.valueOf(cell.getRichStringCellValue());
-                    break;
-            }
-        }
-        return value;
-    }
+//    public static String getXCellValue(XSSFCell cell) {
+//        String value = null;
+//        if (cell != null) {
+//            switch (cell.getCellType()) {
+//                case 2:
+//                    // cell.getCellFormula();
+//                    try {
+//                        value = String.valueOf(cell.getNumericCellValue());
+//                    } catch (IllegalStateException e) {
+//                        value = String.valueOf(cell.getRichStringCellValue());
+//                    }
+//                    break;
+//                case 0:
+//                    value = String.valueOf(cell.getNumericCellValue());
+//                    break;
+//                case 1:
+//                    value = String.valueOf(cell.getRichStringCellValue());
+//                    break;
+//            }
+//        }
+//        return value;
+//    }
 
     public static List<BulkStore> dailyDataDeal(String[][] data,Map<String,BulkStore> map){
         List<BulkStore> bulkStoreList=new ArrayList<>();

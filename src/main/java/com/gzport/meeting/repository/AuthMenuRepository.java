@@ -19,6 +19,6 @@ public interface AuthMenuRepository extends PagingAndSortingRepository<AuthMenu,
     List<Map> getTreeByAccount(String account);
 
     @Modifying
-    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL,t.DEFAULT_MENU, level    FROM ( select distinct  ID,PARENT_ID,TEXT, URL,DEFAULT_MENU from VJ_AUTHMENU ) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
+    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL, level   FROM ( select distinct  ID,PARENT_ID,TEXT, URL from VJ_AUTHMENU ) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
     List<Map> getAdminTree();
 }

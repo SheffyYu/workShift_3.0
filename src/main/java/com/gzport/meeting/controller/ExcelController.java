@@ -62,6 +62,8 @@ public class ExcelController {
             if("xls".equals(fileType)){
                 HSSFWorkbook hssfWorkbook = new HSSFWorkbook(inputStream);
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
+                if(hssfSheet==null)
+                    return null;
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     int minColIx = hssfRow.getFirstCellNum()+1;
@@ -77,8 +79,8 @@ public class ExcelController {
                 }
                 bulkStoreList=ExcelDeal.dailyDataDeal(data,mapMap);
             }
-            if("xlsx".equals(fileType)){
-                XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);
+            if("xlsx".equals(fileType)){;
+                XSSFWorkbook xssfWorkbook=new XSSFWorkbook(inputStream);
                 XSSFSheet xssfSheet=xssfWorkbook.getSheet("调度值班日报");
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     XSSFRow xhssfRow = xssfSheet.getRow(rowNum);
@@ -89,7 +91,7 @@ public class ExcelController {
                         XSSFCell cell = xhssfRow.getCell(colIx);
                         if(cell!=null){
                             data[rowNum-startRow][colIx-minColIx]=new String();
-                            data[rowNum-startRow][colIx-minColIx]= ExcelDeal.getXCellValue(cell);
+                            data[rowNum-startRow][colIx-minColIx]= "test";
                         }
                     }
                 }
