@@ -17,7 +17,7 @@ function showTips( content, height, time ){
     'margin'    : '0 auto',
     'text-align': 'center',
     'width'     : '350px',
-    'height'    : '60px',
+    'height'    : '40px',
     'color'     : '#fff',
     'opacity'   : '0.8'
   }).show();
