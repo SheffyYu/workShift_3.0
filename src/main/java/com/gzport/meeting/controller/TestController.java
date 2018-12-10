@@ -91,6 +91,7 @@ public class TestController {
 
     @PostMapping("/createCargo")
     public DispersionCargo createCargo(DispersionCargo dispersionCargo){
+        System.out.println();
         return dispersionCargoService.save(dispersionCargo);
     }
 

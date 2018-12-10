@@ -1,10 +1,12 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.foundation.BulkTerEnum;
 import com.gzport.meeting.foundation.ExcelDeal;
 import com.gzport.meeting.foundation.StringFundation;
 import com.gzport.meeting.service.BulkStoreService;
+import com.gzport.meeting.service.ThroughputService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -38,6 +40,9 @@ public class ExcelController {
     @Autowired
     BulkStoreService bulkStoreService;
 
+    @Autowired
+    ThroughputService throughputService;
+
     @PostMapping("/daily")
     public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file){
         int startRow=7;
@@ -64,6 +69,7 @@ public class ExcelController {
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
                 if(hssfSheet==null)
                     return null;
+//                Throughput throughput=getThroughput(hssfSheet);
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     int minColIx = hssfRow.getFirstCellNum()+1;
@@ -102,4 +108,21 @@ public class ExcelController {
         }
         return bulkStoreService.saveAll(bulkStoreList);
     }
+
+    @GetMapping("/getDaily")
+    public List<BulkStore> findCurrentStoreByDate(){
+        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return bulkStoreService.getBulkByTime(date);
+    }
+
+//    public static Throughput getThroughput(HSSFSheet hssfSheet){
+//        Throughput throughput=new Throughput();
+//        throughput.setDailyTotal(getXSSFSheetData(hssfSheet,));
+//    }
+//
+//    public static String getXSSFSheetData(HSSFSheet hssfSheet,int row,int col){
+//        HSSFRow hssfRow = hssfSheet.getRow(row);
+//        HSSFCell cell = hssfRow.getCell(col);
+//        return ExcelDeal.getCellValue(cell);
+//    }
 }

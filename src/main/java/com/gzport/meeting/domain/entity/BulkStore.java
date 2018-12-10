@@ -1,5 +1,7 @@
 package com.gzport.meeting.domain.entity;
 
+import com.gzport.meeting.controller.LoginController;
+import org.apache.shiro.SecurityUtils;
 import org.eclipse.persistence.annotations.UuidGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -164,10 +166,21 @@ public class BulkStore implements Serializable {
         if(this.updTimeStamp == null){
             updTimeStamp=new Date();
         }
+        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        if(this.insAccount==null&&auth!=null){
+            insAccount=auth.getAccount();
+        }
+        if(this.updAccount==null&&auth!=null){
+            updAccount=auth.getAccount();
+        }
     }
 
     @PreUpdate
     protected void preUpdate(){
         this.updTimeStamp=new Date();
+        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        if(auth!=null){
+            updAccount=auth.getAccount();
+        }
     }
 }
