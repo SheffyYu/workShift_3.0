@@ -72,7 +72,7 @@
 <div data-options="region:'center',split:false,collapsible:false,border:false,fit:true" class="easyui-panel" style="margin-left: 50px;margin-top: 10px;width: 200px;height:250px;">
   <table id="uploadMaintainDatagrid" style="height:100%;"></table>
 </div>
-  <div data-options="region:'south',split:false,collapsible:false,border:false,fit:true" class="easyui-panel" style="height:400px;margin-left: 50px;margin-top: 10px;">
+  <div data-options="region:'south',split:false,collapsible:false,border:false,fit:true" class="easyui-panel" style="height:500px;margin-left: 50px;margin-top: 10px;">
     <table id="uploadMaintainDatagrid2" style="height:100%;"></table>
 </div>
 </div>
@@ -143,6 +143,7 @@
         dg2.datagrid("hdEdit");
         var selectIdx = dg.datagrid("options").hdCurrentRowIndex;
         onClickRow(selectIdx);
+
         var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
         onClickRow(selectIdx2);
       });
@@ -152,29 +153,20 @@
 //          dg.datagrid("hdSave",{url : "http://10.197.33.139:8080/webresources/login/DocumentType/save?userId="+userId});
         });
 
-      var builder = new HdEzuiQueryParamsBuilder();
-      builder.hdEzuiQueryParams.page = 1;
-      builder.hdEzuiQueryParams.rows = 50;
-      builder.setOrderByClause("typeMark","asc");
-
-      $("#uploadMaintainDatagrid").datagrid({
+      $("#uploadMaintainDatagrid2").datagrid({
         striped:true,
-//        url:"/login/getLoginUser",
-        queryParams: builder.build(),
-        method: "POST",
+        url:"/login/getBulk/Daily",
+        method: "GET",
         singleSelect: true,
         selectOnCheck:false,
         checkOnSelect:false,
-        sortOrder: 'asc',
-        sortName: 'typeMark',
         remoteSort:false,
         rownumbers: true,
-        toolbar: "#uploadMaintainToolBar",
         fit: true,
         fitColumns: false,
         columns: [[
           {
-            field: "typeName",
+            field: "terShortname",
             title: "公司",
             multiSort: true,
             halign: "center",
@@ -183,7 +175,7 @@
             width:80
           },
           {
-            field: "typeDescription",
+            field: "totalStore",
             title: "库存",
             multiSort: true,
             halign: "center",
@@ -192,7 +184,7 @@
             sortable: true
           },
           {
-            field: "typeMark",
+            field: "oreStore",
             title: "矿石",
             multiSort: true,
             halign: "center",
@@ -201,7 +193,7 @@
             width:80
           },
           {
-            field: "typeMark",
+            field: "coalStore",
             title: "煤炭",
             multiSort: true,
             halign: "center",
@@ -210,7 +202,7 @@
             width:80
           },
           {
-            field: "typeMark",
+            field: "foodStore",
             title: "粮食（含豆粕）",
             multiSort: true,
             halign: "center",
@@ -219,7 +211,7 @@
             width:80
           },
           {
-            field: "typeMark",
+            field: "steelStore",
             title: "钢材",
             multiSort: true,
             halign: "center",
@@ -236,7 +228,7 @@
             sortable: true
           },
           {
-            field: "insTimestamp",
+            field: "insTimeStamp",
             title: "创建时间",
             multiSort: true,
             halign: "center",
@@ -253,7 +245,7 @@
             sortable: true
           },
           {
-            field: "updTimestamp",
+            field: "updTimeStamp",
             title: "更新时间",
             multiSort: true,
             halign: "center",
@@ -280,18 +272,16 @@
           onClickRow(index);
         }
       });
-$("#uploadMaintainDatagrid2").datagrid({
+$("#uploadMaintainDatagrid").datagrid({
         striped:true,
 //        url:"http://10.197.33.139:8080/webresources/login/DocumentType/find",
-        queryParams: builder.build(),
-        method: "POST",
+        method: "GET",
         singleSelect: true,
         selectOnCheck:false,
         checkOnSelect:false,
-        sortOrder: 'asc',
-        sortName: 'typeMark',
         remoteSort:false,
         rownumbers: true,
+        toolbar: "#uploadMaintainToolBar",
         fit: true,
         fitColumns: false,
         columns: [[

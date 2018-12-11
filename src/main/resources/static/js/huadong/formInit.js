@@ -191,6 +191,7 @@ function insertTruckData() {
   document.getElementById("alle").value=truck[0].loadOutport;
   document.getElementById("trkload").value=truck[0].unloadTruck;
   document.getElementById("trkunload").value=truck[0].waitUnload;
+  document.getElementById("totalLoad").value=truck[0].totalLoad;
 }
 
 //新沙驳船

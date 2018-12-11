@@ -86,7 +86,7 @@
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
-            <div class="kv-item-content">
+            <div class="kv-item-content" onpropertychange="trucktotalLoad()" oninput="trucktotalLoad()">
               <input type="text" id="allcgo"/>
             </div>
           </div>
@@ -111,10 +111,21 @@
             </div>
             <label>合&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text" id="alle"/>
+              <input type="text" id="alle" onpropertychange="trucktotalLoad()" oninput="trucktotalLoad()"/>
             </div>
           </div>
         </div>
+          <h3 class="subfild">
+            <span>合&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计</span>
+          </h3>
+          <div class="subfild-content base-info">
+            <div class="kv-item ue-clear">
+              <label>装卡总数</label>
+              <div class="kv-item-content">
+                <input type="text" id="totalLoad"/>
+              </div>
+            </div>
+          </div>
 
         <h3 class="subfild">
           <span>卸&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;车</span>
@@ -144,6 +155,16 @@
 </body>
 <script src="../../js/huadong/form.js"></script>
 <script type="text/javascript">
+  $("#allcgo").on("change",function(){
+    var str1=document.getElementById("allcgo").value;
+    var str2=document.getElementById("alle").value;
+    document.getElementById("totalLoad").value=(str1-0)+(str2-0);
+  });
+  function trucktotalLoad() {
+      var str1=document.getElementById("allcgo").value;
+      var str2=document.getElementById("alle").value;
+      document.getElementById("totalLoad").value=(str1-0)+(str2-0);
+  }
 
 </script>
 </html>

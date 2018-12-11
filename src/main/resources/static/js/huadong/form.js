@@ -39,7 +39,13 @@ function work() {
   var str2=document.getElementById("finishWork").value;
   document.getElementById("unWork").value = str1-str2;
   document.getElementById("bargeProLine").value=str2;
+  $("#bargeProLine").trigger("change");
 }
+$("#bargeProLine").on("change",function(){
+  var str1=document.getElementById("shipProLine").value;
+  var str2=document.getElementById("bargeProLine").value;
+  document.getElementById("allProLine").value=(str1-0)+(str2-0);//-0是为了避免str拼接
+});
 //总作业=大船+驳船
 function proLine() {
   var str1=document.getElementById("shipProLine").value;
@@ -67,6 +73,7 @@ function truckCargoOper() {
   var trkks=document.getElementById("trkks").value;
   var trkzh=document.getElementById("trkzh").value;
   document.getElementById("allcgo").value=(trkmt-0)+(trkks-0)+(trkzh-0);
+  $("#allcgo").trigger("change");
 }
 //目前只有西基需要计算总疏运量
 function xjBarge() {
@@ -330,6 +337,7 @@ function truckData() {
   var trkload=document.getElementById("trkload").value;
   var trkunload=document.getElementById("trkunload").value;
   var trkothere=document.getElementById("trkothere").value;
+  var totalLoad=document.getElementById("totalLoad").value;
 
   //当港内货物总和与公司不相等时
   if(allcmp != allcgo){
@@ -350,7 +358,7 @@ function truckData() {
       loadoCoal:trkmte,
       loadoOre:trkkse,
       loadoOther:trkothere,
-      totalLoad:(allcmp-0)+(alle-0),
+      totalLoad:totalLoad,
       unloadTruck:trkload,
       waitUnload:trkunload,
       terCode:""
