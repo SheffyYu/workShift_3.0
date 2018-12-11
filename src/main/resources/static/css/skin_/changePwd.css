@@ -1,7 +1,7 @@
 /*弹框本身(大)*/
 .my-modal-alert .boxBodyBig{
-  width:496px;
-  height: 418px;
+  width:430px;
+  height: 458px;
 }
 /*弹框本身(小)*/
 .my-modal-alert .boxBodySmall{
@@ -12,7 +12,7 @@
 .my-modal-alert .boxHeader{
   background-color: #f6f6f6;
   border-bottom: #e5e5e5 1px;
-  height: 48px;
+  height: 30px;
 }
 /*弹框标题*/
 .my-modal-alert .boxTitle{
@@ -26,24 +26,27 @@
 
 }
 .my-modal-alert .boxClose:hover{
-  color: #0e8bc5;
+  color:#0e8bc5;
+;
 }
 /*弹框按钮的父级元素块*/
 .my-modal-alert .boxFooter{
   margin: auto;
   text-align: center;
-  padding:24px 15px 24px 15px;
-  margin:0px 15px 0px 15px;
+  padding:0px 15px 24px 15px;
+  margin:-10px 15px 0px 15px;
 }
 /*弹框按钮*/
 .my-modal-alert .boxButton{
   font-family:"SimHei";
+
   background-color:#0e8bc5;
-  width: 70px;
+  width: 85px;
   height: 30px;
   color:white;
   text-align:center;
   line-height: 1;
+  margin-top: 5px;
 }
 
 /*已下为选用*/
@@ -73,7 +76,7 @@
 
 .my-modal-alert .modal-body{
   width: 400px;
-  height: 100px;
+  height: 180px;
   text-align: center;
 }
 .my-modal-alert .modal_message{

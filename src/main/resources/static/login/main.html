@@ -6,6 +6,8 @@
   <link rel="stylesheet" type="text/css" href="../css/style.css" />
   <link rel="stylesheet" type="text/css" href="../css/skin_/main.css" />
   <link rel="stylesheet" type="text/css" href="../css/jquery.dialog.css" />
+  <link rel="stylesheet" type="text/css" href="./../css/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="./../css/skin_/changePwd.css"/>
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/global.js"></script>
   <title>广州港集团交接班系统</title>
@@ -28,9 +30,41 @@
       </div>
       <div class="user-info">
         <!--<div id="userName"></div>-->
-        <span class='user-name' id="userName"></span>
+        <span class='user-name' id="userName" onclick="changePwd()"></span>
         <a href="javascript:;" class="user-avatar"></a>
       </div>
+      <!--//////////////////模态框//////////////////-->
+      <div class='modal my-modal-alert' id='my-modal-alert' hidden>
+        <div class='modal-dialog boxBodyBig'>
+          <div class='modal-content'>
+            <div class='modal-header boxHeader'>
+              <h4 class='modal-title boxTitle' id='modal-title'>修改密码</h4>
+            </div>
+            <div class='modal-body' id='modal-body-alert'>
+              <div class="subfild-content base-info">
+                <div class="kv-item ue-clear">
+                  <label style="width:120px;">请输入新密码：</label>
+                  <div class="kv-item-content">
+                    <input type="password" id="newPwd1" placeholder="8~18位数字与字母的组合" style="width: 380px;"/>
+                  </div>
+                  <lable style="color: #ff0000" id="pwdErro1"></lable>
+                </div>
+                <div class="kv-item ue-clear">
+                  <label style="width: 120px;">请再次输入：</label>
+                  <div class="kv-item-content">
+                    <input type="password" id="newPwd2"  placeholder="8~18位数字与字母的组合" style="width: 380px;"/>
+                  </div>
+                  <lable style="color: #ff0000" id="pwdErro2"></lable>
+                </div>
+              </div>
+          </div>
+            <div class='modal-footer boxFooter' id='modal-footer'>
+              <input type='button' class='btn btn-primary boxButton' value="确认提交" id="changePwdBtn" onclick="changePwdBtn()"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--//////////////////////////////////////-->
     </div>
   <div id="bd">
     <iframe width="100%" height="100%" id="mainIframe" src="nav.html" frameborder="0"></iframe>
@@ -50,6 +84,9 @@
 </div>
 
 </body>
+<script src="./../js/jquery.js"></script>
+<script src="./../js/bootstrap.min.js"></script>
+<script src="./../js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="../js/core.js"></script>
 <script type="text/javascript" src="../js/jquery.dialog.js"></script>
 <script type="text/javascript">
@@ -76,6 +113,55 @@
     }
   });
 
+  //修改密码
+  function changePwd() {
+    $("#my-modal-alert").toggle();//显示模态框
+    $("#my-modal-alert").draggable({//设置模态框可拖动（需要引入jquery-ui.min.js）
+      handle: ".modal-header"
+    });
+    $("#newPwd1").blur(function(){
+      var re =  /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/;  //判断字符串是否为数字和字母组合     //判断正整数 /^[1-9]+[0-9]*]*$/
+      $("#pwdErro1").text("");
+      var newPwd1=$("#newPwd1").val();
+      if(8 > newPwd1.length){
+        $("#pwdErro1").text("密码少于8位！");
+        $("#newPwd1").val("");
+      }else if(newPwd1.length > 18){
+        $("#pwdErro1").text("密码多于18位！");
+        $("#newPwd1").val("");
+      }else if (!re.test(newPwd1)) {
+        $("#pwdErro1").text("密码需为数字与字母的组合！");
+        $("#newPwd1").val("");
+      }else {
+
+      }
+    });
+    $("#newPwd2").blur(function(){
+      $("#pwdErro2").text("");
+      var newPwd1=$("#newPwd1").val();
+      var newPwd2=$("#newPwd2").val();
+      if(newPwd2 != ""){
+        if(newPwd1 != newPwd2){
+          $("#pwdErro2").text("两次输入不相同");
+          $("#newPwd2").val("");
+        }
+      }
+    });
+
+    function changePwdBtn() {
+      $("#pwdErro1").text("");
+      var newPwd1=$("#newPwd1").val();
+      var newPwd2=$("#newPwd2").val();
+      if(newPwd1 != "" || newPwd2 !=""){
+        $("#pwdErro1").text("密码不能为空！");
+      }else{
+        //提交密码修改
+
+      }
+    }
+//    var windowWidth  = $(window).width();
+//    window.open ("changePwd.html", "", "height=200, width=600, top=200, left=( windowWidth / 2 ) - 350/2, toolbar=no, menuBar=no, scrollbars=no, resizable=no,location=no, status=no"); //写成一行
+  }
 
 </script>
 
