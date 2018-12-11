@@ -13,6 +13,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,8 @@ import static org.apache.poi.ss.usermodel.CellType.*;
  * Created by zhangxiang on 2018/12/5.
  */
 public class ExcelDeal {
+
+    DecimalFormat decimalFormat=new DecimalFormat(".0");
 
     public static String getCellValue(HSSFCell  cell) {
         String value = null;
@@ -80,15 +84,15 @@ public class ExcelDeal {
                 bulkStore=map.get(e.toString());
             bulkStore.setTerCode(e.toString());
             if(StringFundation.isNumber(data[0][sum]))
-                bulkStore.setTotalStore(Float.parseFloat(data[0][sum]));
+                bulkStore.setTotalStore(new BigDecimal(Float.parseFloat(data[0][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
             if(StringFundation.isNumber(data[1][sum]))
-                bulkStore.setOreStore(Float.parseFloat(data[1][sum]));
+                bulkStore.setOreStore(new BigDecimal(Float.parseFloat(data[1][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
             if(StringFundation.isNumber(data[2][sum]))
-                bulkStore.setCoalStore(Float.parseFloat(data[2][sum]));
+                bulkStore.setCoalStore(new BigDecimal(Float.parseFloat(data[2][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
             if(StringFundation.isNumber(data[3][sum]))
-                bulkStore.setFoodStore(Float.parseFloat(data[3][sum]));
+                bulkStore.setFoodStore(new BigDecimal(Float.parseFloat(data[3][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
             if(StringFundation.isNumber(data[4][sum]))
-                bulkStore.setSteelStore(Float.parseFloat(data[4][sum]));
+                bulkStore.setSteelStore(new BigDecimal(Float.parseFloat(data[4][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
             bulkStoreList.add(bulkStore);
             sum++;
         }

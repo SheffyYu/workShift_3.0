@@ -44,7 +44,7 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     }
 
     @Override
-    public List<BulkStoreVO> getBulkStoreVOByTime(String time) {
+    public List<BulkStoreVO> getBulkStoreVOByTime(Date time) {
         return bulkStoreRepository.findBulkVOBytime(time);
     }
 

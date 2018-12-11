@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,12 @@ public class BulkStoreController  {
     @GetMapping("/getBulk/Daily")
     public List<BulkStoreVO> findCurrentStoreByDate(){
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return bulkStoreService.getBulkStoreVOByTime(date);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bulkStoreService.getBulkStoreVOByTime(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
