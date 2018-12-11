@@ -84,15 +84,15 @@ public class ExcelDeal {
                 bulkStore=map.get(e.toString());
             bulkStore.setTerCode(e.toString());
             if(StringFundation.isNumber(data[0][sum]))
-                bulkStore.setTotalStore(new BigDecimal(Float.parseFloat(data[0][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
+                bulkStore.setTotalStore(new BigDecimal(data[0][sum]).setScale(1,BigDecimal.ROUND_HALF_UP));
             if(StringFundation.isNumber(data[1][sum]))
-                bulkStore.setOreStore(new BigDecimal(Float.parseFloat(data[1][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
+                bulkStore.setOreStore(new BigDecimal(data[1][sum]).setScale(1,BigDecimal.ROUND_HALF_UP));
             if(StringFundation.isNumber(data[2][sum]))
-                bulkStore.setCoalStore(new BigDecimal(Float.parseFloat(data[2][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
+                bulkStore.setCoalStore(new BigDecimal(data[2][sum]).setScale(1,BigDecimal.ROUND_HALF_UP));
             if(StringFundation.isNumber(data[3][sum]))
-                bulkStore.setFoodStore(new BigDecimal(Float.parseFloat(data[3][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
+                bulkStore.setFoodStore(new BigDecimal(data[3][sum]).setScale(1,BigDecimal.ROUND_HALF_UP));
             if(StringFundation.isNumber(data[4][sum]))
-                bulkStore.setSteelStore(new BigDecimal(Float.parseFloat(data[4][sum])).setScale(1,BigDecimal.ROUND_HALF_UP).floatValue());
+                bulkStore.setSteelStore(new BigDecimal(data[4][sum]).setScale(1,BigDecimal.ROUND_HALF_UP));
             bulkStoreList.add(bulkStore);
             sum++;
         }

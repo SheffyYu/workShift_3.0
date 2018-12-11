@@ -1,5 +1,6 @@
 package com.gzport.meeting.domain.vo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 /**
  * Created by zhangxiang on 2018/12/10.
@@ -9,19 +10,18 @@ public class BulkStoreVO {
     private String bulkStoreId;
     private String terCode;
     private String terShortname;
-    private Float totalStore;
-    private Float oreStore;
-    private Float coalStore;
-    private Float foodStore;
-    private Float steelStore;
-    private Float carStore;
+    private BigDecimal totalStore;
+    private BigDecimal oreStore;
+    private BigDecimal coalStore;
+    private BigDecimal foodStore;
+    private BigDecimal steelStore;
+    private BigDecimal carStore;
     private Date insTimestamp;
     private String insAccount;
     private String updAccount;
     private Date updTimestamp;
 
-
-    public BulkStoreVO(String bulkStoreId, String terCode, String terShortname, Float totalStore, Float oreStore, Float coalStore, Float foodStore, Float steelStore, Float carStore, Date insTimeStamp, String insAccount, String updAccount, Date updTimestamp) {
+    public BulkStoreVO(String bulkStoreId, String terCode, String terShortname, BigDecimal totalStore, BigDecimal oreStore, BigDecimal coalStore, BigDecimal foodStore, BigDecimal steelStore, BigDecimal carStore, Date insTimestamp, String insAccount, String updAccount, Date updTimestamp) {
         this.bulkStoreId = bulkStoreId;
         this.terCode = terCode;
         this.terShortname = terShortname;
@@ -31,7 +31,7 @@ public class BulkStoreVO {
         this.foodStore = foodStore;
         this.steelStore = steelStore;
         this.carStore = carStore;
-        this.insTimestamp=insTimeStamp;
+        this.insTimestamp = insTimestamp;
         this.insAccount = insAccount;
         this.updAccount = updAccount;
         this.updTimestamp = updTimestamp;
@@ -78,6 +78,53 @@ public class BulkStoreVO {
         this.updTimestamp = updTimestamp;
     }
 
+    public BigDecimal getTotalStore() {
+        return totalStore;
+    }
+
+    public void setTotalStore(BigDecimal totalStore) {
+        this.totalStore = totalStore;
+    }
+
+    public BigDecimal getOreStore() {
+        return oreStore;
+    }
+
+    public void setOreStore(BigDecimal oreStore) {
+        this.oreStore = oreStore;
+    }
+
+    public BigDecimal getCoalStore() {
+        return coalStore;
+    }
+
+    public void setCoalStore(BigDecimal coalStore) {
+        this.coalStore = coalStore;
+    }
+
+    public BigDecimal getFoodStore() {
+        return foodStore;
+    }
+
+    public void setFoodStore(BigDecimal foodStore) {
+        this.foodStore = foodStore;
+    }
+
+    public BigDecimal getSteelStore() {
+        return steelStore;
+    }
+
+    public void setSteelStore(BigDecimal steelStore) {
+        this.steelStore = steelStore;
+    }
+
+    public BigDecimal getCarStore() {
+        return carStore;
+    }
+
+    public void setCarStore(BigDecimal carStore) {
+        this.carStore = carStore;
+    }
 
     public String getTerCode() {
         return terCode;
@@ -93,53 +140,5 @@ public class BulkStoreVO {
 
     public void setTerShortname(String terShortname) {
         this.terShortname = terShortname;
-    }
-
-    public Float getTotalStore() {
-        return totalStore;
-    }
-
-    public void setTotalStore(Float totalStore) {
-        this.totalStore = totalStore;
-    }
-
-    public Float getOreStore() {
-        return oreStore;
-    }
-
-    public void setOreStore(Float oreStore) {
-        this.oreStore = oreStore;
-    }
-
-    public Float getCoalStore() {
-        return coalStore;
-    }
-
-    public void setCoalStore(Float coalStore) {
-        this.coalStore = coalStore;
-    }
-
-    public Float getFoodStore() {
-        return foodStore;
-    }
-
-    public void setFoodStore(Float foodStore) {
-        this.foodStore = foodStore;
-    }
-
-    public Float getSteelStore() {
-        return steelStore;
-    }
-
-    public void setSteelStore(Float steelStore) {
-        this.steelStore = steelStore;
-    }
-
-    public Float getCarStore() {
-        return carStore;
-    }
-
-    public void setCarStore(Float carStore) {
-        this.carStore = carStore;
     }
 }

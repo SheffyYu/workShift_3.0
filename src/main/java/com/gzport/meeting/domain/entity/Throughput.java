@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,31 +24,31 @@ public class Throughput implements Serializable {
     private String throughputId;
 
     @Column(name="DAILY_TOTAL")
-    private Float dailyTotal;
+    private BigDecimal dailyTotal;
 
     @Column(name="THROUGHPUT_NTC")
-    private Float throuthputNTC;
+    private BigDecimal throuthputNTC;
 
     @Column(name="THROUGHPUT_GOCT")
-    private Float throughputGOCT;
+    private BigDecimal throughputGOCT;
 
     @Column(name="THROUGHPUT_NICT")
-    private Float ThroughputNICT;
+    private BigDecimal ThroughputNICT;
 
     @Column(name="TH_CARGO_TOTAL")     //每月货物吞吐量总计
-    private Float thCargoTotal;
+    private BigDecimal thCargoTotal;
 
     @Column(name="CARGO_TOTAL_PER")
-    private Float cargoTotalPer;
+    private BigDecimal cargoTotalPer;
 
     @Column(name="TH_CARGO_PLAN")       //每月货物吞吐量计划
     private String thCargoPlan;
 
     @Column(name="TH_CNTR_TOTAL")       //每月集装箱吞吐量
-    private Float thCntrTotal;
+    private BigDecimal thCntrTotal;
 
     @Column(name="CNTR_TOTAL_PER")
-    private Float cntrTotalPer;
+    private BigDecimal cntrTotalPer;
 
     @Column(name="TH_CNTR_PLAN")        //每月集装箱吞吐量计划
     private String thCntrPlan;
@@ -63,27 +64,68 @@ public class Throughput implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
-    public void setThCargoTotal(Float thCargoTotal) {
+
+    public BigDecimal getDailyTotal() {
+        return dailyTotal;
+    }
+
+    public void setDailyTotal(BigDecimal dailyTotal) {
+        this.dailyTotal = dailyTotal;
+    }
+
+    public BigDecimal getThrouthputNTC() {
+        return throuthputNTC;
+    }
+
+    public void setThrouthputNTC(BigDecimal throuthputNTC) {
+        this.throuthputNTC = throuthputNTC;
+    }
+
+    public BigDecimal getThroughputGOCT() {
+        return throughputGOCT;
+    }
+
+    public void setThroughputGOCT(BigDecimal throughputGOCT) {
+        this.throughputGOCT = throughputGOCT;
+    }
+
+    public BigDecimal getThroughputNICT() {
+        return ThroughputNICT;
+    }
+
+    public void setThroughputNICT(BigDecimal throughputNICT) {
+        ThroughputNICT = throughputNICT;
+    }
+
+    public BigDecimal getThCargoTotal() {
+        return thCargoTotal;
+    }
+
+    public void setThCargoTotal(BigDecimal thCargoTotal) {
         this.thCargoTotal = thCargoTotal;
     }
 
-    public Float getCargoTotalPer() {
+    public BigDecimal getCargoTotalPer() {
         return cargoTotalPer;
     }
 
-    public void setCargoTotalPer(Float cargoTotalPer) {
+    public void setCargoTotalPer(BigDecimal cargoTotalPer) {
         this.cargoTotalPer = cargoTotalPer;
     }
 
-    public void setThCntrTotal(Float thCntrTotal) {
+    public BigDecimal getThCntrTotal() {
+        return thCntrTotal;
+    }
+
+    public void setThCntrTotal(BigDecimal thCntrTotal) {
         this.thCntrTotal = thCntrTotal;
     }
 
-    public Float getCntrTotalPer() {
+    public BigDecimal getCntrTotalPer() {
         return cntrTotalPer;
     }
 
-    public void setCntrTotalPer(Float cntrTotalPer) {
+    public void setCntrTotalPer(BigDecimal cntrTotalPer) {
         this.cntrTotalPer = cntrTotalPer;
     }
 
@@ -127,37 +169,6 @@ public class Throughput implements Serializable {
         this.throughputId = throughputId;
     }
 
-    public Float getDailyTotal() {
-        return dailyTotal;
-    }
-
-    public void setDailyTotal(Float dailyTotal) {
-        this.dailyTotal = dailyTotal;
-    }
-
-    public Float getThrouthputNTC() {
-        return throuthputNTC;
-    }
-
-    public void setThrouthputNTC(Float throuthputNTC) {
-        this.throuthputNTC = throuthputNTC;
-    }
-
-    public Float getThroughputGOCT() {
-        return throughputGOCT;
-    }
-
-    public void setThroughputGOCT(Float throughputGOCT) {
-        this.throughputGOCT = throughputGOCT;
-    }
-
-    public Float getThroughputNICT() {
-        return ThroughputNICT;
-    }
-
-    public void setThroughputNICT(Float throughputNICT) {
-        ThroughputNICT = throughputNICT;
-    }
 
     public String getThCargoPlan() {
         return thCargoPlan;

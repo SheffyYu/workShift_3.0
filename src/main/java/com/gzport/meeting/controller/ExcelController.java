@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -118,26 +119,19 @@ public class ExcelController {
 
     public static Throughput getThroughput(HSSFSheet hssfSheet){
         Throughput throughput=new Throughput();
-        throughput.setCargoTotalPer(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,2)));
-        throughput.setThCargoTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,0)));
-        throughput.setThCargoTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,3)));
-        throughput.setCntrTotalPer(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,5)));
-        throughput.setDailyTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,6)));
-        throughput.setThrouthputNTC(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,7)));
-        throughput.setThroughputGOCT(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,8)));
-        throughput.setThroughputNICT(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,9)));
+        throughput.setCargoTotalPer(new BigDecimal(getXSSFSheetData(hssfSheet,3,2)));
+        throughput.setThCargoTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,0)));
+        throughput.setThCargoTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,3)));
+        throughput.setCntrTotalPer(new BigDecimal(getXSSFSheetData(hssfSheet,3,5)));
+        throughput.setDailyTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,6)));
+        throughput.setThrouthputNTC(new BigDecimal(getXSSFSheetData(hssfSheet,3,7)));
+        throughput.setThroughputGOCT(new BigDecimal(getXSSFSheetData(hssfSheet,3,8)));
+        throughput.setThroughputNICT(new BigDecimal(getXSSFSheetData(hssfSheet,3,9)));
         throughput.setThCargoPlan(getXSSFSheetData(hssfSheet,2,1));
         throughput.setThCntrPlan(getXSSFSheetData(hssfSheet,2,4));
         return throughput;
     }
 
-    public static Float throughputStringDataToFloat(String data){
-        if(StringFundation.isNumber(data)){
-            return Float.parseFloat(data);
-        }else {
-            return Float.parseFloat("0");
-        }
-    }
 
     public static String getXSSFSheetData(HSSFSheet hssfSheet,int row,int col){
         HSSFRow hssfRow = hssfSheet.getRow(row);

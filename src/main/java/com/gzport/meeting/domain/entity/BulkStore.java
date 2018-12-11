@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -27,17 +28,17 @@ public class BulkStore implements Serializable {
     @Column(name = "TER_CODE")
     private String terCode;     //公司
     @Column(name = "TOTAL_STORE")
-    private Float totalStore;    //各公司库存
+    private BigDecimal totalStore;    //各公司库存
     @Column(name = "ORE_STORE")
-    private Float oreStore;      //矿石
+    private BigDecimal oreStore;      //矿石
     @Column(name = "COAL_STORE")
-    private Float coalStore;     //煤炭
+    private BigDecimal coalStore;     //煤炭
     @Column(name = "FOOD_STORE")
-    private Float foodStore;     //粮食
+    private BigDecimal foodStore;     //粮食
     @Column(name = "STEEL_STORE")
-    private Float steelStore;    //钢材
+    private BigDecimal steelStore;    //钢材
     @Column(name = "CAR_STORE")
-    private Float carStore;      //汽车
+    private BigDecimal carStore;      //汽车
 
     @Column(name = "BULK_COMMENT")
     private String bulkComment;      //备注
@@ -70,51 +71,51 @@ public class BulkStore implements Serializable {
         this.terCode = terCode;
     }
 
-    public Float getTotalStore() {
+    public BigDecimal getTotalStore() {
         return totalStore;
     }
 
-    public void setTotalStore(Float totalStore) {
+    public void setTotalStore(BigDecimal totalStore) {
         this.totalStore = totalStore;
     }
 
-    public Float getOreStore() {
+    public BigDecimal getOreStore() {
         return oreStore;
     }
 
-    public void setOreStore(Float oreStore) {
+    public void setOreStore(BigDecimal oreStore) {
         this.oreStore = oreStore;
     }
 
-    public Float getCoalStore() {
+    public BigDecimal getCoalStore() {
         return coalStore;
     }
 
-    public void setCoalStore(Float coalStore) {
+    public void setCoalStore(BigDecimal coalStore) {
         this.coalStore = coalStore;
     }
 
-    public Float getFoodStore() {
+    public BigDecimal getFoodStore() {
         return foodStore;
     }
 
-    public void setFoodStore(Float foodStore) {
+    public void setFoodStore(BigDecimal foodStore) {
         this.foodStore = foodStore;
     }
 
-    public Float getSteelStore() {
+    public BigDecimal getSteelStore() {
         return steelStore;
     }
 
-    public void setSteelStore(Float steelStore) {
+    public void setSteelStore(BigDecimal steelStore) {
         this.steelStore = steelStore;
     }
 
-    public Float getCarStore() {
+    public BigDecimal getCarStore() {
         return carStore;
     }
 
-    public void setCarStore(Float carStore) {
+    public void setCarStore(BigDecimal carStore) {
         this.carStore = carStore;
     }
 
