@@ -6,6 +6,8 @@ import com.gzport.meeting.service.ThroughputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by zhangxiang on 2018/12/10.
  */
@@ -21,7 +23,7 @@ public class ThroughputServiceImpl implements ThroughputService {
     }
 
     @Override
-    public Throughput getByDate(String date) {
+    public List<Throughput> getByDate(String date) {
         return throughputRepository.findByDate(date);
     }
 }

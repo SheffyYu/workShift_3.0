@@ -24,21 +24,21 @@ public class Throughput implements Serializable {
     private String throughputId;
 
     @Column(name="DAILY_TOTAL")
-    private BigDecimal dailyTotal;
+    private BigDecimal dailyTotal;    //南沙吞吐量
 
     @Column(name="THROUGHPUT_NTC")
-    private BigDecimal throuthputNTC;
+    private BigDecimal throuthputNTC;   //一期
 
     @Column(name="THROUGHPUT_GOCT")
-    private BigDecimal throughputGOCT;
+    private BigDecimal throughputGOCT;      //二期
 
     @Column(name="THROUGHPUT_NICT")
-    private BigDecimal ThroughputNICT;
+    private BigDecimal ThroughputNICT;      //三期
 
     @Column(name="TH_CARGO_TOTAL")     //每月货物吞吐量总计
     private BigDecimal thCargoTotal;
 
-    @Column(name="CARGO_TOTAL_PER")
+    @Column(name="CARGO_TOTAL_PER")     //货物占比
     private BigDecimal cargoTotalPer;
 
     @Column(name="TH_CARGO_PLAN")       //每月货物吞吐量计划
@@ -47,7 +47,7 @@ public class Throughput implements Serializable {
     @Column(name="TH_CNTR_TOTAL")       //每月集装箱吞吐量
     private BigDecimal thCntrTotal;
 
-    @Column(name="CNTR_TOTAL_PER")
+    @Column(name="CNTR_TOTAL_PER")      //集装箱占比
     private BigDecimal cntrTotalPer;
 
     @Column(name="TH_CNTR_PLAN")        //每月集装箱吞吐量计划
