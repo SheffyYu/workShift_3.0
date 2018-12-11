@@ -69,7 +69,7 @@ public class ExcelController {
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
                 if(hssfSheet==null)
                     return null;
-//                Throughput throughput=getThroughput(hssfSheet);
+                Throughput throughput=getThroughput(hssfSheet);
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     int minColIx = hssfRow.getFirstCellNum()+1;
@@ -109,20 +109,26 @@ public class ExcelController {
         return bulkStoreService.saveAll(bulkStoreList);
     }
 
-    @GetMapping("/getDaily")
-    public List<BulkStore> findCurrentStoreByDate(){
-        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return bulkStoreService.getBulkByTime(date);
+
+    public static Throughput getThroughput(HSSFSheet hssfSheet){
+        Throughput throughput=new Throughput();
+        throughput.setDailyTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,6)));
+        throughput.setCargoTotalPer(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,2)));
+        throughput.setThCargoTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,0)));
+        return throughput;
     }
 
-//    public static Throughput getThroughput(HSSFSheet hssfSheet){
-//        Throughput throughput=new Throughput();
-//        throughput.setDailyTotal(getXSSFSheetData(hssfSheet,));
-//    }
-//
-//    public static String getXSSFSheetData(HSSFSheet hssfSheet,int row,int col){
-//        HSSFRow hssfRow = hssfSheet.getRow(row);
-//        HSSFCell cell = hssfRow.getCell(col);
-//        return ExcelDeal.getCellValue(cell);
-//    }
+    public static Float throughputStringDataToFloat(String data){
+        if(StringFundation.isNumber(data)){
+            return Float.parseFloat(data);
+        }else {
+            return Float.parseFloat("0");
+        }
+    }
+
+    public static String getXSSFSheetData(HSSFSheet hssfSheet,int row,int col){
+        HSSFRow hssfRow = hssfSheet.getRow(row);
+        HSSFCell cell = hssfRow.getCell(col);
+        return ExcelDeal.getCellValue(cell);
+    }
 }

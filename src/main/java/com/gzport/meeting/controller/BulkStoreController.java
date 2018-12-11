@@ -1,6 +1,7 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.vo.BulkStoreVO;
 import com.gzport.meeting.service.BulkStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,8 @@ public class BulkStoreController  {
     BulkStoreService bulkStoreService;
 
     @GetMapping("/getBulk/Daily")
-    public List<BulkStore> findCurrentStoreByDate(){
+    public List<BulkStoreVO> findCurrentStoreByDate(){
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return bulkStoreService.getBulkByTime(date);
+        return bulkStoreService.getBulkStoreVOByTime(date);
     }
 }

@@ -1,6 +1,7 @@
 package com.gzport.meeting.service.impl;
 
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.vo.BulkStoreVO;
 import com.gzport.meeting.repository.BulkStoreRepository;
 import com.gzport.meeting.service.BulkStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,11 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     public List<BulkStore> getCurrentBulkByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return bulkStoreRepository.findCurrentDataByWharf(date,terId);
+    }
+
+    @Override
+    public List<BulkStoreVO> getBulkStoreVOByTime(String time) {
+        return bulkStoreRepository.findBulkVOBytime(time);
     }
 
 

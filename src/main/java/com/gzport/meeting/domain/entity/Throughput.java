@@ -35,13 +35,19 @@ public class Throughput implements Serializable {
     private Float ThroughputNICT;
 
     @Column(name="TH_CARGO_TOTAL")     //每月货物吞吐量总计
-    private String thCargoTotal;
+    private Float thCargoTotal;
 
-    @Column(name="TH_CARGO_PLAN")       //每月吞吐量计划
+    @Column(name="CARGO_TOTAL_PER")
+    private Float cargoTotalPer;
+
+    @Column(name="TH_CARGO_PLAN")       //每月货物吞吐量计划
     private String thCargoPlan;
 
     @Column(name="TH_CNTR_TOTAL")       //每月集装箱吞吐量
-    private String thCntrTotal;
+    private Float thCntrTotal;
+
+    @Column(name="CNTR_TOTAL_PER")
+    private Float cntrTotalPer;
 
     @Column(name="TH_CNTR_PLAN")        //每月集装箱吞吐量计划
     private String thCntrPlan;
@@ -56,6 +62,30 @@ public class Throughput implements Serializable {
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
+
+    public void setThCargoTotal(Float thCargoTotal) {
+        this.thCargoTotal = thCargoTotal;
+    }
+
+    public Float getCargoTotalPer() {
+        return cargoTotalPer;
+    }
+
+    public void setCargoTotalPer(Float cargoTotalPer) {
+        this.cargoTotalPer = cargoTotalPer;
+    }
+
+    public void setThCntrTotal(Float thCntrTotal) {
+        this.thCntrTotal = thCntrTotal;
+    }
+
+    public Float getCntrTotalPer() {
+        return cntrTotalPer;
+    }
+
+    public void setCntrTotalPer(Float cntrTotalPer) {
+        this.cntrTotalPer = cntrTotalPer;
+    }
 
     public String getInsAccount() {
         return insAccount;
@@ -129,28 +159,12 @@ public class Throughput implements Serializable {
         ThroughputNICT = throughputNICT;
     }
 
-    public String getThCargoTotal() {
-        return thCargoTotal;
-    }
-
-    public void setThCargoTotal(String thCargoTotal) {
-        this.thCargoTotal = thCargoTotal;
-    }
-
     public String getThCargoPlan() {
         return thCargoPlan;
     }
 
     public void setThCargoPlan(String thCargoPlan) {
         this.thCargoPlan = thCargoPlan;
-    }
-
-    public String getThCntrTotal() {
-        return thCntrTotal;
-    }
-
-    public void setThCntrTotal(String thCntrTotal) {
-        this.thCntrTotal = thCntrTotal;
     }
 
     public String getThCntrPlan() {
