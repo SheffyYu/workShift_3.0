@@ -15,7 +15,7 @@ public class BulkStoreVO {
     private Float foodStore;
     private Float steelStore;
     private Float carStore;
-    private Date insTimeStamp;
+    private Date insTimestamp;
     private String insAccount;
     private String updAccount;
     private Date updTimestamp;
@@ -31,10 +31,18 @@ public class BulkStoreVO {
         this.foodStore = foodStore;
         this.steelStore = steelStore;
         this.carStore = carStore;
-        this.insTimeStamp = insTimeStamp;
+        this.insTimestamp=insTimeStamp;
         this.insAccount = insAccount;
         this.updAccount = updAccount;
         this.updTimestamp = updTimestamp;
+    }
+
+    public Date getInsTimestamp() {
+        return insTimestamp;
+    }
+
+    public void setInsTimestamp(Date insTimestamp) {
+        this.insTimestamp = insTimestamp;
     }
 
     public String getBulkStoreId() {
@@ -45,9 +53,6 @@ public class BulkStoreVO {
         this.bulkStoreId = bulkStoreId;
     }
 
-    public Date getInsTimeStamp() {
-        return insTimeStamp;
-    }
 
     public String getInsAccount() {
         return insAccount;
@@ -73,9 +78,6 @@ public class BulkStoreVO {
         this.updTimestamp = updTimestamp;
     }
 
-    public void setInsTimeStamp(Date insTimeStamp) {
-        this.insTimeStamp = insTimeStamp;
-    }
 
     public String getTerCode() {
         return terCode;

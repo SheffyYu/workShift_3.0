@@ -1,5 +1,6 @@
 package com.gzport.meeting.controller;
 
+import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.foundation.BulkTerEnum;
@@ -15,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,7 +51,6 @@ public class ExcelController {
         int endRow=11;
         String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
-        DecimalFormat df = new DecimalFormat("#.0");
         String[][] data=new String[endRow-startRow+1][];
         Map<String,BulkStore> mapMap=new HashMap<>();
         if(bulkStoreList.size()>0) {
@@ -70,6 +71,11 @@ public class ExcelController {
                 if(hssfSheet==null)
                     return null;
                 Throughput throughput=getThroughput(hssfSheet);
+                if(throughput!=null)
+                    throughputService.save(throughput);
+                Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+                throughput.setInsAccount(auth.getAccount());
+                throughput.setUpdAccount(auth.getAccount());
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     int minColIx = hssfRow.getFirstCellNum()+1;
@@ -91,7 +97,7 @@ public class ExcelController {
                 for(int rowNum=startRow;rowNum<=endRow;rowNum++){
                     XSSFRow xhssfRow = xssfSheet.getRow(rowNum);
                     int minColIx = xhssfRow.getFirstCellNum()+1;
-                    int maxColIx = xhssfRow.getLastCellNum();
+                    int maxColIx = xhssfRow.getLastCellNum(  );
                     data[rowNum-startRow]=new String[maxColIx];
                     for(int colIx=minColIx;colIx<maxColIx;colIx++){
                         XSSFCell cell = xhssfRow.getCell(colIx);
@@ -112,9 +118,16 @@ public class ExcelController {
 
     public static Throughput getThroughput(HSSFSheet hssfSheet){
         Throughput throughput=new Throughput();
-        throughput.setDailyTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,6)));
         throughput.setCargoTotalPer(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,2)));
         throughput.setThCargoTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,0)));
+        throughput.setThCargoTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,3)));
+        throughput.setCntrTotalPer(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,5)));
+        throughput.setDailyTotal(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,6)));
+        throughput.setThrouthputNTC(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,7)));
+        throughput.setThroughputGOCT(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,8)));
+        throughput.setThroughputNICT(throughputStringDataToFloat(getXSSFSheetData(hssfSheet,3,9)));
+        throughput.setThCargoPlan(getXSSFSheetData(hssfSheet,2,1));
+        throughput.setThCntrPlan(getXSSFSheetData(hssfSheet,2,4));
         return throughput;
     }
 

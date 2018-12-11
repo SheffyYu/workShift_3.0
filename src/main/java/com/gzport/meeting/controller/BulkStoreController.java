@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by zhangxiang on 2018/12/10.
  */
-@RequestMapping("/login")
+@RequestMapping("/test")
 @RestController
 public class BulkStoreController  {
 
