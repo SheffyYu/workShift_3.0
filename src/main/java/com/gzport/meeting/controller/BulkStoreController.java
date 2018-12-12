@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by zhangxiang on 2018/12/10.
  */
-@RequestMapping("/login")
+@RequestMapping("/login/bulkStore")
 @RestController
 public class BulkStoreController  {
 
@@ -37,7 +37,7 @@ public class BulkStoreController  {
         }
     }
 
-    @PostMapping("/bulkStore/save")
+    @PostMapping("/save")
     public BulkStore save(BulkStore bulkStore){
         return  bulkStoreService.save(bulkStore);
     }
