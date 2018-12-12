@@ -64,8 +64,8 @@
   <div id="uploadMaintainToolBar" style="float:left;margin-top: 2px;">
     <input type="file" id="selectFilePath" name="Url" maxlength="500" data-options="选择上传文件..." class="easyui-filebox" hidden onchange="UpladFile()"/>
     <input type="button" id="uploadBtn" class="button" value="上传文件" />
-    <input type="button" class="button" id="editBtn" value="编辑"/>
-    <input type="button" class="button" id="saveBtn" value="保存"/>
+    <!--<input type="button" class="button" id="editBtn" value="编辑"/>-->
+    <!--<input type="button" class="button" id="saveBtn" value="保存"/>-->
   </div>
 <div class="easyui-layout" data-options="fit: true">
   <!--,fit:true class="easyui-panel" 这里是否需要需经过测试才可以-->
@@ -140,20 +140,20 @@
         $("#selectFilePath").trigger("click");
       });
       // 编辑。
-      $("#editBtn").on("click", function () {
-        dg.datagrid("hdEdit");
-        dg2.datagrid("hdEdit");
-        var selectIdx = dg.datagrid("options").hdCurrentRowIndex;
-        onClickRow(selectIdx);
-
-        var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
-        onClickRow(selectIdx2);
-      });
-      // 保存。
-      $("#saveBtn").on("click", function() {
-          showTips("上传成功！",200,0.5);
-//          dg.datagrid("hdSave",{url : "http://10.197.33.139:8080/webresources/login/DocumentType/save?userId="+userId});
-        });
+//      $("#editBtn").on("click", function () {
+//        dg.datagrid("hdEdit");
+//        dg2.datagrid("hdEdit");
+//        var selectIdx = dg.datagrid("options").hdCurrentRowIndex;
+//        onClickRow(selectIdx);
+//
+//        var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
+//        onClickRow(selectIdx2);
+//      });
+//      // 保存。
+//      $("#saveBtn").on("click", function() {
+//          showTips("上传成功！",200,0.5);
+////          dg.datagrid("hdSave",{url : "http://10.197.33.139:8080/webresources/login/DocumentType/save?userId="+userId});
+//        });
 
       $("#uploadMaintainDatagrid2").datagrid({
         striped:true,
@@ -269,7 +269,7 @@
             return;
           } else {
             // 传值
-            submitForm(index, row, changes);
+            submitFormBulk(index, row, changes);
           }
 //          row.editing = false;
           editIndex = undefined;
@@ -430,8 +430,18 @@ $("#uploadMaintainDatagrid").datagrid({
           dg.datagrid('refreshRow', index);
         },
         onAfterEdit:function(index,row){
-          row.editing = false;
-          dg.datagrid('refreshRow', index);
+          var updated = $('#uploadMaintainDatagrid').datagrid('getChanges', 'updated');
+          if (updated.length < 1) {
+            editIndex = undefined;
+            $('#uploadMaintainDatagrid').datagrid('unselectAll');
+            return;
+          } else {
+            // 传值
+            submitFormTh(index, row, changes);
+          }
+//          row.editing = false;
+          editIndex = undefined;
+          dg2.datagrid('refreshRow', index);
         },
         onCancelEdit:function(index,row){
           row.editing = false;
@@ -443,9 +453,40 @@ $("#uploadMaintainDatagrid").datagrid({
           onClickRow(index);
         }
       });
+//提交数据Throuput
+    function submitFormTh(index, row, changes) {
+      $.ajax({
+        type : "post",
+//        async : false,
+        url : "/login/bulkStore/save",
+        data : {
+          "thCargoTotal":row.bulkStoreId,
+          "thCargoPlan":row.terCode,
+          "cargoTotalPer" : row.totalStore,
+          "thCntrTotal":row.oreStore,
+          "thCntrPlan":row.coalStore,
+          "cntrTotalPer":row.foodStore,
+          "dailyTotal":row.steelStore,
+          "throuthputNTC":row.insAccount,
+          "throughputNICT":row.insTimestamp,
+          "insAccount":row.insTimestamp,
+          "insTimestamp":row.insTimestamp
+        },
+        success : function(data) {
+          if(data==true){
+            //alert("保存成功");
+            dg2.datagrid('reload');
+          }
+        },
+        error: function (data) {
+          console.info(data);
+        }
+      });
+    }
+    }
 
-//提交数据
-    function submitForm(index, row, changes) {
+//提交数据BULKSTORE
+    function submitFormBulk(index, row, changes) {
         console.log(row);
       $.ajax({
         type : "post",
