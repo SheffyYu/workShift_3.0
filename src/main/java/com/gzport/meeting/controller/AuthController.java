@@ -30,9 +30,10 @@ public class AuthController {
     }
 
     @PostMapping("/changePassword")
-    public AuthInfo changePassowrd(@RequestParam("password") String password){
+    @ResponseBody
+    public AuthInfo changePassowrd(@RequestBody Auth user){
         Auth auth=authService.findByAccount(SecurityUtils.getSubject().getPrincipal().toString());
-        auth.setPassword(HdCipher.getMD(password, "MD5"));
+        auth.setPassword(HdCipher.getMD(user.getPassword(), "MD5"));
         if(authService.createAuth(auth)!=null){
             return authConverter.convert(auth);
         }else
