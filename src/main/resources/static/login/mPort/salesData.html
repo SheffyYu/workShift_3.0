@@ -65,7 +65,7 @@
     <input type="file" id="selectFilePath" name="Url" maxlength="500" data-options="选择上传文件..." class="easyui-filebox" hidden onchange="UpladFile()"/>
     <input type="button" id="uploadBtn" class="button" value="上传文件" />
     <!--<input type="button" class="button" id="editBtn" value="编辑"/>-->
-    <!--<input type="button" class="button" id="saveBtn" value="保存"/>-->
+    <input type="button" class="button" id="saveBtn" value="保存"/>
   </div>
 <div class="easyui-layout" data-options="fit: true">
   <!--,fit:true class="easyui-panel" 这里是否需要需经过测试才可以-->
@@ -150,9 +150,6 @@
     }
   }
 
-//  function uploadFile() {
-//    $("#selectFilePath").trigger("click");
-//  }
 
   $(document).ready(function () {
       var dg = $("#uploadMaintainDatagrid");
@@ -171,11 +168,25 @@
 //        var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
 //        onClickRow(selectIdx2);
 //      });
-//      // 保存。
-//      $("#saveBtn").on("click", function() {
-//          showTips("上传成功！",200,0.5);
-////          dg.datagrid("hdSave",{url : "http://10.197.33.139:8080/webresources/login/DocumentType/save?userId="+userId});
-//        });
+      // 保存。
+      $("#saveBtn").on("click", function() {
+          var updated = $('#uploadMaintainDatagrid').datagrid('getChanges');
+          var row=dg.datagrid('getSelected');
+          var index=dg.datagrid('getRowIndex');
+          console.log(index);
+          console.log(updated);
+          console.log(row);
+//        if (updated.length < 1) {
+//          editIndex1 = undefined;
+//          $('#uploadMaintainDatagrid').datagrid('unselectAll');
+//          return;
+//        } else {
+          // 传值
+          submitFormTh(row);
+//        }
+        editIndex1 = undefined;
+        dg.datagrid('refreshRow', index);
+        });
 
       $("#uploadMaintainDatagrid2").datagrid({
         striped:true,
@@ -195,7 +206,6 @@
             multiSort: true,
             halign: "center",
             sortable: true,
-//            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
             width:80
           },
           {
@@ -204,7 +214,7 @@
             multiSort: true,
             halign: "center",
             width:80,
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:1}},
             sortable: true
           },
           {
@@ -212,7 +222,7 @@
             title: "矿石",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:1}},
             sortable: true,
             width:80
           },
@@ -221,7 +231,7 @@
             title: "煤炭",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:1}},
             sortable: true,
             width:80
           },
@@ -230,7 +240,7 @@
             title: "粮食（含豆粕）",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:1}},
             sortable: true,
             width:80
           },
@@ -239,7 +249,7 @@
             title: "钢材",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:1}},
             sortable: true,
             width:80
           },
@@ -304,6 +314,7 @@
         },
         //双击单元格编辑
         onDblClickCell: function (index) {
+            $("#saveBtn").show();
           dg2.datagrid("hdEdit");
           onClickRow2(index);
           editIndex2=index;
@@ -328,7 +339,7 @@ $("#uploadMaintainDatagrid").datagrid({
             multiSort: true,
             halign: "center",
             sortable: true,
-            editor: {type: "numberbox", options: {precision:0}},
+            editor: {type: "numberbox", options: {precision:2}},
             width:95
           },
           {
@@ -346,7 +357,7 @@ $("#uploadMaintainDatagrid").datagrid({
             multiSort: true,
             halign: "center",
             width:90,
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true
           },
           {
@@ -354,7 +365,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "集装箱吞吐量累计",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:100
           },
@@ -372,7 +383,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "%",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:80
           },
@@ -381,7 +392,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "南沙",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:80
           },
@@ -390,7 +401,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "南沙一期",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:80
           },
@@ -399,7 +410,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "南沙二期",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:80
           },
@@ -408,7 +419,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "南沙三期",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "numberbox",options:{precision:2}},
             sortable: true,
             width:80
           },
@@ -452,17 +463,7 @@ $("#uploadMaintainDatagrid").datagrid({
           dg.datagrid('refreshRow', index);
         },
         onAfterEdit:function(index,row){
-          var updated = $('#uploadMaintainDatagrid').datagrid('getChanges', 'updated');
-          if (updated.length < 1) {
-            editIndex1 = undefined;
-            $('#uploadMaintainDatagrid').datagrid('unselectAll');
-            return;
-          } else {
-            // 传值
-            submitFormTh(index, row, changes);
-          }
-//          row.editing = false;
-          editIndex1 = undefined;
+          row.editing = false;
           dg.datagrid('refreshRow', index);
         },
         onCancelEdit:function(index,row){
@@ -471,21 +472,24 @@ $("#uploadMaintainDatagrid").datagrid({
         },
         //双击单元格编辑
         onDblClickCell: function (index) {
+//          $("#saveBtn").show();
           dg.datagrid("hdEdit");
           onClickRow(index);
+          editIndex1=index;
         }
       });
 //提交数据Throuput
-    function submitFormTh(index, row, changes) {
+    function submitFormTh(row) {
       $.ajax({
         type : "post",
         url : "/login/throughput/save",
         dataType: "json",
         contentType: "application/json",
         data : JSON.stringify({
+          "throughputId":row.throughputId,
           "thCargoTotal":row.thCargoTotal,
           "thCargoPlan":row.thCargoPlan,
-          "cargoTotalPer" : row.cargoTotalPer,
+          "cargoTotalPer": row.cargoTotalPer,
           "thCntrTotal":row.thCntrTotal,
           "thCntrPlan":row.thCntrPlan,
           "cntrTotalPer":row.cntrTotalPer,
@@ -497,10 +501,8 @@ $("#uploadMaintainDatagrid").datagrid({
           "insTimeStamp":row.insTimestamp
         }),
         success : function(data) {
-          if(data==true){
-            //alert("保存成功");
+            alert("保存成功");
             dg.datagrid('reload');
-          }
         },
         error: function (data) {
           console.info(data);
@@ -529,8 +531,9 @@ $("#uploadMaintainDatagrid").datagrid({
           "insTimeStamp":row.insTimestamp
         }),
         success : function(data) {
+            console.log(data);
           if(data==true){
-            //alert("保存成功");
+            alert("保存成功");
             dg2.datagrid('reload');
           }
         },
