@@ -82,6 +82,7 @@
 <script src="../../js/huadong/uploadFile.js"></script>
 <script src="../../js/huadong/tips.js"></script>
 <script type="text/javascript">
+  $("#saveBtn").hide();
   var editIndex1 = undefined;
   var editIndex2 = undefined;
   //判断是否结束编辑
@@ -158,34 +159,38 @@
       $("#uploadBtn").on("click", function () {
         $("#selectFilePath").trigger("click");
       });
-      // 编辑。
-//      $("#editBtn").on("click", function () {
-//        dg.datagrid("hdEdit");
-//        dg2.datagrid("hdEdit");
-//        var selectIdx = dg.datagrid("options").hdCurrentRowIndex;
-//        onClickRow(selectIdx);
-//
-//        var selectIdx2 = dg2.datagrid("options").hdCurrentRowIndex;
-//        onClickRow(selectIdx2);
-//      });
       // 保存。
       $("#saveBtn").on("click", function() {
-          var updated = $('#uploadMaintainDatagrid').datagrid('getChanges');
+        dg.datagrid('endEdit', editIndex1);
+        dg2.datagrid("endEdit",editIndex2);
+        var updated =dg.datagrid('getChanges');
+        var updated2=dg2.datagrid('getChanges');
+
+        if (updated.length < 1) {
+          editIndex1 = undefined;
+          $('#uploadMaintainDatagrid').datagrid('unselectAll');
+          return;
+        } else {
+          // 传值
           var row=dg.datagrid('getSelected');
           var index=dg.datagrid('getRowIndex');
-          console.log(index);
-          console.log(updated);
-          console.log(row);
-//        if (updated.length < 1) {
-//          editIndex1 = undefined;
-//          $('#uploadMaintainDatagrid').datagrid('unselectAll');
-//          return;
-//        } else {
-          // 传值
           submitFormTh(row);
-//        }
+        }
+        if (updated2.length < 1) {
+          editIndex2 = undefined;
+          dg2.datagrid('unselectAll');
+          return;
+        } else {
+          // 传值
+          var row2=dg.datagrid('getSelected');
+          var index2=dg.datagrid('getRowIndex');
+          submitFormBulk(row2);
+        }
+
         editIndex1 = undefined;
+        editIndex2 = undefined;
         dg.datagrid('refreshRow', index);
+        dg2.datagrid('refreshRow', index2);
         });
 
       $("#uploadMaintainDatagrid2").datagrid({
@@ -301,7 +306,7 @@
             return;
           } else {
             // 传值
-            submitFormBulk(index, row, changes);
+            submitFormBulk(row);
           }
 //          row.editing = false;
           editIndex2 = undefined;
@@ -472,7 +477,7 @@ $("#uploadMaintainDatagrid").datagrid({
         },
         //双击单元格编辑
         onDblClickCell: function (index) {
-//          $("#saveBtn").show();
+          $("#saveBtn").show();
           dg.datagrid("hdEdit");
           onClickRow(index);
           editIndex1=index;
@@ -499,11 +504,13 @@ $("#uploadMaintainDatagrid").datagrid({
           "throughputGOCT":row.throughputGOCT,
           "throughputNICT":row.throughputNICT,
           "insAccount":row.insAccount,
-          "insTimeStamp":row.insTimestamp
+          "insTimestamp":row.insTimestamp
         }),
         success : function(data) {
-            alert("保存成功");
-            dg.datagrid('reload');
+            if (data != ""){
+              $("#saveBtn").hide();
+              dg.datagrid('reload');
+            }
         },
         error: function (data) {
           console.info(data);
@@ -512,7 +519,7 @@ $("#uploadMaintainDatagrid").datagrid({
     }
 
 //提交数据BULKSTORE
-    function submitFormBulk(index, row, changes) {
+    function submitFormBulk(row) {
         console.log(row);
       $.ajax({
         type : "post",
@@ -533,8 +540,8 @@ $("#uploadMaintainDatagrid").datagrid({
         }),
         success : function(data) {
             console.log(data);
-          if(data==true){
-            alert("保存成功");
+          if(data!=""){
+            $("#saveBtn").hide();
             dg2.datagrid('reload');
           }
         },
