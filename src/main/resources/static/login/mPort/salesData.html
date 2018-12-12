@@ -492,7 +492,9 @@ $("#uploadMaintainDatagrid").datagrid({
         type : "post",
 //        async : false,
         url : "/login/bulkStore/save",
-        data : {
+        dataType: "json",
+        contentType: "application/json",
+        data : JSON.stringify({
             "bulkStoreId":row.bulkStoreId,
           "terCode":row.terCode,
           "totalStore" : row.totalStore,
@@ -502,7 +504,7 @@ $("#uploadMaintainDatagrid").datagrid({
           "steelStore":row.steelStore,
           "insAccount":row.insAccount,
           "insTimeStamp":row.insTimestamp
-        },
+        }),
         success : function(data) {
           if(data==true){
             //alert("保存成功");
