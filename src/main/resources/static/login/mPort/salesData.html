@@ -157,7 +157,7 @@
 
       $("#uploadMaintainDatagrid2").datagrid({
         striped:true,
-        url:"/login/getBulk/Daily",
+        url:"/login/bulkStore/getDaily",
         method: "GET",
         singleSelect: true,
         selectOnCheck:false,
@@ -173,7 +173,7 @@
             multiSort: true,
             halign: "center",
             sortable: true,
-            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
+//            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
             width:80
           },
           {
@@ -257,21 +257,34 @@
           }
         ]],
         onBeforeEdit:function(index,row){
-          row.editing = true;
+//          row.editing = true;
+          editIndex = index;
           dg2.datagrid('refreshRow', index);
         },
-        onAfterEdit:function(index,row){
-          row.editing = false;
+        onAfterEdit:function(index,row,changes){
+          var updated = $('#uploadMaintainDatagrid2').datagrid('getChanges', 'updated');
+          if (updated.length < 1) {
+            editIndex = undefined;
+            $('#uploadMaintainDatagrid2').datagrid('unselectAll');
+            return;
+          } else {
+            // 传值
+            submitForm(index, row, changes);
+          }
+//          row.editing = false;
+          editIndex = undefined;
           dg2.datagrid('refreshRow', index);
         },
         onCancelEdit:function(index,row){
-          row.editing = false;
+//          row.editing = false;
+          editIndex = undefined;
           dg2.datagrid('refreshRow', index);
         },
         //双击单元格编辑
         onDblClickCell: function (index) {
           dg2.datagrid("hdEdit");
           onClickRow(index);
+          editIndex=index;
         }
       });
 $("#uploadMaintainDatagrid").datagrid({
@@ -301,7 +314,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "每月货物吞吐量计划",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
             sortable: true,
             width:120
           },
@@ -328,7 +341,7 @@ $("#uploadMaintainDatagrid").datagrid({
             title: "每月集装箱吞吐量计划",
             multiSort: true,
             halign: "center",
-            editor: {type: "numberbox",options:{precision:0}},
+            editor: {type: "validatebox", options: {validType: 'length[0,200]'}},
             sortable: true,
             width:130
           },
@@ -369,7 +382,7 @@ $("#uploadMaintainDatagrid").datagrid({
             width:80
           },
           {
-            field: "ThroughputNICT",
+            field: "throughputNICT",
             title: "南沙三期",
             multiSort: true,
             halign: "center",
@@ -403,7 +416,7 @@ $("#uploadMaintainDatagrid").datagrid({
             sortable: true
           },
           {
-            field: "updTimetamp",
+            field: "updTimestamp",
             title: "更新时间",
             multiSort: true,
             halign: "center",
@@ -431,6 +444,38 @@ $("#uploadMaintainDatagrid").datagrid({
         }
       });
 
+//提交数据
+    function submitForm(index, row, changes) {
+        console.log(row);
+      $.ajax({
+        type : "post",
+//        async : false,
+        url : "/login/bulkStore/save",
+        data : {
+            "bulkStoreId":row.bulkStoreId,
+          "terCode":row.terCode,
+          "totalStore" : row.totalStore,
+          "oreStore":row.oreStore,
+          "coalStore":row.coalStore,
+          "foodStore":row.foodStore,
+          "steelStore":row.steelStore,
+          "insAccount":row.insAccount,
+          "insTimeStamp":row.insTimestamp
+        },
+        success : function(data) {
+          if(data==true){
+            //alert("保存成功");
+            dg2.datagrid('reload');
+          }
+        },
+        error: function (data) {
+          console.info(data);
+        }
+      });
+    }
     });
+
+
+
 
 </script>

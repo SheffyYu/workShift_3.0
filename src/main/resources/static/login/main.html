@@ -114,6 +114,7 @@
     }
   });
 
+
   //修改密码
   function changePwd() {
     $("#my-modal-alert").toggle();//显示模态框
@@ -144,7 +145,7 @@
       var newPwd1=$("#newPwd1").val();
       var newPwd2=$("#newPwd2").val();
       if(newPwd2 != ""){
-        if(newPwd1 != newPwd2){
+        if(newPwd1 != newPwd2) {
           $("#pwdErro2").text("两次输入不相同");
           $("#newPwd2").val("");
         }
@@ -157,17 +158,24 @@
     $("#pwdErro1").text("");
     var newPwd1=$("#newPwd1").val();
     var newPwd2=$("#newPwd2").val();
-    if(newPwd1 != "" || newPwd2 !=""){
+    if(newPwd1 == "" || newPwd2 ==""){
       $("#pwdErro1").text("密码不能为空！");
     }else{
+        var user={password:""};
+        user.password=newPwd2;
       //提交密码修改
       $.ajax({
-      method: "post",
+      type:"post",
         url: "/login/changePassword",
-//        contentType: "application/json",
-        data:newPwd1,
+        contentType: "application/json",
+        data:JSON.stringify(user),
         success: function(data){
+          /////////////////////////////////////////////////////////////////////////////////////////////////////////这里还有问题
+          console.log(data);
+          $("#my-modal-alert").fadeOut("slow");
+          $("#my-modal-alert").toggle();
           showTips("修改成功！",200,0.5);
+
       },
       error: function (data) {
         console.info(data);
@@ -177,10 +185,10 @@
   }
 
   function canclePwdBtn() {
-    var clearFlag = 0;
-    window.clearInterval(clearFlag);
+//    var clearFlag = 0;
+//    window.clearInterval(clearFlag);
     $("#my-modal-alert").fadeOut("slow");
-//    $("#my-modal-alert").toggle();
+    $("#my-modal-alert").toggle();
   }
 
 </script>

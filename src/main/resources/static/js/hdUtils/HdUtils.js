@@ -27,7 +27,7 @@ Array.prototype.query = function(params) {
 	  }
 	  for (var n in params) {
 	    result = result.query1(n, params[n]);
-	  } 
+	  }
       return result;
 };
 
@@ -60,7 +60,7 @@ Array.prototype.queryMap = function(params) {
 	  }
 	  for (var n in params) {
 	    result = result.query1(n, params[n]);
-	  } 
+	  }
     return result;
 };
 /**
@@ -77,7 +77,7 @@ Array.prototype.query2 = function(params) {
 	  }
 	  for (var n in params) {
 	    result = result.query1(n, params[n]);
-	  } 
+	  }
       return result;
 };
 /**
@@ -98,7 +98,7 @@ Array.prototype.query1 = function(name, value) {
   }
   return result;
 };
-/* 
+/*
  * Copyright (C) 2013-2014 HUADONG CO.,LTD.
  * Author:jason <caiyj@huadong.net>
  */
@@ -126,11 +126,11 @@ HdUtils.global = {};
  */
 HdUtils.global.config={};
 //地图内网地址：
-//HdUtils.global.config.geoIp ="http://10.197.32.164:8080/geoserver"; 
+//HdUtils.global.config.geoIp ="http://10.197.32.164:8080/geoserver";
 //地图外网地址：
-//HdUtils.global.config.geoIp ="http://113.108.190.168:8004/geoserver"; 
-//HdUtils.global.config.geoIp ="http://192.168.1.200:8004/geoserver"; 
-//HdUtils.global.config.geoIp ="http://geo.gzport.com/geoserver"; 
+//HdUtils.global.config.geoIp ="http://113.108.190.168:8004/geoserver";
+//HdUtils.global.config.geoIp ="http://192.168.1.200:8004/geoserver";
+//HdUtils.global.config.geoIp ="http://geo.gzport.com/geoserver";
 
 //地图地址：
 HdUtils.global.config.geoIp=function ()
@@ -142,12 +142,12 @@ HdUtils.global.config.geoIp=function ()
 	{
 		//外网
 		if(pamUrl[0]=="inner"){
-			return "http://geo.gzport.com/geoserver"; //地图		
+			return "http://geo.gzport.com/geoserver"; //地图
 		}else{
 			return "http://10.197.32.164:8080/geoserver"; //地图
 		}
 	}
-	//return "http://113.108.190.168:8004/geoserver"; 
+	//return "http://113.108.190.168:8004/geoserver";
 }
 
 //流媒体服务器
@@ -189,7 +189,7 @@ HdUtils.global.config.ip =function()
 	{
 		//外网
 		if(pamUrl[0]=="inner"){
-			return "http://report.gzport.com"; //报表	
+			return "http://report.gzport.com"; //报表
 		}else{
 			return "http://10.197.32.165:8080"; //报表
 		}
@@ -255,7 +255,7 @@ HdUtils.global.config.companyCod = function(){
 	    contentType: "application/json",
 	    success: function (data) {
 	    	companyCod = data.companyCod;
-	    	
+
 	    }
 	 });
 	return companyCod;
@@ -401,7 +401,7 @@ HdUtils.code.base = function(params) {
     if (params != undefined && params.queryParams != undefined) {
    	 params.queryParams.queryColumns = params.filterColumns ? params.filterColumns : valueField + "," + textField;
     };
-    ret.queryParams = (params && params.queryParams) ? params.queryParams : 
+    ret.queryParams = (params && params.queryParams) ? params.queryParams :
             {
                 queryColumns: params.filterColumns ? params.filterColumns : valueField + "," + textField,
                 hdConditions: params.hdConditions ? params.hdConditions : {}
@@ -426,7 +426,7 @@ HdUtils.code.base = function(params) {
     ret.panelWidth = params.pagination ? 500 : 250;
     //是否校验，默认为true(校验)
     ret.isValid = params.isValid === undefined ? true : params.isValid;
-    
+
     if(ret.isValid){
         ret.onHidePanel = function() {
             var isPaging = $(this).combogrid('options').pagination;
@@ -434,7 +434,7 @@ HdUtils.code.base = function(params) {
             var selections = $(this).combogrid('grid').datagrid('getSelections');  //得到当前值
 
             if($(this).combogrid('options').parentId){
-            	var parentDataGrad=$(this).combogrid('options').parentId;            	
+            	var parentDataGrad=$(this).combogrid('options').parentId;
             	if(parentDataGrad!=null&&parentDataGrad!="")
             	{
             		var sValueField=$(this).combogrid('options').valueField;
@@ -457,7 +457,7 @@ HdUtils.code.base = function(params) {
                         var params = new HdEzuiQueryParamsBuilder();
                         params.setHdEzuiQueryParams($.extend(true, {}, opts.queryParams));
                         params.setAndClause(valueField, value, '=' , 'and');
-                        
+
                         $.ajax({type: "get", url: opts.url, data: params.buildGet(), dataType: "json",
                             contentType: "application/json",
                             success: function(data) {
@@ -465,7 +465,7 @@ HdUtils.code.base = function(params) {
                                     _this.combogrid('clear');
                                 }else{ //合法数据，但不再当页，插入一行(以便不再显示代码。多的行不会产生影响，用户如果编辑过滤有得到原始数据）
                                     var grid = _this.combogrid('grid');
-                                    _this.combogrid('setValue', data.rows[0][valueField]); 
+                                    _this.combogrid('setValue', data.rows[0][valueField]);
                                     _this.combogrid('setText', data.rows[0][textField]);
                                     if(grid.datagrid('getRows').length == grid.datagrid('options').pageSize){
                                         grid.datagrid('appendRow', data.rows[0]);
@@ -563,7 +563,7 @@ HdUtils.messager.show = function(data, callback) {
                 msg += "详细：" + "<span title=\"" + content + "\" onClick=\"alert(\'" + content.replace(/\n/g, "\\n") + "\')\">点击查看</span>"
             }
             $.messager.alert("返回信息", msg, "info");
-            
+
             if ($.isFunction(callback)) {
                 callback();
             }
@@ -610,7 +610,7 @@ HdUtils.formatter = {};
 HdUtils.formatter.precisionCommon = function(value, precision) {
     if (value==null||value==undefined) {
         return "";
-    } 
+    }
     var v = parseFloat(value).toFixed(parseInt(precision)).split(".");
     var ret = v[0].replace(/\d+?(?=(?:\d{3})+$)/img, "$&,");
     if (v.length > 1) {
@@ -637,6 +637,7 @@ HdUtils.formatter.datetime = function(value) {
 	return value ? new Date(value).format('yyyy-MM-dd hh:mm:ss') : '';
 }
 
+
 /**
  * @namespace dialog
  * @memberOf HdUtils#
@@ -652,13 +653,13 @@ HdUtils.dialog4 = {};
  * @memberOf HdUtils#dialog
  */
 HdUtils.dialog.closeHanlder="";
-//这个方法做了一些操作、然后调用回调函数    
-function doDialogCloseCallback(fn,args)    
-{    
-    fn.apply(this, args);  
+//这个方法做了一些操作、然后调用回调函数
+function doDialogCloseCallback(fn,args)
+{
+    fn.apply(this, args);
 }
 HdUtils.dialog.show = function(params) {
-	
+
     var _def = {
         title: "标题", // 标题
         width: 800,
@@ -669,14 +670,14 @@ HdUtils.dialog.show = function(params) {
         modal: true,
         // 关闭窗口的时候，unbind键。
         onClose: function() {
-            $(document).unbind("keyup");          
+            $(document).unbind("keyup");
         	if(HdUtils.dialog.closeHanlder!="")
         	{
-        		doDialogCloseCallback(eval(HdUtils.dialog.closeHanlder),[]); 
+        		doDialogCloseCallback(eval(HdUtils.dialog.closeHanlder),[]);
         		HdUtils.dialog.closeHanlder="";
         	}
         }
-    }; 
+    };
     var str = "?";
 
     if (params != undefined && params.href != undefined && params.href.indexOf("?") >= 0) {
@@ -875,7 +876,7 @@ HdUtils.dialog3.show = function(params) {
     }
     $.extend(_def, params);
     if (params.callback != undefined) {
-    } 
+    }
     // 绑定enter,esc键。
     $(document).bind("keyup", function(event) {
         if (event.which == 27) {
@@ -1068,7 +1069,7 @@ HdUtils.ezui.dateBox.selectMonth = function(param) {
                      var year = /\d{4}/.exec(span.html())[0]//得到年份
                      , month = parseInt($(this).attr('abbr'), 10);//月份，这里不需要+1
                      if(month<10){
-                    	 month = "0"+month;       
+                    	 month = "0"+month;
                     	}
                      db.datebox('hidePanel')//隐藏日期对象
                      .datebox('setValue', year + '-' + month); //设置日期的值
@@ -1080,7 +1081,7 @@ HdUtils.ezui.dateBox.selectMonth = function(param) {
              }
              isClick = false;
              yearIpt.unbind();//解绑年份输入框中任何事件
-             
+
          },
          parser: function (s) {
              if (!s) return new Date();

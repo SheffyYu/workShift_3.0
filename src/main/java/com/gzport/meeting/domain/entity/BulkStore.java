@@ -1,5 +1,6 @@
 package com.gzport.meeting.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gzport.meeting.controller.LoginController;
 import org.apache.shiro.SecurityUtils;
 import org.eclipse.persistence.annotations.UuidGenerator;
@@ -48,11 +49,12 @@ public class BulkStore implements Serializable {
     private String insAccount;
     @Column(name = "INS_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date insTimeStamp;
     @Column(name = "UPD_ACCOUNT")
     private String updAccount;
     @Column(name = "UPD_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date updTimeStamp;
 
 
