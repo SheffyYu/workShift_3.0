@@ -82,48 +82,70 @@
 <script src="../../js/huadong/uploadFile.js"></script>
 <script src="../../js/huadong/tips.js"></script>
 <script type="text/javascript">
-  var editIndex = undefined;
+  var editIndex1 = undefined;
+  var editIndex2 = undefined;
   //判断是否结束编辑
   function endEditing(){
     var dg = $("#uploadMaintainDatagrid");
-    var dg2 = $("#uploadMaintainDatagrid2");
-    if (editIndex == undefined){return true}
-    if (dg.datagrid('validateRow', editIndex)){
-      dg.datagrid('getEditor', {index : editIndex,field : 'totalStore'});
-      dg.datagrid('getEditor', {index : editIndex,field : 'oreStore'});
-      dg.datagrid('getEditor', {index : editIndex,field : 'coalStore'});
-      dg.datagrid('getEditor', {index : editIndex,field : 'steelStore'});
-      dg.datagrid('getEditor', {index : editIndex,field : 'foodStore'});
-      editIndex = undefined;
+    if (editIndex1 == undefined){return true}
+    if (dg.datagrid('validateRow', editIndex1)){
+      dg.datagrid('getEditor', {index : editIndex1,field : 'thCargoTotal'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'thCargoTotal'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'cargoTotalPer'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'thCntrTotal'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'thCntrPlan'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'cntrTotalPer'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'dailyTotal'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'throuthputNTC'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'throughputGOCT'});
+      dg.datagrid('getEditor', {index : editIndex1,field : 'throughputNICT'});
+      editIndex1 = undefined;
       return true;
-    }
-    if (dg2.datagrid('validateRow', editIndex)){
-      dg2.datagrid('getEditor', {index : editIndex,field : 'totalStore'});
-      dg2.datagrid('getEditor', {index : editIndex,field : 'oreStore'});
-      dg2.datagrid('getEditor', {index : editIndex,field : 'coalStore'});
-      dg2.datagrid('getEditor', {index : editIndex,field : 'steelStore'});
-      dg2.datagrid('getEditor', {index : editIndex,field : 'foodStore'});
-      editIndex = undefined;
-      return true;
-    }
-//    else {
+    } else {
       return false;
-//    }
+    }
+  }
+  //判断是否结束编辑
+  function endEditing2(){
+    var dg2 = $("#uploadMaintainDatagrid2");
+    if (editIndex2 == undefined){return true}
+    if (dg2.datagrid('validateRow', editIndex2)){
+      dg2.datagrid('getEditor', {index : editIndex2,field : 'totalStore'});
+      dg2.datagrid('getEditor', {index : editIndex2,field : 'oreStore'});
+      dg2.datagrid('getEditor', {index : editIndex2,field : 'coalStore'});
+      dg2.datagrid('getEditor', {index : editIndex2,field : 'steelStore'});
+      dg2.datagrid('getEditor', {index : editIndex2,field : 'foodStore'});
+      editIndex2 = undefined;
+      return true;
+    } else {
+    return false;
+    }
   }
   //选中编辑行
   function onClickRow(index){
     var dg = $("#uploadMaintainDatagrid");
-    var dg2 = $("#uploadMaintainDatagrid2");
-    if (editIndex != index){
-      if (endEditing()){
+    if (editIndex1 != index) {
+      if (endEditing()) {
         dg.datagrid('selectRow', index)
           .datagrid('beginEdit', index);
+        editIndex1 = index;
+      } else {
+        dg.datagrid('selectRow', editIndex1);
+      }
+    }
+  }
+
+  //选中编辑行
+  function onClickRow2(index){
+    var dg2 = $("#uploadMaintainDatagrid2");
+
+    if (editIndex2 != index){
+      if (endEditing2()){
         dg2.datagrid('selectRow', index)
           .datagrid('beginEdit', index);
-        editIndex = index;
+        editIndex2 = index;
       } else {
-        dg.datagrid('selectRow', editIndex);
-        dg2.datagrid('selectRow', editIndex);
+        dg2.datagrid('selectRow', editIndex2);
       }
     }
   }
@@ -258,13 +280,13 @@
         ]],
         onBeforeEdit:function(index,row){
 //          row.editing = true;
-          editIndex = index;
+          editIndex2 = index;
           dg2.datagrid('refreshRow', index);
         },
         onAfterEdit:function(index,row,changes){
           var updated = $('#uploadMaintainDatagrid2').datagrid('getChanges', 'updated');
           if (updated.length < 1) {
-            editIndex = undefined;
+            editIndex2 = undefined;
             $('#uploadMaintainDatagrid2').datagrid('unselectAll');
             return;
           } else {
@@ -272,19 +294,19 @@
             submitFormBulk(index, row, changes);
           }
 //          row.editing = false;
-          editIndex = undefined;
+          editIndex2 = undefined;
           dg2.datagrid('refreshRow', index);
         },
         onCancelEdit:function(index,row){
 //          row.editing = false;
-          editIndex = undefined;
+          editIndex2 = undefined;
           dg2.datagrid('refreshRow', index);
         },
         //双击单元格编辑
         onDblClickCell: function (index) {
           dg2.datagrid("hdEdit");
-          onClickRow(index);
-          editIndex=index;
+          onClickRow2(index);
+          editIndex2=index;
         }
       });
 $("#uploadMaintainDatagrid").datagrid({
@@ -432,7 +454,7 @@ $("#uploadMaintainDatagrid").datagrid({
         onAfterEdit:function(index,row){
           var updated = $('#uploadMaintainDatagrid').datagrid('getChanges', 'updated');
           if (updated.length < 1) {
-            editIndex = undefined;
+            editIndex1 = undefined;
             $('#uploadMaintainDatagrid').datagrid('unselectAll');
             return;
           } else {
@@ -440,8 +462,8 @@ $("#uploadMaintainDatagrid").datagrid({
             submitFormTh(index, row, changes);
           }
 //          row.editing = false;
-          editIndex = undefined;
-          dg2.datagrid('refreshRow', index);
+          editIndex1 = undefined;
+          dg.datagrid('refreshRow', index);
         },
         onCancelEdit:function(index,row){
           row.editing = false;
@@ -457,32 +479,33 @@ $("#uploadMaintainDatagrid").datagrid({
     function submitFormTh(index, row, changes) {
       $.ajax({
         type : "post",
-//        async : false,
-        url : "/login/bulkStore/save",
-        data : {
-          "thCargoTotal":row.bulkStoreId,
-          "thCargoPlan":row.terCode,
-          "cargoTotalPer" : row.totalStore,
-          "thCntrTotal":row.oreStore,
-          "thCntrPlan":row.coalStore,
-          "cntrTotalPer":row.foodStore,
-          "dailyTotal":row.steelStore,
-          "throuthputNTC":row.insAccount,
-          "throughputNICT":row.insTimestamp,
-          "insAccount":row.insTimestamp,
-          "insTimestamp":row.insTimestamp
-        },
+        url : "/login/throughput/save",
+        dataType: "json",
+        contentType: "application/json",
+        data : JSON.stringify({
+          "thCargoTotal":row.thCargoTotal,
+          "thCargoPlan":row.thCargoPlan,
+          "cargoTotalPer" : row.cargoTotalPer,
+          "thCntrTotal":row.thCntrTotal,
+          "thCntrPlan":row.thCntrPlan,
+          "cntrTotalPer":row.cntrTotalPer,
+          "dailyTotal":row.dailyTotal,
+          "throuthputNTC":row.throuthputNTC,
+          "throughputGOCT":row.throughputGOCT,
+          "throughputNICT":row.throughputNICT,
+          "insAccount":row.insAccount,
+          "insTimeStamp":row.insTimestamp
+        }),
         success : function(data) {
           if(data==true){
             //alert("保存成功");
-            dg2.datagrid('reload');
+            dg.datagrid('reload');
           }
         },
         error: function (data) {
           console.info(data);
         }
       });
-    }
     }
 
 //提交数据BULKSTORE
