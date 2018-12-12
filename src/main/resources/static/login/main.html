@@ -57,31 +57,32 @@
                   <lable style="color: #ff0000" id="pwdErro2"></lable>
                 </div>
               </div>
-          </div>
+            </div>
             <div class='modal-footer boxFooter' id='modal-footer'>
               <input type='button' class='btn btn-primary boxButton' value="确认提交" id="changePwdBtn" onclick="changePwdBtn()"/>
+              <input type='button' class='btn btn-primary boxButton' value="取消" id="canclePwdBtn" onclick="canclePwdBtn()"/>
             </div>
           </div>
         </div>
       </div>
       <!--//////////////////////////////////////-->
     </div>
-  <div id="bd">
-    <iframe width="100%" height="100%" id="mainIframe" src="nav.html" frameborder="0"></iframe>
-  </div>
+    <div id="bd">
+      <iframe width="100%" height="100%" id="mainIframe" src="nav.html" frameborder="0" style="margin-top: -4px"></iframe>
+    </div>
 
-  <div id="ft" class="ue-clear">
-    <div class="ft1 ue-clear">
-      <i class="ft-icon1"></i> <span>广州港集团交接班系统 More Templates <a href="http://inner.gzport.com/" target="_blank" title="数据科技">数据科技</a> </span>
-      <em>Digital Pertal</em>
-    </div>
-    <div class="ft2 ue-clear">
-      <span>Call Center</span>
-      <em>V2.0 2014</em>
-      <i class="ft-icon2"></i>
+    <div id="ft" class="ue-clear">
+      <div class="ft1 ue-clear">
+        <i class="ft-icon1"></i> <span>广州港集团交接班系统 More Templates <a href="http://inner.gzport.com/" target="_blank" title="数据科技">数据科技</a> </span>
+        <em>Digital Pertal</em>
+      </div>
+      <div class="ft2 ue-clear">
+        <span>Call Center</span>
+        <em>V1.0 2018</em>
+        <i class="ft-icon2"></i>
+      </div>
     </div>
   </div>
-</div>
 
 </body>
 <script src="./../js/jquery.js"></script>
@@ -89,6 +90,7 @@
 <script src="./../js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="../js/core.js"></script>
 <script type="text/javascript" src="../js/jquery.dialog.js"></script>
+<script language=javascript src="../js/huadong/tips.js"></script>
 <script type="text/javascript">
   $("#bd").height($(window).height()-$("#hd").outerHeight()-26);
 
@@ -97,14 +99,13 @@
 
   });
 
-
   //获取用户名字
   $.ajax({
     method: "get",
     url: "/login/getLoginUser",
     contentType: "application/json",
     success: function(data){
-  //显示用户名字
+      //显示用户名字
       console.log(data);
       $("#userName").text(data.name);
     },
@@ -119,6 +120,8 @@
     $("#my-modal-alert").draggable({//设置模态框可拖动（需要引入jquery-ui.min.js）
       handle: ".modal-header"
     });
+    $("#newPwd1").val("");
+    $("#newPwd2").val("");
     $("#newPwd1").blur(function(){
       var re =  /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/;  //判断字符串是否为数字和字母组合     //判断正整数 /^[1-9]+[0-9]*]*$/
       $("#pwdErro1").text("");
@@ -148,19 +151,36 @@
       }
     });
 
-    function changePwdBtn() {
-      $("#pwdErro1").text("");
-      var newPwd1=$("#newPwd1").val();
-      var newPwd2=$("#newPwd2").val();
-      if(newPwd1 != "" || newPwd2 !=""){
-        $("#pwdErro1").text("密码不能为空！");
-      }else{
-        //提交密码修改
+  }
 
+  function changePwdBtn() {
+    $("#pwdErro1").text("");
+    var newPwd1=$("#newPwd1").val();
+    var newPwd2=$("#newPwd2").val();
+    if(newPwd1 != "" || newPwd2 !=""){
+      $("#pwdErro1").text("密码不能为空！");
+    }else{
+      //提交密码修改
+      $.ajax({
+      method: "post",
+        url: "/login/changePassword",
+//        contentType: "application/json",
+        data:newPwd1,
+        success: function(data){
+          showTips("修改成功！",200,0.5);
+      },
+      error: function (data) {
+        console.info(data);
       }
+    });
     }
-//    var windowWidth  = $(window).width();
-//    window.open ("changePwd.html", "", "height=200, width=600, top=200, left=( windowWidth / 2 ) - 350/2, toolbar=no, menuBar=no, scrollbars=no, resizable=no,location=no, status=no"); //写成一行
+  }
+
+  function canclePwdBtn() {
+    var clearFlag = 0;
+    window.clearInterval(clearFlag);
+    $("#my-modal-alert").fadeOut("slow");
+//    $("#my-modal-alert").toggle();
   }
 
 </script>
