@@ -1,10 +1,12 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.domain.vo.BulkStoreVO;
 import com.gzport.meeting.service.BulkStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +35,10 @@ public class BulkStoreController  {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @PostMapping("/bulkStore/save")
+    public BulkStore save(BulkStore bulkStore){
+        return  bulkStoreService.save(bulkStore);
     }
 }

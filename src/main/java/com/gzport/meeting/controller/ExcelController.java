@@ -69,6 +69,7 @@ public class ExcelController {
             if("xls".equals(fileType)){
                 HSSFWorkbook hssfWorkbook = new HSSFWorkbook(inputStream);
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
+                throughputService.deleteByDate(date);
                 if(hssfSheet==null)
                     return null;
                 Throughput throughput=getThroughput(hssfSheet);

@@ -11,4 +11,5 @@ import java.util.List;
 public interface ThroughputService  {
     Throughput save(Throughput throughput);
     List<Throughput> getByDate(String date);
+    void deleteByDate(String date);
 }

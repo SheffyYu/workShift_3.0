@@ -14,4 +14,8 @@ public interface ThroughputRepository extends PagingAndSortingRepository<Through
     @Modifying
     @Query(value = "SELECT * FROM THROUGHPUT  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd')",nativeQuery = true)
     List<Throughput> findByDate(String date);
+
+    @Modifying
+    @Query(value = "DELETE FROM THROUGHPUT  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd')",nativeQuery = true)
+    void deleteByDate(String date);
 }
