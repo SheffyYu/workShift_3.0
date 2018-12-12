@@ -3,10 +3,7 @@ package com.gzport.meeting.controller;
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.service.ThroughputService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +19,8 @@ public class ThroughputController {
     ThroughputService throughputService;
 
     @PostMapping("/save")
-    public Throughput save(Throughput throughput){
+    @ResponseBody
+    public Throughput save(@RequestBody Throughput throughput){
         return throughputService.save(throughput);
     }
 
