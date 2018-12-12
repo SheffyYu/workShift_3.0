@@ -4,6 +4,7 @@ import com.gzport.meeting.controller.LoginController;
 import org.apache.shiro.SecurityUtils;
 import org.eclipse.persistence.annotations.UuidGenerator;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
