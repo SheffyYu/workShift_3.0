@@ -5,10 +5,7 @@ import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.domain.vo.BulkStoreVO;
 import com.gzport.meeting.service.BulkStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +35,8 @@ public class BulkStoreController  {
     }
 
     @PostMapping("/save")
-    public BulkStore save(BulkStore bulkStore){
+    @ResponseBody
+    public BulkStore save(@RequestBody BulkStore bulkStore){
         return  bulkStoreService.save(bulkStore);
     }
 }
