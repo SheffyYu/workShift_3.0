@@ -121,7 +121,7 @@ public class ExcelController {
         Throughput throughput=new Throughput();
         throughput.setCargoTotalPer(new BigDecimal(getXSSFSheetData(hssfSheet,3,2)));
         throughput.setThCargoTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,0)));
-        throughput.setThCargoTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,3)));
+        throughput.setThCntrTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,3)));
         throughput.setCntrTotalPer(new BigDecimal(getXSSFSheetData(hssfSheet,3,5)));
         throughput.setDailyTotal(new BigDecimal(getXSSFSheetData(hssfSheet,3,6)));
         throughput.setThrouthputNTC(new BigDecimal(getXSSFSheetData(hssfSheet,3,7)));
