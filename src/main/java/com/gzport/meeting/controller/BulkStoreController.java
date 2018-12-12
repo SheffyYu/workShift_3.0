@@ -25,7 +25,7 @@ public class BulkStoreController  {
     @Autowired
     BulkStoreService bulkStoreService;
 
-    @GetMapping("/getBulk/Daily")
+    @GetMapping("/getDaily")
     public List<BulkStoreVO> findCurrentStoreByDate(){
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         try {
