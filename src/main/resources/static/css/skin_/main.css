@@ -7,7 +7,7 @@ html{*overflow:auto;}
 #hd{ position:relative; width:100%; height:65px; background:#047db6;  z-index:2;}/*此处为标题的背景*/
 .hd-top{height:65px;}
 /*logo*/
-.hd-top .logo{ position:relative; float:left;width:480px; height:53px;margin-top:6px;background:url(../../images/main_logo.png) no-repeat;}
+.hd-top .logo{ position:relative; float:left;width:480px; height:53px;margin-top:6px;background:url(../../images/main_logo2.png) no-repeat;}
 /*用户登录信息*/
 .hd-top .user-info{ float:right; margin-right:33px; width:180px; height:65px; line-height:65px;}
 .hd-top .user-info .user-avatar{ position:relative; float:right; width:40px; height:40px; margin-top: 12px; background:url(../../images/headerIconUser.png); }

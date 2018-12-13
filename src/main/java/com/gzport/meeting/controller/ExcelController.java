@@ -57,7 +57,7 @@ public class ExcelController {
         if(bulkStoreList.size()>0) {
             for (BulkTerEnum e : BulkTerEnum.values()) {
                 for(int i=0;i<bulkStoreList.size();i++){
-                    if(bulkStoreList.get(i).getTerCode().equals(e.toString())){
+                    if(bulkStoreList.get(i).getTerCode()!=null&&bulkStoreList.get(i).getTerCode().equals(e.toString())){
                         mapMap.put(e.toString(),bulkStoreList.get(i));
                     }
                 }

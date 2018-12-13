@@ -182,8 +182,8 @@
           return;
         } else {
           // 传值
-          var row2=dg.datagrid('getSelected');
-          var index2=dg.datagrid('getRowIndex');
+          var row2=dg2.datagrid('getSelected');
+          var index2=dg2.datagrid('getRowIndex');
           submitFormBulk(row2);
         }
 
@@ -191,6 +191,7 @@
         editIndex2 = undefined;
         dg.datagrid('refreshRow', index);
         dg2.datagrid('refreshRow', index2);
+        $("#saveBtn").hide();
         });
 
       $("#uploadMaintainDatagrid2").datagrid({
@@ -311,6 +312,7 @@
 //          row.editing = false;
           editIndex2 = undefined;
           dg2.datagrid('refreshRow', index);
+          $("#saveBtn").hide();
         },
         onCancelEdit:function(index,row){
 //          row.editing = false;
@@ -508,7 +510,7 @@ $("#uploadMaintainDatagrid").datagrid({
         }),
         success : function(data) {
             if (data != ""){
-              $("#saveBtn").hide();
+//              $("#saveBtn").hide();
               dg.datagrid('reload');
             }
         },
@@ -541,7 +543,7 @@ $("#uploadMaintainDatagrid").datagrid({
         success : function(data) {
             console.log(data);
           if(data!=""){
-            $("#saveBtn").hide();
+//            $("#saveBtn").hide();
             dg2.datagrid('reload');
           }
         },
