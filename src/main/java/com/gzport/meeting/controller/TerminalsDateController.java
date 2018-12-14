@@ -138,7 +138,8 @@ public class TerminalsDateController {
                 terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
                 terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
-                terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).get(0).getBulkStoreId());
+                if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
+                    terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).get(0).getBulkStoreId());
             }
             bulkStoreService.saveAll(terminalVO.getBulkStoreList());
         }

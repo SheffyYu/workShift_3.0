@@ -10,6 +10,8 @@ var submitJson;
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 // 判断是否有条件不满足,不满足则为false,不进行操作
 var isContinue;
+var date=new Date();
+var limitHour= date.getHours();
 
 //初始化数据格式
 function initData() {
@@ -142,6 +144,7 @@ function changeBtn() {
   $("#editBtn").hide();
   $("#inputBtn").show();
   $("#cancel").show();
+  $("#apply").hide();
   $(".kv-item input").each(function () {
     $(this).attr("disabled",false);
   });
@@ -151,17 +154,40 @@ function changeBtn() {
 function cancelBtn() {
   $("#inputBtn").hide();
   $("#cancel").hide();
-  $("#editBtn").show();
+  if (limitHour>7){
+    $("#editBtn").hide();
+    $("#apply").show();
+  }else{
+    $("#editBtn").show();
+    $("#apply").hide();
+  }
   $(".kv-item input").each(function () {
     $(this).attr("disabled",true);
   });
 }
 
-//提交数据
+//申请修改按钮的点击事件
+function applyBtn() {
+  $("#editBtn").hide();
+  $("#inputBtn").show();
+  $("#cancel").show();
+  $("#apply").hide();
+  $(".kv-item input").each(function () {
+    $(this).attr("disabled",false);
+  });
+}
+
+//提交数据,七点之后变成提交申请
 function postJson() {
+  var commitUrl;
+if (limitHour>=7){
+  commitUrl="";
+}else{
+  commitUrl="/login/saveData";
+}
   //提交数据
   $.ajax({
-    url: "/login/saveData",
+    url: commitUrl,
     contentType: "application/json",
     dataType: "json",
     type: "POST",
@@ -177,7 +203,14 @@ function postJson() {
       $("#inputBtn").hide();
       $("#cancel").hide();
       //显示修改按钮
-      $("#editBtn").show();
+      //设置七点之后不能修改数据
+      if (limitHour>=7){
+        $("#editBtn").hide();
+        $("#apply").show();
+      }else{
+        $("#editBtn").show();
+        $("#apply").hide();
+      }
       showTips("提交成功！",200,0.5);
     }
   });
