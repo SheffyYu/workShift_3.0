@@ -478,11 +478,42 @@ $("#uploadMaintainDatagrid").datagrid({
           dg.datagrid('refreshRow', index);
         },
         //双击单元格编辑
+  //改变南沙一二三期的值，南沙总和的值也跟着改变
         onDblClickCell: function (index) {
           $("#saveBtn").show();
           dg.datagrid("hdEdit");
           onClickRow(index);
           editIndex1=index;
+          //改变南沙总和的值
+          var editors=dg.datagrid('getEditors',editIndex1);
+          console.log("nann");
+          console.log(editors);
+          //获取行编辑器第一个对象
+          var editor1 = editors[6];//total
+          var editor2 = editors[7];//一期
+          var editor3 = editors[8];//二期
+          var editor4 = editors[9];//三期
+          editor2.target.numberbox({
+            onChange:function(newValue,oldValue){
+                var total=(newValue-0)+(editor3.oldHtml-0)+(editor4.oldHtml-0);
+                console.log(total);
+                editor1.target.numberbox('setValue',total);
+            }
+          });
+          editor3.target.numberbox({
+            onChange:function(newValue,oldValue){
+              var total=(newValue-0)+(editor2.oldHtml-0)+(editor4.oldHtml-0);
+              console.log(total);
+              editor1.target.numberbox('setValue',total);
+            }
+          });
+          editor4.target.numberbox({
+            onChange:function(newValue,oldValue){
+              var total=(newValue-0)+(editor3.oldHtml-0)+(editor2.oldHtml-0);
+              console.log(total);
+              editor1.target.numberbox('setValue',total);
+            }
+          });
         }
 
       });
