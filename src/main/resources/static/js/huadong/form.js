@@ -22,7 +22,7 @@ function initData() {
     truckStoreList: [],
     cntrStoreList: [],
     bargeXSList: [],
-    bulkStoreList:[]
+    carStoreList:[]
   };
   disper=[];
   barge=[];
@@ -128,7 +128,7 @@ function submitBtn() {
   submitJson.truckStoreList=truck;
   submitJson.bargeXSList=bargeXS;
   submitJson.cntrStoreList=cntrStore;
-  submitJson.bulkStoreList=vehicle;
+  submitJson.carStoreList=vehicle;
 
   console.log(submitJson);
 
@@ -460,9 +460,9 @@ $("#xsCntr .xsShen").each(function () {
 function bulkVehicleData() {
   var busNum=document.getElementById("busNumBulk").value;
   var obj={
-    bulkStoreId:"",		//
+    carStoreId:"",		//
     terCode:"",		//码头Id
-    carStore:busNum		//汽车库存
+    carNumber:busNum		//汽车库存
   }
   vehicle.push(obj);
   console.log(vehicle);

@@ -48,6 +48,9 @@ public class TerminalsDateController {
     @Autowired
     BulkStoreService bulkStoreService;
 
+    @Autowired
+    CarStoreService carStoreService;
+
 
     @PostMapping("/saveData")
     @ResponseBody
@@ -131,18 +134,17 @@ public class TerminalsDateController {
             }
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
         }
-        if(terminalVO.getBulkStoreList().size()>0){
-            if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
-                bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
-            for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
-                terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
-                terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
-                terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
-                if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
-                    terminalVO.getBulkStoreList().get(i).setBulkStoreId(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).get(0).getBulkStoreId());
+        if(terminalVO.getCarStoreList().size()>0){
+            if(carStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
+                carStoreService.deleteCurrentBargeByTerId(auth.getCompany());
+            for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+                terminalVO.getCarStoreList().get(i).setInsAccount(auth.getAccount());
+                terminalVO.getCarStoreList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getCarStoreList().get(i).setTerCode(auth.getCompany());
             }
-            bulkStoreService.saveAll(terminalVO.getBulkStoreList());
+            carStoreService.saveAll(terminalVO.getCarStoreList());
         }
+
     }
 
     @GetMapping("/getData")
@@ -169,7 +171,11 @@ public class TerminalsDateController {
         terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
-        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()));
         return terminalVO;
+    }
+
+    @GetMapping("/checkCurrentDate")
+    public String checkAllCurrentDate(){
+        return null;
     }
 }

@@ -261,5 +261,5 @@ function insertCntrStoreData() {
 
 //汽车库存
 function insertVehicleData() {
-  document.getElementById("busNumBulk").value=vehicle[0].carStore;
+  document.getElementById("busNumBulk").value=vehicle[0].carNumber;
 }
