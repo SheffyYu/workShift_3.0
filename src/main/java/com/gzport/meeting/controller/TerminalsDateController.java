@@ -134,7 +134,7 @@ public class TerminalsDateController {
             }
             truckStoreService.saveAll(terminalVO.getTruckStoreList());
         }
-        if(terminalVO.getCarStoreList().size()>0){
+        if(terminalVO.getCarStoreList()!=null&&terminalVO.getCarStoreList().size()>0){
             if(carStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
                 carStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
@@ -171,6 +171,7 @@ public class TerminalsDateController {
         terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
         return terminalVO;
     }
 
