@@ -60,13 +60,10 @@ public class TestController {
     }
 
     @PostMapping("/create")
-    public Auth create(@RequestParam("account") String account,@RequestParam("password") String password){
-        Auth auth=new Auth();
-        auth.setAccount(account);
-        auth.setPassword(HdCipher.getMD(password, "MD5"));
+    public Auth create(Auth auth){
+        auth.setPassword(HdCipher.getMD(auth.getPassword(), "MD5"));
         return authService.createAuth(auth);
     }
-
 
     @PostMapping("/createRoles")
     public Roles createRoles(Roles roles){
