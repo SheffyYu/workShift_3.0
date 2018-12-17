@@ -18,7 +18,7 @@ $(document).ready(function () {
     success: function(data){
       console.log(data);
       //当天没有提交数据
-      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.bulkStoreList == ""){
+      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){
         //隐藏修改和取消按钮
         $("#editBtn").hide();
         $("#cancel").hide();
@@ -58,7 +58,7 @@ function insertIntoFormData() {
   truck=submitJson.truckStoreList;
   bargeXS=submitJson.bargeXSList;
   cntrStore=submitJson.cntrStoreList;
-  vehicle=submitJson.bulkStoreList;
+  vehicle=submitJson.carStoreList;
 
   if(document.getElementById("dispersion")){
     //疏运部分数据插入
