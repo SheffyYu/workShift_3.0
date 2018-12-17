@@ -2,11 +2,15 @@
  * Created by yushihui on 2018/12/6.
  */
   //判断当天是否提交过数据，提交过就隐藏提交按钮，并向输入框中填充数据，设置输入框为不可编辑
+  // 七点之后不能修改数据，获取当前系统时间，如果大于7点，就隐藏其他按钮，显示申请修改按钮，如果未提交数据可以提交数据
   //传递的数据
 var submitJson;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 $(document).ready(function () {
+  var date=new Date();
+  var limitHour= date.getHours();
+  console.log(limitHour);
   $.ajax({
     method: "get",
     url: "/login/getData",
@@ -18,6 +22,7 @@ $(document).ready(function () {
         //隐藏修改和取消按钮
         $("#editBtn").hide();
         $("#cancel").hide();
+        $("#apply").hide();
       }else{
         submitJson=data;
         //当天已经提交过数据
@@ -29,6 +34,14 @@ $(document).ready(function () {
         $(".kv-item input").each(function () {
           $(this).attr("disabled",true);
         });
+        //设置七点之后不能修改数据
+        if (limitHour>=7){
+          $("#editBtn").hide();
+          $("#apply").show();
+        }else{
+          $("#editBtn").show();
+          $("#apply").hide();
+        }
       }
     },
     error: function (data) {
