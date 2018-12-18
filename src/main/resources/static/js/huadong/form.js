@@ -22,7 +22,7 @@ function initData() {
     truckStoreList: [],
     cntrStoreList: [],
     bargeXSList: [],
-    carStoreList:[]
+    // carStoreList:[]
   };
   disper=[];
   barge=[];
@@ -181,7 +181,7 @@ function applyBtn() {
 function postJson() {
   var commitUrl;
 if (limitHour>=7){
-  commitUrl="";
+  commitUrl="/login/saveData";
 }else{
   commitUrl="/login/saveData";
 }
