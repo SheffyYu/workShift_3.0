@@ -135,6 +135,7 @@ function insertDisperData(){
             dis1[kk]=disper[count].workingNumber;
             dis2[kk]=disper[count].unWorkNumber;
             dis3[kk]=disper[count].mechanicalNumber;
+            count++;
           }
         }else {
           if(node != "other"){
@@ -150,10 +151,15 @@ function insertDisperData(){
         kk++;
       }
     );
-    count=0;
+  console.log(dis1);
+  console.log(dis2);
+  console.log(dis3);
+  console.log(name);
+  count=0;
     var xjtotal=0;
     $(".cargo").each(function () {
       $(this).attr("value",name[mark]);
+      console.log(mark);
       mark++;
     });
     $(".dispersion1").each(function () {
