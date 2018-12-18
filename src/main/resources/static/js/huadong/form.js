@@ -178,9 +178,10 @@ function applyBtn() {
 }
 
 //提交数据,七点之后变成提交申请
+//要判断是否提交过数据
 function postJson() {
   var commitUrl;
-if (limitHour>=7){
+if (limitHour>=7 && isSubmit==1){
   commitUrl="/login/saveData";
 }else{
   commitUrl="/login/saveData";
@@ -211,6 +212,7 @@ if (limitHour>=7){
         $("#editBtn").show();
         $("#apply").hide();
       }
+      isSubmit=1;
       showTips("提交成功！",200,0.5);
     }
   });

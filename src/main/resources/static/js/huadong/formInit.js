@@ -5,12 +5,13 @@
   // 七点之后不能修改数据，获取当前系统时间，如果大于7点，就隐藏其他按钮，显示申请修改按钮，如果未提交数据可以提交数据
   //传递的数据
 var submitJson;
+//当天是否穿过数据
+var isSubmit;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 $(document).ready(function () {
   var date=new Date();
   var limitHour= date.getHours();
-  console.log(limitHour);
   $.ajax({
     method: "get",
     url: "/login/getData",
@@ -19,11 +20,13 @@ $(document).ready(function () {
       console.log(data);
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){
+        isSubmit=0;
         //隐藏修改和取消按钮
         $("#editBtn").hide();
         $("#cancel").hide();
         $("#apply").hide();
       }else{
+        isSubmit=1;
         submitJson=data;
         //当天已经提交过数据
         $("#inputBtn").hide();
