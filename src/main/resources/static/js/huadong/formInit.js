@@ -114,41 +114,75 @@ function insertDisperData(){
     var count=0;
     var kk=0;
     var mark=0;//标记非固定货物名出现的位置
+  var temp=0;
     $("#dispersion .kv-item span").each(function () {
+      name[kk]="";
+      dis1[kk]="";
+      dis2[kk]="";
+      dis3[kk]="";
         var node=$(this).attr("title");
-        if(count<disper.length){
-          if(node != "other"){
-            mark++;
-            name[kk]=node;
-            if(disper[count].cargoName == node){
-              dis1[kk]=disper[count].workingNumber;
-              dis2[kk]=disper[count].unWorkNumber;
-              dis3[kk]=disper[count].mechanicalNumber;
-              count++;
-            }else{
-              dis1[kk]="";
-              dis2[kk]="";
-              dis3[kk]="";
-            }
-          }else{
-            name[kk]=disper[count].cargoName;
-            dis1[kk]=disper[count].workingNumber;
-            dis2[kk]=disper[count].unWorkNumber;
-            dis3[kk]=disper[count].mechanicalNumber;
-            count++;
-          }
-        }else {
-          if(node != "other"){
-            mark++;
-            name[kk]=node;
-          }else{
-            name[kk]="";
-          }
+        if (node != "other"){
+          name[kk]=node;
           dis1[kk]="";
           dis2[kk]="";
           dis3[kk]="";
+          for(var i=0;i<disper.length;i++){
+            if(disper[i].cargoName == node){
+              dis1[kk]=disper[i].workingNumber;
+              dis2[kk]=disper[i].unWorkNumber;
+              dis3[kk]=disper[i].mechanicalNumber;
+              disper[i].cargoName="";
+            }
+          }
+          mark++;
+        }else{
+          for(var i=0;i<disper.length;i++){
+            if(disper[i].cargoName != ""){
+              name[kk]=disper[i].cargoName;
+              dis1[kk]=disper[i].workingNumber;
+              dis2[kk]=disper[i].unWorkNumber;
+              dis3[kk]=disper[i].mechanicalNumber;
+              disper[i].cargoName="";
+              break;
+            }
+          }
+
         }
         kk++;
+
+        // if(count<disper.length){
+        //   if(node != "other"){
+        //     mark++;
+        //     name[kk]=node;
+        //     if(disper[count].cargoName == node){
+        //       dis1[kk]=disper[count].workingNumber;
+        //       dis2[kk]=disper[count].unWorkNumber;
+        //       dis3[kk]=disper[count].mechanicalNumber;
+        //       count++;
+        //     }else{
+        //       dis1[kk]="";
+        //       dis2[kk]="";
+        //       dis3[kk]="";
+        //     }
+        //   }else{
+        //     name[kk]=disper[count].cargoName;
+        //     dis1[kk]=disper[count].workingNumber;
+        //     dis2[kk]=disper[count].unWorkNumber;
+        //     dis3[kk]=disper[count].mechanicalNumber;
+        //     count++;
+        //   }
+        // }else {
+        //   if(node != "other"){
+        //     mark++;
+        //     name[kk]=node;
+        //   }else{
+        //     name[kk]="";
+        //   }
+        //   dis1[kk]="";
+        //   dis2[kk]="";
+        //   dis3[kk]="";
+        // }
+        // kk++;
       }
     );
   console.log(dis1);
