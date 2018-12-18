@@ -16,12 +16,12 @@ import java.util.List;
 public interface DispersionRepository extends PagingAndSortingRepository<Dispersion,String>{
 
     @Modifying
-    @Query(value = "SELECT * FROM DISPERSION  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public List<Dispersion> findCurrentDataByWharf(String date,String terId);
+    @Query(value = "SELECT t FROM Dispersion t  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    List<Dispersion> findCurrentDataByWharf(Date date,String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM DISPERSION  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public void deleteCurrentDataByWharf(String date,String terId);
+    @Query(value = "DELETE FROM Dispersion  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    void deleteCurrentDataByWharf(Date date,String terId);
 
 
 }

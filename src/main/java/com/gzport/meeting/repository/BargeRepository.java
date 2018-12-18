@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/12/4.
@@ -14,10 +15,10 @@ import java.util.List;
 public interface BargeRepository extends PagingAndSortingRepository<Barge,String> {
 
     @Modifying
-    @Query(value = "SELECT * FROM BARGE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public List<Barge> findCurrentDataByWharf(String date, String terId);
+    @Query(value = "SELECT t FROM Barge t  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    public List<Barge> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM BARGE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
+    @Query(value = "DELETE FROM Barge  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
     public void deleteCurrentDataByWharf(String date, String terId);
 }

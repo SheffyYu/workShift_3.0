@@ -8,15 +8,17 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
+import java.util.Date;
+
 /**
  * Created by zhangxiang on 2018/12/4.
  */
 public interface ProductionLineRepository extends PagingAndSortingRepository<ProductionLine,String> {
     @Modifying
-    @Query(value = "SELECT * FROM PRODUCTION_LINE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public List<ProductionLine> findCurrentDataByWharf(String date, String terId);
+    @Query(value = "SELECT t FROM ProductionLine t WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    List<ProductionLine> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM PRODUCTION_LINE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public void deleteCurrentDataByWharf(String date, String terId);
+    @Query(value = "DELETE FROM ProductionLine  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    void deleteCurrentDataByWharf(Date date, String terId);
 }

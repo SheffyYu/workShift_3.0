@@ -4,6 +4,7 @@ import com.gzport.meeting.domain.entity.BargeXS;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import java.util.Date;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ import java.util.List;
  */
 public interface BargeXSRepository extends PagingAndSortingRepository<BargeXS,String> {
     @Modifying
-    @Query(value = "SELECT * FROM BARGE_XS  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public List<BargeXS> findCurrentDataByWharf(String date, String terId);
+    @Query(value = "SELECT t FROM BargeXS t WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    List<BargeXS> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM BARGE_XS  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public void deleteCurrentDataByWharf(String date, String terId);
+    @Query(value = "DELETE FROM BargeXS  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    void deleteCurrentDataByWharf(Date date, String terId);
 }

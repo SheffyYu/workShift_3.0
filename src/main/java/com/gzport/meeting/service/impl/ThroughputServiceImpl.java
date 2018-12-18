@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,12 +28,21 @@ public class ThroughputServiceImpl implements ThroughputService {
 
     @Override
     public List<Throughput> getByDate(String date) {
-        return throughputRepository.findByDate(date);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return throughputRepository.findByDate(time);
+        }catch (ParseException e){
+            return null;
+        }
     }
 
     @Override
     @Transactional
     public void deleteByDate(String date) {
-        throughputRepository.deleteByDate(date);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            throughputRepository.deleteByDate(time);
+        }catch (ParseException e){
+        }
     }
 }

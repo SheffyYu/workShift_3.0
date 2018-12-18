@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,13 +34,23 @@ public class CarStoreServiceImpl implements CarStoreService {
     @Override
     public List<CarStore> getCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return carStoreRepository.findCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return carStoreRepository.findCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+            return null;
+        }
+
     }
 
     @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        carStoreRepository.deleteCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            carStoreRepository.deleteCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+        }
     }
 }
