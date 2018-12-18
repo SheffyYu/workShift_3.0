@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -28,7 +29,12 @@ public class DispersionServiceImpl implements DispersionService {
     @Override
     public List<Dispersion> findCurrentDispersionByWharf(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return dispersionRepository.findCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return dispersionRepository.findCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+            return null;
+        }
     }
 
     @Override
@@ -40,7 +46,12 @@ public class DispersionServiceImpl implements DispersionService {
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        dispersionRepository.deleteCurrentDataByWharf(date,terId);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            dispersionRepository.deleteCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+
+        }
     }
 
 

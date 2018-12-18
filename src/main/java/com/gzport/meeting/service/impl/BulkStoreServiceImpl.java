@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,14 +34,24 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     }
 
     @Override
-    public List<BulkStore> getBulkByTime(String time) {
-        return bulkStoreRepository.findBulkBytime(time);
+    public List<BulkStore> getBulkByTime(String date) {
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bulkStoreRepository.findBulkBytime(time);
+        }catch (ParseException e){
+            return null;
+        }
     }
 
     @Override
     public List<BulkStore> getCurrentBulkByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return bulkStoreRepository.findCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bulkStoreRepository.findCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+            return null;
+        }
     }
 
     @Override
@@ -53,6 +64,10 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        bulkStoreRepository.deleteCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            bulkStoreRepository.deleteCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+        }
     }
 }

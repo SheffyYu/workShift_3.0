@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Date;
 
 /**
  * Created by zhangxiang on 2018/12/4.
@@ -14,10 +15,10 @@ import java.util.List;
 public interface CntrStoreRepsitory extends PagingAndSortingRepository<CntrStore,String> {
 
     @Modifying
-    @Query(value = "SELECT * FROM CNTR_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public List<CntrStore> findCurrentDataByWharf(String date, String terId);
+    @Query(value = "SELECT t FROM CntrStore t WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    List<CntrStore> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM CNTR_STORE  WHERE trunc(INS_TIMESTAMP)＝to_date(?1,'yyyy-mm-dd') AND TER_CODE=?2",nativeQuery = true)
-    public void deleteCurrentDataByWharf(String date, String terId);
+    @Query(value = "DELETE FROM CntrStore  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    void deleteCurrentDataByWharf(Date date, String terId);
 }

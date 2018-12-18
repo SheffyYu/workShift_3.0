@@ -46,9 +46,6 @@ public class TerminalsDateController {
     AuthService authService;
 
     @Autowired
-    BulkStoreService bulkStoreService;
-
-    @Autowired
     CarStoreService carStoreService;
 
 
@@ -144,7 +141,6 @@ public class TerminalsDateController {
             }
             carStoreService.saveAll(terminalVO.getCarStoreList());
         }
-
     }
 
     @GetMapping("/getData")

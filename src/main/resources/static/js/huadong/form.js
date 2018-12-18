@@ -129,7 +129,7 @@ function submitBtn() {
   submitJson.bargeXSList=bargeXS;
   submitJson.cntrStoreList=cntrStore;
   submitJson.carStoreList=vehicle;
-
+  console.log("数据提交");
   console.log(submitJson);
 
   //提交数据
@@ -179,12 +179,12 @@ function applyBtn() {
 
 //提交数据,七点之后变成提交申请
 function postJson() {
-  var commitUrl;
-if (limitHour>=7){
-  commitUrl="";
-}else{
-  commitUrl="/login/saveData";
-}
+  var commitUrl="/login/saveData";
+// if (limitHour>=7){
+//   commitUrl="";
+// }else{
+//   commitUrl="/login/saveData";
+// }
   //提交数据
   $.ajax({
     url: commitUrl,

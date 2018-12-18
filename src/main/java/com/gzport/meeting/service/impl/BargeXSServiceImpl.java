@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -33,13 +34,23 @@ public class BargeXSServiceImpl implements BargeXSService {
     @Override
     public List<BargeXS> getCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return bargeXSRepository.findCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bargeXSRepository.findCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+            return null;
+        }
     }
 
     @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        bargeXSRepository.deleteCurrentDataByWharf(date,terId);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            bargeXSRepository.deleteCurrentDataByWharf(time,terId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
