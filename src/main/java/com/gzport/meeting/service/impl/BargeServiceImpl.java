@@ -46,6 +46,10 @@ public class BargeServiceImpl implements BargeService {
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        bargeRepository.deleteCurrentDataByWharf(date,terId);
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            bargeRepository.deleteCurrentDataByWharf(time,terId);
+        }catch (ParseException e){
+        }
     }
 }

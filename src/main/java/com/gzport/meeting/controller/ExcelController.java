@@ -2,11 +2,14 @@ package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.foundation.BulkTerEnum;
 import com.gzport.meeting.foundation.ExcelDeal;
 import com.gzport.meeting.foundation.StringFundation;
+import com.gzport.meeting.foundation.ThroughputTerEnum;
 import com.gzport.meeting.service.BulkStoreService;
+import com.gzport.meeting.service.TerThroughputService;
 import com.gzport.meeting.service.ThroughputService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -46,6 +49,10 @@ public class ExcelController {
     @Autowired
     ThroughputService throughputService;
 
+    @Autowired
+    TerThroughputService terThroughputService;
+
+
     @PostMapping("/daily")
     public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file){
         int startRow=7;
@@ -53,6 +60,7 @@ public class ExcelController {
         String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
         String[][] data=new String[endRow-startRow+1][];
+        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         Map<String,BulkStore> mapMap=new HashMap<>();
         if(bulkStoreList.size()>0) {
             for (BulkTerEnum e : BulkTerEnum.values()) {
@@ -70,46 +78,60 @@ public class ExcelController {
                 HSSFWorkbook hssfWorkbook = new HSSFWorkbook(inputStream);
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
                 throughputService.deleteByDate(date);
-                if(hssfSheet==null)
-                    return null;
-                Throughput throughput=getThroughput(hssfSheet);
-                if(throughput!=null)
-                    throughputService.save(throughput);
-                Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
-                throughput.setInsAccount(auth.getAccount());
-                throughput.setUpdAccount(auth.getAccount());
-                for(int rowNum=startRow;rowNum<=endRow;rowNum++){
-                    HSSFRow hssfRow = hssfSheet.getRow(rowNum);
-                    int minColIx = hssfRow.getFirstCellNum()+1;
-                    int maxColIx = hssfRow.getLastCellNum();
-                    data[rowNum-startRow]=new String[maxColIx];
-                    for(int colIx=minColIx;colIx<maxColIx;colIx++){
-                        HSSFCell cell = hssfRow.getCell(colIx);
-                        if(cell!=null){
-                            data[rowNum-startRow][colIx-minColIx]=new String();
-                            data[rowNum-startRow][colIx-minColIx]= ExcelDeal.getCellValue(cell);
+                if(hssfSheet!=null) {
+                    Throughput throughput = getThroughput(hssfSheet);
+                    if (throughput != null)
+                        throughputService.save(throughput);
+                    throughput.setInsAccount(auth.getAccount());
+                    throughput.setUpdAccount(auth.getAccount());
+                    for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
+                        HSSFRow hssfRow = hssfSheet.getRow(rowNum);
+                        int minColIx = hssfRow.getFirstCellNum() + 1;
+                        int maxColIx = hssfRow.getLastCellNum();
+                        data[rowNum - startRow] = new String[maxColIx];
+                        for (int colIx = minColIx; colIx < maxColIx; colIx++) {
+                            HSSFCell cell = hssfRow.getCell(colIx);
+                            if (cell != null) {
+                                data[rowNum - startRow][colIx - minColIx] = new String();
+                                data[rowNum - startRow][colIx - minColIx] = ExcelDeal.getCellValue(cell);
+                            }
                         }
                     }
+                    bulkStoreList = ExcelDeal.dailyDataDeal(data, mapMap);
                 }
-                bulkStoreList=ExcelDeal.dailyDataDeal(data,mapMap);
-            }
-            if("xlsx".equals(fileType)){;
-                XSSFWorkbook xssfWorkbook=new XSSFWorkbook(inputStream);
-                XSSFSheet xssfSheet=xssfWorkbook.getSheet("调度值班日报");
-                for(int rowNum=startRow;rowNum<=endRow;rowNum++){
-                    XSSFRow xhssfRow = xssfSheet.getRow(rowNum);
-                    int minColIx = xhssfRow.getFirstCellNum()+1;
-                    int maxColIx = xhssfRow.getLastCellNum(  );
-                    data[rowNum-startRow]=new String[maxColIx];
-                    for(int colIx=minColIx;colIx<maxColIx;colIx++){
-                        XSSFCell cell = xhssfRow.getCell(colIx);
-                        if(cell!=null){
-                            data[rowNum-startRow][colIx-minColIx]=new String();
-                            data[rowNum-startRow][colIx-minColIx]= "test";
+                hssfSheet = hssfWorkbook.getSheet("吞吐量");
+                if(hssfSheet!=null){
+                    int terStart=27;            //码头吞吐量开始位置
+                    int terEnd=29;              //码头吞吐量结束位置
+                    int terWidth= 8;           //吞吐量标签港口数量
+                    int terHight=terEnd-terStart+1;            //吞吐量标签数据高度
+                    String[][] terthroughputData=new String[terHight][terWidth];
+                    for(int rowNum=terStart;rowNum<=terEnd;rowNum++){
+                        HSSFRow hssfRow = hssfSheet.getRow(rowNum);
+                        for (int j = 1; j <= 8; j++) {
+                            HSSFCell cell = hssfRow.getCell(j*2-1);
+                            if (cell != null) {
+                                terthroughputData[rowNum - terStart][j - 1] = new String();
+                                terthroughputData[rowNum - terStart][j - 1] = ExcelDeal.getCellValue(cell);
+                            }
                         }
                     }
+                    terThroughputService.deleteTerThroughputByDate(date);
+                    List<TerThroughput> terThroughputList=new ArrayList<>();
+                    int tag=0;
+                    for (ThroughputTerEnum e : ThroughputTerEnum.values()) {
+                        TerThroughput terThroughput=new TerThroughput();
+                        terThroughput.setTerCode(e.toString());
+                        terThroughput.setMonthlyPlan(new BigDecimal(terthroughputData[0][tag]));
+                        terThroughput.setMonthlyTotal(new BigDecimal(terthroughputData[1][tag]));
+                        terThroughput.setMonthlyPer(new BigDecimal(terthroughputData[2][tag]));
+                        terThroughput.setInsAccount(auth.getAccount());
+                        terThroughput.setUpdAccount(auth.getAccount());
+                        terThroughputList.add(terThroughput);
+                        tag++;
+                    }
+                    terThroughputService.saveAll(terThroughputList);
                 }
-                bulkStoreList=ExcelDeal.dailyDataDeal(data,mapMap);
             }
          } catch (IOException e) {
             e.printStackTrace();

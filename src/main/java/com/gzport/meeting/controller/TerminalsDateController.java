@@ -134,9 +134,10 @@ public class TerminalsDateController {
         if(terminalVO.getCarStoreList()!=null&&terminalVO.getCarStoreList().size()>0){
             if(carStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
                 carStoreService.deleteCurrentBargeByTerId(auth.getCompany());
-            for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+            for (int i = 0; i < terminalVO.getCarStoreList().size(); i++) {
                 terminalVO.getCarStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getCarStoreList().get(i).setUpdAccount(auth.getAccount());
+                System.out.println(auth.getCompany());
                 terminalVO.getCarStoreList().get(i).setTerCode(auth.getCompany());
             }
             carStoreService.saveAll(terminalVO.getCarStoreList());

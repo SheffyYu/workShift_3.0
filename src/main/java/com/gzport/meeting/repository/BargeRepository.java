@@ -15,10 +15,10 @@ import java.util.Date;
 public interface BargeRepository extends PagingAndSortingRepository<Barge,String> {
 
     @Modifying
-    @Query(value = "SELECT t FROM Barge t  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
-    public List<Barge> findCurrentDataByWharf(Date date, String terId);
+    @Query(value = "SELECT t FROM Barge t WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    List<Barge> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
     @Query(value = "DELETE FROM Barge  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
-    public void deleteCurrentDataByWharf(String date, String terId);
+    void deleteCurrentDataByWharf(Date date, String terId);
 }
