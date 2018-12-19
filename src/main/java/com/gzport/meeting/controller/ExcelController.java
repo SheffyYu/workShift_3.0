@@ -55,11 +55,8 @@ public class ExcelController {
 
     @PostMapping("/daily")
     public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file){
-        int startRow=7;
-        int endRow=11;
         String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
-        String[][] data=new String[endRow-startRow+1][];
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         Map<String,BulkStore> mapMap=new HashMap<>();
         if(bulkStoreList.size()>0) {
@@ -79,6 +76,9 @@ public class ExcelController {
                 HSSFSheet hssfSheet=hssfWorkbook.getSheet("调度值班日报");
                 throughputService.deleteByDate(date);
                 if(hssfSheet!=null) {
+                    int startRow=7;     //值班调度日报标签吞吐量开始位置
+                    int endRow=11;      //结束位置
+                    String[][] data=new String[endRow-startRow+1][];        //数据保存
                     Throughput throughput = getThroughput(hssfSheet);
                     if (throughput != null)
                         throughputService.save(throughput);
