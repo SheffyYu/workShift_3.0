@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class ExcelController {
                         TerThroughput terThroughput=new TerThroughput();
                         terThroughput.setTerCode(e.toString());
                         terThroughput.setMonthlyPlan(new BigDecimal(terthroughputData[0][tag]));
-                        terThroughput.setMonthlyTotal(new BigDecimal(terthroughputData[1][tag]));
+                        terThroughput.setMonthlyTotal(new BigDecimal(terthroughputData[1][tag]).setScale(0, RoundingMode.HALF_UP));
                         terThroughput.setMonthlyPer(new BigDecimal(terthroughputData[2][tag]));
                         terThroughput.setInsAccount(auth.getAccount());
                         terThroughput.setUpdAccount(auth.getAccount());
