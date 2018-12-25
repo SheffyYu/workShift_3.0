@@ -23,5 +23,4 @@ public interface DispersionRepository extends PagingAndSortingRepository<Dispers
     @Query(value = "DELETE FROM Dispersion  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date,String terId);
 
-
 }
