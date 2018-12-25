@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -113,7 +114,8 @@ public class ExcelController {
                             HSSFCell cell = hssfRow.getCell(j*2-1);
                             if (cell != null) {
                                 terthroughputData[rowNum - terStart][j - 1] = new String();
-                                terthroughputData[rowNum - terStart][j - 1] = ExcelDeal.getCellValue(cell);
+                                terthroughputData[rowNum - terStart][j - 1] = ExcelDeal.getCellValue(cell)==null?"0":ExcelDeal.getCellValue(cell);
+                                //terthroughputData[rowNum - terStart][j - 1] = ExcelDeal.getCellValue(cell);
                             }
                         }
                     }
