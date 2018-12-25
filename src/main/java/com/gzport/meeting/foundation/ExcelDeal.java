@@ -38,7 +38,8 @@ public class ExcelDeal {
                     try {
                         value = String.valueOf(cell.getNumericCellValue());
                     } catch (IllegalStateException e) {
-                        value = String.valueOf(cell.getRichStringCellValue());
+                        //value = String.valueOf(cell.getRichStringCellValue());
+                        value = "0";
                     }
                     break;
                 case NUMERIC:
