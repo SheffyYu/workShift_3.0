@@ -19,8 +19,8 @@ public class YearPlanThroughput implements Serializable {
     @Size(min = 1, max = 36)
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "TER_THROUGHPUT_ID")
-    private String terThroughputId;
+    @Column(name = "YEAR_PLAN_THROUGHPUT_ID")
+    private String yearPlanThroughputId;
 
     @Column(name="CNTR_YEAR_THROUGHT")
     @Size(min = 1, max = 8)
@@ -53,12 +53,12 @@ public class YearPlanThroughput implements Serializable {
         this.year = year;
     }
 
-    public String getTerThroughputId() {
-        return terThroughputId;
+    public String getYearPlanThroughputId() {
+        return yearPlanThroughputId;
     }
 
-    public void setTerThroughputId(String terThroughputId) {
-        this.terThroughputId = terThroughputId;
+    public void setYearPlanThroughputId(String yearPlanThroughputId) {
+        this.yearPlanThroughputId = yearPlanThroughputId;
     }
 
     public Integer getCntrYearThroughput() {

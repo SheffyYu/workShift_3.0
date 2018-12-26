@@ -21,6 +21,10 @@ public class YearPlanThroughputController {
     @PostMapping("/save")
     @ResponseBody
     public YearPlanThroughput save(@RequestBody YearPlanThroughput yearPlanThroughput){
+        YearPlanThroughput yearPlanThroughput1=yearPlanThroughputService.findByYear(new SimpleDateFormat("YYYY").format(new Date()));
+        if(yearPlanThroughput1!=null){
+            yearPlanThroughput.setYearPlanThroughputId(yearPlanThroughput1.getYearPlanThroughputId());
+        }
         yearPlanThroughput.setYear(new SimpleDateFormat("YYYY").format(new Date()));
         return yearPlanThroughputService.save(yearPlanThroughput);
     }
