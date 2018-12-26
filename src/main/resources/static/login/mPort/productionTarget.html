@@ -47,9 +47,9 @@
       </div>
 
       <div class="buttons">
-        <input class="button" type="button" value="提交" id="inputBtn" onclick="submitTarget()"/>
-        <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeTarget()"/>
-        <input class="button" type="button" value="取消" id="cancel" onclick="cancelTarget()"/>
+        <input class="button" type="button" value="提交" id="submitTarget" onclick="submitTarget()"/>
+        <input class="button" type="button" value="修改数据" id="changeTarget" onclick="changeTarget()"/>
+        <input class="button" type="button" value="取消" id="cancelTarget" onclick="cancelTarget()"/>
 
       </div>
 
@@ -61,17 +61,18 @@
 <script type="text/javascript">
 $(document).ready(function () {
   $.ajax({
-    method: "get",
+    type: "get",
     url: "/login/yearThrougthput/findByCurrentYear",
     contentType: "application/json",
     success: function (data) {
+      console.log(data);
       if (data != "") {
         $("#changeTarget").show();
         $("#cancelTarget").hide();
         $("#submitTarget").hide();
         //向输入框插入数据
-        $("#cargoYearTarget").value=data.cargoYearThroughput;
-        $("#cntrYearTarget").value=data.cntrYearThroughput;
+        $("#cargoYearTarget").val(data.cargoYearThroughput);
+        $("#cntrYearTarget").val(data.cntrYearThroughput);
       }else{
         $("#changeTarget").hide();
         $("#cancelTarget").hide();
@@ -83,18 +84,21 @@ $(document).ready(function () {
       console.info(data);
     }
   });
-}
+});
   //提交数据
 function submitTarget(){
-
+var json={cargoYearThroughput:$("#cargoYearTarget").val(),
+          cntrYearThroughput:$("#cntrYearTarget").val()};
   $.ajax({
-    method: "post",
+    type: "POST",
     url: "/login/yearThrougthput/save",
     contentType: "application/json",
+    data:JSON.stringify(json),
     success: function (data) {
       $("#changeTarget").show();
       $("#cancelTarget").hide();
       $("#submitTarget").hide();
+      showTips("提交成功！",200,0.5);
     },
     error: function (data) {
       console.info(data);

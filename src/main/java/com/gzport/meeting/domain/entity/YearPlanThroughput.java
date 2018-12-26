@@ -23,11 +23,9 @@ public class YearPlanThroughput implements Serializable {
     private String yearPlanThroughputId;
 
     @Column(name="CNTR_YEAR_THROUGHT")
-    @Size(min = 1, max = 8)
     private Integer cntrYearThroughput;
 
     @Column(name="CARGO_YEAR_THROUGHT")
-    @Size(min = 1, max = 8)
     private Integer cargoYearThroughput;
 
     @Column(name="TH_YEAR")
