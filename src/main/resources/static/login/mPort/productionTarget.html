@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/skin_/form.css" />
+  <script type="text/javascript" src="../../js/jquery.js"></script>
+  <script type="text/javascript" src="../../js/global.js"></script>
+  <script type="text/javascript" src="../../js/jquery.select.js"></script>
+  <script type="text/javascript" src="../../js/WdatePicker.js"></script>
+  <script type="text/javascript" src="../../js/huadong/formInit.js"></script>
+  <script type="text/javascript">
+  </script>
+  <title>指标</title>
+</head>
+
+<body>
+<div id="container">
+  <div id="hd">
+  </div>
+  <div id="bd">
+    <div id="main">
+      <div id="p_target">
+        <h2 class="subfild">
+          <span>年&nbsp;度&nbsp;指&nbsp;标</span>
+        </h2>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label style="width: 180px;">货物吞吐量年度指标</label>
+            <div class="kv-item-content">
+              <input type="number" id="cargoYearTarget"/>
+              <lable>单位：万吨</lable>
+            </div>
+          </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label style="width: 180px;">集装箱吞吐量年度指标</label>
+            <div class="kv-item-content">
+              <input type="number" id="cntrYearTarget"/>
+              <lable>单位：万TEU</lable>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <input class="button" type="button" value="提交" id="inputBtn" onclick="submitTarget()"/>
+        <input class="button" type="button" value="修改数据" id="editBtn" onclick="changeTarget()"/>
+        <input class="button" type="button" value="取消" id="cancel" onclick="cancelTarget()"/>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+<script language=javascript src='../../js/huadong/tips.js'></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  $.ajax({
+    method: "get",
+    url: "/login/yearThrougthput/findByCurrentYear",
+    contentType: "application/json",
+    success: function (data) {
+      if (data != "") {
+        $("#changeTarget").show();
+        $("#cancelTarget").hide();
+        $("#submitTarget").hide();
+        //向输入框插入数据
+        $("#cargoYearTarget").value=data.cargoYearThroughput;
+        $("#cntrYearTarget").value=data.cntrYearThroughput;
+      }else{
+        $("#changeTarget").hide();
+        $("#cancelTarget").hide();
+        $("#submitTarget").show();
+      }
+
+    },
+    error: function (data) {
+      console.info(data);
+    }
+  });
+}
+  //提交数据
+function submitTarget(){
+
+  $.ajax({
+    method: "post",
+    url: "/login/yearThrougthput/save",
+    contentType: "application/json",
+    success: function (data) {
+      $("#changeTarget").show();
+      $("#cancelTarget").hide();
+      $("#submitTarget").hide();
+    },
+    error: function (data) {
+      console.info(data);
+    }
+  });
+}
+//修改数据
+  function changeTarget() {
+    $("#changeTarget").hide();
+    $("#cancelTarget").show();
+    $("#submitTarget").show();
+  }
+  //取消,因为只有修改数据会出现取消
+  function cancelTarget() {
+    $("#changeTarget").show();
+    $("#cancelTarget").hide();
+    $("#submitTarget").hide();
+  }
+</script>
+</html>
