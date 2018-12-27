@@ -31,6 +31,9 @@ public class AuthMenu implements Serializable {
     @Column(name = "URL")
     private String url;
 
+    @Column(name="MENU_REMARKS")
+    private String menuRemarks;
+
     @Column(name="PARENT_ID")
     private String parentId;
 
@@ -48,6 +51,14 @@ public class AuthMenu implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
 
+
+    public String getMenuRemarks() {
+        return menuRemarks;
+    }
+
+    public void setMenuRemarks(String menuRemarks) {
+        this.menuRemarks = menuRemarks;
+    }
 
     public String getDefaultMenu() {
         return defaultMenu;

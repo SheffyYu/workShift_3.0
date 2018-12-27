@@ -32,6 +32,9 @@ public class Menu implements Serializable {
     @Column(name = "URL")
     private String url;
 
+    @Column(name="MENU_REMARKS")
+    private String menuRemarks;
+
     @Column(name = "INS_ACCOUNT")
     private String insAccount;
     @Column(name = "INS_TIMESTAMP")
@@ -42,6 +45,14 @@ public class Menu implements Serializable {
     @Column(name = "UPD_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updTimestamp;
+
+    public String getMenuRemarks() {
+        return menuRemarks;
+    }
+
+    public void setMenuRemarks(String menuRemarks) {
+        this.menuRemarks = menuRemarks;
+    }
 
     public String getMenuId() {
         return menuId;
