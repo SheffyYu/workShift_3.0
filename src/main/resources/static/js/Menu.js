@@ -17,22 +17,29 @@ Menu.prototype._createContent = function($this){
 	var id = $this.attr('data-id'),
 		name = $this.text(),
 		href = $this.attr('href');
-	if($this.is(this.defaultSelect)){
-		var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');
-	}else{
-		var $tab = $('<li data-id="'+ id +'"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span><i class="close-tab"></i></a></li>');
-	}
+	console.log(id);
+	if(id != '0'){
+    if($this.is(this.defaultSelect)){
+      console.log("执行了打开mo标签");
+      var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');
+    }else{
+      console.log("执行了打开标签");
+      var $tab = $('<li data-id="'+ id +'"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span><i class="close-tab"></i></a></li>');
+    }
 
-	var $iframe= $('<iframe data-id="'+ id +'" width="100%" height="100%" frameborder="0" src="'+ href +'"></iframe>');
+    var $iframe= $('<iframe data-id="'+ id +'" width="100%" height="100%" frameborder="0" src="'+ href +'"></iframe>');
 
-	$iframe.height($("#bd").height() - $(".tab").height()-8);
+    $iframe.height($("#bd").height() - $(".tab").height()-8);
 
-	this.cacheOpen[id]={nav:$this, tab:$tab, iframe:$iframe};
+    this.cacheOpen[id]={nav:$this, tab:$tab, iframe:$iframe};
 
-	this.tab.append($tab);
-	this.content.append($iframe);
+    this.tab.append($tab);
+    this.content.append($iframe);
 
-	this._show($this);
+    this._show($this);
+  }else{
+    window.open(href,"_blank");
+  }
 }
 
 /*显示菜单。*/
