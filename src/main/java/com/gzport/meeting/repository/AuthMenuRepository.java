@@ -15,10 +15,10 @@ import java.util.Map;
 public interface AuthMenuRepository extends PagingAndSortingRepository<AuthMenu,String> {
 
     @Modifying
-    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL,t.DEFAULT_MENU, level    FROM ( select distinct  ID,PARENT_ID,TEXT, URL ,DEFAULT_MENU from VJ_AUTHMENU WHERE account = ?1) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
+    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL,t.DEFAULT_MENU,t.MENU_REMARKS,level    FROM ( select distinct  ID,PARENT_ID,TEXT, URL ,DEFAULT_MENU ,MENU_REMARKS,from VJ_AUTHMENU WHERE account = ?1) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
     List<Map> getTreeByAccount(String account);
 
     @Modifying
-    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL, level   FROM ( select distinct  ID,PARENT_ID,TEXT, URL from VJ_AUTHMENU ) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
+    @Query(value = "SELECT  t.ID, t.PARENT_ID, t.TEXT, t.URL,t.MENU_REMARKS, level   FROM ( select distinct  ID,PARENT_ID,TEXT, URL,MENU_REMARKS from VJ_AUTHMENU ) T START WITH t.PARENT_ID='0' CONNECT BY prior  t.id=t.PARENT_ID   ORDER BY LEVEL, parent_id",nativeQuery = true)
     List<Map> getAdminTree();
 }
