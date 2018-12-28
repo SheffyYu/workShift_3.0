@@ -1,9 +1,11 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.Auth;
+import com.gzport.meeting.domain.entity.DailyTerdataLog;
 import com.gzport.meeting.domain.entity.Dispersion;
 import com.gzport.meeting.domain.entity.DispersionCargo;
 import com.gzport.meeting.domain.vo.DispersionVO;
+import com.gzport.meeting.service.DailyTerDataLogService;
 import com.gzport.meeting.service.DispersionCargoService;
 import com.gzport.meeting.service.DispersionService;
 import org.apache.shiro.SecurityUtils;
@@ -26,6 +28,9 @@ public class DispersionController {
 
     @Autowired
     DispersionCargoService dispersionCargoService;
+
+    @Autowired
+    DailyTerDataLogService dailyTerDataLogService;
 
     @PostMapping("/createDispersion")
     @ResponseBody

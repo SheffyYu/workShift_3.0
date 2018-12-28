@@ -1,9 +1,6 @@
 package com.gzport.meeting.controller;
 
-import com.gzport.meeting.domain.entity.Auth;
-import com.gzport.meeting.domain.entity.Barge;
-import com.gzport.meeting.domain.entity.Dispersion;
-import com.gzport.meeting.domain.entity.DispersionCargo;
+import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
 import com.gzport.meeting.service.*;
@@ -47,6 +44,9 @@ public class TerminalsDateController {
 
     @Autowired
     CarStoreService carStoreService;
+
+    @Autowired
+    DailyTerDataLogService dailyTerDataLogService;
 
 
     @PostMapping("/saveData")
@@ -142,6 +142,11 @@ public class TerminalsDateController {
             }
             carStoreService.saveAll(terminalVO.getCarStoreList());
         }
+        DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();
+        dailyTerdataLog.setTerCode(auth.getCompany());
+        dailyTerdataLog.setUpdAccount(auth.getAccount());
+        dailyTerdataLog.setStatus("1");
+        dailyTerDataLogService.updateStatus(dailyTerdataLog);
     }
 
     @GetMapping("/getData")
