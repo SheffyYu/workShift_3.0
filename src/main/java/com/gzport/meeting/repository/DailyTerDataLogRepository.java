@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface DailyTerDataLogRepository extends PagingAndSortingRepository<DailyTerdataLog,String> {
     List<DailyTerdataLog> findByStatus(String status);
+    DailyTerdataLog findAllByTerCodeAndStatus(String terCode,String status);
 }

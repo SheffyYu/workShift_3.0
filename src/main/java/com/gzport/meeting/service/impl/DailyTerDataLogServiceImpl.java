@@ -27,4 +27,9 @@ public class DailyTerDataLogServiceImpl implements DailyTerDataLogService {
     public List<DailyTerdataLog> findDataByStatus(String status) {
         return dailyTerDataLogRepository.findByStatus(status);
     }
+
+    @Override
+    public DailyTerdataLog findByTerCodeAndStatus(String terCode, String status) {
+        return dailyTerDataLogRepository.findAllByTerCodeAndStatus(terCode,status);
+    }
 }

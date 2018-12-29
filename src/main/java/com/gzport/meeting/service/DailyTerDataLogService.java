@@ -13,4 +13,6 @@ public interface DailyTerDataLogService {
     DailyTerdataLog updateStatus(DailyTerdataLog dailyTerdataLog);
 
     List<DailyTerdataLog> findDataByStatus(String status);
+
+    DailyTerdataLog findByTerCodeAndStatus(String terCode,String status);
 }
