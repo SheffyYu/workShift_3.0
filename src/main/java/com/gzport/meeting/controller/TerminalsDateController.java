@@ -63,6 +63,7 @@ public class TerminalsDateController {
             Map map=new HashMap();
             map.put("auth",auth);
             map.put("data",terminalVO);
+            map.put("time",new Date());
             redisTemplate.opsForValue().set(auth.getCompany(),map);
             return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
         }

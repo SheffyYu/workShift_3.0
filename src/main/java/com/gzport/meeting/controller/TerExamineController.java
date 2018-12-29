@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by zhangxiang on 2018/12/28.
@@ -160,8 +157,13 @@ public class TerExamineController {
     }
 
     @GetMapping("/getAllKey")
-    public Set<String> getAllKey(){
+    public HashMap<Object,Object> getAllKey(){
+        HashMap<Object,Object> map=new HashMap<>();
         Set<String> keys=redisTemplate.keys("*");
-        return keys;
+        for(String key:keys){
+            Object value=redisTemplate.opsForValue().get(key);
+            map.put(key,value);
+        }
+        return map;
     }
 }
