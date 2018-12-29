@@ -180,15 +180,10 @@ function applyBtn() {
 //提交数据,七点之后变成提交申请
 //要判断是否提交过数据
 function postJson() {
-  var commitUrl;
-if (limitHour>=7 && isSubmit==1){
-  commitUrl="/login/saveData";
-}else{
-  commitUrl="/login/saveData";
-}
+
   //提交数据
   $.ajax({
-    url: commitUrl,
+    url: "/login/saveData",
     contentType: "application/json",
     dataType: "json",
     type: "POST",

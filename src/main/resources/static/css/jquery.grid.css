@@ -16,7 +16,7 @@
 /*** 表格主要区域内容样式 - 表格头 ***/
 .ui-table-thead{position:relative;height:39px;/*border:1px solid #E1E6EA;*/border-right:0;border-left:0;/*background:#EDF4F9;*/ background:url(../img/skin_/thbg.png);}
 .ui-table-main{z-index:3;position:absolute;left:0;top:0;right:0;overflow:hidden;}
-.ui-table th{height:40px;padding-left:5px;border-left:1px solid #D4DFE7;border-right:0;/*background:#EDF4F9;*/ background:url(../img/skin_/thbg.png);}
+.ui-table th{height:40px;padding-left:5px;border-left:1px solid #D4DFE7;border-right:0;/*background:#EDF4F9;*/ background:url(../img/skin_/thbg.png);text-align: center;}
 .ui-table th:first-child{border-left:0;}
 /* 表格头部名 */
 .ui-table-th{position:relative;padding-right:25px;}
@@ -35,7 +35,7 @@
 
 /*** 表格主要区域内容样式 - 表格主体 ***/
 .ui-table-tbody{position:relative;overflow-y:auto;overflow-x:hidden;}
-.ui-table-tbody td{height:21px;padding:10px 10px 6px 6px;word-wrap:break-word;word-break:break-all;overflow:hidden;border-left:1px dotted #bfbfbf;/*border-bottom:1px solid #e6e6e6;*/background:#fff;}
+.ui-table-tbody td{height:21px;padding:10px 10px 6px 6px;word-wrap:break-word;word-break:break-all;overflow:hidden;border-left:1px dotted #bfbfbf;/*border-bottom:1px solid #e6e6e6;*/background:#fff;text-align: center;}
 .ui-table-tbody table{margin-top:-39px;*margin-top:-39px;}
 .ui-table-tbody table tr.even{background:#FCFCFC;}
 
@@ -66,8 +66,8 @@
 
 /***** 操作列冻结 *****/
 .ui-table-fixed-opt .ui-table-thead .table-finale-fixed{z-index:2;position:absolute;right:0;top:0;border-left:1px solid #E1E6EA;}
-.ui-table-fixed-opt .ui-table-operation{width:47px;padding-right:0;}
-.ui-table-fixed-opt .ui-table-operation>a{margin-left:8px;}
+.ui-table-fixed-opt .ui-table-operation{padding-right:0;}
+.ui-table-fixed-opt .ui-table-operation>a{margin-left:35px;}
 .ui-table-fixed-opt .ui-table-operation>a:first-child{margin-left:0px;}
 .ui-table-fixed-opt .ui-table-operation .ui-table-thTitle{padding-right:0;}
 .ui-table-fixed-opt .ui-table-thead .ui-table-main,.ui-table-fixed-opt .ui-table-tbody .ui-table-main{right:53px;}
