@@ -1,15 +1,17 @@
 package com.gzport.meeting.controller;
 
+import com.gzport.meeting.common.SaveResult;
 import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
 import com.gzport.meeting.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by zhangxiang on 2018/12/4.
@@ -48,12 +50,22 @@ public class TerminalsDateController {
     @Autowired
     DailyTerDataLogService dailyTerDataLogService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/saveData")
     @ResponseBody
-    public void saveDateFromTer(@RequestBody TerminalVO terminalVO){
+    public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
+        String hour=new SimpleDateFormat("HH").format(new Date());
+        if(Integer.parseInt(hour)>7){
+            Map map=new HashMap();
+            map.put("auth",auth);
+            map.put("data",terminalVO);
+            redisTemplate.opsForValue().set(auth.getCompany(),map);
+            return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
+        }
         if(terminalVO.getDispersionVOList().size()>0){
             List<DispersionVO> dispersionVOS=terminalVO.getDispersionVOList();
             List<Dispersion> dispersions=new ArrayList();
@@ -77,7 +89,8 @@ public class TerminalsDateController {
                 }
                 dispersions.add(dispersion);
             }
-            dispersionService.saveInterable(dispersions);
+            if(dispersionService.saveInterable(dispersions)==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
 
         if(terminalVO.getProductionLineList().size()>0){
@@ -88,7 +101,8 @@ public class TerminalsDateController {
                 terminalVO.getProductionLineList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getProductionLineList().get(i).setTerCode(auth.getCompany());
             }
-            productionLineService.saveAll(terminalVO.getProductionLineList());
+            if(productionLineService.saveAll(terminalVO.getProductionLineList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
 
         if(terminalVO.getBargeList().size()>0){
@@ -99,7 +113,8 @@ public class TerminalsDateController {
                 terminalVO.getBargeList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getBargeList().get(i).setTerCode(auth.getCompany());
             }
-            bargeService.saveAll(terminalVO.getBargeList());
+            if(bargeService.saveAll(terminalVO.getBargeList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
         if(terminalVO.getBargeXSList().size()>0){
             if(bargeXSService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
@@ -109,7 +124,8 @@ public class TerminalsDateController {
                 terminalVO.getBargeXSList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getBargeXSList().get(i).setTerCode(auth.getCompany());
             }
-            bargeXSService.saveAll(terminalVO.getBargeXSList());
+            if(bargeXSService.saveAll(terminalVO.getBargeXSList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
         if(terminalVO.getCntrStoreList().size()>0){
             if(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()).size()>0)
@@ -119,7 +135,8 @@ public class TerminalsDateController {
                 terminalVO.getCntrStoreList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getCntrStoreList().get(i).setTerCode(auth.getCompany());
             }
-            cntrStoreService.saveAll(terminalVO.getCntrStoreList());
+            if(cntrStoreService.saveAll(terminalVO.getCntrStoreList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
         if(terminalVO.getTruckStoreList().size()>0){
             if(truckStoreService.findCurrentProByTerID(auth.getCompany()).size()>0)
@@ -129,7 +146,8 @@ public class TerminalsDateController {
                 terminalVO.getTruckStoreList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getTruckStoreList().get(i).setTerCode(auth.getCompany());
             }
-            truckStoreService.saveAll(terminalVO.getTruckStoreList());
+            if(truckStoreService.saveAll(terminalVO.getTruckStoreList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
         if(terminalVO.getCarStoreList()!=null&&terminalVO.getCarStoreList().size()>0){
             if(carStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
@@ -137,16 +155,17 @@ public class TerminalsDateController {
             for (int i = 0; i < terminalVO.getCarStoreList().size(); i++) {
                 terminalVO.getCarStoreList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getCarStoreList().get(i).setUpdAccount(auth.getAccount());
-                System.out.println(auth.getCompany());
                 terminalVO.getCarStoreList().get(i).setTerCode(auth.getCompany());
             }
-            carStoreService.saveAll(terminalVO.getCarStoreList());
+            if(carStoreService.saveAll(terminalVO.getCarStoreList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
         }
         DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();
         dailyTerdataLog.setTerCode(auth.getCompany());
         dailyTerdataLog.setUpdAccount(auth.getAccount());
         dailyTerdataLog.setStatus("1");
         dailyTerDataLogService.updateStatus(dailyTerdataLog);
+        return SaveResult.getInstance(SaveResult.SUCCESS);
     }
 
     @GetMapping("/getData")
