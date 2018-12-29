@@ -157,13 +157,13 @@ public class TerExamineController {
     }
 
     @GetMapping("/getAllKey")
-    public HashMap<Object,Object> getAllKey(){
-        HashMap<Object,Object> map=new HashMap<>();
+    public List<Map> getAllKey(){
+        List<Map> list=new ArrayList<>();
         Set<String> keys=redisTemplate.keys("*");
         for(String key:keys){
-            Object value=redisTemplate.opsForValue().get(key);
-            map.put(key,value);
+            Map value=(Map)redisTemplate.opsForValue().get(key);
+            list.add(value);
         }
-        return map;
+        return list;
     }
 }

@@ -10,6 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.JedisCluster;
 
@@ -51,6 +52,9 @@ public class TestController {
 
     @Autowired
     DispersionService dispersionService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @GetMapping("/login")
@@ -98,5 +102,14 @@ public class TestController {
         SecurityUtils.getSubject().isPermitted();
         Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(TestController.SESSION_USER);
         System.out.println("user : "+user.getAccount()+" "+user.getPassword()+"  "+user.getName());
+    }
+
+    @GetMapping("/deleteRedis")
+    public void deleteRedis(){
+        HashMap<Object,Object> map=new HashMap<>();
+        Set<String> keys=redisTemplate.keys("*");
+        for(String key:keys){
+            Object value=redisTemplate.delete(key);
+        }
     }
 }

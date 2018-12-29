@@ -10,6 +10,9 @@ public class AuthInfo {
     private String description;    //描述
     private String company; //公司
 
+    public AuthInfo(){
+
+    }
 
     public AuthInfo(String name,String account,String description,String company){
         this.name=name;
