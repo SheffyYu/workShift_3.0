@@ -12,14 +12,37 @@ public class SaveResult {
     private String message;//null时认为识别
     public static final String SUCCESS = "success";
     public static final String FAILE = "fail";
-    public static final String WAIT_CHANGE = "fail";
+    public static final String WAIT_CHANGE = "wait";
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessageCode() {
+        return messageCode;
+    }
+
+    public void setMessageCode(String messageCode) {
+        this.messageCode = messageCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     private SaveResult() {
         this.success = true;
         this.messageCode = SUCCESS;
         this.message = null;
     }
-
 
     private SaveResult(boolean success, String messageCode, String message) {
         this.success = success;
