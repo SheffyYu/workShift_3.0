@@ -17,13 +17,10 @@ Menu.prototype._createContent = function($this){
 	var id = $this.attr('data-id'),
 		name = $this.text(),
 		href = $this.attr('href');
-	console.log(id);
 	if(id != '0'){
     if($this.is(this.defaultSelect)){
-      console.log("执行了打开mo标签");
       var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');
     }else{
-      console.log("执行了打开标签");
       var $tab = $('<li data-id="'+ id +'"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span><i class="close-tab"></i></a></li>');
     }
 

@@ -106,7 +106,6 @@
     contentType: "application/json",
     success: function(data){
       //显示用户名字
-      console.log(data);
       $("#userName").text(data.name);
     },
     error: function (data) {
@@ -171,7 +170,6 @@
         data:JSON.stringify(user),
         success: function(data){
           /////////////////////////////////////////////////////////////////////////////////////////////////////////这里还有问题
-          console.log(data);
           $("#my-modal-alert").fadeOut("slow");
           $("#my-modal-alert").toggle();
           showTips("修改成功！",200,0.5);

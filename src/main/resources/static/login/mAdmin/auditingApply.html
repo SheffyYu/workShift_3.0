@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
   <link rel="stylesheet" type="text/css" href="../../css/skin_/table.css" />
   <link rel="stylesheet" type="text/css" href="../../css/jquery.grid.css" />
-    <title>Title</title>
+    <title>申请审核</title>
 </head>
 <body>
 <div id="container">
@@ -30,10 +30,6 @@
 <script type="text/javascript">
 
   var head = [{
-    label: 'ID',
-    width: 100,
-    name: 'id'
-  },{
     label:'公司',
     width: 150,
     name:'terName'
@@ -51,27 +47,47 @@
   }},{label:'不同意',onclick: function(){
     alert('编辑')
   }}]
-  var tbody = [
-    ["201301","admin","熊猫王子","江苏南京",oper],
-    ["201302","uimaker","小牛","山东济南",oper],
-    ["201301","admin","熊猫王子","江苏南京",oper]]
 
-  $('.grid').Grid({
-    thead: head,
-    tbody: null,
-    height:400,
-    operator: {
-      type : "normal",
-      width : 150
-    },
-    sortCallBack : function(name,index,type){
-      alert(name+","+index+','+type);
-    }
+    $.ajax({
+      url:"/login/getAllKey",
+      type:"get",
+      contentType: "application/json",
+      success: function(data){
+          console.log(data);
+          console.log(data.length);
+          var tbody=[];
 
-  });
+          for(var i=0;data.length>i;i++){
+            console.log(data[i].auth.company);
+            var row=[data[i].auth.company,data[i].auth.name,data[i].auth.updTimeStamp,oper];
+              tbody.add(row);
+              console.log(tbody);
+          }
 
-  $('.grid').Grid('addLoading');
-  $('.grid').Grid('setData',tbody, head);
+//        var tbody = [
+//          ["201301","admin","熊猫王子","江苏南京",oper],
+//          ["201302","uimaker","小牛","山东济南",oper],
+//          ["201301","admin","熊猫王子","江苏南京",oper]]
+
+        $('.grid').Grid({
+          thead: head,
+          tbody: null,
+          height:400,
+          operator: {
+            type : "normal",
+            width : 150
+          },
+          sortCallBack : function(name,index,type){
+            alert(name+","+index+','+type);
+          }
+
+        });
+
+        $('.grid').Grid('addLoading');
+        $('.grid').Grid('setData',tbody, head);
+      }
+    });
+
 
 </script>
 </html>

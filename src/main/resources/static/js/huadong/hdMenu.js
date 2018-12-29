@@ -10,7 +10,6 @@
           dataType: "json",
               success: function(nodes){
 
-                console.log(nodes);
               	for(var i=0;i<nodes.length;i++) {
 
               		var node=nodes[i];

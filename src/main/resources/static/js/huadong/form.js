@@ -82,7 +82,6 @@ function xjBarge() {
   var total=0;
   $(".dispersion1").each(function () {
     var str=$(this).val();
-    console.log(str);
     total=total+(str-0);
   });
   document.getElementById("xjtotal").value=total;
@@ -130,7 +129,6 @@ function submitBtn() {
   submitJson.cntrStoreList=cntrStore;
   submitJson.carStoreList=vehicle;
 
-  console.log(submitJson);
 
   //提交数据
   if(isContinue){
@@ -277,7 +275,6 @@ function dispersionData() {
     }
   }
   //以上是疏运的内容
-  console.log(disper);
 }
 
 //集装箱驳船的数据处理
@@ -302,7 +299,6 @@ function bargeData(){
       unWorkNumber:unWork		//待作业数量
     };
     barge.push(obj);
-    console.log(barge);
   }
 }
 
@@ -326,7 +322,6 @@ function proLineData() {
       bargeLine:bargeLine		//驳船作业线
     };
     proroductionLine.push(obj);
-    console.log(proroductionLine);
   }
 }
 
@@ -346,7 +341,6 @@ function cntrStoreData() {
       totalCntr:allSto
     };
     cntrStore.push(obj);
-    console.log(cntrStore);
   }
 }
 
@@ -394,7 +388,6 @@ function truckData() {
       terCode:""
     };
     truck.push(obj);
-    console.log(truck);
   }
 }
 
@@ -450,7 +443,6 @@ $("#xsCntr .xsShen").each(function () {
     };
     bargeXS.push(obj);
   }
-  console.log(bargeXS);
 }
 
 //汽车库存
@@ -462,5 +454,4 @@ function bulkVehicleData() {
     carNumber:busNum		//汽车库存
   }
   vehicle.push(obj);
-  console.log(vehicle);
 }

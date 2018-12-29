@@ -17,7 +17,6 @@ $(document).ready(function () {
     url: "/login/getData",
     contentType: "application/json",
     success: function(data){
-      console.log(data);
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){
         isSubmit=0;
@@ -185,15 +184,10 @@ function insertDisperData(){
         // kk++;
       }
     );
-  console.log(dis1);
-  console.log(dis2);
-  console.log(dis3);
-  console.log(name);
   count=0;
     var xjtotal=0;
     $(".cargo").each(function () {
       $(this).attr("value",name[mark]);
-      console.log(mark);
       mark++;
     });
     $(".dispersion1").each(function () {
