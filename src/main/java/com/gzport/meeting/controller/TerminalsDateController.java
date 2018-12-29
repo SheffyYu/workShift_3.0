@@ -1,6 +1,7 @@
 package com.gzport.meeting.controller;
 
 import com.gzport.meeting.common.SaveResult;
+import com.gzport.meeting.domain.dto.AuthInfo;
 import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
@@ -58,10 +59,12 @@ public class TerminalsDateController {
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
+
         String hour=new SimpleDateFormat("HH").format(new Date());
         if(Integer.parseInt(hour)>7){
+            AuthInfo authInfo=new AuthInfo(auth.getName(),auth.getAccount(),auth.getDescription(),auth.getCompany());
             Map map=new HashMap();
-            map.put("auth",auth);
+            map.put("auth",authInfo);
             map.put("data",terminalVO);
             map.put("time",new Date());
             redisTemplate.opsForValue().set(auth.getCompany(),map);
