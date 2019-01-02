@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zhangxiang on 2018/12/4.
@@ -72,6 +73,7 @@ public class TerminalsDateController {
             map.put("data",terminalVO);
             map.put("time",new Date());
             redisTemplate.opsForValue().set(auth.getCompany(),map);
+            redisTemplate.expire(auth.getCompany(),1, TimeUnit.HOURS);
             return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
         }
         if(terminalVO.getDispersionVOList().size()>0){

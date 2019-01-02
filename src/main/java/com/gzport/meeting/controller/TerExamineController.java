@@ -53,8 +53,9 @@ public class TerExamineController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @PostMapping("/examine/{terCode}")
-    public String TerDataExamine(@PathVariable("terCode") String terCode){
+    @PostMapping("/examine")
+    @ResponseBody
+    public String TerDataExamine(@RequestBody String terCode){
         Map map=(Map) redisTemplate.opsForValue().get(terCode);
         if(map!=null){
             Auth auth=(Auth) map.get("auth");
@@ -165,5 +166,11 @@ public class TerExamineController {
             list.add(value);
         }
         return list;
+    }
+
+    @PostMapping("/unPass")
+    @ResponseBody
+    public boolean rejectChange(@RequestBody String terCode){
+        return redisTemplate.delete(terCode);
     }
 }
