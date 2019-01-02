@@ -5,6 +5,7 @@ import com.gzport.meeting.domain.dto.AuthInfo;
 import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
+import com.gzport.meeting.foundation.DateDeal;
 import com.gzport.meeting.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,11 @@ public class TerminalsDateController {
             map.put("data",terminalVO);
             map.put("time",new Date());
             redisTemplate.opsForValue().set(auth.getCompany(),map);
-            redisTemplate.expire(auth.getCompany(),1, TimeUnit.HOURS);
+            Date currentDate=new Date();
+            Date afterDate= DateDeal.getSpecifiedDayAfter(currentDate);
+            Long mins=DateDeal.getMins(afterDate,currentDate);
+            System.out.println(mins);
+            redisTemplate.expire(auth.getCompany(),mins, TimeUnit.MINUTES);
             return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
         }
         if(terminalVO.getDispersionVOList().size()>0){
