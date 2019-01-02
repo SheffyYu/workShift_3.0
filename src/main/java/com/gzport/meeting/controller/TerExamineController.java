@@ -1,5 +1,6 @@
 package com.gzport.meeting.controller;
 
+import com.gzport.meeting.common.SaveResult;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.DailyTerdataLog;
 import com.gzport.meeting.domain.entity.Dispersion;
@@ -55,7 +56,7 @@ public class TerExamineController {
 
     @PostMapping("/examine")
     @ResponseBody
-    public String TerDataExamine(@RequestBody String terCode){
+    public SaveResult TerDataExamine(@RequestBody String terCode){
         Map map=(Map) redisTemplate.opsForValue().get(terCode);
         if(map!=null){
             Auth auth=(Auth) map.get("auth");
@@ -83,7 +84,8 @@ public class TerExamineController {
                     }
                     dispersions.add(dispersion);
                 }
-                dispersionService.saveInterable(dispersions);
+                if(dispersionService.saveInterable(dispersions)==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
 
             if(terminalVO.getProductionLineList().size()>0){
@@ -94,7 +96,8 @@ public class TerExamineController {
                     terminalVO.getProductionLineList().get(i).setInsAccount(auth.getAccount());
                     terminalVO.getProductionLineList().get(i).setTerCode(auth.getCompany());
                 }
-                productionLineService.saveAll(terminalVO.getProductionLineList());
+                if(productionLineService.saveAll(terminalVO.getProductionLineList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
 
             if(terminalVO.getBargeList().size()>0){
@@ -105,7 +108,8 @@ public class TerExamineController {
                     terminalVO.getBargeList().get(i).setInsAccount(auth.getAccount());
                     terminalVO.getBargeList().get(i).setTerCode(auth.getCompany());
                 }
-                bargeService.saveAll(terminalVO.getBargeList());
+                if(bargeService.saveAll(terminalVO.getBargeList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
             if(terminalVO.getBargeXSList().size()>0){
                 if(bargeXSService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
@@ -115,7 +119,8 @@ public class TerExamineController {
                     terminalVO.getBargeXSList().get(i).setUpdAccount(auth.getAccount());
                     terminalVO.getBargeXSList().get(i).setTerCode(auth.getCompany());
                 }
-                bargeXSService.saveAll(terminalVO.getBargeXSList());
+                if(bargeXSService.saveAll(terminalVO.getBargeXSList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
             if(terminalVO.getCntrStoreList().size()>0){
                 if(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()).size()>0)
@@ -125,7 +130,8 @@ public class TerExamineController {
                     terminalVO.getCntrStoreList().get(i).setUpdAccount(auth.getAccount());
                     terminalVO.getCntrStoreList().get(i).setTerCode(auth.getCompany());
                 }
-                cntrStoreService.saveAll(terminalVO.getCntrStoreList());
+                if(cntrStoreService.saveAll(terminalVO.getCntrStoreList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
             if(terminalVO.getTruckStoreList().size()>0){
                 if(truckStoreService.findCurrentProByTerID(auth.getCompany()).size()>0)
@@ -135,7 +141,8 @@ public class TerExamineController {
                     terminalVO.getTruckStoreList().get(i).setUpdAccount(auth.getAccount());
                     terminalVO.getTruckStoreList().get(i).setTerCode(auth.getCompany());
                 }
-                truckStoreService.saveAll(terminalVO.getTruckStoreList());
+                if(truckStoreService.saveAll(terminalVO.getTruckStoreList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
             if(terminalVO.getCarStoreList()!=null&&terminalVO.getCarStoreList().size()>0){
                 if(carStoreService.getCurrentBargeByTerId(auth.getCompany()).size()>0)
@@ -145,16 +152,19 @@ public class TerExamineController {
                     terminalVO.getCarStoreList().get(i).setUpdAccount(auth.getAccount());
                     terminalVO.getCarStoreList().get(i).setTerCode(auth.getCompany());
                 }
-                carStoreService.saveAll(terminalVO.getCarStoreList());
+                if(carStoreService.saveAll(terminalVO.getCarStoreList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
             }
             DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();
             dailyTerdataLog.setTerCode(auth.getCompany());
             dailyTerdataLog.setUpdAccount(auth.getAccount());
             dailyTerdataLog.setStatus("1");
             dailyTerDataLogService.updateStatus(dailyTerdataLog);
+            redisTemplate.delete(terCode);
+            return SaveResult.getInstance(SaveResult.SUCCESS);
         }
         redisTemplate.delete(terCode);
-        return "成功";
+        return SaveResult.getInstance(SaveResult.SUCCESS);
     }
 
     @GetMapping("/getAllKey")
