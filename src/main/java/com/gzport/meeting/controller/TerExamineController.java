@@ -1,5 +1,7 @@
 package com.gzport.meeting.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.gzport.meeting.common.SaveResult;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.DailyTerdataLog;
@@ -56,7 +58,8 @@ public class TerExamineController {
 
     @PostMapping("/examine")
     @ResponseBody
-    public SaveResult TerDataExamine(@RequestBody String terCode){
+    public SaveResult TerDataExamine(@RequestBody JSONObject terCode){
+        System.out.println(terCode);
         Map map=(Map) redisTemplate.opsForValue().get(terCode);
         if(map!=null){
             Auth auth=(Auth) map.get("auth");
