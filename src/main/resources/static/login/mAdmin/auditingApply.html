@@ -52,6 +52,7 @@
       $.ajax({
         type:"post",
         url:"/login/examine",
+        contentType : 'application/json;charset=UTF-8',
         data:JSON.stringify(data),
         success: function(data){
 

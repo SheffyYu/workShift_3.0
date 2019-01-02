@@ -62,7 +62,7 @@ public class TerminalsDateController {
         auth = authService.findByAccount(auth.getAccount());
 
         String hour=new SimpleDateFormat("HH").format(new Date());
-        if(Integer.parseInt(hour)>7&&dailyTerDataLogService.findByTerCodeAndStatus(auth.getCompany(),"1")!=null){
+        if(Integer.parseInt(hour)>7){
             AuthInfo authInfo=new AuthInfo(auth.getName(),auth.getAccount(),auth.getDescription(),auth.getCompany());
 //            Auth authInfo=new Auth();
 //            authInfo.setCompany(auth.getCompany());

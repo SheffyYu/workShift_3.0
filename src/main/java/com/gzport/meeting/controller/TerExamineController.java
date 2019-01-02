@@ -3,6 +3,7 @@ package com.gzport.meeting.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gzport.meeting.common.SaveResult;
+import com.gzport.meeting.domain.dto.AuthInfo;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.DailyTerdataLog;
 import com.gzport.meeting.domain.entity.Dispersion;
@@ -59,10 +60,10 @@ public class TerExamineController {
     @PostMapping("/examine")
     @ResponseBody
     public SaveResult TerDataExamine(@RequestBody JSONObject terCode){
-        System.out.println(terCode);
-        Map map=(Map) redisTemplate.opsForValue().get(terCode);
+        System.out.println(terCode.get("terCode"));
+        Map map=(Map) redisTemplate.opsForValue().get(terCode.get("terCode"));
         if(map!=null){
-            Auth auth=(Auth) map.get("auth");
+            AuthInfo auth=(AuthInfo) map.get("auth");
             TerminalVO terminalVO=(TerminalVO)map.get("data");
             if(terminalVO.getDispersionVOList().size()>0){
                 List<DispersionVO> dispersionVOS=terminalVO.getDispersionVOList();
@@ -163,10 +164,10 @@ public class TerExamineController {
             dailyTerdataLog.setUpdAccount(auth.getAccount());
             dailyTerdataLog.setStatus("1");
             dailyTerDataLogService.updateStatus(dailyTerdataLog);
-            redisTemplate.delete(terCode);
+            redisTemplate.delete(terCode.get("terCode"));
             return SaveResult.getInstance(SaveResult.SUCCESS);
         }
-        redisTemplate.delete(terCode);
+        redisTemplate.delete(terCode.get("terCode"));
         return SaveResult.getInstance(SaveResult.SUCCESS);
     }
 
@@ -183,7 +184,7 @@ public class TerExamineController {
 
     @PostMapping("/unPass")
     @ResponseBody
-    public boolean rejectChange(@RequestBody String terCode){
-        return redisTemplate.delete(terCode);
+    public boolean rejectChange(@RequestBody JSONObject terCode){
+        return redisTemplate.delete(terCode.get("terCode"));
     }
 }
