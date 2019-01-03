@@ -15,7 +15,7 @@
   <div id="bd">
     <div id="main">
       <div class="search-box ue-clear">
-<div class="grid" style="width: 670px;"></div>
+<div class="grid" style="width: 720px;"></div>
       </div>
     </div>
   </div>
@@ -28,8 +28,19 @@
 <script type="text/javascript" src="../../js/jquery.grid.js"></script>
 <script type="text/javascript" src="../../js/WdatePicker.js"></script>
 <script type="text/javascript" src="../../js/hdUtils/HdUtils.js"></script>
+<script type="text/javascript" src='../../js/huadong/tips.js'></script>
 <script type="text/javascript">
-
+  var timeout,t=0;
+  var se=setInterval(function(){
+    t++;
+    if(t==30000){
+      location.reload();
+    }
+  },1);
+  //操作时不刷新
+//  document.addEventListener('mousemove',function(){
+//    t=0;
+//  });
   var head = [{
     label:'公司',
     width: 150,
@@ -43,7 +54,6 @@
     width: 250,
     name:'insTimestamp'
   }];
-  //获取不到公司名//////////////////////////////////////////////////////////////////////////////////////////////////////
   var oper = [{label:'同意',onclick:function(row,rowIndex){
     var rowData = $('.grid').Grid('getTds');
     var td=rowData[rowIndex].context.cells[0];
@@ -55,11 +65,29 @@
         contentType : 'application/json;charset=UTF-8',
         data:JSON.stringify(data),
         success: function(data){
-
+          showTips("已同意！",200,0.5);
+          setTimeout(function(){
+            location.reload();
+          },700);
         }
       });
-  }},{label:'不同意',onclick: function(){
-    alert('编辑')
+  }},{label:'不同意',onclick: function(row,rowIndex){
+    var rowData = $('.grid').Grid('getTds');
+    var td=rowData[rowIndex].context.cells[0];
+    var data={"terCode":$(($(td).children("div").get(0))).text()};
+    console.log(data);
+    $.ajax({
+      type:"post",
+      url:"/login/unPass",
+      contentType : 'application/json;charset=UTF-8',
+      data:JSON.stringify(data),
+      success: function(data){
+        showTips("已取消！",200,0.5);
+        setTimeout(function(){
+          location.reload();
+        },700);
+      }
+    });
   }}]
 
     $.ajax({
