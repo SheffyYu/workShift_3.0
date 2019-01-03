@@ -6,12 +6,14 @@ import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
 import com.gzport.meeting.foundation.DateDeal;
+import com.gzport.meeting.server.WebSocketServer;
 import com.gzport.meeting.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -77,7 +79,11 @@ public class TerminalsDateController {
             Date currentDate=new Date();
             Date afterDate= DateDeal.getSpecifiedDayAfter(currentDate);
             Long mins=DateDeal.getMins(afterDate,currentDate);
-            System.out.println(mins);
+            try {
+                WebSocketServer.sendInfo(auth.getCompany()+"请求修改数据");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             redisTemplate.expire(auth.getCompany(),mins, TimeUnit.MINUTES);
             return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
         }
