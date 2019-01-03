@@ -109,13 +109,57 @@
     success: function(data){
       //显示用户名字
       $("#userName").text(data.name);
+      var comp=data.company;
+      /**
+       *建立websoket连接，实时推送申请修改数据的消息
+       */
+      if(comp == 'YWB'){
+        var socket;
+        if(typeof(WebSocket) == "undefined") {
+          console.log("您的浏览器不支持WebSocket");
+        }else {
+          console.log("您的浏览器支持WebSocket");
+
+          //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+          //socket = new WebSocket("ws://localhost:9094/starManager/websocket/张三")
+          socket = new WebSocket("ws://10.197.41.134:8088/websocket");
+          //打开事件
+          socket.onopen = function () {
+            console.log("Socket 已打开");
+            //socket.send("这是来自客户端的消息" + location.href + new Date());
+          };
+          //获得消息事件
+          socket.onmessage = function (msg) {
+            console.log(msg.data);
+            //发现消息进入    调后台获取
+//      getCallingList();
+          };
+          //关闭事件
+          socket.onclose = function () {
+            console.log("Socket已关闭");
+          };
+          //发生了错误事件
+          socket.onerror = function () {
+            alert("Socket发生了错误");
+          };
+          $(window).unload(function () {
+            socket.close();
+          });
+        }
+
+      }
+
     },
     error: function (data) {
       console.info(data);
     }
   });
 
-  //修改密码
+
+
+ /**
+  *点击用户名，弹出修改密码弹出框
+  * */
   function changePwd() {
     $("#my-modal-alert").toggle();//显示模态框
     $("#my-modal-alert").draggable({//设置模态框可拖动（需要引入jquery-ui.min.js）
@@ -153,7 +197,9 @@
     });
 
   }
-
+  /**
+   * 修改密码弹框中的修改密码按钮
+   */
   function changePwdBtn() {
     $("#pwdErro1").text("");
     var newPwd1=$("#newPwd1").val();
@@ -182,7 +228,9 @@
     });
     }
   }
-
+  /**
+   * 取消按钮
+   */
   function canclePwdBtn() {
 //    var clearFlag = 0;
 //    window.clearInterval(clearFlag);

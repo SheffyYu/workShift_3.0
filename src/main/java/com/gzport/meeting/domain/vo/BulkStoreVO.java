@@ -21,6 +21,10 @@ public class BulkStoreVO {
     private String updAccount;
     private Date updTimestamp;
 
+    public BulkStoreVO(){
+
+    }
+
     public BulkStoreVO(String bulkStoreId, String terCode, String terShortname, BigDecimal totalStore, BigDecimal oreStore, BigDecimal coalStore, BigDecimal foodStore, BigDecimal steelStore, BigDecimal carStore, Date insTimestamp, String insAccount, String updAccount, Date updTimestamp) {
         this.bulkStoreId = bulkStoreId;
         this.terCode = terCode;
