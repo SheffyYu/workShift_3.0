@@ -83,6 +83,7 @@
       </div>
     </div>
   </div>
+</div>
 
 </body>
 <script src="./../js/jquery.js"></script>
@@ -132,7 +133,7 @@
           socket.onmessage = function (msg) {
             console.log(msg.data);
             //发现消息进入    调后台获取
-//      getCallingList();
+           showOnTime(msg.data);
           };
           //关闭事件
           socket.onclose = function () {
