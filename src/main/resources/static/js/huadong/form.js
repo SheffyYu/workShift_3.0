@@ -12,8 +12,11 @@ var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 var isContinue;
 var date=new Date();
 var limitHour= date.getHours();
+var company="";
 
-//初始化数据格式
+/**
+ * 初始化数据格式
+ */
 function initData() {
   submitJson= {
     dispersionVOList: [],
@@ -33,9 +36,11 @@ function initData() {
   vehicle=[];
   isContinue=true;
 }
-
-//待作业=在港艘数-作业
-//驳船=作业
+/**
+ *
+ * 待作业=在港艘数-作业
+ * 驳船=作业
+ */
 function work() {
   var str1=document.getElementById("inPort").value;
   var str2=document.getElementById("finishWork").value;
@@ -48,20 +53,26 @@ $("#bargeProLine").on("change",function(){
   var str2=document.getElementById("bargeProLine").value;
   document.getElementById("allProLine").value=(str1-0)+(str2-0);//-0是为了避免str拼接
 });
-//总作业=大船+驳船
+/**
+ * 总作业=大船+驳船
+ */
 function proLine() {
   var str1=document.getElementById("shipProLine").value;
   var str2=document.getElementById("bargeProLine").value;
   document.getElementById("allProLine").value=(str1-0)+(str2-0);//-0是为了避免str拼接
 }
-//集装箱总堆存=重箱内外贸+控箱
+/**
+ * 集装箱总堆存=重箱内外贸+控箱
+ */
 function cntrOper() {
   var str1=document.getElementById("LIn").value;
   var str2=document.getElementById("LOut").value;
   var str3=document.getElementById("Emp").value;
   document.getElementById("allSto").value=(str1-0)+(str2-0)+(str3-0);
 }
-//车卡港内公司
+/**
+ * 车卡港内公司
+ */
 function truckCmpOper() {
   var trkxg=document.getElementById("trkxg").value;
   var trkxj=document.getElementById("trkxj").value;
@@ -69,7 +80,9 @@ function truckCmpOper() {
   var trkxs=document.getElementById("trkxs").value;
   document.getElementById("allcmp").value=(trkxg-0)+(trkxj-0)+(trkgct-0)+(trkxs-0);
 }
-//车卡港内货物
+/**
+ * 车卡港内货物
+ */
 function truckCargoOper() {
   var trkmt=document.getElementById("trkmt").value;
   var trkks=document.getElementById("trkks").value;
@@ -77,7 +90,9 @@ function truckCargoOper() {
   document.getElementById("allcgo").value=(trkmt-0)+(trkks-0)+(trkzh-0);
   $("#allcgo").trigger("change");
 }
-//目前只有西基需要计算总疏运量
+/**
+ * 目前只有西基需要计算总疏运量
+ */
 function xjBarge() {
   var total=0;
   $(".dispersion1").each(function () {
@@ -87,10 +102,24 @@ function xjBarge() {
   document.getElementById("xjtotal").value=total;
 }
 
-//提交按钮的点击事件
+/**
+ * 获取新沙西基的公司
+ */
+function getCompany(){
+  if (document.getElementById("company")){
+    company=document.getElementById("company").title;
+    console.log(company);
+  }
+}
+
+/**
+ *提交按钮的点击事件
+ */
 function submitBtn() {
   //初始化数据
   initData();
+  getCompany();
+  console.log(company);
 //散货疏运
   if(document.getElementById("dispersion")){
     dispersionData();
@@ -120,6 +149,7 @@ function submitBtn() {
     bulkVehicleData();
   }
 
+
   //整合数据
   submitJson.dispersionVOList=disper;
   submitJson.productionLineList=proroductionLine;
@@ -136,7 +166,9 @@ function submitBtn() {
   }
 }
 
-//修改按钮点击的事件
+/**
+ * 修改按钮点击的事件
+ */
 function changeBtn() {
   //点击修改，输入框可编辑，提交按钮出现，再加一个取消修改
   $("#editBtn").hide();
@@ -148,7 +180,9 @@ function changeBtn() {
   });
 }
 
-//取消按钮的点击事件
+/**
+ * 取消按钮的点击事件
+ */
 function cancelBtn() {
   $("#inputBtn").hide();
   $("#cancel").hide();
@@ -164,7 +198,9 @@ function cancelBtn() {
   });
 }
 
-//申请修改按钮的点击事件
+/**
+ * 申请修改按钮的点击事件
+ */
 function applyBtn() {
   $("#editBtn").hide();
   $("#inputBtn").show();
@@ -175,8 +211,10 @@ function applyBtn() {
   });
 }
 
-//提交数据,七点之后变成提交申请
-//要判断是否提交过数据
+/**
+ * 提交数据,七点之后变成提交申请
+ * 要判断是否提交过数据
+ */
 function postJson() {
 
   //提交数据
@@ -211,7 +249,9 @@ function postJson() {
   });
 }
 
-//散货疏运的数据处理
+/**
+ * 散货疏运的数据处理
+ */
 function dispersionData() {
   var name=[],dis1=[],dis2=[],dis3=[];//存疏运类型//存疏运量;//存待疏运量//存机械数
   var i=0;
@@ -264,7 +304,7 @@ function dispersionData() {
       }else{
         var obj={
           dispersionId:"",
-          terCode:"",
+          terCode:company,
           cargoName:name[k],
           workingNumber:dis1[k],
           unWorkNumber:dis2[k],
@@ -277,7 +317,9 @@ function dispersionData() {
   //以上是疏运的内容
 }
 
-//集装箱驳船的数据处理
+/**
+ * 集装箱驳船的数据处理
+ */
 function bargeData(){
   var inPort=document.getElementById("inPort").value;
   var finishWork=document.getElementById("finishWork").value;
@@ -293,7 +335,7 @@ function bargeData(){
   } else{
     var obj={
       bargeId:"",		//驳船Id，没有可以不填
-      terCode:"",		//码头代码，不用填
+      terCode:company,		//码头代码，不用填
       shipNumber:inPort,		//船数量
       workingNumber:finishWork,	//作业数量
       unWorkNumber:unWork		//待作业数量
@@ -302,7 +344,9 @@ function bargeData(){
   }
 }
 
-//集装箱作业线的数据处理
+/**
+ * 集装箱作业线的数据处理
+ */
 function proLineData() {
   var allLine=document.getElementById("allProLine").value;
   var shipLine=document.getElementById("shipProLine").value;
@@ -316,7 +360,7 @@ function proLineData() {
   } else{
     var obj={
       productionId:"",	//作业线Id,没有可以不填
-      terCode:"",		//码头代码，不用填
+      terCode:company,		//码头代码，不用填
       totalLine:allLine,		//总作业线
       shipLine:shipLine,		//大船作业线
       bargeLine:bargeLine		//驳船作业线
@@ -325,7 +369,9 @@ function proLineData() {
   }
 }
 
-//集装箱堆存的数据处理
+/**
+ * 集装箱堆存的数据处理
+ */
 function cntrStoreData() {
   var LIn=document.getElementById("LIn").value;
   var LOut=document.getElementById("LOut").value;
@@ -334,7 +380,7 @@ function cntrStoreData() {
   if(!(LIn == "" && LOut == "" && Emp == "" && allSto == "")){
     var obj={
       cntrStoreId:"",
-      terCode:"",
+      terCode:company,
       empCntr:Emp,
       loadCntrE:LOut,
       loadCntrI:LIn,
@@ -344,7 +390,9 @@ function cntrStoreData() {
   }
 }
 
-//车卡
+/**
+ * 车卡
+ */
 function truckData() {
   var trkxg=document.getElementById("trkxg").value;
   var trkxj=document.getElementById("trkxj").value;
@@ -385,13 +433,15 @@ function truckData() {
       totalLoad:totalLoad,
       unloadTruck:trkload,
       waitUnload:trkunload,
-      terCode:""
+      terCode:company
     };
     truck.push(obj);
   }
 }
 
-//新沙集装箱码头的数据处理
+/**
+ * 新沙集装箱码头的数据处理
+ */
 function xsCntrData() {
 var xstitle=[],xsShen=[],xsI=[],xsE=[],xsBus=[],xstotal=[];
 var i=0;
@@ -433,7 +483,7 @@ $("#xsCntr .xsShen").each(function () {
   for(var k=0;k<i;k++){
     var obj={
       bargeXSId:"",		//新沙驳船Id,没有可不填
-      terCode:"",		//码头代码，不用填
+      terCode:company,		//码头代码，不用填
       workType:xstitle[k],		//类型
       totalNumber:xstotal[k],		//总数
       shenzhenNumber:xsShen[k],	//深圳数量
@@ -445,12 +495,14 @@ $("#xsCntr .xsShen").each(function () {
   }
 }
 
-//汽车库存
+/**
+ * 汽车库存
+ */
 function bulkVehicleData() {
   var busNum=document.getElementById("busNumBulk").value;
   var obj={
     carStoreId:"",		//
-    terCode:"",		//码头Id
+    terCode:company,		//码头Id
     carNumber:busNum		//汽车库存
   }
   vehicle.push(obj);

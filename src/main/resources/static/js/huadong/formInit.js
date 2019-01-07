@@ -9,12 +9,19 @@ var submitJson;
 var isSubmit;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
+//区分新沙和西基的url
+var compUrl;
 $(document).ready(function () {
+  if(document.getElementById("company")){
+    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title;
+  }else{
+    compUrl="/login/getData";
+  }
   var date=new Date();
   var limitHour= date.getHours();
   $.ajax({
     method: "get",
-    url: "/login/getData",
+    url: compUrl,
     contentType: "application/json",
     success: function(data){
       //当天没有提交数据

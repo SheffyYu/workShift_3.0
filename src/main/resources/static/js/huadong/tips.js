@@ -25,7 +25,7 @@ function showTips( content, height, time ){
 }
 
 /**
- * 初始化弹出框
+ * 初始化弹出框，为了避免因命名问题导致浏览器识别错误，因此在这里写实时推送显示的弹出框，傻浏览器
  * @param title
  * @param content
  */
