@@ -66,6 +66,7 @@
     <input type="button" id="uploadBtn" class="button" value="上传文件" />
     <!--<input type="button" class="button" id="editBtn" value="编辑"/>-->
     <input type="button" class="button" id="saveBtn" value="保存"/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px" class="easyui-datebox" />
   </div>
 <div class="easyui-layout" data-options="fit: true">
   <!--,fit:true class="easyui-panel" 这里是否需要需经过测试才可以-->
@@ -86,6 +87,23 @@
   $("#saveBtn").hide();
   var editIndex1 = undefined;
   var editIndex2 = undefined;
+  /**
+   * 获取当前日期
+   * @returns {string}
+   */
+  function getCurentDateStr()
+  {
+    var now = new Date();
+    var year = now.getFullYear();       //年
+    var month = now.getMonth() + 1;     //月
+    var day = now.getDate();            //日
+    var clock = year + "-";
+    if(month < 10) clock += "0";
+    clock += month + "-";
+    if(day < 10) clock += "0";
+    clock += day;
+    return clock;
+  }
   //判断是否结束编辑
   function endEditing(){
     var dg = $("#uploadMaintainDatagrid");
@@ -156,6 +174,15 @@
   $(document).ready(function () {
       var dg = $("#uploadMaintainDatagrid");
       var dg2 = $("#uploadMaintainDatagrid2");
+    //默认上传日期为今天
+    $('#dateInput').datebox('setValue', getCurentDateStr());
+    $('#dateInput').datebox().datebox('calendar').calendar({
+      validator : function(date){
+        var now = new Date();
+        var d1 = new Date(now.getFullYear(),now.getMonth(),now.getDate());
+        return date <= d1;
+      }
+    });
       //上传
       $("#uploadBtn").on("click", function () {
         $("#selectFilePath").trigger("click");

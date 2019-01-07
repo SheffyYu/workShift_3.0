@@ -151,6 +151,7 @@ function submitBtn() {
 
 
   //整合数据
+  submitJson.terCode=company;
   submitJson.dispersionVOList=disper;
   submitJson.productionLineList=proroductionLine;
   submitJson.bargeList=barge;
@@ -304,13 +305,14 @@ function dispersionData() {
       }else{
         var obj={
           dispersionId:"",
-          terCode:company,
+          terCode:"",
           cargoName:name[k],
           workingNumber:dis1[k],
           unWorkNumber:dis2[k],
           mechanicalNumber:dis3[k]
         };
         disper.push(obj);
+        console.log(obj);
       }
     }
   }
@@ -335,7 +337,7 @@ function bargeData(){
   } else{
     var obj={
       bargeId:"",		//驳船Id，没有可以不填
-      terCode:company,		//码头代码，不用填
+      terCode:"",		//码头代码，不用填
       shipNumber:inPort,		//船数量
       workingNumber:finishWork,	//作业数量
       unWorkNumber:unWork		//待作业数量
@@ -360,7 +362,7 @@ function proLineData() {
   } else{
     var obj={
       productionId:"",	//作业线Id,没有可以不填
-      terCode:company,		//码头代码，不用填
+      terCode:"",		//码头代码，不用填
       totalLine:allLine,		//总作业线
       shipLine:shipLine,		//大船作业线
       bargeLine:bargeLine		//驳船作业线
@@ -380,7 +382,7 @@ function cntrStoreData() {
   if(!(LIn == "" && LOut == "" && Emp == "" && allSto == "")){
     var obj={
       cntrStoreId:"",
-      terCode:company,
+      terCode:"",
       empCntr:Emp,
       loadCntrE:LOut,
       loadCntrI:LIn,
@@ -433,7 +435,7 @@ function truckData() {
       totalLoad:totalLoad,
       unloadTruck:trkload,
       waitUnload:trkunload,
-      terCode:company
+      terCode:""
     };
     truck.push(obj);
   }
@@ -483,7 +485,7 @@ $("#xsCntr .xsShen").each(function () {
   for(var k=0;k<i;k++){
     var obj={
       bargeXSId:"",		//新沙驳船Id,没有可不填
-      terCode:company,		//码头代码，不用填
+      terCode:"",		//码头代码，不用填
       workType:xstitle[k],		//类型
       totalNumber:xstotal[k],		//总数
       shenzhenNumber:xsShen[k],	//深圳数量
@@ -502,7 +504,7 @@ function bulkVehicleData() {
   var busNum=document.getElementById("busNumBulk").value;
   var obj={
     carStoreId:"",		//
-    terCode:company,		//码头Id
+    terCode:"",		//码头Id
     carNumber:busNum		//汽车库存
   }
   vehicle.push(obj);
