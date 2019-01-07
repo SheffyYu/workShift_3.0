@@ -87,7 +87,7 @@ public class ShiroConfiguration {
         filterChainDefinitionManager.put("/logout", "logout");
         filterChainDefinitionManager.put("/login/**", "login");
 //		filterChainDefinitionManager.put("/wx/", "login");
-        filterChainDefinitionManager.put("/webresources/login/**","login");
+//        filterChainDefinitionManager.put("/webresources/login/**","login");
 //		filterChainDefinitionManager.put("/user/**", "authc,roles[user]");
 //		filterChainDefinitionManager.put("/shop/**", "authc,roles[shop]");
 //		filterChainDefinitionManager.put("/admin/**", "authc,roles[admin]");
