@@ -61,8 +61,13 @@ public class TerminalsDateController {
     @PostMapping("/saveData")
     @ResponseBody
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
-        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
-        auth = authService.findByAccount(auth.getAccount());
+        Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        user = authService.findByAccount(user.getAccount());
+        Auth auth=new Auth();
+        auth.setCompany(user.getCompany());
+        auth.setAccount(user.getAccount());
+        auth.setDescription(user.getDescription());
+        auth.setName(user.getName());
         if(terminalVO.getTerCode()!=null&&!"".equals(terminalVO.getTerCode()))
             auth.setCompany(terminalVO.getTerCode());
         String hour=new SimpleDateFormat("HH").format(new Date());
