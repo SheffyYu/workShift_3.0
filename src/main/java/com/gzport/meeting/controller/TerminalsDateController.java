@@ -63,7 +63,7 @@ public class TerminalsDateController {
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
-        if(terminalVO.getTerCode()!=null)
+        if(terminalVO.getTerCode()!=null&&!"".equals(terminalVO.getTerCode()))
             auth.setCompany(terminalVO.getTerCode());
         String hour=new SimpleDateFormat("HH").format(new Date());
         if(Integer.parseInt(hour)>7&&dailyTerDataLogService.findByTerCodeAndStatus(auth.getCompany(),"1")!=null){
