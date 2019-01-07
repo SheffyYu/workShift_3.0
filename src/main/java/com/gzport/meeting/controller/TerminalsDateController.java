@@ -214,6 +214,35 @@ public class TerminalsDateController {
         return terminalVO;
     }
 
+    @GetMapping("/getDataByTerCode/{terCode}")
+    public TerminalVO getDataByTerCode(@PathVariable("terCode")String terCode){
+        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        auth = authService.findByAccount(auth.getAccount());
+        auth.setCompany(terCode);
+        List<Dispersion> dispersions=new ArrayList();
+        List<DispersionVO> dispersionVOS=new ArrayList();
+        TerminalVO terminalVO=new TerminalVO();
+        dispersions=dispersionService.findCurrentDispersionByWharf(auth.getCompany());
+        for(int i=0;i<dispersions.size();i++){
+            DispersionVO dispersionVO=new DispersionVO();
+            dispersionVO.setTerCode(auth.getCompany());
+            dispersionVO.setDispersionId(dispersions.get(i).getDispersionId());
+            dispersionVO.setCargoName(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
+            dispersionVO.setMechanicalNumber(dispersions.get(i).getMechanicalNumber());
+            dispersionVO.setWorkingNumber(dispersions.get(i).getCargoNumber());
+            dispersionVO.setUnWorkNumber(dispersions.get(i).getCargoUnworkNumber());
+            dispersionVOS.add(dispersionVO);
+        }
+        terminalVO.setDispersionVOList(dispersionVOS);
+        terminalVO.setBargeList(bargeService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setBargeXSList(bargeXSService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
+        terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
+        return terminalVO;
+    }
+
     @GetMapping("/checkCurrentDate")
     public String checkAllCurrentDate(){
         return null;
