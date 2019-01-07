@@ -118,3 +118,4 @@ function showNotice() {
   pop_init("公告信息",content);
   $('#pop_div').fadeIn(400);
 }
+
