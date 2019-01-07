@@ -217,7 +217,6 @@ function applyBtn() {
  * 要判断是否提交过数据
  */
 function postJson() {
-
   //提交数据
   $.ajax({
     url: "/login/saveData",
