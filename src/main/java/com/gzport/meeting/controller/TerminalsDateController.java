@@ -63,14 +63,11 @@ public class TerminalsDateController {
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
-
+        if(terminalVO.getTerCode()!=null)
+            auth.setCompany(terminalVO.getTerCode());
         String hour=new SimpleDateFormat("HH").format(new Date());
         if(Integer.parseInt(hour)>7){
             AuthInfo authInfo=new AuthInfo(auth.getName(),auth.getAccount(),auth.getDescription(),auth.getCompany());
-//            Auth authInfo=new Auth();
-//            authInfo.setCompany(auth.getCompany());
-//            authInfo.setAccount(auth.getAccount());
-//            authInfo.setName(auth.getName());
             Map map=new HashMap();
             map.put("auth",authInfo);
             map.put("data",terminalVO);

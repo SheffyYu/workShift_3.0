@@ -16,6 +16,15 @@ public class TerminalVO {
     List<CntrStore> cntrStoreList;
     List<BargeXS> bargeXSList;
     List<CarStore> carStoreList;
+    String terCode;
+
+    public String getTerCode() {
+        return terCode;
+    }
+
+    public void setTerCode(String terCode) {
+        this.terCode = terCode;
+    }
 
     public List<CarStore> getCarStoreList() {
         return carStoreList;
