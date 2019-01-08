@@ -225,6 +225,7 @@ function postJson() {
     type: "POST",
     data:JSON.stringify(submitJson),
     success: function (data) {
+      console.log(data);
       //刷新窗口
       // window.location.reload();
       //设置输入框不可编辑以及提交按钮不可点击
@@ -244,7 +245,7 @@ function postJson() {
         $("#apply").hide();
       }
       isSubmit=1;
-      showTips("提交成功！",200,0.5);
+      showTips(data.message,200,0.5);
     }
   });
 }
