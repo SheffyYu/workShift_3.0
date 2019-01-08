@@ -50,9 +50,9 @@ public class SaveResult {
         this.message = message;
     }
 
-    private static final SaveResult OBJ_SUCCESS = new SaveResult();
+    private static final SaveResult OBJ_SUCCESS = new SaveResult(true,SUCCESS,"提交成功");
     private static final SaveResult OBJ_DATACHANGE_FILE = new SaveResult(false, FAILE, "修改失败");
-    private static final SaveResult OBJ_WAIT_CHANGE = new SaveResult(false, WAIT_CHANGE, "超过修改时间，请等待结果");
+    private static final SaveResult OBJ_WAIT_CHANGE = new SaveResult(false, WAIT_CHANGE, "超过修改时间，请等待审核结果");
     private static final Map<String, SaveResult> msg = new HashMap<>();
 
     public static final SaveResult getInstance(String messageCode) {
