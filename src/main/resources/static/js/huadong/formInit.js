@@ -14,9 +14,9 @@ var compUrl;
 
 $(document).ready(function () {
   if(document.getElementById("company")){
-    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title;
+    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title+"?timestamp="+Math.random();
   }else{
-    compUrl="/login/getData";
+    compUrl="/login/getData?timestamp="+Math.random();
   }
   var date=new Date();
   var limitHour= date.getHours();

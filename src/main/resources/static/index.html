@@ -81,7 +81,7 @@
 //        	var psw = $("#password").val();
 //        	var vc =$("#validateCode").val();
                $.ajax({
-                 url: "/logincontroller/dologin",
+                 url: "/logincontroller/dologin?timestamp="+Math.random(),
                  contentType: "application/json",
                  dataType: "json",
                  type: "GET",
@@ -96,10 +96,13 @@
 	                         if (data.messageCode!="success") {//有点问题，需要提示
 	                             $.messager.alert('警告', data.message, 'warning', function() {
 	                                 //window.location.href = "login/main.html";
-	                                 window.location.href = "login/main.html";
+                                 //console.log( "login/main.html");
+                                 window.location.href = "login/main.html?timestamp="+Math.random();
+
 	                             });
 	                         } else {
-	                             window.location.href = "login/main.html";
+//                             console.log("@@@@");
+	                             window.location.href = "login/main.html?timestamp="+Math.random();
 	                         }
 	                     } else {
 	                    	 var errmsg='<img src="images/error.png" width="16" height="16"  alt=""/>&nbsp;&nbsp;'+data.message

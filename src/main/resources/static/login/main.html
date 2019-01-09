@@ -106,7 +106,7 @@
   //获取用户名字
   $.ajax({
     method: "get",
-    url: "/login/getLoginUser",
+    url: "/login/getLoginUser?timestamp="+Math.random(),
     contentType: "application/json",
     success: function(data){
       //显示用户名字
@@ -214,7 +214,7 @@
       //提交密码修改
       $.ajax({
       type:"post",
-        url: "/login/changePassword",
+        url: "/login/changePassword?timestamp="+Math.random(),
         contentType: "application/json",
         data:JSON.stringify(user),
         success: function(data){

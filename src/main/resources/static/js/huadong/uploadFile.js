@@ -10,7 +10,7 @@ function UpladFile() {
   form.append("file", fileObj); // 文件对象
 
   $.ajax({
-    url: "/test/excel/daily",
+    url: "/test/excel/daily?timestamp="+Math.random(),
     type: "POST",
     data:form,
     processData:false,

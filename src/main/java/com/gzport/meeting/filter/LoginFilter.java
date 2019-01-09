@@ -1,5 +1,7 @@
 package com.gzport.meeting.filter;
 
+import com.gzport.meeting.controller.LoginController;
+import com.gzport.meeting.domain.entity.Auth;
 import org.apache.shiro.SecurityUtils;
 
 import javax.servlet.*;
@@ -104,6 +106,7 @@ public class LoginFilter implements Filter {
             out.println("</html>");
             return;
         }
+        Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         final HttpServletRequest hRequest = (HttpServletRequest) request;
         String title = hRequest.getHeader("hdTabTitle");
         final String permission = parsePermission(hRequest);

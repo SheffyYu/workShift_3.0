@@ -103,7 +103,7 @@ function xjBarge() {
 }
 
 /**
- * 获取新沙西基的公司
+ * 获取新港西基的公司
  */
 function getCompany(){
   if (document.getElementById("company")){
@@ -219,7 +219,7 @@ function applyBtn() {
 function postJson() {
   //提交数据
   $.ajax({
-    url: "/login/saveData",
+    url: "/login/saveData?timestamp="+Math.random(),
     contentType: "application/json",
     dataType: "json",
     type: "POST",
