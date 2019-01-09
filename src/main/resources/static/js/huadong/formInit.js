@@ -226,7 +226,7 @@ function insertTruckData() {
   document.getElementById("trkload").value=truck[0].unloadTruck;
   document.getElementById("trkunload").value=truck[0].waitUnload;
   document.getElementById("totalLoad").value=truck[0].totalLoad;
-  // console.log(truck[0]);
+  console.log(truck[0]);
 }
 
 /**

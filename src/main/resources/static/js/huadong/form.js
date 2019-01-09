@@ -438,7 +438,7 @@ function truckData() {
     };
     truck.push(obj);
   }
-  // console.log(truck);
+  console.log(truck);
 }
 
 /**
