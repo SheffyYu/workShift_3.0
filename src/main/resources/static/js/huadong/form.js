@@ -225,7 +225,6 @@ function postJson() {
     type: "POST",
     data:JSON.stringify(submitJson),
     success: function (data) {
-      console.log(data);
       //刷新窗口
       // window.location.reload();
       //设置输入框不可编辑以及提交按钮不可点击
@@ -289,7 +288,7 @@ function dispersionData() {
     i++;
   });
   for(var k=0;i>k;k++){
-    if(!(dis1[k] == "" && dis2[k] == "" && dis2[k] == "") ){
+    if(!(dis1[k] == "" && dis2[k] == "" && dis2[k] == "" && name[k]=="") ){
       if(dis1[k] == ""){
         dis1[k]=0;
       }
@@ -312,11 +311,11 @@ function dispersionData() {
           mechanicalNumber:dis3[k]
         };
         disper.push(obj);
-        console.log(obj);
       }
     }
   }
   //以上是疏运的内容
+  // console.log(disper);
 }
 
 /**
