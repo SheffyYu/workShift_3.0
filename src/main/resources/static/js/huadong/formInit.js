@@ -4,6 +4,7 @@
  * 七点之后不能修改数据，获取当前系统时间，如果大于7点，就隐藏其他按钮，显示申请修改按钮，如果未提交数据可以提交数据
  * 传递的数据
  */
+document.write("<script language=javascript src='../../js/huadong/dealTime.js'></script>");
 var submitJson;
 //当天是否穿过数据
 var isSubmit;
@@ -13,6 +14,11 @@ var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 var compUrl;
 
 $(document).ready(function () {
+  //设置默认时间为今天
+  if(document.getElementById("dateInput")){
+    $('#dateInput').datebox('setValue', getCurentDateStr());
+  }
+
   if(document.getElementById("company")){
     compUrl="/login/getDataByTerCode/"+document.getElementById("company").title+"?timestamp="+Math.random();
   }else{
@@ -226,7 +232,6 @@ function insertTruckData() {
   document.getElementById("trkload").value=truck[0].unloadTruck;
   document.getElementById("trkunload").value=truck[0].waitUnload;
   document.getElementById("totalLoad").value=truck[0].totalLoad;
-  console.log(truck[0]);
 }
 
 /**

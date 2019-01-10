@@ -152,6 +152,7 @@ function submitBtn() {
 
   //整合数据
   submitJson.terCode=company;
+  submitJson.dataTime=$("#dateInput").datebox("getValue");
   submitJson.dispersionVOList=disper;
   submitJson.productionLineList=proroductionLine;
   submitJson.bargeList=barge;
@@ -420,7 +421,7 @@ function truckData() {
     var obj={
       truckStoreId:"",
       loadInport:allcmp,
-      loadOutport:alle,
+      loadOutPort:alle,
       loadiCoal:trkmt,
       loadiOre:trkks,
       loadiOther:trkzh,
@@ -438,7 +439,6 @@ function truckData() {
     };
     truck.push(obj);
   }
-  console.log(truck);
 }
 
 /**

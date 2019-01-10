@@ -9,14 +9,30 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/easyui.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/hdStyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
 <link rel="stylesheet" type="text/css" href="../../css/skin_/form.css" />
 <script type="text/javascript" src="../../js/jquery.js"></script>
 <script type="text/javascript" src="../../js/global.js"></script>
-<script type="text/javascript" src="../../js/jquery.select.js"></script>
-<script type="text/javascript" src="../../js/WdatePicker.js"></script>
+  <script type="text/javascript" src="../../js/jquery.select.js"></script>
+  <script type="text/javascript" src="../../js/jquery.min.js"></script>
+  <script src="../../js/jquery.cycle.all.min.js"></script>
+  <script src="../../js/jquery.jcarousel.min.js"></script>
+  <script src="../../js/jquery.easyui.min.js"></script>
+  <script src="../../js/plugins/jquery.international.js"></script>
+  <script type="text/javascript" src="../../js/datagrid-bufferview.js"></script>
+  <script type="text/javascript" src="../../js/jquery.json-2.4.js"></script>
+  <script type="text/javascript" src="../../js/jquery-migrate-1.2.1.min.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.datebox.js"></script>
+  <script src="../../js/hdUtils/HdUtils.js"></script>
+  <script src="../../js/hdUtils/commonUtils.js"></script>
 <script type="text/javascript" src="../../js/huadong/formInit.js"></script>
+  <!-- BEGIN: 国际化 -->
+  <script type="text/javascript"  src="../../js/jquery.i18n.properties-min-1.0.9.js"></script>
+  <script id="language2" src="../../js/hdEzuiEx_js/ezuiEx-lang-zh.js"></script>
+  <script id="language" src="../../i18n/locale/easyui-lang-zh.js" type="text/javascript"></script>
 <script type="text/javascript">
 </script>
 <title>黄埔信息</title>
@@ -28,6 +44,7 @@
     </div>
     <div id="bd">
     	<div id="main">
+        日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px;" class="easyui-datebox" />
         <div id="dispersion">
         <h2 class="subfild">
           <span>散&nbsp;&nbsp;货&nbsp;&nbsp;疏&nbsp;&nbsp;运</span>
