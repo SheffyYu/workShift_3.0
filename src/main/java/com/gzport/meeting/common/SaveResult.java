@@ -13,6 +13,7 @@ public class SaveResult {
     public static final String SUCCESS = "success";
     public static final String FAILE = "fail";
     public static final String WAIT_CHANGE = "wait";
+    public static final String REFUSE="refuse";
 
     public boolean isSuccess() {
         return success;
@@ -53,6 +54,7 @@ public class SaveResult {
     private static final SaveResult OBJ_SUCCESS = new SaveResult(true,SUCCESS,"提交成功");
     private static final SaveResult OBJ_DATACHANGE_FILE = new SaveResult(false, FAILE, "修改失败");
     private static final SaveResult OBJ_WAIT_CHANGE = new SaveResult(false, WAIT_CHANGE, "超过修改时间，请等待审核结果");
+    private static final SaveResult OBJ_REFUSE_CHANGE=new SaveResult(false,REFUSE,"填写时间错误，只能修改或提交当天数据");
     private static final Map<String, SaveResult> msg = new HashMap<>();
 
     public static final SaveResult getInstance(String messageCode) {
@@ -63,5 +65,6 @@ public class SaveResult {
         msg.put(SUCCESS, OBJ_SUCCESS);
         msg.put(FAILE, OBJ_DATACHANGE_FILE);
         msg.put(WAIT_CHANGE, OBJ_WAIT_CHANGE);
+        msg.put(REFUSE,OBJ_REFUSE_CHANGE);
     }
 }

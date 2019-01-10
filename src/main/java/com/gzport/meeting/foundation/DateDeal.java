@@ -48,4 +48,16 @@ public class DateDeal {
         }
         return afterDate;
     }
+
+    public static Date DateConvert(String date){
+        try {
+            if((new SimpleDateFormat("yyyy-MM-dd").format(new Date())).equals(date))
+                return null;
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return time;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

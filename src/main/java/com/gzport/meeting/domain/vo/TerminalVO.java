@@ -17,6 +17,15 @@ public class TerminalVO {
     List<BargeXS> bargeXSList;
     List<CarStore> carStoreList;
     String terCode;
+    String dataTime;
+
+    public String getDataTime() {
+        return dataTime;
+    }
+
+    public void setDataTime(String dataTime) {
+        this.dataTime = dataTime;
+    }
 
     public String getTerCode() {
         return terCode;
