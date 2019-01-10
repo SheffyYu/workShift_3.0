@@ -29,6 +29,13 @@ public class AuthController {
         return authConverter.convert(auth);
     }
 
+    @PostMapping("/createUser")
+    @ResponseBody
+    public AuthInfo createAuth(@RequestBody Auth auth){
+        auth.setPassword(HdCipher.getMD(auth.getPassword(), "MD5"));
+        return authConverter.convert(authService.createAuth(auth));
+    }
+
     @PostMapping("/changePassword")
     @ResponseBody
     public AuthInfo changePassowrd(@RequestBody Auth user){

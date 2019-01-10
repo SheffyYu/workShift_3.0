@@ -12,6 +12,7 @@ import java.util.List;
 public interface DispersionService {
     Dispersion save(Dispersion dispersion);
     List<Dispersion> findCurrentDispersionByWharf(String terId);
+    List<Dispersion> findDispersionByWharfAndTime(String terId,String date);
     Iterable<Dispersion> saveInterable(Iterable<Dispersion> dispersions);
     void deleteCurrentBargeByTerId(String terId);
 

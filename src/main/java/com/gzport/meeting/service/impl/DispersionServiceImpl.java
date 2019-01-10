@@ -38,6 +38,17 @@ public class DispersionServiceImpl implements DispersionService {
     }
 
     @Override
+    public List<Dispersion> findDispersionByWharfAndTime(String terId, String date) {
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return null;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public Iterable<Dispersion> saveInterable(Iterable<Dispersion> dispersions) {
         return dispersionRepository.saveAll(dispersions);
     }
