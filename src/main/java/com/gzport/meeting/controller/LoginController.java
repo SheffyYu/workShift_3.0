@@ -10,6 +10,8 @@ import net.huadong.idev.ezui.utils.HdCipher;
 import net.huadong.idev.utils.HdImageCode;
 import net.huadong.idev.utils.HdRandomCode;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +62,8 @@ public class LoginController {
             return LoginResult.getInstance(LoginResult.UNKNOW_ACCOUNT);
         }
         if(authService.checkLogin(account,password)!=null) {
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(account, password);
             LoginLog loginLog=new LoginLog();
             Auth auth=authService.findByAccount(account);
             loginLog.setUserId(auth.getUserId());

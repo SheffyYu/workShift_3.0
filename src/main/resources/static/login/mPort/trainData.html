@@ -36,11 +36,11 @@
           <div class="kv-item ue-clear">
             <label>新&nbsp;&nbsp;&nbsp;&nbsp;港</label>
             <div class="kv-item-content">
-              <input type="text" id="trkxg" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
+              <input type="number" id="trkxg" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
             <label>西&nbsp;&nbsp;&nbsp;&nbsp;基</label>
             <div class="kv-item-content">
-              <input type="text" id="trkxj" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
+              <input type="number" id="trkxj" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
           </div>
         </div>
@@ -48,11 +48,11 @@
           <div class="kv-item ue-clear">
             <label>集&nbsp;&nbsp;&nbsp;&nbsp;司</label>
             <div class="kv-item-content">
-              <input type="text" id="trkgct" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
+              <input type="number" id="trkgct" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
             <label>新&nbsp;&nbsp;&nbsp;&nbsp;沙</label>
             <div class="kv-item-content">
-              <input type="text" id="trkxs" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
+              <input type="number" id="trkxs" onpropertychange="truckCmpOper()" oninput="truckCmpOper()"/>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
           <div class="kv-item ue-clear">
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text" id="allcmp"/>
+              <input type="number" id="allcmp"/>
             </div>
           </div>
         </div>
@@ -71,15 +71,15 @@
           <div class="kv-item ue-clear">
             <label>煤&nbsp;&nbsp;&nbsp;&nbsp;炭</label>
             <div class="kv-item-content">
-              <input type="text" id="trkmt" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
+              <input type="number" id="trkmt" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
             <label>矿&nbsp;&nbsp;&nbsp;&nbsp;石</label>
             <div class="kv-item-content">
-              <input type="text" id="trkks" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
+              <input type="number" id="trkks" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
             <label>杂&nbsp;&nbsp;&nbsp;&nbsp;货</label>
             <div class="kv-item-content">
-              <input type="text" id="trkzh" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
+              <input type="number" id="trkzh" onpropertychange="truckCargoOper()" oninput="truckCargoOper()"/>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
           <div class="kv-item ue-clear">
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content" onpropertychange="trucktotalLoad()" oninput="trucktotalLoad()">
-              <input type="text" id="allcgo"/>
+              <input type="number" id="allcgo"/>
             </div>
           </div>
         </div>
@@ -99,19 +99,19 @@
           <div class="kv-item ue-clear">
             <label>煤&nbsp;&nbsp;&nbsp;&nbsp;炭</label>
             <div class="kv-item-content">
-              <input type="text" id="trkmte"/>
+              <input type="number" id="trkmte" onpropertychange="truckCargoOperO()" oninput="truckCargoOperO()"/>
             </div>
             <label>矿&nbsp;&nbsp;&nbsp;&nbsp;石</label>
             <div class="kv-item-content">
-              <input type="text" id="trkkse"/>
+              <input type="number" id="trkkse" onpropertychange="truckCargoOperO()" oninput="truckCargoOperO()"/>
             </div>
             <label>其&nbsp;&nbsp;&nbsp;&nbsp;它</label>
             <div class="kv-item-content">
-              <input type="text" id="trkothere"/>
+              <input type="number" id="trkothere" onpropertychange="truckCargoOperO()" oninput="truckCargoOperO()"/>
             </div>
             <label>合&nbsp;&nbsp;&nbsp;&nbsp;计</label>
             <div class="kv-item-content">
-              <input type="text" id="alle" onpropertychange="trucktotalLoad()" oninput="trucktotalLoad()"/>
+              <input type="number" id="alle" onpropertychange="trucktotalLoad()" oninput="trucktotalLoad()"/>
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@
             <div class="kv-item ue-clear">
               <label>装卡总数</label>
               <div class="kv-item-content">
-                <input type="text" id="totalLoad"/>
+                <input type="number" id="totalLoad"/>
               </div>
             </div>
           </div>
@@ -134,11 +134,11 @@
           <div class="kv-item ue-clear">
             <label>卸&nbsp;&nbsp;&nbsp;&nbsp;车</label>
             <div class="kv-item-content">
-              <input type="text" id="trkload"/>
+              <input type="number" id="trkload"/>
             </div>
             <label>待卸车</label>
             <div class="kv-item-content">
-              <input type="text" id="trkunload"/>
+              <input type="number" id="trkunload"/>
             </div>
           </div>
         </div>
@@ -166,6 +166,14 @@
       var str2=document.getElementById("alle").value;
       document.getElementById("totalLoad").value=(str1-0)+(str2-0);
   }
+ function truckCargoOperO() {
+   var trkmte=document.getElementById("trkmte").value;
+   var trkkse=document.getElementById("trkkse").value;
+   var trkothere=document.getElementById("trkothere").value;
+   document.getElementById("alle").value=(trkmte-0)+(trkkse-0)+(trkothere-0);
+  }
+
+
 
 </script>
 </html>

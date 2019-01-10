@@ -5,7 +5,7 @@
     function showLeftMenu(){
     	  $.ajax({
               method: "get",
-              url: "/login/getMenuForTree",
+              url: "/login/getMenuForTree?timestamp="+Math.random(),
           contentType: "application/json",
           dataType: "json",
               success: function(nodes){

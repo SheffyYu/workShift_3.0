@@ -39,7 +39,7 @@ $(document).ready(function(){
   //只有总调可以看到
   $.ajax({
     method: "get",
-    url: "/login/getLoginUser",
+    url: "/login/getLoginUser?timestamp="+Math.random(),
     contentType: "application/json",
     success: function(data){
       if(data.company == 'YWB'){
@@ -62,7 +62,7 @@ function getUnwriteTer(){
   //获取没有填写数据的码头和申请修改的码头
   $.ajax({
     type:"get",
-    url:"/login/getUnwirteTerCode",
+    url:"/login/getUnwirteTerCode?timestamp="+Math.random(),
     contentType: "application/json",
     success: function(data){
       //当有码头没有填写时
@@ -88,7 +88,7 @@ function getUnwriteTer(){
 function getApplyTer(isTrue) {
   $.ajax({
     type:"get",
-    url:"/login/getAllKey",
+    url:"/login/getAllKey?timestamp="+Math.random(),
     contentType: "application/json",
     success: function(data){
       //当有码头申请修改数据时

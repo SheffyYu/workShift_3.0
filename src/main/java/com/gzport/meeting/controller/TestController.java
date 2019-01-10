@@ -98,10 +98,11 @@ public class TestController {
 
 
     @GetMapping("/user")
-    public void test(){
+    public String test(){
         SecurityUtils.getSubject().isPermitted();
         Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(TestController.SESSION_USER);
         System.out.println("user : "+user.getAccount()+" "+user.getPassword()+"  "+user.getName());
+        return "test";
     }
 
     @GetMapping("/deleteRedis")

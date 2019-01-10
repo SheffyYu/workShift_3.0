@@ -74,7 +74,7 @@
   var setting = {};
   var znodes=[{name:"首页",id:"",url:"",open:"",children:[]}];
   $.ajax({
-    url: "/login/getMenuForTree",
+    url: "/login/getMenuForTree?timestamp="+Math.random(),
     contentType: "application/json",
     dataType: "json",
     type: "GET",

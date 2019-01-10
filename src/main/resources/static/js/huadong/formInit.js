@@ -14,9 +14,9 @@ var compUrl;
 
 $(document).ready(function () {
   if(document.getElementById("company")){
-    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title;
+    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title+"?timestamp="+Math.random();
   }else{
-    compUrl="/login/getData";
+    compUrl="/login/getData?timestamp="+Math.random();
   }
   var date=new Date();
   var limitHour= date.getHours();
@@ -222,10 +222,11 @@ function insertTruckData() {
   document.getElementById("trkmte").value=truck[0].loadoCoal;
   document.getElementById("trkkse").value=truck[0].loadoOre;
   document.getElementById("trkothere").value=truck[0].loadoOther;
-  document.getElementById("alle").value=truck[0].loadOutport;
+  document.getElementById("alle").value=truck[0].loadOutPort;
   document.getElementById("trkload").value=truck[0].unloadTruck;
   document.getElementById("trkunload").value=truck[0].waitUnload;
   document.getElementById("totalLoad").value=truck[0].totalLoad;
+  console.log(truck[0]);
 }
 
 /**
