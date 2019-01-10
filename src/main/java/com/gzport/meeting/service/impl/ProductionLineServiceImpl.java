@@ -43,6 +43,17 @@ public class ProductionLineServiceImpl implements ProductionLineService {
     }
 
     @Override
+    public List<ProductionLine> findProByTerIDAndTime(String terId,String date) {
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return productionLineRepository.findByTimeAndWharf(time,terId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

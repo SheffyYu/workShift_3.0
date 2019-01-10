@@ -11,5 +11,6 @@ public interface BargeXSService {
     BargeXS save(BargeXS barge);
     Iterable<BargeXS> saveAll(Iterable<BargeXS> barges);
     List<BargeXS> getCurrentBargeByTerId(String terId);
+    List<BargeXS> getBargeByTerIdAndTime(String terId,String time);
     void deleteCurrentBargeByTerId(String terId);
 }

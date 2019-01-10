@@ -43,6 +43,18 @@ public class BargeServiceImpl implements BargeService {
     }
 
     @Override
+    public List<Barge> getBargeByTerIdAndTime(String terId, String date) {
+        Date time = null;
+        try {
+            time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bargeRepository.findByTimeAndWharf(time,terId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

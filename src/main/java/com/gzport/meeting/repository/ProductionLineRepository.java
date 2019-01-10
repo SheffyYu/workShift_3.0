@@ -19,6 +19,10 @@ public interface ProductionLineRepository extends PagingAndSortingRepository<Pro
     List<ProductionLine> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
+    @Query(value = "SELECT t FROM ProductionLine t WHERE INS_TIMESTAMP>?1 AND INS_TIMESTAMP-1<?1 AND TER_CODE=?2")
+    List<ProductionLine> findByTimeAndWharf(Date date, String terId);
+
+    @Modifying
     @Query(value = "DELETE FROM ProductionLine  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date, String terId);
 }

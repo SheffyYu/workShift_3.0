@@ -19,6 +19,10 @@ public interface CarStoreRepository extends PagingAndSortingRepository<CarStore,
     List<CarStore> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
+    @Query(value = "SELECT t FROM CarStore t  WHERE INS_TIMESTAMP>?1 AND INS_TIMESTAMP-1<?1 AND TER_CODE=?2")
+    List<CarStore> findDataByTimeAndWharf(Date date, String terId);
+
+    @Modifying
     @Query(value = "DELETE FROM CarStore  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date, String terId);
 }

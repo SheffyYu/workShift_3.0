@@ -11,6 +11,6 @@ public interface CarStoreService {
     CarStore save(CarStore barge);
     Iterable<CarStore> saveAll(Iterable<CarStore> barges);
     List<CarStore> getCurrentBargeByTerId(String terId);
-
+    List<CarStore> getBargeByTerIdAndTime(String terId,String date);
     void deleteCurrentBargeByTerId(String terId);
 }

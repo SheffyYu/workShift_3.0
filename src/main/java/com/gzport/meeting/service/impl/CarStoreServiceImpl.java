@@ -44,6 +44,17 @@ public class CarStoreServiceImpl implements CarStoreService {
     }
 
     @Override
+    public List<CarStore> getBargeByTerIdAndTime(String terId, String date) {
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return carStoreRepository.findDataByTimeAndWharf(time,terId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

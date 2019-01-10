@@ -43,6 +43,17 @@ public class BargeXSServiceImpl implements BargeXSService {
     }
 
     @Override
+    public List<BargeXS> getBargeByTerIdAndTime(String terId, String date) {
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bargeXSRepository.findByTimeAndWharf(time,terId);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

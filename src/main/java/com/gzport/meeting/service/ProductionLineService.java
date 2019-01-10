@@ -14,6 +14,8 @@ public interface ProductionLineService {
     Iterable<ProductionLine> saveAll(Iterable<ProductionLine> productionLines);
 
     List<ProductionLine> findCurrentProByTerID(String terId);
+    List<ProductionLine> findProByTerIDAndTime(String terId,String date);
+
 
     void deleteCurrentBargeByTerId(String terId);
 

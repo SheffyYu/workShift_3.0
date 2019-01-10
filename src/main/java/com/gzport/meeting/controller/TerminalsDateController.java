@@ -1,5 +1,6 @@
 package com.gzport.meeting.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.gzport.meeting.common.SaveResult;
 import com.gzport.meeting.domain.dto.AuthInfo;
 import com.gzport.meeting.domain.entity.*;
@@ -200,6 +201,36 @@ public class TerminalsDateController {
     public TerminalVO getDataByTer(){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
+        List<Dispersion> dispersions=new ArrayList();
+        List<DispersionVO> dispersionVOS=new ArrayList();
+        TerminalVO terminalVO=new TerminalVO();
+        dispersions=dispersionService.findCurrentDispersionByWharf(auth.getCompany());
+        for(int i=0;i<dispersions.size();i++){
+            DispersionVO dispersionVO=new DispersionVO();
+            dispersionVO.setTerCode(auth.getCompany());
+            dispersionVO.setDispersionId(dispersions.get(i).getDispersionId());
+            dispersionVO.setCargoName(dispersionCargoService.findByCargoCodeId(dispersions.get(i).getCargoCode()).getCargoName());
+            dispersionVO.setMechanicalNumber(dispersions.get(i).getMechanicalNumber());
+            dispersionVO.setWorkingNumber(dispersions.get(i).getCargoNumber());
+            dispersionVO.setUnWorkNumber(dispersions.get(i).getCargoUnworkNumber());
+            dispersionVOS.add(dispersionVO);
+        }
+        terminalVO.setDispersionVOList(dispersionVOS);
+        terminalVO.setBargeList(bargeService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setBargeXSList(bargeXSService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setCntrStoreList(cntrStoreService.getCurrentCntrStroeByTerId(auth.getCompany()));
+        terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
+        terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
+        return terminalVO;
+    }
+
+    @GetMapping("/getDataByTerCodeAndTime/{terCode}")
+    @ResponseBody
+    public TerminalVO getDataByTerCodeAndTime(@PathVariable("terCode")String terCode, @RequestBody JSONObject time){
+        Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        auth = authService.findByAccount(auth.getAccount());
+        auth.setCompany(terCode);
         List<Dispersion> dispersions=new ArrayList();
         List<DispersionVO> dispersionVOS=new ArrayList();
         TerminalVO terminalVO=new TerminalVO();
