@@ -20,13 +20,13 @@
                     //判断是否为默认打开的页面
                     if(node.ID != node.DEFAULT_MENU){
                       if(node.MENU_REMARKS == '1'){
-                        $("#"+node.PARENT_ID+"one").append( "<li data-id='0' href='"+node.URL+"' class='subnav-li' ><a href='javascript:;'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                        $("#"+node.PARENT_ID+"one").append( "<li data-id='0' href='"+node.URL+"?timestamp="+Math.random()+"' class='subnav-li' ><a href='javascript:;'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       }else{
-                        $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li' href='"+node.URL+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                        $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li' href='"+node.URL+"?timestamp="+Math.random()+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       }
                     }
                     else{//是默认页面
-                      $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li current' href='"+node.URL+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                      $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li current' href='"+node.URL+"?timestamp="+Math.random()+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       menu._createContent($('.nav').find('li[data-id="'+nodes[0].DEFAULT_MENU+'"]'));
                     }
 
