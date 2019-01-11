@@ -18,18 +18,21 @@ $(document).ready(function () {
   if(document.getElementById("dateInput")){
     $('#dateInput').datebox('setValue', getCurentDateStr());
   }
-
+  var data={time:$("#dateInput").datebox("getValue")};;
+  console.log(data);
+  //对西基与新港的特殊情况进行处理
   if(document.getElementById("company")){
-    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title+"?timestamp="+Math.random();
+    compUrl="/login/getDataByTerCodeAndTime/"+document.getElementById("company").title+"?timestamp="+Math.random();
   }else{
-    compUrl="/login/getData?timestamp="+Math.random();
+    compUrl="/login/getDataByTime?timestamp="+Math.random();
   }
   var date=new Date();
   var limitHour= date.getHours();
   $.ajax({
-    method: "get",
+    method: "post",
     url: compUrl,
-    contentType: "application/json",
+    contentType : 'application/json',
+    data:JSON.stringify(data),
     success: function(data){
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){

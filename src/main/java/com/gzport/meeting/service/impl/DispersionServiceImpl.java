@@ -41,7 +41,7 @@ public class DispersionServiceImpl implements DispersionService {
     public List<Dispersion> findDispersionByWharfAndTime(String terId, String date) {
         try {
             Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            return null;
+            return dispersionRepository.findDataByTimeAndWharf(time,terId);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
