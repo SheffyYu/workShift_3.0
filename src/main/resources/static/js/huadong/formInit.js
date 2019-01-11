@@ -59,7 +59,9 @@ function getDataAjax(postDate) {
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==0){
         isSubmit=0;
+        clearAll();
         //隐藏修改和取消按钮
+        $("#inputBtn").show();
         $("#editBtn").hide();
         $("#cancel").hide();
         $("#apply").hide();
@@ -67,6 +69,10 @@ function getDataAjax(postDate) {
       }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==1){
         //清空所有框的值
         clearAll();
+        $("#inputBtn").hide();
+        $("#editBtn").hide();
+        $("#cancel").hide();
+        $("#apply").hide();
       } else{
         isSubmit=1;
         submitJson=data;
@@ -391,8 +397,4 @@ function clearAll() {
       $(this).attr("value","");
     });
   }
-  $("#inputBtn").hide();
-  $("#editBtn").hide();
-  $("#cancel").hide();
-  $("#apply").hide();
 }
