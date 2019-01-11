@@ -87,11 +87,6 @@ public class TerminalsDateController {
             Date currentDate=new Date();
             Date afterDate= DateDeal.getSpecifiedDayAfter(currentDate);
             Long mins=DateDeal.getMins(afterDate,currentDate);
-//            try {
-//                WebSocketServer.sendInfo(auth.getCompany()+"请求修改数据");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             redisTemplate.expire(auth.getCompany(),mins, TimeUnit.MINUTES);
             return SaveResult.getInstance(SaveResult.WAIT_CHANGE);
         }
