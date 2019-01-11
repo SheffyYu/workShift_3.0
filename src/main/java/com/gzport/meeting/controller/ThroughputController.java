@@ -25,8 +25,8 @@ public class ThroughputController {
     }
 
     @GetMapping("/getCurrentThroughput")
-    public List<Throughput> getCurrentThroughput(){
-        String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    public List<Throughput> getCurrentThroughput(@RequestParam String date){
+        //String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return throughputService.getByDate(date);
     }
 

@@ -23,8 +23,8 @@ public class BulkStoreController  {
     BulkStoreService bulkStoreService;
 
     @GetMapping("/getDaily")
-    public List<BulkStoreVO> findCurrentStoreByDate(){
-        String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    public List<BulkStoreVO> findCurrentStoreByDate(@RequestParam String date){
+        //String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         try {
             Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             return bulkStoreService.getBulkStoreVOByTime(time);
