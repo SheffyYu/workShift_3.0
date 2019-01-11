@@ -6,8 +6,8 @@
  */
 document.write("<script language=javascript src='../../js/huadong/dealTime.js'></script>");
 var submitJson;
-//当天是否传过数据//是否为历史数据
-var isSubmit,isHis;
+//当天是否传过数据//是否为历史数据,0为当前数据，1为历史数据
+var isSubmit,isCur;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 //区分新沙和西基的url
@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#dateInput').datebox('setValue', getCurentDateStr());
   }
   var postDate={time:$("#dateInput").datebox("getValue")};
-  isHis=0;
+  isCur=0;
   //对西基与新港的特殊情况进行处理
   if(document.getElementById("company")){
     compUrl="/login/getDataByTerCodeAndTime/"+document.getElementById("company").title+"?timestamp="+Math.random();
@@ -37,10 +37,10 @@ $(document).ready(function () {
  */
 function onChangeDate(date){
   var postDate={time:$("#dateInput").datebox("getValue")};
-  if($("#dateInput").datebox("getValue")<getCurentDateStr()){
-    isHis=1;
+  if($("#dateInput").datebox("getValue")!=getCurentDateStr()){
+    isCur=1;
   }else{
-    isHis=0;
+    isCur=0;
   }
   //获取选择时间的数据
   getDataAjax(postDate);
@@ -57,13 +57,17 @@ function getDataAjax(postDate) {
     data:JSON.stringify(postDate),
     success: function(data){
       //当天没有提交数据
-      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){
+      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==0){
         isSubmit=0;
         //隐藏修改和取消按钮
         $("#editBtn").hide();
         $("#cancel").hide();
         $("#apply").hide();
-      }else{
+        //历史没有数据
+      }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==1){
+        //清空所有框的值
+        clearAll();
+      } else{
         isSubmit=1;
         submitJson=data;
         //当天已经提交过数据
@@ -101,7 +105,7 @@ function getDataAjax(postDate) {
  */
 function isChangeData() {
   //设置七点之后不能修改数据
-  if(isHis == 1){
+  if(isCur == 1){
     return 0;
   } else if (limitHour>=7){
     return 2;
@@ -339,4 +343,56 @@ function insertCntrStoreData() {
  */
 function insertVehicleData() {
   document.getElementById("busNumBulk").value=vehicle[0].carNumber;
+}
+
+/**
+ * 清空所有框的值
+ */
+function clearAll() {
+  if(document.getElementById("dispersion")){
+    //疏运部分数据插入
+    $("#dispersion input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("barge")){
+    //集装箱驳船
+    $("#barge input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("productionLine")){
+    //集装箱作业线
+    $("#productionLine input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("cntrSto")){
+    //集装箱堆存
+    $("#cntrSto input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("truck")){
+    //车卡
+    $("#truck input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("xsCntr")){
+    //新沙集装箱
+    $("#xsCntr input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  if(document.getElementById("bulkBus")){
+    //汽车库存
+    $("#bulkBus input").each(function () {
+      $(this).attr("value","");
+    });
+  }
+  $("#inputBtn").hide();
+  $("#editBtn").hide();
+  $("#cancel").hide();
+  $("#apply").hide();
 }
