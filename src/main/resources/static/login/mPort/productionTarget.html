@@ -10,7 +10,7 @@
   <script type="text/javascript" src="../../js/global.js"></script>
   <script type="text/javascript" src="../../js/jquery.select.js"></script>
   <script type="text/javascript" src="../../js/WdatePicker.js"></script>
-  <script type="text/javascript" src="../../js/huadong/formInit.js"></script>
+  <!--<script type="text/javascript" src="../../js/huadong/formInit.js"></script>-->
   <script type="text/javascript">
   </script>
   <title>指标</title>
@@ -70,6 +70,9 @@ $(document).ready(function () {
         $("#changeTarget").show();
         $("#cancelTarget").hide();
         $("#submitTarget").hide();
+        $(".kv-item input").each(function () {
+          $(this).attr("disabled",true);
+        });
         //向输入框插入数据
         $("#cargoYearTarget").val(data.cargoYearThroughput);
         $("#cntrYearTarget").val(data.cntrYearThroughput);
@@ -98,6 +101,9 @@ var json={cargoYearThroughput:$("#cargoYearTarget").val(),
       $("#changeTarget").show();
       $("#cancelTarget").hide();
       $("#submitTarget").hide();
+      $(".kv-item input").each(function () {
+        $(this).attr("disabled",true);
+      });
       showTips("提交成功！",200,0.5);
     },
     error: function (data) {
@@ -110,12 +116,18 @@ var json={cargoYearThroughput:$("#cargoYearTarget").val(),
     $("#changeTarget").hide();
     $("#cancelTarget").show();
     $("#submitTarget").show();
+    $(".kv-item input").each(function () {
+      $(this).attr("disabled",false);
+    });
   }
   //取消,因为只有修改数据会出现取消
   function cancelTarget() {
     $("#changeTarget").show();
     $("#cancelTarget").hide();
     $("#submitTarget").hide();
+    $(".kv-item input").each(function () {
+      $(this).attr("disabled",true);
+    });
   }
 </script>
 </html>

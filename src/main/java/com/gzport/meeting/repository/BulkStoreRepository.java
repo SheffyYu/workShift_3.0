@@ -26,7 +26,7 @@ public interface BulkStoreRepository extends PagingAndSortingRepository<BulkStor
     List<BulkStore> findBulkBytime(Date date);
 
     @Modifying
-    @Query(value = "SELECT NEW com.gzport.meeting.domain.vo.BulkStoreVO(t1.bulkStoreId,t1.terCode,t2.terShortname,t1.totalStore,t1.oreStore,t1.coalStore,t1.foodStore,t1.steelStore,t1.carStore,t1.insTimeStamp,t1.insAccount,t1.updAccount,t1.updTimeStamp) FROM BulkStore t1 left join Terminals t2 on t1.terCode=t2.terCode where t1.insTimeStamp >=?1")
+    @Query(value = "SELECT NEW com.gzport.meeting.domain.vo.BulkStoreVO(t1.bulkStoreId,t1.terCode,t2.terShortname,t1.totalStore,t1.oreStore,t1.coalStore,t1.foodStore,t1.steelStore,t1.carStore,t1.insTimeStamp,t1.insAccount,t1.updAccount,t1.updTimeStamp) FROM BulkStore t1 left join Terminals t2 on t1.terCode=t2.terCode where t1.insTimeStamp >=?1 AND t1.insTimeStamp-1<?1")
     List<BulkStoreVO> findBulkVOBytime(Date date);
 
     @Modifying

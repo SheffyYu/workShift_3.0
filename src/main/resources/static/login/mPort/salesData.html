@@ -67,7 +67,7 @@
     <input type="button" id="uploadBtn" class="button" value="上传文件" />
     <!--<input type="button" class="button" id="editBtn" value="编辑"/>-->
     <input type="button" class="button" id="saveBtn" value="保存"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px" class="easyui-datebox" />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false,onSelect:onChangeDate" style="width:100px" class="easyui-datebox" />
   </div>
 <div class="easyui-layout" data-options="fit: true">
   <!--,fit:true class="easyui-panel" 这里是否需要需经过测试才可以-->
@@ -85,9 +85,19 @@
 <script src="../../js/huadong/tips.js"></script>
 <script src="../../js/huadong/dealTime.js"></script>
 <script type="text/javascript">
+  var selectDate;
   $("#saveBtn").hide();
   var editIndex1 = undefined;
   var editIndex2 = undefined;
+
+  function onChangeDate() {
+    var dg = $("#uploadMaintainDatagrid");
+    var dg2 = $("#uploadMaintainDatagrid2");
+    selectDate={date:$('#dateInput').datebox("getValue")};
+    console.log(selectDate);
+    dg.datagrid('load',selectDate);
+    dg2.datagrid('load',selectDate);
+  }
 
   //判断是否结束编辑
   function endEditing(){
@@ -161,6 +171,7 @@
       var dg2 = $("#uploadMaintainDatagrid2");
     //默认上传日期为今天
     $('#dateInput').datebox('setValue', getCurentDateStr());
+    selectDate={date:$('#dateInput').datebox("getValue")};
       //上传
       $("#uploadBtn").on("click", function () {
         $("#selectFilePath").trigger("click");
@@ -214,6 +225,7 @@
         rownumbers: true,
         fit: true,
         fitColumns: false,
+        queryParams:selectDate,
         columns: [[
           {
             field: "terShortname",
@@ -349,6 +361,7 @@ $("#uploadMaintainDatagrid").datagrid({
         toolbar: "#uploadMaintainToolBar",
         fit: true,
         fitColumns: false,
+        queryParams:selectDate,
         columns: [[
           {
             field: "thCargoTotal",
@@ -598,9 +611,12 @@ $("#uploadMaintainDatagrid").datagrid({
    * @constructor
    */
   function UpladFile() {
+    var date=$('#dateInput').datebox("getValue");
     var fileObj = document.getElementById("selectFilePath").files[0]; // js 获取文件对象
     var form = new FormData(); // FormData 对象
     form.append("file", fileObj); // 文件对象
+    form.append("date",date);
+    console.log(form);
 
     $.ajax({
       url: "/test/excel/daily?timestamp="+Math.random(),
@@ -609,11 +625,20 @@ $("#uploadMaintainDatagrid").datagrid({
       processData:false,
       contentType:false,
       success:function (data) {
-        showTips("上传成功！",200,0.5);
+          console.log(data);
+          if(data != ""){
+            showTips("上传成功!",200,0.5);
+          }else{
+            showTips("上传失败!",200,0.5);
+          }
         //在弹出框结束之后刷新界面
-        setTimeout(function(){
-          location.reload();
-        },700);
+//        setTimeout(function(){
+//          location.reload();
+//        },700);
+        var dg = $("#uploadMaintainDatagrid");
+        var dg2 = $("#uploadMaintainDatagrid2");
+        dg.datagrid('load',selectDate);
+        dg2.datagrid('load',selectDate);
       }
     });
 

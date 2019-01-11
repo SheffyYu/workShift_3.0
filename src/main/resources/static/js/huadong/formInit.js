@@ -17,8 +17,8 @@ $(document).ready(function () {
   //设置默认时间为今天
   if(document.getElementById("dateInput")){
     $('#dateInput').datebox('setValue', getCurentDateStr());
+    var postDate={time:$("#dateInput").datebox("getValue")};
   }
-  var postDate={time:$("#dateInput").datebox("getValue")};
   isCur=0;
   //对西基与新港的特殊情况进行处理
   if(document.getElementById("company")){
