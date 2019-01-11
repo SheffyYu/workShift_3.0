@@ -6,30 +6,55 @@
  */
 document.write("<script language=javascript src='../../js/huadong/dealTime.js'></script>");
 var submitJson;
-//当天是否穿过数据
-var isSubmit;
+//当天是否传过数据//是否为历史数据
+var isSubmit,isHis;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
 var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
 //区分新沙和西基的url
-var compUrl;
+var compUrl,limitHour;
 
 $(document).ready(function () {
   //设置默认时间为今天
   if(document.getElementById("dateInput")){
     $('#dateInput').datebox('setValue', getCurentDateStr());
   }
-
+  var postDate={time:$("#dateInput").datebox("getValue")};
+  isHis=0;
+  //对西基与新港的特殊情况进行处理
   if(document.getElementById("company")){
-    compUrl="/login/getDataByTerCode/"+document.getElementById("company").title+"?timestamp="+Math.random();
+    compUrl="/login/getDataByTerCodeAndTime/"+document.getElementById("company").title+"?timestamp="+Math.random();
   }else{
-    compUrl="/login/getData?timestamp="+Math.random();
+    compUrl="/login/getDataByTime?timestamp="+Math.random();
   }
   var date=new Date();
-  var limitHour= date.getHours();
+  limitHour= date.getHours();
+  getDataAjax(postDate);
+});
+
+/**
+ * datebox值改变监听事件，当值改变时，填充选择时间的数据
+ * @param date
+ */
+function onChangeDate(date){
+  var postDate={time:$("#dateInput").datebox("getValue")};
+  if($("#dateInput").datebox("getValue")<getCurentDateStr()){
+    isHis=1;
+  }else{
+    isHis=0;
+  }
+  //获取选择时间的数据
+  getDataAjax(postDate);
+}
+
+/**
+ * 获取选择时间的数据
+ */
+function getDataAjax(postDate) {
   $.ajax({
-    method: "get",
+    method: "post",
     url: compUrl,
-    contentType: "application/json",
+    contentType : 'application/json',
+    data:JSON.stringify(postDate),
     success: function(data){
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""){
@@ -50,12 +75,17 @@ $(document).ready(function () {
         $(".kv-item input").each(function () {
           $(this).attr("disabled",true);
         });
-        //设置七点之后不能修改数据
-        if (limitHour>=7){
+        //设置七点之后需要申请修改数据，历史数据不可修改
+        if (isChangeData()==2){
           $("#editBtn").hide();
           $("#apply").show();
-        }else{
+        }else if(isChangeData()==1){
           $("#editBtn").show();
+          $("#apply").hide();
+        }else{
+          $("#inputBtn").hide();
+          $("#editBtn").hide();
+          $("#cancel").hide();
           $("#apply").hide();
         }
       }
@@ -64,7 +94,21 @@ $(document).ready(function () {
       console.info(data);
     }
   });
-});
+}
+
+/**
+ * 返回是否能够修改数据，2为需要申请才可修改，1为可修改，0为完全不可修改
+ */
+function isChangeData() {
+  //设置七点之后不能修改数据
+  if(isHis == 1){
+    return 0;
+  } else if (limitHour>=7){
+    return 2;
+  }else{
+    return 1;
+  }
+}
 
 /**
  * 向表单中插入数据
