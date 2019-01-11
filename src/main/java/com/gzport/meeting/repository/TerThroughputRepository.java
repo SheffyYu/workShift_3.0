@@ -16,19 +16,19 @@ import java.util.List;
 public interface TerThroughputRepository extends PagingAndSortingRepository<TerThroughput,String> {
 
     @Modifying
-    @Query(value = "SELECT t FROM TerThroughput t  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    @Query(value = "SELECT t FROM TerThroughput t  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")
     List<TerThroughput> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "SELECT t FROM TerThroughput t  WHERE INS_TIMESTAMP>?1")
+    @Query(value = "SELECT t FROM TerThroughput t  WHERE INS_TIMESTAMP>=?1")
     List<TerThroughput> findTerThroughputBytime(Date date);
 
     @Modifying
-    @Query(value = "DELETE FROM TerThroughput t  WHERE INS_TIMESTAMP>?1 AND TER_CODE=?2")
+    @Query(value = "DELETE FROM TerThroughput t  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "DELETE FROM TerThroughput t  WHERE INS_TIMESTAMP>?1")
+    @Query(value = "DELETE FROM TerThroughput t  WHERE INS_TIMESTAMP>=?1 AND INS_TIMESTAMP-1<?1")
     void deleteTerThroughputByDate(Date date);
 
 }
