@@ -4,10 +4,7 @@ import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.domain.entity.Throughput;
-import com.gzport.meeting.foundation.BulkTerEnum;
-import com.gzport.meeting.foundation.ExcelDeal;
-import com.gzport.meeting.foundation.StringFundation;
-import com.gzport.meeting.foundation.ThroughputTerEnum;
+import com.gzport.meeting.foundation.*;
 import com.gzport.meeting.service.BulkStoreService;
 import com.gzport.meeting.service.TerThroughputService;
 import com.gzport.meeting.service.ThroughputService;
@@ -56,9 +53,12 @@ public class ExcelController {
 
 
     @PostMapping("/daily")
-    public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file){
-        String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file,@RequestParam("date")String date){
+        //String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
+        Date dataTime= DateDeal.DateConvert(date);
+        if(dataTime!=null&&dataTime.getTime()>new Date().getTime())
+            return null;
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         Map<String,BulkStore> mapMap=new HashMap<>();
         if(bulkStoreList.size()>0) {
@@ -82,8 +82,10 @@ public class ExcelController {
                     int endRow=11;      //结束位置
                     String[][] data=new String[endRow-startRow+1][];        //数据保存
                     Throughput throughput = getThroughput(hssfSheet);
-                    if (throughput != null)
+                    if (throughput != null) {
+                        throughput.setInsTimestamp(dataTime);
                         throughputService.save(throughput);
+                    }
                     throughput.setInsAccount(auth.getAccount());
                     throughput.setUpdAccount(auth.getAccount());
                     for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
@@ -99,7 +101,7 @@ public class ExcelController {
                             }
                         }
                     }
-                    bulkStoreList = ExcelDeal.dailyDataDeal(data, mapMap);
+                    bulkStoreList = ExcelDeal.dailyDataDeal(data, mapMap,dataTime);
                 }
                 hssfSheet = hssfWorkbook.getSheet("吞吐量");
                 if(hssfSheet!=null){
@@ -125,6 +127,7 @@ public class ExcelController {
                     for (ThroughputTerEnum e : ThroughputTerEnum.values()) {
                         TerThroughput terThroughput=new TerThroughput();
                         terThroughput.setTerCode(e.toString());
+                        terThroughput.setInsTimestamp(dataTime);
                         terThroughput.setMonthlyPlan(new BigDecimal(terthroughputData[0][tag]));
                         terThroughput.setMonthlyTotal(new BigDecimal(terthroughputData[1][tag]).setScale(0, RoundingMode.HALF_UP));
                         terThroughput.setMonthlyPer(new BigDecimal(terthroughputData[2][tag]));

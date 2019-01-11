@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import static org.apache.poi.ss.usermodel.CellType.*;
 
@@ -76,11 +78,12 @@ public class ExcelDeal {
 //        return value;
 //    }
 
-    public static List<BulkStore> dailyDataDeal(String[][] data,Map<String,BulkStore> map){
+    public static List<BulkStore> dailyDataDeal(String[][] data,Map<String,BulkStore> map,Date dataTime){
         List<BulkStore> bulkStoreList=new ArrayList<>();
         int sum=0;
         for(BulkTerEnum e:BulkTerEnum.values()){
             BulkStore bulkStore=new BulkStore();
+            bulkStore.setInsTimeStamp(dataTime);
             if(map.get(e.toString())!=null)
                 bulkStore=map.get(e.toString());
             bulkStore.setTerCode(e.toString());
