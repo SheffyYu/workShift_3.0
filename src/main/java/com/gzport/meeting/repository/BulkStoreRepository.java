@@ -22,7 +22,7 @@ public interface BulkStoreRepository extends PagingAndSortingRepository<BulkStor
     List<BulkStore> findCurrentDataByWharf(Date date, String terId);
 
     @Modifying
-    @Query(value = "SELECT t FROM BulkStore t  WHERE INS_TIMESTAMP>=?1")
+    @Query(value = "SELECT t FROM BulkStore t  WHERE INS_TIMESTAMP>=?1 AND INS_TIMESTAMP-1<?1")
     List<BulkStore> findBulkBytime(Date date);
 
     @Modifying
