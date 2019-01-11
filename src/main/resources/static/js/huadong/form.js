@@ -177,6 +177,10 @@ function changeBtn() {
   $("#inputBtn").show();
   $("#cancel").show();
   $("#apply").hide();
+  $("#editBtn").disable=true;
+  $("#inputBtn").disable=false;
+  $("#cancel").disable=false;
+  $("#apply").disable=true;
   $(".kv-item input").each(function () {
     $(this).attr("disabled",false);
   });
@@ -188,12 +192,18 @@ function changeBtn() {
 function cancelBtn() {
   $("#inputBtn").hide();
   $("#cancel").hide();
+  $("#inputBtn").disable=true;
+  $("#cancel").disable=true;
   if (limitHour>7){
     $("#editBtn").hide();
+    $("#editBtn").disable=true;
     $("#apply").show();
+    $("#apply").disable=false;
   }else{
     $("#editBtn").show();
     $("#apply").hide();
+    $("#editBtn").disable=false;
+    $("#apply").disable=true;
   }
   $(".kv-item input").each(function () {
     $(this).attr("disabled",true);
@@ -208,6 +218,10 @@ function applyBtn() {
   $("#inputBtn").show();
   $("#cancel").show();
   $("#apply").hide();
+  $("#editBtn").disable=true;
+  $("#inputBtn").disable=false;
+  $("#cancel").disable=false;
+  $("#apply").disable=true;
   $(".kv-item input").each(function () {
     $(this).attr("disabled",false);
   });
@@ -236,14 +250,20 @@ function postJson() {
       //隐藏提交按钮
       $("#inputBtn").hide();
       $("#cancel").hide();
+      $("#inputBtn").disable=true;
+      $("#cancel").disable=true;
       //显示修改按钮
       //设置七点之后不能修改数据
       if (limitHour>=7){
         $("#editBtn").hide();
         $("#apply").show();
+        $("#editBtn").disable=true;
+        $("#apply").disable=false;
       }else{
         $("#editBtn").show();
         $("#apply").hide();
+        $("#editBtn").disable=false;
+        $("#apply").disable=true;
       }
       isSubmit=1;
       showTips(data.message,200,1);

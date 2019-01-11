@@ -70,6 +70,9 @@ $(document).ready(function () {
         $("#changeTarget").show();
         $("#cancelTarget").hide();
         $("#submitTarget").hide();
+        $("#changeTarget").disable=false;
+        $("#cancelTarget").disable=true;
+        $("#submitTarget").disable=true;
         $(".kv-item input").each(function () {
           $(this).attr("disabled",true);
         });
@@ -80,6 +83,9 @@ $(document).ready(function () {
         $("#changeTarget").hide();
         $("#cancelTarget").hide();
         $("#submitTarget").show();
+        $("#changeTarget").disable=true;
+        $("#cancelTarget").disable=true;
+        $("#submitTarget").disable=false;
       }
 
     },
@@ -101,6 +107,9 @@ var json={cargoYearThroughput:$("#cargoYearTarget").val(),
       $("#changeTarget").show();
       $("#cancelTarget").hide();
       $("#submitTarget").hide();
+      $("#changeTarget").disable=false;
+      $("#cancelTarget").disable=true;
+      $("#submitTarget").disable=true;
       $(".kv-item input").each(function () {
         $(this).attr("disabled",true);
       });
@@ -116,6 +125,9 @@ var json={cargoYearThroughput:$("#cargoYearTarget").val(),
     $("#changeTarget").hide();
     $("#cancelTarget").show();
     $("#submitTarget").show();
+    $("#changeTarget").disable=true;
+    $("#cancelTarget").disable=false;
+    $("#submitTarget").disable=false;
     $(".kv-item input").each(function () {
       $(this).attr("disabled",false);
     });
@@ -125,6 +137,9 @@ var json={cargoYearThroughput:$("#cargoYearTarget").val(),
     $("#changeTarget").show();
     $("#cancelTarget").hide();
     $("#submitTarget").hide();
+    $("#changeTarget").disable=false;
+    $("#cancelTarget").disable=true;
+    $("#submitTarget").disable=true;
     $(".kv-item input").each(function () {
       $(this).attr("disabled",true);
     });

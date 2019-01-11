@@ -65,6 +65,10 @@ function getDataAjax(postDate) {
         $("#editBtn").hide();
         $("#cancel").hide();
         $("#apply").hide();
+        $("#editBtn").disable=true;
+        $("#inputBtn").disable=false;
+        $("#cancel").disable=true;
+        $("#apply").disable=true;
         //历史没有数据
       }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==1){
         //清空所有框的值
@@ -73,12 +77,18 @@ function getDataAjax(postDate) {
         $("#editBtn").hide();
         $("#cancel").hide();
         $("#apply").hide();
+        $("#editBtn").disable=true;
+        $("#inputBtn").disable=true;
+        $("#cancel").disable=true;
+        $("#apply").disable=true;
       } else{
         isSubmit=1;
         submitJson=data;
         //当天已经提交过数据
         $("#inputBtn").hide();
         $("#cancel").hide();
+        $("#inputBtn").disable=true;
+        $("#cancel").disable=true;
         //向输入框插入数据
         insertIntoFormData();
         //禁用所有输入框
@@ -89,14 +99,22 @@ function getDataAjax(postDate) {
         if (isChangeData()==2){
           $("#editBtn").hide();
           $("#apply").show();
+          $("#editBtn").disable=true;
+          $("#apply").disable=false;
         }else if(isChangeData()==1){
           $("#editBtn").show();
           $("#apply").hide();
+          $("#editBtn").disable=false;
+          $("#apply").disable=true;
         }else{
           $("#inputBtn").hide();
           $("#editBtn").hide();
           $("#cancel").hide();
           $("#apply").hide();
+          $("#editBtn").disable=true;
+          $("#inputBtn").disable=true;
+          $("#cancel").disable=true;
+          $("#apply").disable=true;
         }
       }
     },
