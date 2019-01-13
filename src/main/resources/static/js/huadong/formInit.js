@@ -69,6 +69,10 @@ function getDataAjax(postDate) {
         $("#inputBtn").disable=false;
         $("#cancel").disable=true;
         $("#apply").disable=true;
+        //禁用所有输入框
+        $(".kv-item input").each(function () {
+          $(this).attr("disabled",false);
+        });
         //历史没有数据
       }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==1){
         //清空所有框的值
@@ -81,6 +85,10 @@ function getDataAjax(postDate) {
         $("#inputBtn").disable=true;
         $("#cancel").disable=true;
         $("#apply").disable=true;
+        //禁用所有输入框
+        $(".kv-item input").each(function () {
+          $(this).attr("disabled",true);
+        });
       } else{
         isSubmit=1;
         submitJson=data;
