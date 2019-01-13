@@ -51,7 +51,7 @@ function onChangeDate(date){
  */
 function getDataAjax(postDate) {
   $.ajax({
-    method: "post",
+    type: "post",
     url: compUrl,
     contentType : 'application/json',
     data:JSON.stringify(postDate),
