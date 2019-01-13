@@ -42,6 +42,12 @@ function onChangeDate(date){
   }else{
     isCur=0;
   }
+  //对西基与新港的特殊情况进行处理
+  if(document.getElementById("company")){
+    compUrl="/login/getDataByTerCodeAndTime/"+document.getElementById("company").title+"?timestamp="+Math.random();
+  }else{
+    compUrl="/login/getDataByTime?timestamp="+Math.random();
+  }
   //获取选择时间的数据
   getDataAjax(postDate);
 }
