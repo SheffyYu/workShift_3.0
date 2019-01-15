@@ -1,5 +1,7 @@
 package com.gzport.meeting.controller;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,10 +16,10 @@ import java.io.*;
 public class ExportController {
 
     @RequestMapping("/Excel")
-    public void downLoadExcel(HttpServletResponse response) throws FileNotFoundException, UnsupportedEncodingException {
-        File file_2 = new File("classpath: static/files/jiaoban.xls");
-        String fileName = new String("交接班记录表".getBytes("GBK"), "ISO-8859-1");
-        OutputStream os = new FileOutputStream(file_2);
+    public void downLoadExcel(HttpServletResponse response) throws IOException {
+        Resource resource = new ClassPathResource("static/files/jiaoban.xls");
+        File file_2 = resource.getFile();
+        String fileName = new String("交接班记录表.xls".getBytes("GBK"), "ISO-8859-1");
         if (file_2.length() > 0) {
             response.setContentType("application/force-download");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName);
