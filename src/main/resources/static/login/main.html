@@ -1,6 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <META    HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META    HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META    HTTP-EQUIV="Expires" CONTENT="0">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="stylesheet" type="text/css" href="../css/style.css" />
@@ -68,7 +72,7 @@
       <!--//////////////////////////////////////-->
     </div>
     <div id="bd">
-      <iframe width="100%" height="100%" id="mainIframe" src="nav.html" frameborder="0" style="margin-top: -4px"></iframe>
+      <iframe width="100%" height="100%" id="mainIframe" src="" frameborder="0" style="margin-top: -4px"></iframe>
     </div>
 
     <div id="ft" class="ue-clear">
@@ -103,6 +107,8 @@
     $("#bd").height($(window).height()-$("#hd").outerHeight()-26);
 
   });
+
+  $("#mainIframe").attr("src","nav.html?timestamp="+Math.random())
 
   //获取用户名字
   $.ajax({

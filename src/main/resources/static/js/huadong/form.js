@@ -3,7 +3,7 @@
  */
 //弹出提示框
 document.write("<script language=javascript src='../../js/huadong/tips.js'></script>");
-document.write("<script language=javascript src='../../js/huadong/formInit.js'></script>");
+document.write("<script language=javascript src='../../js/huadong/formInit.js?v=20190113'></script>");
 //最终传递的数据
 var submitJson;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
