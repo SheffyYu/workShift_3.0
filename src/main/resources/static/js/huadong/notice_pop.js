@@ -68,7 +68,7 @@ function getUnwriteTer(){
       //当有码头没有填写时
       if(data != ""){
         //获取码头名称
-        content+="<li>**目前还未填写数据的码头有"+data.length+"个，其中包括："+data[0].terCode;
+        content+="<li>**目前还未填写数据的公司有"+data.length+"个，其中包括："+data[0].terCode;
         for(var i=1;i<data.length;i++){
           content+="，"+data[i].terCode;
         }
