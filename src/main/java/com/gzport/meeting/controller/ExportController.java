@@ -15,7 +15,7 @@ public class ExportController {
 
     @RequestMapping("/Excel")
     public void downLoadExcel(HttpServletResponse response) throws FileNotFoundException, UnsupportedEncodingException {
-        File file_2 = new File("/files/jiaoban.xls");
+        File file_2 = new File("classpath: static/files/jiaoban.xls");
         String fileName = new String("交接班记录表".getBytes("GBK"), "ISO-8859-1");
         OutputStream os = new FileOutputStream(file_2);
         if (file_2.length() > 0) {
