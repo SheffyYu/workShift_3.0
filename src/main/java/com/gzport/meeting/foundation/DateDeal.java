@@ -49,6 +49,28 @@ public class DateDeal {
         return afterDate;
     }
 
+    public static Date  getSpecifiedDayBefore(Date currentDate){
+        Calendar c = Calendar.getInstance();
+        String  specifiedDay=new SimpleDateFormat("yy-MM-dd").format(currentDate);
+        Date date=null;
+        try {
+            date = new SimpleDateFormat("yy-MM-dd").parse(specifiedDay);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.setTime(date);
+        int day=c.get(Calendar.DATE);
+        c.set(Calendar.DATE,day-1);
+        String dayAfter=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+        Date afterDate=null;
+        try {
+            afterDate=new SimpleDateFormat("yy-MM-dd").parse(dayAfter);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return afterDate;
+    }
+
     public static Date DateConvert(String date){
         try {
             if((new SimpleDateFormat("yyyy-MM-dd").format(new Date())).equals(date))

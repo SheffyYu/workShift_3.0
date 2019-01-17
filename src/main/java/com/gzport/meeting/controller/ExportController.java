@@ -72,7 +72,6 @@ public class ExportController {
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook(inputStream);
         HSSFSheet hssfSheet=hssfWorkbook.getSheet("附表");
         if(hssfSheet!=null) {
-            List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(beforeDate);
             HSSFRow hssfRow=null;
             HSSFCell cell=null;
             hssfRow=hssfSheet.getRow(0);
@@ -80,80 +79,201 @@ public class ExportController {
             HSSFCell Datecell = hssfRow.getCell(6);
             Datecell.setCellValue(excelDate);                                               //设置EXCEL日期
             List<Throughput> throughput=throughputService.getByDate(time);
-            hssfRow=hssfSheet.getRow(1);
-            HSSFCell cargoPlan=hssfRow.getCell(0);
+            if(throughput.size()>0) {
+                hssfRow = hssfSheet.getRow(1);
+                HSSFCell cargoPlan = hssfRow.getCell(0);
+                cargoPlan.setCellValue("货物吞吐量累计：" + throughput.get(0).getThCargoPlan());
+                cell = hssfRow.getCell(3);
+                cell.setCellValue("集装箱吞吐量累计： " + throughput.get(0).getThCntrPlan());
+                hssfRow = hssfSheet.getRow(2);                //第三行设置
+                cell = hssfRow.getCell(0);
+                cell.setCellValue(throughput.get(0).getThCargoTotal().setScale(1, BigDecimal.ROUND_HALF_UP) + "");              //设置货物每月累计
+                cell = hssfRow.getCell(2);
+                cell.setCellValue(throughput.get(0).getCargoTotalPer().setScale(1, BigDecimal.ROUND_HALF_UP) + "");         //设置货物百分比
+                cell = hssfRow.getCell(3);
+                cell.setCellValue(throughput.get(0).getThCntrTotal().setScale(1, BigDecimal.ROUND_HALF_UP) + "");        //设置集装箱累计
+                cell = hssfRow.getCell(5);
+                cell.setCellValue(throughput.get(0).getCntrTotalPer().setScale(1, BigDecimal.ROUND_HALF_UP) + "");        //设置集装箱累计
+                cell = hssfRow.getCell(6);
+                cell.setCellValue(throughput.get(0).getDailyTotal().setScale(1, BigDecimal.ROUND_HALF_UP) +
+                        "(" + throughput.get(0).getThrouthputNTC().setScale(1, BigDecimal.ROUND_HALF_UP) +
+                        "+" + throughput.get(0).getThroughputGOCT().setScale(1, BigDecimal.ROUND_HALF_UP) +
+                        "+" + throughput.get(0).getThroughputNICT().setScale(1, BigDecimal.ROUND_HALF_UP) + ")");          //设置南沙集装箱吞吐量
+            }
 
-            cargoPlan.setCellValue("货物吞吐量累计："+throughput.get(0).getThCargoPlan());
-            cell=hssfRow.getCell(3);
-            cell.setCellValue("集装箱吞吐量累计： "+throughput.get(0).getThCntrPlan());
-            hssfRow=hssfSheet.getRow(2);                //第三行设置
-            cell=hssfRow.getCell(0);
-            cell.setCellValue(throughput.get(0).getThCargoTotal().setScale(1, BigDecimal.ROUND_HALF_UP)+"");              //设置货物每月累计
-            cell=hssfRow.getCell(2);
-            cell.setCellValue(throughput.get(0).getCargoTotalPer().setScale(1, BigDecimal.ROUND_HALF_UP)+"");         //设置货物百分比
-            cell=hssfRow.getCell(3);
-            cell.setCellValue(throughput.get(0).getThCntrTotal().setScale(1, BigDecimal.ROUND_HALF_UP)+"");        //设置集装箱累计
-            cell=hssfRow.getCell(5);
-            cell.setCellValue(throughput.get(0).getCntrTotalPer().setScale(1, BigDecimal.ROUND_HALF_UP)+"");        //设置集装箱累计
-            cell=hssfRow.getCell(6);
-            cell.setCellValue(throughput.get(0).getDailyTotal().setScale(1, BigDecimal.ROUND_HALF_UP)+
-                    "("+throughput.get(0).getThrouthputNTC().setScale(1, BigDecimal.ROUND_HALF_UP)+
-                    "+"+throughput.get(0).getThroughputGOCT().setScale(1, BigDecimal.ROUND_HALF_UP)+
-                    "+"+throughput.get(0).getThroughputNICT().setScale(1, BigDecimal.ROUND_HALF_UP)+")");          //设置南沙集装箱吞吐量
-            List<IntfShip> intfShipList=intfShipService.findByDateAndStatue(beforeDate);
-            IntfShip intfShip = intfShipList.get(0).getShipStatue().equals("1")?intfShipList.get(0):intfShipList.get(1);
-            System.out.println(intfShipList.size());
             //第六行设置
-            hssfRow=hssfSheet.getRow(5);
-            cell=hssfRow.getCell(0);
-            cell.setCellValue(intfShip.getShipNumber());        //总艘数
-            cell=hssfRow.getCell(2);
-            cell.setCellValue(intfShip.getTradeNumber());       //外贸艘数
-            cell=hssfRow.getCell(4);
-            cell.setCellValue(intfShip.getWorkNumber());       //作业艘数
-            IntfShip preintfShip = intfShipList.get(0).getShipStatue().equals("2")?intfShipList.get(0):intfShipList.get(1);
-            cell=hssfRow.getCell(6);
-            cell.setCellValue(preintfShip.getShipNumber());       //预报大船数
+            List<IntfShip> intfShipList=intfShipService.findByDateAndStatue(beforeDate);
+            if(intfShipList!=null){
+                for(int i=0;i<intfShipList.size();i++){
+                    IntfShip intfShip=intfShipList.get(i);
+                    switch (intfShip.getShipStatue()){
+                        case "1":
+                            hssfRow=hssfSheet.getRow(5);
+                            cell=hssfRow.getCell(0);
+                            cell.setCellValue(intfShip.getShipNumber());        //总艘数
+                            cell=hssfRow.getCell(2);
+                            cell.setCellValue(intfShip.getTradeNumber());       //外贸艘数
+                            cell=hssfRow.getCell(4);
+                            cell.setCellValue(intfShip.getWorkNumber());       //作业艘数
+                            break;
+                        case "2":
+                            cell=hssfRow.getCell(6);
+                            cell.setCellValue(intfShip.getShipNumber());       //预报大船数
+                            break;
+                    }
+                }
+            }
+
+            List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(DateDeal.getSpecifiedDayBefore(beforeDate));
+//            for(int i=0;i<bulkStoreVOS.size();i++){
+//                BulkStoreVO bulkStoreVO=bulkStoreVOS.get(i);
+//                switch (bulkStoreVO.getTerCode()){
+//                    case "HP":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(1);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(1);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(1);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(1);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(1);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                    case "XG":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(2);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(2);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(2);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(2);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(2);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                    case "XJ":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(3);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(3);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(3);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(3);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(3);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                    case "XS":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(4);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(4);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(4);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(4);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(4);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                    case "HN":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(5);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(5);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(5);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(5);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(5);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                    case "NGT":
+//                        hssfRow=hssfSheet.getRow(8);
+//                        cell=hssfRow.getCell(6);
+//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
+//                        hssfRow=hssfSheet.getRow(9);
+//                        cell=hssfRow.getCell(6);
+//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
+//                        hssfRow=hssfSheet.getRow(10);
+//                        cell=hssfRow.getCell(6);
+//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
+//                        hssfRow=hssfSheet.getRow(11);
+//                        cell=hssfRow.getCell(6);
+//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
+//                        hssfRow=hssfSheet.getRow(12);
+//                        cell=hssfRow.getCell(6);
+//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
+//                        break;
+//                }
+//            }
             //库存设置
             int startRow=8;     //值班调度日报标签吞吐量开始位置
             int endRow=12;      //结束位置
-            for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
-                switch (rowNum){
-                    case 8:
-                        hssfRow = hssfSheet.getRow(rowNum);
-                        for(int i=1;i<=6;i++){
-                            cell = hssfRow.getCell(i);
-                            cell.setCellValue(bulkStoreVOS.get(i-1).getTotalStore()!=null?bulkStoreVOS.get(i-1).getTotalStore().toString():null);
-                        }
-                        break;
-                    case 9:
-                        hssfRow = hssfSheet.getRow(rowNum);
-                        for(int i=1;i<=6;i++){
-                            cell = hssfRow.getCell(i);
-                            cell.setCellValue(bulkStoreVOS.get(i-1).getOreStore()!=null?bulkStoreVOS.get(i-1).getOreStore().toString():null);
-                        }
-                        break;
-                    case 10:
-                        hssfRow = hssfSheet.getRow(rowNum);
-                        for(int i=1;i<=6;i++){
-                            cell = hssfRow.getCell(i);
-                            cell.setCellValue(bulkStoreVOS.get(i-1).getCoalStore()!=null?bulkStoreVOS.get(i-1).getCoalStore().toString():null);
-                        }
-                        break;
-                    case 11:
-                        hssfRow = hssfSheet.getRow(rowNum);
-                        for(int i=1;i<=6;i++){
-                            cell = hssfRow.getCell(i);
-                            cell.setCellValue(bulkStoreVOS.get(i-1).getFoodStore()!=null?bulkStoreVOS.get(i-1).getFoodStore().toString():null);
-                        }
-                        break;
-                    case 12:
-                        hssfRow = hssfSheet.getRow(rowNum);
-                        for(int i=1;i<=6;i++){
-                            cell = hssfRow.getCell(i);
-                            cell.setCellValue(bulkStoreVOS.get(i-1).getSteelStore()!=null?bulkStoreVOS.get(i-1).getSteelStore().toString():null);
-                        }
-                        break;
+            if(bulkStoreVOS.size()>0) {
+                for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
+                    switch (rowNum) {
+                        case 8:
+                            hssfRow = hssfSheet.getRow(rowNum);
+                            for (int i = 1; i <= 6; i++) {
+                                cell = hssfRow.getCell(i);
+                                cell.setCellValue(bulkStoreVOS.get(i - 1).getTotalStore() != null ? bulkStoreVOS.get(i - 1).getTotalStore().toString() : null);
+                            }
+                            break;
+                        case 9:
+                            hssfRow = hssfSheet.getRow(rowNum);
+                            for (int i = 1; i <= 6; i++) {
+                                cell = hssfRow.getCell(i);
+                                cell.setCellValue(bulkStoreVOS.get(i - 1).getOreStore() != null ? bulkStoreVOS.get(i - 1).getOreStore().toString() : null);
+                            }
+                            break;
+                        case 10:
+                            hssfRow = hssfSheet.getRow(rowNum);
+                            for (int i = 1; i <= 6; i++) {
+                                cell = hssfRow.getCell(i);
+                                cell.setCellValue(bulkStoreVOS.get(i - 1).getCoalStore() != null ? bulkStoreVOS.get(i - 1).getCoalStore().toString() : null);
+                            }
+                            break;
+                        case 11:
+                            hssfRow = hssfSheet.getRow(rowNum);
+                            for (int i = 1; i <= 6; i++) {
+                                cell = hssfRow.getCell(i);
+                                cell.setCellValue(bulkStoreVOS.get(i - 1).getFoodStore() != null ? bulkStoreVOS.get(i - 1).getFoodStore().toString() : null);
+                            }
+                            break;
+                        case 12:
+                            hssfRow = hssfSheet.getRow(rowNum);
+                            for (int i = 1; i <= 6; i++) {
+                                cell = hssfRow.getCell(i);
+                                cell.setCellValue(bulkStoreVOS.get(i - 1).getSteelStore() != null ? bulkStoreVOS.get(i - 1).getSteelStore().toString() : null);
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -288,32 +408,34 @@ public class ExportController {
                         case "驳船":
                             hssfRow = hssfSheet.getRow(12);
                             cell = hssfRow.getCell(0);
-                            cell.setCellValue(bargeXS.getTotalNumber());
+                            cell.setCellValue(bargeXS.getTotalNumber()!=null?bargeXS.getTotalNumber().toString():"");
                             cell=hssfRow.getCell(2);
-                            cell.setCellValue(bargeXS.getShuttlebusNumber());
+                            cell.setCellValue(bargeXS.getShuttlebusNumber()!=null?bargeXS.getShuttlebusNumber().toString():"");
                             cell=hssfRow.getCell(4);
-                            cell.setCellValue(bargeXS.getShenzhenNumber());
+                            cell.setCellValue(bargeXS.getShenzhenNumber()!=null?bargeXS.getShenzhenNumber().toString():"");
                             cell=hssfRow.getCell(5);
-                            cell.setCellValue(bargeXS.getItNumber());
+                            cell.setCellValue(bargeXS.getItNumber()!=null?bargeXS.getItNumber().toString():"");
                             cell=hssfRow.getCell(6);
-                            cell.setCellValue(bargeXS.getEtNumber());
+                            cell.setCellValue(bargeXS.getEtNumber()!=null?bargeXS.getEtNumber().toString():"");
                             break;
                         case "作业线":
                             hssfRow = hssfSheet.getRow(13);
                             cell = hssfRow.getCell(0);
-                            cell.setCellValue(bargeXS.getTotalNumber());
+                            cell.setCellValue(bargeXS.getTotalNumber()!=null?bargeXS.getTotalNumber().toString():"");
                             cell=hssfRow.getCell(2);
-                            cell.setCellValue(bargeXS.getShuttlebusNumber());
+                            cell.setCellValue(bargeXS.getShuttlebusNumber()!=null?bargeXS.getShuttlebusNumber().toString():"");
                             cell=hssfRow.getCell(4);
-                            cell.setCellValue(bargeXS.getShenzhenNumber());
+                            cell.setCellValue(bargeXS.getShenzhenNumber()!=null?bargeXS.getShenzhenNumber().toString():"");
                             cell=hssfRow.getCell(5);
-                            cell.setCellValue(bargeXS.getItNumber());
+                            cell.setCellValue(bargeXS.getItNumber()!=null?bargeXS.getItNumber().toString():"");
                             cell=hssfRow.getCell(6);
-                            cell.setCellValue(bargeXS.getEtNumber());
+                            cell.setCellValue(bargeXS.getEtNumber()!=null?bargeXS.getEtNumber().toString():"");
                             break;
                     }
                 }
             }
+
+
             OutputStream os=new FileOutputStream(file_2);
             hssfWorkbook.write(os);
         }
