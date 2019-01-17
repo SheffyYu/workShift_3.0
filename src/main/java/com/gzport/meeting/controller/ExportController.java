@@ -58,7 +58,7 @@ public class ExportController {
     BargeXSService bargeXSService;
 
     @RequestMapping("/Excel")
-    public void downLoadExcel(HttpServletResponse response, @RequestParam("time")String time) throws IOException {
+    public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
         Resource resource = new ClassPathResource("static/files/jiaoban.xls");
         File file_2 = resource.getFile();
         Date beforeDate=null;
