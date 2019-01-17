@@ -55,6 +55,11 @@ public class BargeServiceImpl implements BargeService {
     }
 
     @Override
+    public List<Barge> getBargeByDate(Date date) {
+        return bargeRepository.findByTimeAndWharf(date);
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

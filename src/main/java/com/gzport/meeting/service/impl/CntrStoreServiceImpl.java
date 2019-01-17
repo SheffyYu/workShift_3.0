@@ -54,6 +54,11 @@ public class CntrStoreServiceImpl implements CntrStoreService {
     }
 
     @Override
+    public List<CntrStore> getCntrSotreByDate(Date date) {
+        return cntrStoreRepsitory.findByTime(date);
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());

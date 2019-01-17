@@ -23,6 +23,10 @@ public interface CntrStoreRepsitory extends PagingAndSortingRepository<CntrStore
     List<CntrStore> findByTimeAndWharf(Date date, String terId);
 
     @Modifying
+    @Query(value = "SELECT t FROM CntrStore t WHERE INS_TIMESTAMP>=?1 AND INS_TIMESTAMP-1<?1")
+    List<CntrStore> findByTime(Date date);
+
+    @Modifying
     @Query(value = "DELETE FROM CntrStore  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date, String terId);
 }
