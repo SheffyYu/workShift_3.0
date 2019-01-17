@@ -70,14 +70,20 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px" class="easyui-datebox" />
 </div>
 </body>
+<script src="../../js/huadong/dealTime.js"></script>
 <script>
   /**
    * 下载交接班记录excel表
    */
   $("#downloadBtn").on("click", function() {
-    var postDate={time:$("#dateInput").datebox("getValue")};
+    var postDate=$("#dateInput").datebox("getValue");
+    console.log(postDate);
     var $eleForm = $("<form method='get'></form>");
-    $eleForm.attr("action","/login/export/Excel/?time="+postDate);
+    var inputDate=$("<input type='text' name='time'/>");
+    inputDate.attr("value",postDate);
+    $eleForm.attr("action","/login/export/Excel?");
+      $eleForm.append(inputDate);
+      console.log($eleForm);
     $(document.body).append($eleForm);
 
     //提交表单，实现下载
