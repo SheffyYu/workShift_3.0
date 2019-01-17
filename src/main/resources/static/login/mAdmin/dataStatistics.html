@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <META    HTTP-EQUIV="Pragma" CONTENT="no-cache">
-  <META    HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-  <META    HTTP-EQUIV="Expires" CONTENT="0">
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="0">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
   <link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/easyui.css" />
   <link rel="stylesheet" type="text/css" href="../../css/themes/metro-white/hdStyle.css" />
   <link rel="stylesheet" type="text/css" href="../../css/style.css" />
   <link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/skin_/form.css" />
   <script type="text/javascript" src="../../js/jquery.js"></script>
   <script type="text/javascript" src="../../js/global.js"></script>
   <script type="text/javascript" src="../../js/jquery.select.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="../../css/themes/icon.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
+
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
   <script src="../../js/jquery.cycle.all.min.js"></script>
   <script src="../../js/jquery.jcarousel.min.js"></script>
@@ -21,32 +25,72 @@
   <script type="text/javascript" src="../../js/datagrid-bufferview.js"></script>
   <script type="text/javascript" src="../../js/jquery.json-2.4.js"></script>
   <script type="text/javascript" src="../../js/jquery-migrate-1.2.1.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="../../login/css/jsmind.css" />
+
+  <script charset="utf-8" src="../../js/ueditor/ueditor.config.js"></script>
+  <script charset="utf-8" src="../../js/ueditor/ueditor.all.min.js"></script>
+  <script charset="utf-8" src="../../js/ueditor/lang/zh-cn/zh-cn.js"></script>
+  <script charset="utf-8" src="../../js/ueditor/ueditor.all.js"></script>
+
+  <script type="text/javascript">
+    $.hd = $.hd || {};
+    $.fn.form.methods.defaultSubmit = $.fn.form.methods.submit || function() {  };
+  </script>
+  <!-- END: 在公司idev库之前执行 -->
+  <script type="text/javascript" src="../../js/datagrid-dnd.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.tabs.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.combo.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.datagrid.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.form.js"></script>
   <script src="../../js/hdEzuiEx_js/ezui.ex.datebox.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.datetimebox.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.combogrid.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezui.ex.treegrid.js"></script>
+  <script src="../../js/hdEzuiEx_js/HdObject.js"></script>
+  <script src="../../js/hdEzuiEx_js/HdConditions.js"></script>
   <script src="../../js/hdUtils/HdUtils.js"></script>
   <script src="../../js/hdUtils/commonUtils.js"></script>
-  <!--<script type="text/javascript" src="../../js/huadong/formInit.js?v=20190113"></script>-->
+  <script src="../../js/hdEzuiEx_js/HdEzuiQueryParams.js"></script>
+  <script src="../../js/hdEzuiEx_js/ezuiCode.js" type="text/javascript"></script>
+  <script src="../../js/hdEzuiEx_js/ezuiComboGridCode.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../../js/hdEzuiEx_js/extension.js"></script>
+  <script type="text/javascript" src="../../js/huadong/main.js"></script>
+  <!--<script type="text/javascript" src="../../js/huadong/hdMenu.js"></script>-->
+  <!-- 下拉 -->
+  <script type="text/javascript" src="../../js/hdDropList/comboDropListBase.js"></script>
   <!-- BEGIN: 国际化 -->
   <script type="text/javascript"  src="../../js/jquery.i18n.properties-min-1.0.9.js"></script>
   <script id="language2" src="../../js/hdEzuiEx_js/ezuiEx-lang-zh.js"></script>
   <script id="language" src="../../i18n/locale/easyui-lang-zh.js" type="text/javascript"></script>
-  <script type="text/javascript">
-  </script>
   <title>数据统计与导出</title>
-</head>
+  </head>
 <body>
-<input type="button" id="downloadBtn" class="button" value="导出交接班表" />
-
+<div>
+  <input type="button" id="downloadBtn" class="button" value="导出交接班表" style="margin-top: 20px;"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px" class="easyui-datebox" />
+</div>
 </body>
 <script>
+  /**
+   * 下载交接班记录excel表
+   */
   $("#downloadBtn").on("click", function() {
+    var postDate={time:$("#dateInput").datebox("getValue")};
     var $eleForm = $("<form method='get'></form>");
-
-    $eleForm.attr("action","/login/export/Excel");
-
+    $eleForm.attr("action","/login/export/Excel/?time="+postDate);
     $(document.body).append($eleForm);
 
     //提交表单，实现下载
     $eleForm.submit();
   });
+
+  /**
+   * 加载
+   */
+  $(document).ready(function () {
+    //默认上传日期为今天
+    $('#dateInput').datebox('setValue', getCurentDateStr());
+  });
+
 </script>
 </html>

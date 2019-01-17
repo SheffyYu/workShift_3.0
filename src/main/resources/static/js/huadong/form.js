@@ -6,8 +6,8 @@ document.write("<script language=javascript src='../../js/huadong/tips.js'></scr
 document.write("<script language=javascript src='../../js/huadong/formInit.js?v=20190113'></script>");
 //最终传递的数据
 var submitJson;
-//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
-var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
+//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存
+var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk;
 // 判断是否有条件不满足,不满足则为false,不进行操作
 var isContinue;
 var date=new Date();
@@ -25,7 +25,8 @@ function initData() {
     truckStoreList: [],
     cntrStoreList: [],
     bargeXSList: [],
-    // carStoreList:[]
+    carStoreList:[]
+    /******************************************************************************/
   };
   disper=[];
   barge=[];
@@ -34,10 +35,10 @@ function initData() {
   truck=[];
   cntrStore=[];
   vehicle=[];
+  bulk=[];
   isContinue=true;
 }
 /**
- *
  * 待作业=在港艘数-作业
  * 驳船=作业
  */
@@ -148,6 +149,10 @@ function submitBtn() {
     //汽车库存
     bulkVehicleData();
   }
+  if(document.getElementById("bulkStore")){
+    //汽车库存
+    bulkData();
+  }
 
 
   //整合数据
@@ -160,6 +165,8 @@ function submitBtn() {
   submitJson.bargeXSList=bargeXS;
   submitJson.cntrStoreList=cntrStore;
   submitJson.carStoreList=vehicle;
+  /********************************************************************************/
+
 
 
   //提交数据
@@ -532,4 +539,27 @@ function bulkVehicleData() {
     carNumber:busNum		//汽车库存
   }
   vehicle.push(obj);
+}
+
+/**
+ * 散货库存界面-------目前只有亚太
+ */
+function bulkData() {
+  var bulkAll=document.getElementById("bulkAll").value;
+  var bulkCoal=document.getElementById("bulkCoal").value;
+  var bulkOre=document.getElementById("bulkOre").value;
+  var bulkFood=document.getElementById("bulkFood").value;
+  var bulkSteel=document.getElementById("bulkSteel").value;
+
+  /****************************************************************************************************/
+  var obj={
+    truckStoreId:"",
+    loadInport:bulkAll,
+    loadOutPort:bulkCoal,
+    loadiCoal:bulkOre,
+    loadiOre:bulkFood,
+    loadiOther:bulkSteel,
+    terCode:""
+  };
+  bulk.push(obj);
 }

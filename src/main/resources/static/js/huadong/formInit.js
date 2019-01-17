@@ -8,8 +8,8 @@ document.write("<script language=javascript src='../../js/huadong/dealTime.js'><
 var submitJson;
 //当天是否传过数据//是否为历史数据,0为当前数据，1为历史数据
 var isSubmit,isCur;
-//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存
-var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle;
+//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存
+var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk;
 //区分新沙和西基的url
 var compUrl,limitHour;
 
@@ -163,6 +163,8 @@ function insertIntoFormData() {
   bargeXS=submitJson.bargeXSList;
   cntrStore=submitJson.cntrStoreList;
   vehicle=submitJson.carStoreList;
+  /**************************************************************************************************/
+  // bulk=;
 
   if(document.getElementById("dispersion")){
     //疏运部分数据插入
@@ -204,6 +206,12 @@ function insertIntoFormData() {
     //汽车库存
     if(vehicle != ""){
       insertVehicleData();
+    }
+  }
+  if(document.getElementById("bulkStore")){
+    //汽车库存
+    if(bulk != ""){
+      insertBulkData();
     }
   }
   }
@@ -381,6 +389,18 @@ function insertCntrStoreData() {
  */
 function insertVehicleData() {
   document.getElementById("busNumBulk").value=vehicle[0].carNumber;
+}
+
+/**
+ * 散货库存
+ */
+function insertBulkData() {
+  /***********************************************************************************************/
+  document.getElementById("bulkAll").value=bulk[0].loadiXg;
+  document.getElementById("bulkCoal").value=bulk[0].loadiXg;
+  document.getElementById("bulkOre").value=bulk[0].loadiXg;
+  document.getElementById("bulkFood").value=bulk[0].loadiXg;
+  document.getElementById("bulkSteel").value=bulk[0].loadiXg;
 }
 
 /**
