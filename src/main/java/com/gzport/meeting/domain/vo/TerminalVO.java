@@ -16,8 +16,17 @@ public class TerminalVO {
     List<CntrStore> cntrStoreList;
     List<BargeXS> bargeXSList;
     List<CarStore> carStoreList;
+    List<Attendence> attendenceList;
     String terCode;
     String dataTime;
+
+    public List<Attendence> getAttendenceList() {
+        return attendenceList;
+    }
+
+    public void setAttendenceList(List<Attendence> attendenceList) {
+        this.attendenceList = attendenceList;
+    }
 
     public String getDataTime() {
         return dataTime;

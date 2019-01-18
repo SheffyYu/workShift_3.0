@@ -57,6 +57,9 @@ public class TerExamineController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    AttendenceService attendenceService;
+
     @PostMapping("/examine")
     @ResponseBody
     public SaveResult TerDataExamine(@RequestBody JSONObject terCode){
@@ -157,6 +160,17 @@ public class TerExamineController {
                     terminalVO.getCarStoreList().get(i).setTerCode(auth.getCompany());
                 }
                 if(carStoreService.saveAll(terminalVO.getCarStoreList())==null)
+                    return SaveResult.getInstance(SaveResult.FAILE);
+            }
+            if(terminalVO.getAttendenceList().size()>0){
+                if(attendenceService.findCurrentByWharf(auth.getCompany()).size()>0)
+                    attendenceService.deleteCurrentBargeByTerId(auth.getCompany());
+                for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+                    terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
+                    terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
+                    terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
+                }
+                if(attendenceService.saveAll(terminalVO.getAttendenceList())==null)
                     return SaveResult.getInstance(SaveResult.FAILE);
             }
             DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();

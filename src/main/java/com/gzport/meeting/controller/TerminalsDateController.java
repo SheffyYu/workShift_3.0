@@ -60,6 +60,9 @@ public class TerminalsDateController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private AttendenceService attendenceService;
+
     @PostMapping("/saveData")
     @ResponseBody
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
@@ -184,6 +187,17 @@ public class TerminalsDateController {
             if(carStoreService.saveAll(terminalVO.getCarStoreList())==null)
                 return SaveResult.getInstance(SaveResult.FAILE);
         }
+        if(terminalVO.getAttendenceList().size()>0){
+            if(attendenceService.findCurrentByWharf(auth.getCompany()).size()>0)
+                attendenceService.deleteCurrentBargeByTerId(auth.getCompany());
+            for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+                terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
+                terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
+            }
+            if(attendenceService.saveAll(terminalVO.getAttendenceList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
+        }
         DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();
         dailyTerdataLog.setTerCode(auth.getCompany());
         dailyTerdataLog.setUpdAccount(auth.getAccount());
@@ -217,6 +231,7 @@ public class TerminalsDateController {
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setAttendenceList(attendenceService.findCurrentByWharf(auth.getCompany()));
         return terminalVO;
     }
 
@@ -247,6 +262,7 @@ public class TerminalsDateController {
         terminalVO.setTruckStoreList(truckStoreService.findProByTerIdAndTime(auth.getCompany(),time));
         terminalVO.setProductionLineList(productionLineService.findProByTerIDAndTime(auth.getCompany(),time));
         terminalVO.setCarStoreList(carStoreService.getBargeByTerIdAndTime(auth.getCompany(),time));
+        terminalVO.setAttendenceList(attendenceService.findAttendenceByWharfAndTime(auth.getCompany(),time));
         return terminalVO;
     }
 
@@ -284,6 +300,7 @@ public class TerminalsDateController {
         terminalVO.setTruckStoreList(truckStoreService.findProByTerIdAndTime(auth.getCompany(),time));
         terminalVO.setProductionLineList(productionLineService.findProByTerIDAndTime(auth.getCompany(),time));
         terminalVO.setCarStoreList(carStoreService.getBargeByTerIdAndTime(auth.getCompany(),time));
+        terminalVO.setAttendenceList(attendenceService.findAttendenceByWharfAndTime(auth.getCompany(),time));
         return terminalVO;
     }
 
@@ -315,6 +332,7 @@ public class TerminalsDateController {
         terminalVO.setTruckStoreList(truckStoreService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
+        terminalVO.setAttendenceList(attendenceService.findCurrentByWharf(auth.getCompany()));
         return terminalVO;
     }
 
