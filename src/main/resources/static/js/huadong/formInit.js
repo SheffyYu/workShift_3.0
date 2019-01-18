@@ -8,8 +8,8 @@ document.write("<script language=javascript src='../../js/huadong/dealTime.js'><
 var submitJson;
 //当天是否传过数据//是否为历史数据,0为当前数据，1为历史数据
 var isSubmit,isCur;
-//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存
-var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk;
+//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存//工人出勤情况
+var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk,attend;
 //区分新沙和西基的url
 var compUrl,limitHour;
 
@@ -166,6 +166,7 @@ function insertIntoFormData() {
   vehicle=submitJson.carStoreList;
   /**************************************************************************************************/
   // bulk=;
+  //attend=;
 
   if(document.getElementById("dispersion")){
     //疏运部分数据插入
@@ -311,22 +312,54 @@ function insertBargeData() {
  * 车卡部分数据插入
  */
 function insertTruckData() {
-  document.getElementById("trkxg").value=truck[0].loadiXg;
-  document.getElementById("trkxj").value=truck[0].loadiXj;
-  document.getElementById("trkgct").value=truck[0].loadiGct;
-  document.getElementById("trkxs").value=truck[0].loadiXs;
-  document.getElementById("allcmp").value=truck[0].loadInport;
-  document.getElementById("trkmt").value=truck[0].loadiCoal;
-  document.getElementById("trkks").value=truck[0].loadiOre;
-  document.getElementById("trkzh").value=truck[0].loadiOther;
-  document.getElementById("allcgo").value=truck[0].loadInport;
-  document.getElementById("trkmte").value=truck[0].loadoCoal;
-  document.getElementById("trkkse").value=truck[0].loadoOre;
-  document.getElementById("trkothere").value=truck[0].loadoOther;
-  document.getElementById("alle").value=truck[0].loadOutPort;
-  document.getElementById("trkload").value=truck[0].unloadTruck;
-  document.getElementById("trkunload").value=truck[0].waitUnload;
-  document.getElementById("totalLoad").value=truck[0].totalLoad;
+  if(document.getElementById("trkxg")){
+    document.getElementById("trkxg").value=truck[0].loadiXg;
+  }
+  if(document.getElementById("trkxj")){
+    document.getElementById("trkxj").value=truck[0].loadiXj;
+  }
+  if(document.getElementById("trkgct")){
+    document.getElementById("trkgct").value=truck[0].loadiGct;
+  }
+  if(document.getElementById("trkxs")){
+    document.getElementById("trkxs").value=truck[0].loadiXs;
+  }
+  if(document.getElementById("allcmp")){
+    document.getElementById("allcmp").value=truck[0].loadInport;
+  }
+  if(document.getElementById("trkmt")){
+    document.getElementById("trkmt").value=truck[0].loadiCoal;
+  }
+  if(document.getElementById("trkks")){
+    document.getElementById("trkks").value=truck[0].loadiOre;
+  }
+  if(document.getElementById("trkzh")){
+    document.getElementById("trkzh").value=truck[0].loadiOther;
+  }
+  if(document.getElementById("allcgo")){
+    document.getElementById("allcgo").value=truck[0].loadInport;
+  }
+  if(document.getElementById("trkmte")){
+    document.getElementById("trkmte").value=truck[0].loadoCoal;
+  }
+  if(document.getElementById("trkkse")){
+    document.getElementById("trkkse").value=truck[0].loadoOre;
+  }
+  if(document.getElementById("trkothere")){
+    document.getElementById("trkothere").value=truck[0].loadoOther;
+  }
+  if(document.getElementById("alle")){
+    document.getElementById("alle").value=truck[0].loadOutPort;
+  }
+  if(document.getElementById("trkload")){
+    document.getElementById("trkload").value=truck[0].unloadTruck;
+  }
+  if(document.getElementById("trkunload")){
+    document.getElementById("trkunload").value=truck[0].waitUnload;
+  }
+  if(document.getElementById("totalLoad")){
+    document.getElementById("totalLoad").value=truck[0].totalLoad;
+  }
 }
 
 /**
@@ -402,6 +435,33 @@ function insertBulkData() {
   document.getElementById("bulkOre").value=bulk[0].loadiXg;
   document.getElementById("bulkFood").value=bulk[0].loadiXg;
   document.getElementById("bulkSteel").value=bulk[0].loadiXg;
+}
+
+/**
+ * 工人出勤情况
+ */
+function insertAttendData(){
+  var count=0,worktime=[],work=[],unwork=[];
+  $("#attendance .kv-item span").each(function () {
+    var title=$(this).attr("title");
+    for(var i=0;i<attend.length;i++){
+      if(attend[i].worktime==title){
+        work[count]=attend[i].work;
+        unwork[count]=attend[i].unwork;
+        count++;
+      }
+    }
+  });
+  count=0;
+  $(".attendwork").each(function () {
+    $(this).attr("value",work[count]);
+    count++;
+  });
+  count=0;
+  $(".attendwait").each(function () {
+    $(this).attr("value",unwork[count]);
+    count++;
+  });
 }
 
 /**
