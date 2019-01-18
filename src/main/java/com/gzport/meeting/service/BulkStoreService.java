@@ -14,6 +14,10 @@ public interface BulkStoreService {
     Iterable<BulkStore> saveAll(Iterable<BulkStore> barges);
     List<BulkStore> getBulkByTime(String time);
     List<BulkStore> getCurrentBulkByTerId(String terId);
+
+    List<BulkStore> findBulkStoreByWharfAndTime(String terId,String date);
+
     List<BulkStoreVO> getBulkStoreVOByTime(Date time);
+
     void deleteCurrentBargeByTerId(String terId);
 }

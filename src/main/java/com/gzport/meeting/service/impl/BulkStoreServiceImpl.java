@@ -55,6 +55,16 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     }
 
     @Override
+    public List<BulkStore> findBulkStoreByWharfAndTime(String terId, String date) {
+        try{
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return bulkStoreRepository.findDataByWharf(time,terId);
+        }catch (ParseException e){
+            return null;
+        }
+    }
+
+    @Override
     public List<BulkStoreVO> getBulkStoreVOByTime(Date time) {
         return bulkStoreRepository.findBulkVOBytime(time);
     }

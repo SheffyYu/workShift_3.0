@@ -61,7 +61,11 @@ public class TerminalsDateController {
     private RedisTemplate redisTemplate;
 
     @Autowired
-    private AttendenceService attendenceService;
+    AttendenceService attendenceService;
+
+    @Autowired
+    BulkStoreService bulkStoreService;
+
 
     @PostMapping("/saveData")
     @ResponseBody
@@ -190,12 +194,23 @@ public class TerminalsDateController {
         if(terminalVO.getAttendenceList().size()>0){
             if(attendenceService.findCurrentByWharf(auth.getCompany()).size()>0)
                 attendenceService.deleteCurrentBargeByTerId(auth.getCompany());
-            for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+            for (int i = 0; i < terminalVO.getAttendenceList().size(); i++) {
                 terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
             }
             if(attendenceService.saveAll(terminalVO.getAttendenceList())==null)
+                return SaveResult.getInstance(SaveResult.FAILE);
+        }
+        if(terminalVO.getBulkStoreList().size()>0){
+            if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
+                bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
+            for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
+                terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
+                terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
+            }
+            if(bulkStoreService.saveAll(terminalVO.getBulkStoreList())==null)
                 return SaveResult.getInstance(SaveResult.FAILE);
         }
         DailyTerdataLog dailyTerdataLog=new DailyTerdataLog();

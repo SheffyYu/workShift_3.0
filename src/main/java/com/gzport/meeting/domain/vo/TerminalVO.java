@@ -17,8 +17,18 @@ public class TerminalVO {
     List<BargeXS> bargeXSList;
     List<CarStore> carStoreList;
     List<Attendence> attendenceList;
+    List<BulkStore> bulkStoreList;
     String terCode;
     String dataTime;
+
+
+    public List<BulkStore> getBulkStoreList() {
+        return bulkStoreList;
+    }
+
+    public void setBulkStoreList(List<BulkStore> bulkStoreList) {
+        this.bulkStoreList = bulkStoreList;
+    }
 
     public List<Attendence> getAttendenceList() {
         return attendenceList;
