@@ -71,9 +71,9 @@ public class TerminalsDateController {
     @ResponseBody
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        System.out.println(terminalVO.getAttendenceList().size());
         user = authService.findByAccount(user.getAccount());
         Date dataTime=DateDeal.DateConvert(terminalVO.getDataTime());
-        System.out.println(dataTime);
         if(dataTime!=null&&dataTime.getTime()>new Date().getTime())
             return SaveResult.getInstance(SaveResult.REFUSE);
         Auth auth=new Auth();

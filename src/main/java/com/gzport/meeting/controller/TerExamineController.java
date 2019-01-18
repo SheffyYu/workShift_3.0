@@ -204,6 +204,7 @@ public class TerExamineController {
         List<Map> list=new ArrayList<>();
         Set<String> keys=redisTemplate.keys("*");
         for(String key:keys){
+            System.out.println(redisTemplate.opsForValue().get(key));
             Map value=(Map)redisTemplate.opsForValue().get(key);
             list.add(value);
         }
