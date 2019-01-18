@@ -181,6 +181,11 @@
     var str2=document.getElementById("alle").value;
     document.getElementById("totalLoad").value=(str1-0)+(str2-0);
   });
+  $("#alle").on("change",function(){
+    var str1=document.getElementById("allcgo").value;
+    var str2=document.getElementById("alle").value;
+    document.getElementById("totalLoad").value=(str1-0)+(str2-0);
+  });
   function trucktotalLoad() {
       var str1=document.getElementById("allcgo").value;
       var str2=document.getElementById("alle").value;
@@ -191,9 +196,8 @@
    var trkkse=document.getElementById("trkkse").value;
    var trkothere=document.getElementById("trkothere").value;
    document.getElementById("alle").value=(trkmte-0)+(trkkse-0)+(trkothere-0);
-  }
-
-
+   $("#alle").trigger("change");
+ }
 
 </script>
 </html>

@@ -79,7 +79,7 @@
     var postDate=$("#dateInput").datebox("getValue");
     console.log(postDate);
     var $eleForm = $("<form method='get'></form>");
-    var inputDate=$("<input type='text' name='time'/>");
+    var inputDate=$("<input type='text' name='time' hidden/>");
     inputDate.attr("value",postDate);
     $eleForm.attr("action","/login/export/Excel?");
       $eleForm.append(inputDate);

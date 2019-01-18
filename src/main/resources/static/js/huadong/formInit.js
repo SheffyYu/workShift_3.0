@@ -62,6 +62,7 @@ function getDataAjax(postDate) {
     contentType : 'application/json',
     data:JSON.stringify(postDate),
     success: function(data){
+      console.log(data);
       //当天没有提交数据
       if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==0){
         isSubmit=0;
