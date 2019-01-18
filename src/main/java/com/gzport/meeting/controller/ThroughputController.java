@@ -5,6 +5,7 @@ import com.gzport.meeting.service.ThroughputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,13 @@ public class ThroughputController {
     @GetMapping("/getCurrentThroughput")
     public List<Throughput> getCurrentThroughput(@RequestParam("date") String date){
         //String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        return throughputService.getByDate(date);
+        try {
+            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            return throughputService.getByDate(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

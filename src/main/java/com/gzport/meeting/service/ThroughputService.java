@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface ThroughputService  {
     Throughput save(Throughput throughput);
-    List<Throughput> getByDate(String date);
+    List<Throughput> getByDate(Date date);
     void deleteByDate(String date);
 }

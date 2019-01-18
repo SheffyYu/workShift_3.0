@@ -11,7 +11,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 /**
  * Created by zhangxiang on 2018/12/10.
  */
@@ -27,13 +26,8 @@ public class ThroughputServiceImpl implements ThroughputService {
     }
 
     @Override
-    public List<Throughput> getByDate(String date) {
-        try {
-            Date time = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            return throughputRepository.findByDate(time);
-        }catch (ParseException e){
-            return null;
-        }
+    public List<Throughput> getByDate(Date date) {
+        return throughputRepository.findByDate(date);
     }
 
     @Override

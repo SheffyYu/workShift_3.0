@@ -62,9 +62,9 @@ public class ExportController {
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
         Resource resource = new ClassPathResource("static/files/jiaoban.xls");
         File file_2 = resource.getFile();
-        Date beforeDate=null;
+        Date date=null;
         try {
-            beforeDate=new SimpleDateFormat("yyyy-MM-dd").parse(time);
+            date=new SimpleDateFormat("yyyy-MM-dd").parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -75,10 +75,10 @@ public class ExportController {
             HSSFRow hssfRow=null;
             HSSFCell cell=null;
             hssfRow=hssfSheet.getRow(0);
-            String excelDate=new SimpleDateFormat("yyyy年MM月dd日").format(beforeDate);
+            String excelDate=new SimpleDateFormat("yyyy年MM月dd日").format(DateDeal.getSpecifiedDayBefore(date));
             HSSFCell Datecell = hssfRow.getCell(6);
             Datecell.setCellValue(excelDate);                                               //设置EXCEL日期
-            List<Throughput> throughput=throughputService.getByDate(time);
+            List<Throughput> throughput=throughputService.getByDate(DateDeal.getSpecifiedDayBefore(date));
             if(throughput.size()>0) {
                 hssfRow = hssfSheet.getRow(1);
                 HSSFCell cargoPlan = hssfRow.getCell(0);
@@ -100,9 +100,8 @@ public class ExportController {
                         "+" + throughput.get(0).getThroughputGOCT().setScale(1, BigDecimal.ROUND_HALF_UP) +
                         "+" + throughput.get(0).getThroughputNICT().setScale(1, BigDecimal.ROUND_HALF_UP) + ")");          //设置南沙集装箱吞吐量
             }
-
             //第六行设置
-            List<IntfShip> intfShipList=intfShipService.findByDateAndStatue(beforeDate);
+            List<IntfShip> intfShipList=intfShipService.findByDateAndStatue(DateDeal.getSpecifiedDayBefore(date));
             if(intfShipList!=null){
                 for(int i=0;i<intfShipList.size();i++){
                     IntfShip intfShip=intfShipList.get(i);
@@ -124,7 +123,7 @@ public class ExportController {
                 }
             }
 
-            List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(DateDeal.getSpecifiedDayBefore(beforeDate));
+            List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(DateDeal.getSpecifiedDayBefore(date));
 //            for(int i=0;i<bulkStoreVOS.size();i++){
 //                BulkStoreVO bulkStoreVO=bulkStoreVOS.get(i);
 //                switch (bulkStoreVO.getTerCode()){
@@ -278,7 +277,7 @@ public class ExportController {
             }
 
             //第13行重箱堆存设置
-            List<CntrStore> cntrStoreList=cntrStoreService.getCntrSotreByDate(beforeDate);
+            List<CntrStore> cntrStoreList=cntrStoreService.getCntrSotreByDate(date);
             for(int i=0;i<cntrStoreList.size();i++){
                 CntrStore cntrStore=cntrStoreList.get(i);
                 switch (cntrStore.getTerCode()){
@@ -306,13 +305,13 @@ public class ExportController {
             }
 
             //汽车库存设置
-            List<CarStore> carStoreList=carStoreService.getBargeByTerIdAndTime("XS",new SimpleDateFormat("yyyy-MM-dd").format(beforeDate));
+            List<CarStore> carStoreList=carStoreService.getBargeByTerIdAndTime("XS",new SimpleDateFormat("yyyy-MM-dd").format(date));
             if(carStoreList!=null) {
                 hssfRow = hssfSheet.getRow(13);
                 cell = hssfRow.getCell(7);
                 cell.setCellValue(String.format("%4d", carStoreList.get(0).getCarNumber()) + "  辆");
             }
-            carStoreList = carStoreService.getBargeByTerIdAndTime("NAT", new SimpleDateFormat("yyyy-MM-dd").format(beforeDate));
+            carStoreList = carStoreService.getBargeByTerIdAndTime("NAT", new SimpleDateFormat("yyyy-MM-dd").format(date));
             if(carStoreList!=null) {
                 hssfRow = hssfSheet.getRow(15);
                 cell = hssfRow.getCell(7);
@@ -320,7 +319,7 @@ public class ExportController {
             }
 
             //车卡设置
-            List<TruckStore> truckStoreList=truckStoreService.findProByTerIdAndTime("TRAIN", new SimpleDateFormat("yyyy-MM-dd").format(beforeDate));
+            List<TruckStore> truckStoreList=truckStoreService.findProByTerIdAndTime("TRAIN", new SimpleDateFormat("yyyy-MM-dd").format(DateDeal.getSpecifiedDayBefore(date)));
             if(truckStoreList.size()>0){
                 TruckStore truckStore=truckStoreList.get(0);
                 hssfRow = hssfSheet.getRow(20);
@@ -348,7 +347,7 @@ public class ExportController {
             hssfSheet=hssfWorkbook.getSheet("码头驳船");
             if(hssfSheet!=null){
                 //驳船设置
-                List<Barge> bargeList=bargeService.getBargeByDate(beforeDate);
+                List<Barge> bargeList=bargeService.getBargeByDate(date);
                 for(int i=0;i<bargeList.size();i++){
                     Barge barge=bargeList.get(i);
                     switch (barge.getTerCode()){
@@ -400,7 +399,7 @@ public class ExportController {
                     }
                 }
             }
-            List<BargeXS> bargeXSList=bargeXSService.getBargeByDate(beforeDate);
+            List<BargeXS> bargeXSList=bargeXSService.getBargeByDate(date);
             if(bargeXSList.size()>0){
                 for(int i=0;i<bargeXSList.size();i++){
                     BargeXS bargeXS=bargeXSList.get(i);
@@ -436,10 +435,12 @@ public class ExportController {
             }
 
 
+
             OutputStream os=new FileOutputStream(file_2);
             hssfWorkbook.write(os);
         }
-        String fileName = new String("交接班记录表.xls".getBytes("GBK"), "ISO-8859-1");
+        String fileNameDate=new SimpleDateFormat("dd").format(DateDeal.getSpecifiedDayBefore(date))+"-"+new SimpleDateFormat("dd").format(date)+"交接班记录.xls";
+        String fileName = new String(fileNameDate.getBytes("GBK"), "ISO-8859-1");
         if (file_2.length() > 0) {
             response.setContentType("application/force-download");
             response.setHeader("Content-disposition", "attachment; filename=" + fileName);

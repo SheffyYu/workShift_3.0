@@ -49,6 +49,11 @@ public class DispersionServiceImpl implements DispersionService {
     }
 
     @Override
+    public List<Dispersion> findDispersionByDate(Date date) {
+        return dispersionRepository.findDataByDate(date);
+    }
+
+    @Override
     public Iterable<Dispersion> saveInterable(Iterable<Dispersion> dispersions) {
         return dispersionRepository.saveAll(dispersions);
     }

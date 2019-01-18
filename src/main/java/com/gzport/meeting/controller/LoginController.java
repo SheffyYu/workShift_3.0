@@ -10,9 +10,10 @@ import net.huadong.idev.ezui.utils.HdCipher;
 import net.huadong.idev.utils.HdImageCode;
 import net.huadong.idev.utils.HdRandomCode;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -26,8 +27,7 @@ import java.util.logging.Logger;
 /**
  * Created by zhangxiang on 2018/11/30.
  */
-@RestController
-@RequestMapping("/logincontroller")
+@Controller
 public class LoginController {
     public static final String SESSION_PRIVILLEGE = "PrivilegeController";//用户权限
     public static final String SESSION_USER = "user";//用户名
@@ -39,7 +39,7 @@ public class LoginController {
     @Autowired
     LoginLogService loginLogService;
 
-    @RequestMapping("/getValidateCode")
+    @RequestMapping("/logincontroller/getValidateCode")
     public void getValidateCode(HttpServletResponse response) throws Exception {
         String rCod = HdRandomCode.getStringCode(4);
         SecurityUtils.getSubject().getSession().setAttribute(LoginController.SESSION_RANDOMCOD, rCod);
@@ -50,7 +50,8 @@ public class LoginController {
     }
 
 
-    @GetMapping("/dologin")
+    @GetMapping("/logincontroller/dologin")
+    @ResponseBody
     public LoginResult doLogin(@RequestParam("account") String account, @RequestParam("password") String password,@RequestParam("validateCode") String validateCode,HttpServletRequest request) {
         String vc = SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_RANDOMCOD).toString();
         if (validateCode==null
@@ -62,8 +63,8 @@ public class LoginController {
             return LoginResult.getInstance(LoginResult.UNKNOW_ACCOUNT);
         }
         if(authService.checkLogin(account,password)!=null) {
-            Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(account, password);
+//            Subject subject = SecurityUtils.getSubject();
+//            UsernamePasswordToken token = new UsernamePasswordToken(account, password);
             LoginLog loginLog=new LoginLog();
             Auth auth=authService.findByAccount(account);
             loginLog.setUserId(auth.getUserId());
@@ -76,7 +77,39 @@ public class LoginController {
             return LoginResult.getInstance(LoginResult.WRONG_PASSWORD);
     }
 
-    @GetMapping("/logout")
+    @RequestMapping("/docklogin")
+    public String test(String account,HttpServletRequest request){
+
+        Auth auth=authService.findByAccount(account);
+        if(auth!=null){
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(auth.getAccount(), "123");
+            token.setRememberMe(true);
+            try {
+                SecurityUtils.getSubject().login(token);
+            } catch (UnknownAccountException uae) {
+                //LOG.info("There is no user with username of " + token.getPrincipal());
+            } catch (IncorrectCredentialsException ice) {
+                //LOG.info("Password for account " + token.getPrincipal() + " was incorrect!");
+            } catch (LockedAccountException lae) {
+                //LOG.info("The account for username " + token.getPrincipal() + " is locked.  "
+                //       + "Please contact your administratornnn to unlock it.");
+            } // ... catch more exceptions here (maybe custom ones specific to your application?
+            catch (AuthenticationException ae) {
+                //unexpected condition?  error?
+                ae.printStackTrace();
+            }
+            SecurityUtils.getSubject().getSession().setAttribute(LoginController.SESSION_USER, auth);
+            LoginLog loginLog=new LoginLog();
+            loginLog.setUserId(auth.getUserId());
+            String ip = ServletOp.getRemoteHost(request);
+            loginLog.setIp(ip);
+        }
+        return "redirect:login/main.html";
+    }
+
+    @GetMapping("/logincontroller/logout")
+    @ResponseBody
     public Response logout(HttpServletRequest req, HttpServletResponse resp){
         SecurityUtils.getSubject().logout();
         SecurityUtils.getSubject().getSession().removeAttribute(LoginController.SESSION_USER);
