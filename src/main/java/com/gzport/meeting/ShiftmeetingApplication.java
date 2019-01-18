@@ -14,11 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.util.List;
 
+import static com.gzport.meeting.foundation.weatherReport.getTemperatureInfo;
+
 @SpringBootApplication
 public class ShiftmeetingApplication 	{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShiftmeetingApplication.class, args);
+		getTemperatureInfo();
 	}
 
 }
