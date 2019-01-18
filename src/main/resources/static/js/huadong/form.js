@@ -6,8 +6,8 @@ document.write("<script language=javascript src='../../js/huadong/tips.js'></scr
 document.write("<script language=javascript src='../../js/huadong/formInit.js?v=20190113'></script>");
 //最终传递的数据
 var submitJson;
-//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存
-var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk;
+//散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存//工人出勤情况
+var disper,barge,proroductionLine,bargeXS,truck,cntrStore, vehicle,bulk,attend;
 // 判断是否有条件不满足,不满足则为false,不进行操作
 var isContinue;
 var date=new Date();
@@ -36,6 +36,7 @@ function initData() {
   cntrStore=[];
   vehicle=[];
   bulk=[];
+  attend=[];
   isContinue=true;
 }
 /**
@@ -120,7 +121,6 @@ function submitBtn() {
   //初始化数据
   initData();
   getCompany();
-  console.log(company);
 //散货疏运
   if(document.getElementById("dispersion")){
     dispersionData();
@@ -153,6 +153,11 @@ function submitBtn() {
     //汽车库存
     bulkData();
   }
+  if(document.getElementById("attendance")){
+    //工人出勤情况
+    attendanceData();
+  }
+
 
 
   //整合数据
@@ -427,23 +432,86 @@ function cntrStoreData() {
  * 车卡
  */
 function truckData() {
-  var trkxg=document.getElementById("trkxg").value;
-  var trkxj=document.getElementById("trkxj").value;
-  var trkgct=document.getElementById("trkgct").value;
-  var trkxs=document.getElementById("trkxs").value;
-  var allcmp=document.getElementById("allcmp").value;
-  var trkmt=document.getElementById("trkmt").value;
-  var trkks=document.getElementById("trkks").value;
-  var trkzh=document.getElementById("trkzh").value;
-  var allcgo=document.getElementById("allcgo").value;
-  var trkmte=document.getElementById("trkmte").value;
-  var trkkse=document.getElementById("trkkse").value;
-  var alle=document.getElementById("alle").value;
-  var trkload=document.getElementById("trkload").value;
-  var trkunload=document.getElementById("trkunload").value;
-  var trkothere=document.getElementById("trkothere").value;
-  var totalLoad=document.getElementById("totalLoad").value;
-
+  if(document.getElementById("trkxg")){
+    var trkxg=document.getElementById("trkxg").value;
+  }else{
+    var trkxg=0;
+  }
+  if(document.getElementById("trkxj")){
+    var trkxj=document.getElementById("trkxj").value;
+  }else{
+    var trkxj=0;
+  }
+  if(document.getElementById("trkgct")){
+    var trkgct=document.getElementById("trkgct").value;
+  }else{
+    var trkgct=0;
+  }
+  if(document.getElementById("trkxg")){
+    var trkxs=document.getElementById("trkxs").value;
+  }else{
+    var trkxs=0;
+  }
+  if(document.getElementById("allcmp")){
+    var allcmp=document.getElementById("allcmp").value;
+  }else{
+    var allcmp=0;
+  }
+  if(document.getElementById("trkmt")){
+    var trkmt=document.getElementById("trkmt").value;
+  }else{
+    var trkmt=0;
+  }
+  if(document.getElementById("trkks")){
+    var trkks=document.getElementById("trkks").value;
+  }else{
+    var trkks=0;
+  }
+  if(document.getElementById("trkzh")){
+    var trkzh=document.getElementById("trkzh").value;
+  }else{
+    var trkzh=0;
+  }
+  if(document.getElementById("allcgo")){
+    var allcgo=document.getElementById("allcgo").value;
+  }else{
+    var allcgo=0;
+  }
+  if(document.getElementById("trkmte")){
+    var trkmte=document.getElementById("trkmte").value;
+  }else{
+    var trkmte=0;
+  }
+  if(document.getElementById("trkkse")){
+    var trkkse=document.getElementById("trkkse").value;
+  }else{
+    var trkkse=0;
+  }
+  if(document.getElementById("alle")){
+    var alle=document.getElementById("alle").value;
+  }else{
+    var alle=0;
+  }
+  if(document.getElementById("trkload")){
+    var trkload=document.getElementById("trkload").value;
+  }else{
+    var trkload=0;
+  }
+  if(document.getElementById("trkunload")){
+    var trkunload=document.getElementById("trkunload").value;
+  }else{
+    var trkunload=0;
+  }
+  if(document.getElementById("trkothere")){
+    var trkothere=document.getElementById("trkothere").value;
+  }else{
+    var trkothere=0;
+  }
+  if(document.getElementById("totalLoad")){
+    var totalLoad=document.getElementById("totalLoad").value;
+  }else{
+    var totalLoad=0;
+  }
   //当港内货物总和与公司不相等时
   if(allcmp != allcgo){
     isContinue=false;
@@ -562,4 +630,42 @@ function bulkData() {
     terCode:""
   };
   bulk.push(obj);
+}
+
+/**
+ * 工人出勤候工情况
+ */
+function attendanceData() {
+  var count=0;
+  var worktime=[],work=[],unwork=[];
+  $("#attendance .kv-item span").each(function () {
+    worktime[count]=$(this).attr("title");
+    count++;
+  });
+  count=0;
+  $(".attendwork").each(function () {
+    work[count]=$(".attendwork").val();
+    if(work[count]==""){
+      work[count]=0;
+    }
+    count++;
+  });
+  count=0;
+  $(".attendwait").each(function () {
+    unwork[count]=$(".attendwait").val();
+    if(unwork[count]==""){
+      unwork[count]=0;
+    }
+    count++;
+  });
+  for(var i=0;i<=count;i++){
+    var obj={
+      truckStoreId:"",
+      loadInport:worktime[i],
+      loadOutPort:work[i],
+      loadiCoal:unwork[i],
+      terCode:""
+    };
+    attend.push(obj);
+  }
 }
