@@ -25,7 +25,8 @@ function initData() {
     truckStoreList: [],
     cntrStoreList: [],
     bargeXSList: [],
-    carStoreList:[]
+    carStoreList:[],
+    attendenceList:[]
     /******************************************************************************/
   };
   disper=[];
@@ -170,8 +171,8 @@ function submitBtn() {
   submitJson.bargeXSList=bargeXS;
   submitJson.cntrStoreList=cntrStore;
   submitJson.carStoreList=vehicle;
-  /********************************************************************************/
-
+  submitJson.attendenceList=attend;
+  submitJson.bulkStoreList=bulk;
 
 
   //提交数据
@@ -618,15 +619,13 @@ function bulkData() {
   var bulkOre=document.getElementById("bulkOre").value;
   var bulkFood=document.getElementById("bulkFood").value;
   var bulkSteel=document.getElementById("bulkSteel").value;
-
-  /****************************************************************************************************/
   var obj={
-    truckStoreId:"",
-    loadInport:bulkAll,
-    loadOutPort:bulkCoal,
-    loadiCoal:bulkOre,
-    loadiOre:bulkFood,
-    loadiOther:bulkSteel,
+    bulkStoreId:"",
+    totalStore:bulkAll,
+    coalStore:bulkCoal,
+    oreStore:bulkOre,
+    foodStore:bulkFood,
+    steelStore:bulkSteel,
     terCode:""
   };
   bulk.push(obj);
@@ -644,7 +643,7 @@ function attendanceData() {
   });
   count=0;
   $(".attendwork").each(function () {
-    work[count]=$(".attendwork").val();
+    work[count]=$(this).val();
     if(work[count]==""){
       work[count]=0;
     }
@@ -652,20 +651,22 @@ function attendanceData() {
   });
   count=0;
   $(".attendwait").each(function () {
-    unwork[count]=$(".attendwait").val();
+    unwork[count]=$(this).val();
     if(unwork[count]==""){
       unwork[count]=0;
     }
     count++;
   });
-  for(var i=0;i<=count;i++){
+  console.log(count);
+  for(var i=0;i<count;i++){
     var obj={
-      truckStoreId:"",
-      loadInport:worktime[i],
-      loadOutPort:work[i],
-      loadiCoal:unwork[i],
+      attId:"",
+      attTime:worktime[i],
+      workingStaff:work[i],
+      watiStaff:unwork[i],
       terCode:""
     };
     attend.push(obj);
+    console.log(obj);
   }
 }

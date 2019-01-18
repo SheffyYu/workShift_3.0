@@ -67,9 +67,9 @@ public class TerminalsDateController {
     @ResponseBody
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
+        System.out.println(terminalVO.getAttendenceList().size());
         user = authService.findByAccount(user.getAccount());
         Date dataTime=DateDeal.DateConvert(terminalVO.getDataTime());
-        System.out.println(dataTime);
         if(dataTime!=null&&dataTime.getTime()>new Date().getTime())
             return SaveResult.getInstance(SaveResult.REFUSE);
         Auth auth=new Auth();
@@ -190,7 +190,7 @@ public class TerminalsDateController {
         if(terminalVO.getAttendenceList().size()>0){
             if(attendenceService.findCurrentByWharf(auth.getCompany()).size()>0)
                 attendenceService.deleteCurrentBargeByTerId(auth.getCompany());
-            for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+            for (int i = 0; i < terminalVO.getAttendenceList().size(); i++) {
                 terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
                 terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
                 terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());

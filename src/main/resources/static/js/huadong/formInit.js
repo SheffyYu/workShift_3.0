@@ -64,7 +64,7 @@ function getDataAjax(postDate) {
     success: function(data){
       console.log(data);
       //当天没有提交数据
-      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==0){
+      if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && data.bulkStoreList == ""  && data.attendenceList == "" && isCur==0){
         isSubmit=0;
         clearAll();
         //隐藏修改和取消按钮
@@ -81,7 +81,7 @@ function getDataAjax(postDate) {
           $(this).attr("disabled",false);
         });
         //历史没有数据
-      }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == "" && isCur==1){
+      }else if(data.dispersionVOList == "" && data.productionLineList == "" && data.bargeList == "" && data.truckStoreList == "" && data.bargeXSList == "" && data.cntrStoreList == "" && data.carStoreList == ""  && data.bulkStoreList == ""  && data.attendenceList == "" && isCur==1){
         //清空所有框的值
         clearAll();
         $("#inputBtn").hide();
@@ -157,66 +157,71 @@ function isChangeData() {
  * 向表单中插入数据
  */
 function insertIntoFormData() {
-  disper=submitJson.dispersionVOList;
-  proroductionLine=submitJson.productionLineList;
-  barge=submitJson.bargeList;
-  truck=submitJson.truckStoreList;
-  bargeXS=submitJson.bargeXSList;
-  cntrStore=submitJson.cntrStoreList;
-  vehicle=submitJson.carStoreList;
-  /**************************************************************************************************/
-  // bulk=;
-  //attend=;
+  disper = submitJson.dispersionVOList;
+  proroductionLine = submitJson.productionLineList;
+  barge = submitJson.bargeList;
+  truck = submitJson.truckStoreList;
+  bargeXS = submitJson.bargeXSList;
+  cntrStore = submitJson.cntrStoreList;
+  vehicle = submitJson.carStoreList;
+  bulk=submitJson.bulkStoreList;
+  attend = submitJson.attendenceList;
 
-  if(document.getElementById("dispersion")){
+  if (document.getElementById("dispersion")) {
     //疏运部分数据插入
-    if(disper != "") {
+    if (disper != "") {
       insertDisperData();
     }
   }
-  if(document.getElementById("barge")){
+  if (document.getElementById("barge")) {
     //集装箱驳船
-    if(barge != ""){
+    if (barge != "") {
       insertBargeData();
     }
   }
-  if(document.getElementById("productionLine")){
+  if (document.getElementById("productionLine")) {
     //集装箱作业线
-    if(proroductionLine != ""){
+    if (proroductionLine != "") {
       insertProductionLineData();
     }
   }
-  if(document.getElementById("cntrSto")){
+  if (document.getElementById("cntrSto")) {
     //集装箱堆存
-    if(cntrStore != ""){
+    if (cntrStore != "") {
       insertCntrStoreData();
     }
   }
-  if(document.getElementById("truck")){
+  if (document.getElementById("truck")) {
     //车卡
-    if(truck != ""){
+    if (truck != "") {
       insertTruckData();
     }
   }
-  if(document.getElementById("xsCntr")){
+  if (document.getElementById("xsCntr")) {
     //新沙集装箱
-    if(bargeXS != ""){
+    if (bargeXS != "") {
       insertBargeXSData();
     }
   }
-  if(document.getElementById("bulkBus")){
+  if (document.getElementById("bulkBus")) {
     //汽车库存
-    if(vehicle != ""){
+    if (vehicle != "") {
       insertVehicleData();
     }
   }
-  if(document.getElementById("bulkStore")){
-    //汽车库存
-    if(bulk != ""){
+  if (document.getElementById("bulkStore")) {
+    //散货库存
+    if (bulk != "") {
       insertBulkData();
     }
   }
+  if (document.getElementById("attendance")) {
+    //工人出勤情况
+    if (attend != "") {
+      insertAttendData();
+    }
   }
+}
 
 /**
  * 疏运部分数据插入
@@ -429,25 +434,25 @@ function insertVehicleData() {
  * 散货库存
  */
 function insertBulkData() {
-  /***********************************************************************************************/
-  document.getElementById("bulkAll").value=bulk[0].loadiXg;
-  document.getElementById("bulkCoal").value=bulk[0].loadiXg;
-  document.getElementById("bulkOre").value=bulk[0].loadiXg;
-  document.getElementById("bulkFood").value=bulk[0].loadiXg;
-  document.getElementById("bulkSteel").value=bulk[0].loadiXg;
+  document.getElementById("bulkAll").value=bulk[0].totalStore;
+  document.getElementById("bulkCoal").value=bulk[0].coalStore;
+  document.getElementById("bulkOre").value=bulk[0].oreStore;
+  document.getElementById("bulkFood").value=bulk[0].foodStore;
+  document.getElementById("bulkSteel").value=bulk[0].steelStore;
 }
 
 /**
  * 工人出勤情况
  */
 function insertAttendData(){
-  var count=0,worktime=[],work=[],unwork=[];
+  console.log(attend);
+  var count=0,work=[],unwork=[];
   $("#attendance .kv-item span").each(function () {
     var title=$(this).attr("title");
     for(var i=0;i<attend.length;i++){
-      if(attend[i].worktime==title){
-        work[count]=attend[i].work;
-        unwork[count]=attend[i].unwork;
+      if(attend[i].attTime==title){
+        work[count]=attend[i].workingStaff;
+        unwork[count]=attend[i].watiStaff;
         count++;
       }
     }

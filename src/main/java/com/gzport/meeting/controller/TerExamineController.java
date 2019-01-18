@@ -165,7 +165,7 @@ public class TerExamineController {
             if(terminalVO.getAttendenceList().size()>0){
                 if(attendenceService.findCurrentByWharf(auth.getCompany()).size()>0)
                     attendenceService.deleteCurrentBargeByTerId(auth.getCompany());
-                for (int i = 0; i < terminalVO.getTruckStoreList().size(); i++) {
+                for (int i = 0; i < terminalVO.getAttendenceList().size(); i++) {
                     terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
                     terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
                     terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
@@ -190,6 +190,7 @@ public class TerExamineController {
         List<Map> list=new ArrayList<>();
         Set<String> keys=redisTemplate.keys("*");
         for(String key:keys){
+            System.out.println(redisTemplate.opsForValue().get(key));
             Map value=(Map)redisTemplate.opsForValue().get(key);
             list.add(value);
         }
