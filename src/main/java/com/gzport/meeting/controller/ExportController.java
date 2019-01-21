@@ -345,6 +345,22 @@ public class ExportController {
                 cell.setCellValue(String.format("%4d", carStoreList.get(0).getCarNumber()) + "  辆");
             }
 
+            //黄埔车卡设置
+            List<TruckStore> truckStoreListHP=truckStoreService.findProByTerIdAndDate("HP", date);
+            System.out.println("黄埔装车 "+truckStoreListHP.size());
+            if(truckStoreListHP.size()>0){
+                TruckStore truckStoreHP=truckStoreListHP.get(0);
+                hssfRow = hssfSheet.getRow(18);
+                cell = hssfRow.getCell(1);
+                cell.setCellValue(truckStoreHP.getTotalLoad());
+                hssfRow = hssfSheet.getRow(18);
+                cell = hssfRow.getCell(5);
+                cell.setCellValue(truckStoreHP.getUnloadTruck());
+                hssfRow = hssfSheet.getRow(18);
+                cell = hssfRow.getCell(7);
+                cell.setCellValue(truckStoreHP.getWaitUnload());
+            }
+
             //车卡设置
             List<TruckStore> truckStoreList=truckStoreService.findProByTerIdAndTime("TRAIN", new SimpleDateFormat("yyyy-MM-dd").format(DateDeal.getSpecifiedDayBefore(date)));
             if(truckStoreList.size()>0){
@@ -426,6 +442,11 @@ public class ExportController {
                     }
                 }
             }
+
+
+
+
+            //驳船数据设置
             List<BargeXS> bargeXSList=bargeXSService.getBargeByDate(date);
             if(bargeXSList.size()>0){
                 for(int i=0;i<bargeXSList.size();i++){

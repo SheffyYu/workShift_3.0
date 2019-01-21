@@ -42,6 +42,11 @@ public class TruckStoreServiceImpl implements TruckStoreService {
     }
 
     @Override
+    public List<TruckStore> findProByTerIdAndDate(String terId, Date date) {
+        return truckStoreRepository.findByDateAndTerCode(date,terId);
+    }
+
+    @Override
     @Transactional
     public void deleteCurrentBargeByTerId(String terId) {
         String date=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
