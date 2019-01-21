@@ -346,7 +346,7 @@ public class ExportController {
             }
 
             //黄埔车卡设置
-            List<TruckStore> truckStoreListHP=truckStoreService.findProByTerIdAndDate("HP", date);
+            List<TruckStore> truckStoreListHP=truckStoreService.findProByTerIdAndTime("HP", new SimpleDateFormat("yyyy-MM-dd").format(DateDeal.getSpecifiedDayBefore(date)));
             System.out.println("黄埔装车 "+truckStoreListHP.size());
             if(truckStoreListHP.size()>0){
                 TruckStore truckStoreHP=truckStoreListHP.get(0);
