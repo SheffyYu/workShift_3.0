@@ -76,7 +76,7 @@ public class ExportController {
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
 //        Resource resource = new ClassPathResource("static/files/jiaoban.xls");
 //        File file_1=resource.getFile();
-        File file_1=new File("D:\\file\\jiaoban.xls");
+        File file_1=new File("D:\\file\\jiaoban2.xls");
         FileInputStream fis_1 = new FileInputStream(file_1);
         File file_2 = new File("temp.xls");
         FileOutputStream fos = new FileOutputStream(file_2);
@@ -152,157 +152,140 @@ public class ExportController {
             }
 
             List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(DateDeal.getSpecifiedDayBefore(date));
-//            for(int i=0;i<bulkStoreVOS.size();i++){
-//                BulkStoreVO bulkStoreVO=bulkStoreVOS.get(i);
-//                switch (bulkStoreVO.getTerCode()){
-//                    case "HP":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(1);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(1);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(1);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(1);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(1);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                    case "XG":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(2);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(2);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(2);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(2);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(2);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                    case "XJ":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(3);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(3);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(3);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(3);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(3);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                    case "XS":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(4);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(4);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(4);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(4);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(4);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                    case "HN":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(5);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(5);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(5);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(5);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(5);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                    case "NGT":
-//                        hssfRow=hssfSheet.getRow(8);
-//                        cell=hssfRow.getCell(6);
-//                        cell.setCellValue(bulkStoreVO.getTotalStore()+"");
-//                        hssfRow=hssfSheet.getRow(9);
-//                        cell=hssfRow.getCell(6);
-//                        cell.setCellValue(bulkStoreVO.getOreStore()+"");
-//                        hssfRow=hssfSheet.getRow(10);
-//                        cell=hssfRow.getCell(6);
-//                        cell.setCellValue(bulkStoreVO.getCoalStore()+"");
-//                        hssfRow=hssfSheet.getRow(11);
-//                        cell=hssfRow.getCell(6);
-//                        cell.setCellValue(bulkStoreVO.getFoodStore()+"");
-//                        hssfRow=hssfSheet.getRow(12);
-//                        cell=hssfRow.getCell(6);
-//                        cell.setCellValue(bulkStoreVO.getSteelStore()+"");
-//                        break;
-//                }
-//            }
-            //库存设置
-            int startRow=8;     //值班调度日报标签吞吐量开始位置
-            int endRow=12;      //结束位置
-            if(bulkStoreVOS.size()>0) {
-                for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
-                    switch (rowNum) {
-                        case 8:
-                            hssfRow = hssfSheet.getRow(rowNum);
-                            for (int i = 1; i <= 6; i++) {
-                                cell = hssfRow.getCell(i);
-                                cell.setCellValue(bulkStoreVOS.get(i - 1).getTotalStore() != null ? bulkStoreVOS.get(i - 1).getTotalStore().toString() : null);
-                            }
-                            break;
-                        case 9:
-                            hssfRow = hssfSheet.getRow(rowNum);
-                            for (int i = 1; i <= 6; i++) {
-                                cell = hssfRow.getCell(i);
-                                cell.setCellValue(bulkStoreVOS.get(i - 1).getOreStore() != null ? bulkStoreVOS.get(i - 1).getOreStore().toString() : null);
-                            }
-                            break;
-                        case 10:
-                            hssfRow = hssfSheet.getRow(rowNum);
-                            for (int i = 1; i <= 6; i++) {
-                                cell = hssfRow.getCell(i);
-                                cell.setCellValue(bulkStoreVOS.get(i - 1).getCoalStore() != null ? bulkStoreVOS.get(i - 1).getCoalStore().toString() : null);
-                            }
-                            break;
-                        case 11:
-                            hssfRow = hssfSheet.getRow(rowNum);
-                            for (int i = 1; i <= 6; i++) {
-                                cell = hssfRow.getCell(i);
-                                cell.setCellValue(bulkStoreVOS.get(i - 1).getFoodStore() != null ? bulkStoreVOS.get(i - 1).getFoodStore().toString() : null);
-                            }
-                            break;
-                        case 12:
-                            hssfRow = hssfSheet.getRow(rowNum);
-                            for (int i = 1; i <= 6; i++) {
-                                cell = hssfRow.getCell(i);
-                                cell.setCellValue(bulkStoreVOS.get(i - 1).getSteelStore() != null ? bulkStoreVOS.get(i - 1).getSteelStore().toString() : null);
-                            }
-                            break;
-                    }
+            for(int i=0;i<bulkStoreVOS.size();i++){
+                BulkStoreVO bulkStoreVO=bulkStoreVOS.get(i);
+                switch (bulkStoreVO.getTerCode()){
+                    case "HP":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(1);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null ? bulkStoreVO.getTotalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(1);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null?bulkStoreVO.getOreStore().toString():"");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(1);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null?bulkStoreVO.getCoalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(1);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null?bulkStoreVO.getFoodStore().toString():"");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(1);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null?bulkStoreVO.getSteelStore().toString():"");
+                        break;
+                    case "XG":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(2);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null ? bulkStoreVO.getTotalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(2);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null?bulkStoreVO.getOreStore().toString():"");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(2);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null?bulkStoreVO.getCoalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(2);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null?bulkStoreVO.getFoodStore().toString():"");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(2);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null?bulkStoreVO.getSteelStore().toString():"");
+                        break;
+                    case "XJ":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(3);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null ? bulkStoreVO.getTotalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(3);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null?bulkStoreVO.getOreStore().toString():"");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(3);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null?bulkStoreVO.getCoalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(3);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null?bulkStoreVO.getFoodStore().toString():"");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(3);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null?bulkStoreVO.getSteelStore().toString():"");
+                        break;
+                    case "XS":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(4);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null ? bulkStoreVO.getTotalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(4);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null?bulkStoreVO.getOreStore().toString():"");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(4);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null?bulkStoreVO.getCoalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(4);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null?bulkStoreVO.getFoodStore().toString():"");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(4);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null?bulkStoreVO.getSteelStore().toString():"");
+                        break;
+                    case "NGT":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(6);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null ? bulkStoreVO.getTotalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(6);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null?bulkStoreVO.getOreStore().toString():"");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(6);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null?bulkStoreVO.getCoalStore().toString():"");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(6);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null?bulkStoreVO.getFoodStore().toString():"");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(6);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null?bulkStoreVO.getSteelStore().toString():"");
+                        break;
                 }
             }
+            //库存设置
+//            int startRow=8;     //值班调度日报标签吞吐量开始位置
+//            int endRow=12;      //结束位置
+//            if(bulkStoreVOS.size()>0) {
+//                for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
+//                    switch (rowNum) {
+//                        case 8:
+//                            hssfRow = hssfSheet.getRow(rowNum);
+//                            for (int i = 1; i <= 6; i++) {
+//                                cell = hssfRow.getCell(i);
+//                                cell.setCellValue(bulkStoreVOS.get(i - 1).getTotalStore() != null ? bulkStoreVOS.get(i - 1).getTotalStore().toString() : null);
+//                            }
+//                            break;
+//                        case 9:
+//                            hssfRow = hssfSheet.getRow(rowNum);
+//                            for (int i = 1; i <= 6; i++) {
+//                                cell = hssfRow.getCell(i);
+//                                cell.setCellValue(bulkStoreVOS.get(i - 1).getOreStore() != null ? bulkStoreVOS.get(i - 1).getOreStore().toString() : null);
+//                            }
+//                            break;
+//                        case 10:
+//                            hssfRow = hssfSheet.getRow(rowNum);
+//                            for (int i = 1; i <= 6; i++) {
+//                                cell = hssfRow.getCell(i);
+//                                cell.setCellValue(bulkStoreVOS.get(i - 1).getCoalStore() != null ? bulkStoreVOS.get(i - 1).getCoalStore().toString() : null);
+//                            }
+//                            break;
+//                        case 11:
+//                            hssfRow = hssfSheet.getRow(rowNum);
+//                            for (int i = 1; i <= 6; i++) {
+//                                cell = hssfRow.getCell(i);
+//                                cell.setCellValue(bulkStoreVOS.get(i - 1).getFoodStore() != null ? bulkStoreVOS.get(i - 1).getFoodStore().toString() : null);
+//                            }
+//                            break;
+//                        case 12:
+//                            hssfRow = hssfSheet.getRow(rowNum);
+//                            for (int i = 1; i <= 6; i++) {
+//                                cell = hssfRow.getCell(i);
+//                                cell.setCellValue(bulkStoreVOS.get(i - 1).getSteelStore() != null ? bulkStoreVOS.get(i - 1).getSteelStore().toString() : null);
+//                            }
+//                            break;
+//                    }
+//                }
+//            }
 
             //第13行重箱堆存设置
             List<CntrStore> cntrStoreList=cntrStoreService.getCntrSotreByDate(date);
