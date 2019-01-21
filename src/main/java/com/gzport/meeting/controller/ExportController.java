@@ -66,10 +66,26 @@ public class ExportController {
     @Autowired
     DispersionService dispersionService;
 
+    @Autowired
+    ProductionLineService productionLineService;
+
     @RequestMapping("/Excel")
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
         Resource resource = new ClassPathResource("static/files/jiaoban.xls");
-        File file_2 = resource.getFile();
+        File file_1=resource.getFile();
+        FileInputStream fis_1 = new FileInputStream(file_1);
+        File file_2 = new File("temp.xls");
+        FileOutputStream fos = new FileOutputStream(file_2);
+        byte datas[] = new byte[1024*8];
+        //创建长度
+        int len = 0;
+        //循环读取数据
+        while((len = fis_1.read(datas))!=-1){
+            fos.write(datas,0,len);
+        }
+        //3.释放资源
+        fis_1.close();
+        fos.close();
         Date date=null;
         try {
             date=new SimpleDateFormat("yyyy-MM-dd").parse(time);
@@ -314,13 +330,13 @@ public class ExportController {
 
             //汽车库存设置
             List<CarStore> carStoreList=carStoreService.getBargeByTerIdAndTime("XS",new SimpleDateFormat("yyyy-MM-dd").format(date));
-            if(carStoreList!=null) {
+            if(carStoreList.size()>0) {
                 hssfRow = hssfSheet.getRow(13);
                 cell = hssfRow.getCell(7);
                 cell.setCellValue(String.format("%4d", carStoreList.get(0).getCarNumber()) + "  辆");
             }
             carStoreList = carStoreService.getBargeByTerIdAndTime("NAT", new SimpleDateFormat("yyyy-MM-dd").format(date));
-            if(carStoreList!=null) {
+            if(carStoreList.size()>0) {
                 hssfRow = hssfSheet.getRow(15);
                 cell = hssfRow.getCell(7);
                 cell.setCellValue(String.format("%4d", carStoreList.get(0).getCarNumber()) + "  辆");
@@ -468,14 +484,14 @@ public class ExportController {
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "钢材":
                                     hssfRow = hssfSheet.getRow(5);
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "煤炭":
                                     hssfRow = hssfSheet.getRow(6);
@@ -487,62 +503,60 @@ public class ExportController {
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(cell.getStringCellValue()==null||cell.getStringCellValue().equals("")?dispersionVO.getWorkingNumber()+"":cell.getStringCellValue()+"/"+dispersionVO.getWorkingNumber());
                                     break;
-                                case "石焦油":
+                                default:
                                     hssfRow = hssfSheet.getRow(6);
-                                    cell = hssfRow.getCell(8);
-                                    cell.setCellValue(cell.getStringCellValue()==null||cell.getStringCellValue().equals("")?dispersionVO.getWorkingNumber()+"":cell.getStringCellValue()+"/"+dispersionVO.getWorkingNumber());
-                                    break;
-                                case "水渣":
-                                    hssfRow = hssfSheet.getRow(6);
-                                    cell = hssfRow.getCell(8);
-                                    cell.setCellValue(cell.getStringCellValue()==null||cell.getStringCellValue().equals("")?dispersionVO.getWorkingNumber()+"":cell.getStringCellValue()+"/"+dispersionVO.getWorkingNumber());
-                                    break;
+                                    cell = hssfRow.getCell(11);
+                                    cell.setCellValue(dispersionVO.getCargoName()+"  "+dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                             }
+                            break;
                         case "NGT":
                             switch (dispersionVO.getCargoName()){
                                 case "钢材":
                                     hssfRow = hssfSheet.getRow(8);
                                     cell = hssfRow.getCell(8);
+                                    System.out.println(dispersionVO.getTerCode()+" :  "+dispersionVO.getWorkingNumber());
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "粮食":
                                     hssfRow = hssfSheet.getRow(9);
                                     cell = hssfRow.getCell(8);
+                                    System.out.println(dispersionVO.getTerCode()+" :  "+dispersionVO.getWorkingNumber());
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "纸浆":
                                     hssfRow = hssfSheet.getRow(10);
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
-                                case "石灰石":
+                                case "石膏":
                                     hssfRow = hssfSheet.getRow(11);
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "石油焦":
                                     hssfRow = hssfSheet.getRow(12);
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "水渣":
                                     hssfRow = hssfSheet.getRow(13);
                                     cell = hssfRow.getCell(8);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                             }
+                            break;
                         case "XJ":
                             switch (dispersionVO.getCargoName()){
                                 case "驳船":
@@ -555,35 +569,174 @@ public class ExportController {
                                     xjsum+=dispersionVO.getUnWorkNumber();
                                     hssfRow = hssfSheet.getRow(15);
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "火车":
                                     xjsum+=dispersionVO.getWorkingNumber();
                                     hssfRow = hssfSheet.getRow(16);
                                     cell = hssfRow.getCell(8);
-                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "汽车":
                                     xjsum+=dispersionVO.getWorkingNumber();
-                                    xjsum+=dispersionVO.getWorkingNumber();
                                     hssfRow = hssfSheet.getRow(16);
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "黄电":
                                     xjsum+=dispersionVO.getWorkingNumber();
                                     hssfRow = hssfSheet.getRow(17);
                                     cell = hssfRow.getCell(8);
-                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "恒电":
                                     xjsum+=dispersionVO.getWorkingNumber();
                                     hssfRow = hssfSheet.getRow(17);
                                     cell = hssfRow.getCell(11);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber());
-                                    hssfRow = hssfSheet.getRow(17);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                             }
+                            hssfRow = hssfSheet.getRow(18);
+                            cell = hssfRow.getCell(8);
+                            cell.setCellValue(xjsum);
+                            break;
+                        case "HP":
+                            switch (dispersionVO.getCargoName()){
+                                case "钢材":
+                                    hssfRow = hssfSheet.getRow(20);
+                                    cell = hssfRow.getCell(1);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(5);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "饲料":
+                                    hssfRow = hssfSheet.getRow(21);
+                                    cell = hssfRow.getCell(1);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(5);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "纸浆":
+                                    hssfRow = hssfSheet.getRow(22);
+                                    cell = hssfRow.getCell(1);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(5);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "石灰石":
+                                    hssfRow = hssfSheet.getRow(23);
+                                    cell = hssfRow.getCell(1);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(5);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                            }
+                            break;
+                        case "XS":
+                            switch (dispersionVO.getCargoName()){
+                                case "煤驳":
+                                    hssfRow = hssfSheet.getRow(20);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(11);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "煤卡":
+                                    hssfRow = hssfSheet.getRow(21);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "矿卡":
+                                    hssfRow = hssfSheet.getRow(21);
+                                    cell = hssfRow.getCell(11);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "汽车直提":
+                                    hssfRow = hssfSheet.getRow(22);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "汽车转港":
+                                    hssfRow = hssfSheet.getRow(22);
+                                    cell = hssfRow.getCell(11);
+                                    cell.setCellValue(dispersionVO.getWorkingNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+            List<ProductionLine> productionLineList=productionLineService.findProByDate(date);
+            if(productionLineList.size()>0){
+                for(int i=0;i<productionLineList.size();i++){
+                    ProductionLine productionLine=productionLineList.get(i);
+                    switch (productionLine.getTerCode()){
+                        case "NCT":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(1);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(1);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(1);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "GOCT":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(2);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(2);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(2);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "NICT":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(3);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(3);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(3);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "GCT":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(4);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(4);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(4);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "XS":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(5);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(5);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(5);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "HP":
+                            hssfRow = hssfSheet.getRow(25);
+                            cell = hssfRow.getCell(6);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            hssfRow = hssfSheet.getRow(27);
+                            cell = hssfRow.getCell(6);
+                            cell.setCellValue(productionLine.getShipLine());
+                            hssfRow = hssfSheet.getRow(29);
+                            cell = hssfRow.getCell(6);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            break;
                     }
                 }
             }
