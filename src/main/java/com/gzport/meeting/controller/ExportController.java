@@ -74,8 +74,9 @@ public class ExportController {
 
     @RequestMapping("/Excel")
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
-        Resource resource = new ClassPathResource("static/files/jiaoban.xls");
-        File file_1=resource.getFile();
+//        Resource resource = new ClassPathResource("static/files/jiaoban.xls");
+//        File file_1=resource.getFile();
+        File file_1=new File("D:\\file\\jiaoban.xls");
         FileInputStream fis_1 = new FileInputStream(file_1);
         File file_2 = new File("temp.xls");
         FileOutputStream fos = new FileOutputStream(file_2);
