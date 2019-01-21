@@ -69,6 +69,9 @@ public class ExportController {
     @Autowired
     ProductionLineService productionLineService;
 
+    @Autowired
+    AttendenceService attendenceService;
+
     @RequestMapping("/Excel")
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
         Resource resource = new ClassPathResource("static/files/jiaoban.xls");
@@ -514,7 +517,6 @@ public class ExportController {
                                 case "钢材":
                                     hssfRow = hssfSheet.getRow(8);
                                     cell = hssfRow.getCell(8);
-                                    System.out.println(dispersionVO.getTerCode()+" :  "+dispersionVO.getWorkingNumber());
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
                                     cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
@@ -522,7 +524,6 @@ public class ExportController {
                                 case "粮食":
                                     hssfRow = hssfSheet.getRow(9);
                                     cell = hssfRow.getCell(8);
-                                    System.out.println(dispersionVO.getTerCode()+" :  "+dispersionVO.getWorkingNumber());
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
                                     cell = hssfRow.getCell(11);
                                     cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
@@ -620,13 +621,16 @@ public class ExportController {
                                     hssfRow = hssfSheet.getRow(22);
                                     cell = hssfRow.getCell(1);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
-                                    cell = hssfRow.getCell(5);
-                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
                                 case "石灰石":
                                     hssfRow = hssfSheet.getRow(23);
                                     cell = hssfRow.getCell(1);
                                     cell.setCellValue(dispersionVO.getWorkingNumber());
+                                    cell = hssfRow.getCell(5);
+                                    cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
+                                    break;
+                                case "高粱":
+                                    hssfRow = hssfSheet.getRow(22);
                                     cell = hssfRow.getCell(5);
                                     cell.setCellValue(dispersionVO.getUnWorkNumber()+" "+(dispersionVO.getMechanicalNumber()!=0?dispersionVO.getMechanicalNumber()+"#":""));
                                     break;
@@ -666,6 +670,9 @@ public class ExportController {
                     }
                 }
             }
+
+
+            //作业线设置
             List<ProductionLine> productionLineList=productionLineService.findProByDate(date);
             if(productionLineList.size()>0){
                 for(int i=0;i<productionLineList.size();i++){
@@ -740,6 +747,101 @@ public class ExportController {
                     }
                 }
             }
+
+            //出勤人员设置
+            List<Attendence> attendenceList=attendenceService.findAttendenceByDate(date);
+            if(attendenceList.size()>0){
+                for(int i=0;i<attendenceList.size();i++){
+                    Attendence attendence=attendenceList.get(i);
+                    switch (attendence.getTerCode()){
+                        case "HP":
+                            switch (attendence.getAttTime()){
+                                case "0000-0730":
+                                    hssfRow = hssfSheet.getRow(25);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(28);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "0730-1530":
+                                    hssfRow = hssfSheet.getRow(31);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(34);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "1530-2400":
+                                    hssfRow = hssfSheet.getRow(37);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(40);
+                                    cell = hssfRow.getCell(8);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                            }
+                            break;
+                        case "NGT":
+                            switch (attendence.getAttTime()){
+                                case "0000-0730":
+                                    hssfRow = hssfSheet.getRow(25);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(28);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "0730-1530":
+                                    hssfRow = hssfSheet.getRow(31);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(34);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "1530-2400":
+                                    hssfRow = hssfSheet.getRow(37);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(40);
+                                    cell = hssfRow.getCell(10);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                            }
+                            break;
+                        case "XG":
+                            switch (attendence.getAttTime()){
+                                case "0000-0730":
+                                    hssfRow = hssfSheet.getRow(25);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(28);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "0730-1530":
+                                    hssfRow = hssfSheet.getRow(31);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(34);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                                case "1530-2400":
+                                    hssfRow = hssfSheet.getRow(37);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWorkingStaff());
+                                    hssfRow = hssfSheet.getRow(40);
+                                    cell = hssfRow.getCell(9);
+                                    cell.setCellValue(attendence.getWatiStaff());
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+
             OutputStream os=new FileOutputStream(file_2);
             hssfWorkbook.write(os);
         }
