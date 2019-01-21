@@ -3,7 +3,7 @@
  */
 //弹出提示框
 document.write("<script language=javascript src='../../js/huadong/tips.js'></script>");
-document.write("<script language=javascript src='../../js/huadong/formInit.js?v=20190113'></script>");
+// document.write("<script language=javascript src='../../js/huadong/formInit.js?v=20190113'></script>");
 //最终传递的数据
 var submitJson;
 //散货疏运的数据,//集装箱驳船的数据//集装箱作业线的数据//新沙集装箱驳船//车卡//集装箱堆存//汽车库存//散货堆存//工人出勤情况
@@ -26,8 +26,8 @@ function initData() {
     cntrStoreList: [],
     bargeXSList: [],
     carStoreList:[],
-    attendenceList:[]
-    /******************************************************************************/
+    attendenceList:[],
+    bulkStoreList:[]
   };
   disper=[];
   barge=[];
@@ -111,7 +111,6 @@ function xjBarge() {
 function getCompany(){
   if (document.getElementById("company")){
     company=document.getElementById("company").title;
-    console.log(company);
   }
 }
 
@@ -253,7 +252,6 @@ function postJson() {
     type: "POST",
     data:JSON.stringify(submitJson),
     success: function (data) {
-      console.log(data);
       //刷新窗口
       // window.location.reload();
       //设置输入框不可编辑以及提交按钮不可点击
@@ -279,7 +277,7 @@ function postJson() {
         $("#apply").disable=true;
       }
       isSubmit=1;
-      showTips(data.message,200,1);
+      showTips(data.message,200,2);
       setTimeout(function(){
         location.reload();
       },700);

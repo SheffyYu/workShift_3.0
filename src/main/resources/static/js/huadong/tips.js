@@ -10,7 +10,7 @@ function showTips( content, height, time ){
   $( 'div.tipsClass' ).css({
     'top'       : height + 'px',
     'left'      : ( windowWidth / 2 ) - 350/2 + 'px',
-    'position'  : 'absolute',
+    'position'  : 'fixed',
     'padding'   : '40px 5px',
     'background': '#0e8bc5',
     'font-size' : 20+ 'px',

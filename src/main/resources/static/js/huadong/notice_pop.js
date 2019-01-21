@@ -68,11 +68,11 @@ function getUnwriteTer(){
       //当有码头没有填写时
       if(data != ""){
         //获取码头名称
-        content+="<li>**目前还未填写数据的公司有"+data.length+"个，其中包括："+data[0].terCode;
+        content+="<li>**目前还未填写数据的公司有"+data.length+"个，其中包括：<span style='color: red'>"+data[0].terCode;
         for(var i=1;i<data.length;i++){
           content+="，"+data[i].terCode;
         }
-        content+="</li>";
+        content+="</span></li>";
         isTrue=1;
         getApplyTer(isTrue);
       }else{
@@ -94,11 +94,11 @@ function getApplyTer(isTrue) {
       //当有码头申请修改数据时
       if(data != ""){
         //获取码头名称
-        content+="<li>**"+data[0].auth.company;
+        content+="<li>**"+"<span style='color: red'>"+data[0].auth.company;
         for(var i=1;i<data.length;i++){
           content+="，"+data[i].auth.company;
         }
-        content+="申请修改数据</li>";
+        content+="</span>申请修改数据</li>";
         showNotice();
       }else{
         //当都为空时不显示
