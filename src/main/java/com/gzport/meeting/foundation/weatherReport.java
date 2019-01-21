@@ -93,33 +93,31 @@ public class weatherReport {
         String str2 = "";
 
         // 取出有用的范围
-        Pattern p = Pattern.compile("(.*)(<body>)(.*?)(</body>)(.*)");
+        Pattern p = Pattern.compile("(.*)(----------------------------------------------------</div>)(.*?)(<div>\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------------------------------------------------</div>)(.*)");
         Matcher m = p.matcher(html);
         if (m.matches()) {
             str1 = m.group(3);
-            // 匹配天气
-            p = Pattern.compile("(.*)(今天下午到明天上午：)(.*?)(<br>)(.*)");
+
+            p = Pattern.compile("(.*)(<div>)(.*?)(</div>)(.*)");
             m = p.matcher(str1);
-            if(m.matches()){
-                str2 = m.group(3);
-                buffer.append(str2);
-                buffer.append(",");
-            }
-            // 匹配气温
-            p = Pattern.compile("(.*)(&nbsp; &nbsp; &nbsp; &nbsp;)(.*?)(<br>)(.*)");
-            m = p.matcher(str1);
-            if(m.matches()){
-                str2 = m.group(3);
-                buffer.append(str2);
-                buffer.append(",");
-            }
-            // 匹配风向
-            p = Pattern.compile("(.*)(&nbsp; &nbsp; &nbsp; &nbsp;)(.*?)(<br />&nbsp;)(.*)");
-            m = p.matcher(str1);
-            if(m.matches()){
-                str2 = m.group(3);
+            if (m.matches()) {
+                str1 = m.group(3);
+
+                //去除html标签
+                p = Pattern.compile("<[^>]+>");
+                m = p.matcher(str1);
+                str2 = m.replaceAll(""); // 过滤html标签
+                //去除&开头的所有文字
+                p = Pattern.compile("\\&[a-zA-Z]{1,10};");
+                m = p.matcher(str2);
+                str2 = m.replaceAll(""); // 过滤&标签
+                //去除空格回车符
+                p = Pattern.compile( "\\s{2,}");
+                m = p.matcher(str2);
+                str2 = m.replaceAll(","); // 过滤空格
                 buffer.append(str2);
             }
+
 
         }
         return buffer.toString();
@@ -160,7 +158,7 @@ public class weatherReport {
                                 buffer.append("风");
                                 break;
                             case 4:
-                                buffer.append("级，阵风");
+                                buffer.append("级,阵风");
                                 break;
                             case 5:
                                 buffer.append("级");
@@ -190,6 +188,7 @@ public class weatherReport {
         String result2 = htmlFiterZhuJiang(html2);
         list.add(result1);
         list.add(result2);
+        System.out.println(list);
 
         return list;
     }

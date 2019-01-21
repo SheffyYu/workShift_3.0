@@ -206,9 +206,9 @@ public class TerminalsDateController {
             if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
                 bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
             for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
-                terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
-                terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
-                terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
+                terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
+                terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
+                terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
             }
             if(bulkStoreService.saveAll(terminalVO.getBulkStoreList())==null)
                 return SaveResult.getInstance(SaveResult.FAILE);
@@ -247,6 +247,7 @@ public class TerminalsDateController {
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
         terminalVO.setAttendenceList(attendenceService.findCurrentByWharf(auth.getCompany()));
+        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()));
         return terminalVO;
     }
 
@@ -278,6 +279,7 @@ public class TerminalsDateController {
         terminalVO.setProductionLineList(productionLineService.findProByTerIDAndTime(auth.getCompany(),time));
         terminalVO.setCarStoreList(carStoreService.getBargeByTerIdAndTime(auth.getCompany(),time));
         terminalVO.setAttendenceList(attendenceService.findAttendenceByWharfAndTime(auth.getCompany(),time));
+        terminalVO.setBulkStoreList(bulkStoreService.findBulkStoreByWharfAndTime(auth.getCompany(),time));
         return terminalVO;
     }
 
@@ -316,6 +318,7 @@ public class TerminalsDateController {
         terminalVO.setProductionLineList(productionLineService.findProByTerIDAndTime(auth.getCompany(),time));
         terminalVO.setCarStoreList(carStoreService.getBargeByTerIdAndTime(auth.getCompany(),time));
         terminalVO.setAttendenceList(attendenceService.findAttendenceByWharfAndTime(auth.getCompany(),time));
+        terminalVO.setBulkStoreList(bulkStoreService.findBulkStoreByWharfAndTime(auth.getCompany(),time));
         return terminalVO;
     }
 
@@ -348,6 +351,7 @@ public class TerminalsDateController {
         terminalVO.setProductionLineList(productionLineService.findCurrentProByTerID(auth.getCompany()));
         terminalVO.setCarStoreList(carStoreService.getCurrentBargeByTerId(auth.getCompany()));
         terminalVO.setAttendenceList(attendenceService.findCurrentByWharf(auth.getCompany()));
+        terminalVO.setBulkStoreList(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()));
         return terminalVO;
     }
 
