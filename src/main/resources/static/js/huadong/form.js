@@ -433,81 +433,129 @@ function cntrStoreData() {
 function truckData() {
   if(document.getElementById("trkxg")){
     var trkxg=document.getElementById("trkxg").value;
+    if(trkxg==""){
+      trkxg=0;
+    }
   }else{
     var trkxg=0;
   }
   if(document.getElementById("trkxj")){
     var trkxj=document.getElementById("trkxj").value;
+    if(trkxj==""){
+      trkxj=0;
+    }
   }else{
     var trkxj=0;
   }
   if(document.getElementById("trkgct")){
     var trkgct=document.getElementById("trkgct").value;
+    if(trkgct==""){
+      trkgct=0;
+    }
   }else{
     var trkgct=0;
   }
   if(document.getElementById("trkxg")){
     var trkxs=document.getElementById("trkxs").value;
+    if(trkxs==""){
+      trkxs=0;
+    }
   }else{
     var trkxs=0;
   }
   if(document.getElementById("allcmp")){
     var allcmp=document.getElementById("allcmp").value;
+    if(allcmp==""){
+      allcmp=0;
+    }
   }else{
     var allcmp=0;
   }
   if(document.getElementById("trkmt")){
     var trkmt=document.getElementById("trkmt").value;
+    if(trkmt==""){
+      trkmt=0;
+    }
   }else{
     var trkmt=0;
   }
   if(document.getElementById("trkks")){
     var trkks=document.getElementById("trkks").value;
+    if(trkks==""){
+      trkks=0;
+    }
   }else{
     var trkks=0;
   }
   if(document.getElementById("trkzh")){
     var trkzh=document.getElementById("trkzh").value;
+    if(trkzh==""){
+      trkzh=0;
+    }
   }else{
     var trkzh=0;
   }
   if(document.getElementById("allcgo")){
     var allcgo=document.getElementById("allcgo").value;
+    if(allcgo==""){
+      allcgo=0;
+    }
   }else{
     var allcgo=0;
   }
   if(document.getElementById("trkmte")){
     var trkmte=document.getElementById("trkmte").value;
+    if(trkmte==""){
+      trkmte=0;
+    }
   }else{
     var trkmte=0;
   }
   if(document.getElementById("trkkse")){
     var trkkse=document.getElementById("trkkse").value;
+    if(trkkse==""){
+      trkkse=0;
+    }
   }else{
     var trkkse=0;
   }
   if(document.getElementById("alle")){
     var alle=document.getElementById("alle").value;
+    if(alle==""){
+      alle=0;
+    }
   }else{
     var alle=0;
   }
   if(document.getElementById("trkload")){
     var trkload=document.getElementById("trkload").value;
+    if(trkload==""){
+      trkload=0;
+    }
   }else{
     var trkload=0;
   }
   if(document.getElementById("trkunload")){
     var trkunload=document.getElementById("trkunload").value;
+    if(trkunload==""){
+      trkunload=0;
+    }
   }else{
     var trkunload=0;
   }
   if(document.getElementById("trkothere")){
     var trkothere=document.getElementById("trkothere").value;
+    if(trkothere==""){
+      trkothere=0;
+    }
   }else{
     var trkothere=0;
   }
   if(document.getElementById("totalLoad")){
     var totalLoad=document.getElementById("totalLoad").value;
+    if(totalLoad==""){
+      totalLoad=0;
+    }
   }else{
     var totalLoad=0;
   }
