@@ -331,7 +331,6 @@ public class ExportController {
 
             //黄埔车卡设置
             List<TruckStore> truckStoreListHP=truckStoreService.findProByTerIdAndDate("HP",date);
-            System.out.println("黄埔装车 "+truckStoreListHP.size());
             if(truckStoreListHP.size()>0){
                 TruckStore truckStoreHP=truckStoreListHP.get(0);
                 hssfRow = hssfSheet.getRow(18);
@@ -727,7 +726,7 @@ public class ExportController {
                             cell = hssfRow.getCell(4);
                             cell.setCellValue(productionLine.getBargeLine());
                             break;
-                        case "XS":
+                        case "XSGW":
                             hssfRow = hssfSheet.getRow(25);
                             cell = hssfRow.getCell(5);
                             cell.setCellValue(productionLine.getTotalLine());
