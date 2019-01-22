@@ -93,33 +93,36 @@ public class weatherReport {
         String str2 = "";
 
         // 取出有用的范围
-        Pattern p = Pattern.compile("(.*)(----------------------------------------------------</div>)(.*?)(<div>\t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------------------------------------------------</div>)(.*)");
+        //定义script的正则表达式{或<script[^>]*?>[\\s\\S]*?<\\/script>
+        String regEx_script = "<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>";
+//定义style的正则表达式{或<style[^>]*?>[\\s\\S]*?<\\/style>
+        String regEx_style = "<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>";
+// 定义HTML标签的正则表达式
+        String regEx_html = "<[^>]+>";
+// 定义一些特殊字符的正则表达式 如：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        String regEx_special = "\\&[a-zA-Z]{1,10};";
+
+        Pattern p = Pattern.compile(regEx_script);
         Matcher m = p.matcher(html);
-        if (m.matches()) {
-            str1 = m.group(3);
-
-            p = Pattern.compile("(.*)(<div>)(.*?)(</div>)(.*)");
-            m = p.matcher(str1);
-            if (m.matches()) {
-                str1 = m.group(3);
-
-                //去除html标签
-                p = Pattern.compile("<[^>]+>");
-                m = p.matcher(str1);
-                str2 = m.replaceAll(""); // 过滤html标签
-                //去除&开头的所有文字
-                p = Pattern.compile("\\&[a-zA-Z]{1,10};");
-                m = p.matcher(str2);
-                str2 = m.replaceAll(""); // 过滤&标签
-                //去除空格回车符
-                p = Pattern.compile( "\\s{2,}");
-                m = p.matcher(str2);
-                str2 = m.replaceAll(","); // 过滤空格
-                buffer.append(str2);
-            }
-
-
-        }
+        html = m.replaceAll(""); // 过滤script标签
+        p = Pattern.compile(regEx_style);
+        m = p.matcher(html);
+        html = m.replaceAll(""); // style
+        p = Pattern.compile(regEx_html);
+        m = p.matcher(html);
+        html = m.replaceAll(""); // html
+        p = Pattern.compile(regEx_special);
+        m = p.matcher(html);
+        html = m.replaceAll(""); //&
+        //取最后一个冒号后面的内容
+        int one = html.lastIndexOf("：");
+        html=html.substring((one+1),html.length());
+        html = html.replaceAll("-",""); // 过滤---
+        //去除空格回车符
+        p = Pattern.compile( "\\s{2,}");
+        m = p.matcher(html);
+        str2 = m.replaceAll(","); // 过滤空格
+        buffer.append(str2);
         return buffer.toString();
     }
 
@@ -188,7 +191,6 @@ public class weatherReport {
         String result2 = htmlFiterZhuJiang(html2);
         list.add(result1);
         list.add(result2);
-        System.out.println(list);
 
         return list;
     }
