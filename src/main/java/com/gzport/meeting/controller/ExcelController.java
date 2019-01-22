@@ -83,11 +83,11 @@ public class ExcelController {
                     String[][] data=new String[endRow-startRow+1][];        //数据保存
                     Throughput throughput = getThroughput(hssfSheet);
                     if (throughput != null) {
+                        throughput.setInsAccount(auth.getAccount());
+                        throughput.setUpdAccount(auth.getAccount());
                         throughput.setInsTimestamp(dataTime);
                         throughputService.save(throughput);
                     }
-                    throughput.setInsAccount(auth.getAccount());
-                    throughput.setUpdAccount(auth.getAccount());
                     for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
                         HSSFRow hssfRow = hssfSheet.getRow(rowNum);
                         int minColIx = hssfRow.getFirstCellNum() + 1;
