@@ -363,10 +363,16 @@ function bargeData(){
   var unWork=document.getElementById("unWork").value;
 
   //对取到的数据进行判断,不能为空
-  if(inPort == "" || finishWork == "" || unWork ==""){
-    isContinue=false;
-    alert("集装箱驳船中数据不能为空，请返回填写！");//返回界面
-  }else if(inPort < 0 || finishWork < 0 || unWork < 0){
+  if(inPort == ""){
+    inPort =0;
+  }
+  if(finishWork == ""){
+    finishWork =0;
+  }
+  if( unWork ==""){
+    unWork=0;
+  }
+  if(inPort < 0 || finishWork < 0 || unWork < 0){
     isContinue=false;
     alert("集装箱驳船中数据存在负数，请返回修改！");//返回界面
   } else{
@@ -388,10 +394,16 @@ function proLineData() {
   var allLine=document.getElementById("allProLine").value;
   var shipLine=document.getElementById("shipProLine").value;
   var bargeLine=document.getElementById("bargeProLine").value;
-  if(allLine == "" || shipLine == "" || bargeLine == ""){
-    isContinue=false;
-    alert("集装箱作业线中数据不能为空，请返回填写！");//返回界面
-  }else if(allLine < 0 || shipLine < 0 || bargeLine < 0){
+  if(allLine == ""){
+    allLine=0;
+  }
+  if( shipLine == "" ){
+    shipLine=0;
+  }
+  if( bargeLine == ""){
+    bargeLine=0;
+  }
+  if(allLine < 0 || shipLine < 0 || bargeLine < 0){
     isContinue=false;
     alert("集装箱作业线中数据存在负数，请返回修改！");//返回界面
   } else{
@@ -641,6 +653,25 @@ $("#xsCntr .xsShen").each(function () {
     };
     bargeXS.push(obj);
   }
+
+  var xsShipLine=document.getElementById("xsShip").value;
+  var xsBargeLine=document.getElementById("xsLT").value;
+
+  if(xsShipLine ==""){
+    xsShipLine=0
+  }
+  if(xsBargeLine==""){
+    xsBargeLine=0;
+  }
+
+  var obj={
+    productionId:"",	//作业线Id,没有可以不填
+    terCode:"",		//码头代码，不用填
+    totalLine:(xsBargeLine-0)+(xsShipLine-0),		//总作业线
+    shipLine:xsShipLine,		//大船作业线
+    bargeLine:xsBargeLine		//驳船作业线
+  };
+  proroductionLine.push(obj);
 }
 
 /**

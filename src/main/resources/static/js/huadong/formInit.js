@@ -411,6 +411,10 @@ function insertBargeXSData() {
     $(this).attr("value",xstotal[count]);
     count++;
   });
+
+  if(proroductionLine != ""){
+    document.getElementById("xsShip").value=proroductionLine[0].shipLine;
+  }
 }
 
 /**
