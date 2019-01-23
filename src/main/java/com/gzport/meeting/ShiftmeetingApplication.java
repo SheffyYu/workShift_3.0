@@ -21,7 +21,7 @@ public class ShiftmeetingApplication 	{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ShiftmeetingApplication.class, args);
-//		getTemperatureInfo();
+		getTemperatureInfo();
 	}
 
 }
