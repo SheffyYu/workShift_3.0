@@ -191,6 +191,7 @@ public class weatherReport {
         String result2 = htmlFiterZhuJiang(html2);
         list.add(result1);
         list.add(result2);
+        System.out.println(list);
 
         return list;
     }
