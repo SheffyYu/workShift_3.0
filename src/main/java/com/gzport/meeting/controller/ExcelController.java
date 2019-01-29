@@ -155,9 +155,9 @@ public class ExcelController {
 
 
     @GetMapping("/data2excel")
-    public boolean dataToExcel(){
+    public boolean dataToExcel(String time){
         try {
-            excelServicel.dataToExcel();
+            excelServicel.dataToExcel(time);
             return true;
         } catch (IOException e) {
             e.printStackTrace();

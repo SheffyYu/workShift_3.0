@@ -63,14 +63,20 @@ public class ExcelServiceImpl implements ExcelService {
     AttendenceService attendenceService;
 
     @Override
-    public void dataToExcel() throws IOException {
+    public void dataToExcel(String time) throws IOException {
         File file_1=new File("D:\\file\\jiaoban2.xls");
         FileInputStream fis_1 = new FileInputStream(file_1);
         File file_2 = new File("temp.xls");
         FileOutputStream fos = new FileOutputStream(file_2);
         byte datas[] = new byte[1024*8];
-        Date date=new Date();
-        String time = new SimpleDateFormat("yyy-MM-dd").format(date);
+        //Date date=new Date();
+        //String time = new SimpleDateFormat("yyy-MM-dd").format(date);
+        Date date=null;
+        try {
+            date=new SimpleDateFormat("yyyy-MM-dd").parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //创建长度
         int len = 0;
         //循环读取数据

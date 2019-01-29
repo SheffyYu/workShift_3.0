@@ -8,5 +8,5 @@ import java.io.IOException;
  */
 public interface ExcelService {
 
-    void dataToExcel() throws IOException;
+    void dataToExcel(String time) throws IOException;
 }
