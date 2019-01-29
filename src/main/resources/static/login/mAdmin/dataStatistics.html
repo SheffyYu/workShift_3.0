@@ -10,6 +10,8 @@
   <link rel="stylesheet" type="text/css" href="../../css/style.css" />
   <link rel="stylesheet" type="text/css" href="../../css/WdatePicker.css" />
   <link rel="stylesheet" type="text/css" href="../../css/skin_/form.css" />
+  <link rel="stylesheet" href="../../css/huadong/orbit-1.2.3.css">
+  <link rel="stylesheet" href="../../css/huadong/jq22.css">
   <script type="text/javascript" src="../../js/jquery.js"></script>
   <script type="text/javascript" src="../../js/global.js"></script>
   <script type="text/javascript" src="../../js/jquery.select.js"></script>
@@ -18,6 +20,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon.ico" />
 
   <script type="text/javascript" src="../../js/jquery.min.js"></script>
+  <script type="text/javascript" src="../../js/huadong/jquery.orbit-1.2.3.min.js"></script>
   <script src="../../js/jquery.cycle.all.min.js"></script>
   <script src="../../js/jquery.jcarousel.min.js"></script>
   <script src="../../js/jquery.easyui.min.js"></script>
@@ -67,11 +70,30 @@
 <body>
 <div>
   <input type="button" id="downloadBtn" class="button" value="导出交接班表" style="margin-top: 20px;"/>
+  <input type="button" id="showBtn" class="button" value="查看" style="margin-top: 20px;"/>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：<input id="dateInput" data-options="required:false,editable:false" style="width:100px" class="easyui-datebox" />
 </div>
+<!--<div class="container">-->
+  <!--<div id="featured">-->
+    <!--<div class="content" style="">-->
+    <!--<h1>Orbit does content now.</h1>-->
+    <!--<h3>Highlight me...I'm text.</h3>-->
+    <!--</div>-->
+    <!--<a href="">-->
+      <img id="imgOtherTable" style="margin-top: 20px;margin-left: 20px;"/>
+    <!--<img src="../../images/captions.jpg" data-caption="#htmlCaption" />-->
+    <img id="imgShipTable" style="margin-top: 20px;margin-left: 20px;"/>
+    <!--<img src="../../images/features.jpg"  />-->
+  <!--</div>-->
+  <!--&lt;!&ndash;<span class="orbit-caption" id="htmlCaption"><strong>I'm A Badass Caption:</strong> I can haz <a href="#">links</a>, <em>style</em> or anything that is valid markup :)</span>&ndash;&gt;-->
+<!--</div>-->
 </body>
 <script src="../../js/huadong/dealTime.js"></script>
 <script>
+ /** 图片滚动*/
+//  $(window).load(function() {
+//    $('#featured').orbit();
+//  });
   /**
    * 下载交接班记录excel表
    */
@@ -91,12 +113,49 @@
   });
 
   /**
+   * 查看历史数据
+   */
+  $("#showBtn").on("click",function () {
+    var postDate={time:$("#dateInput").datebox("getValue")};
+    $.ajax({
+      type:"GET",
+      url:"/test/excel/data2excel?t="+Math.random(),
+      data:postDate,
+      success: function (data) {
+        console.log(data);
+        /** 加载图片*/
+        if (data == true){
+          document.getElementById('imgOtherTable').src="/test/excel/drawMainImage?t="+Math.random();
+          document.getElementById('imgShipTable').src='/test/excel/drawShipImage?t='+Math.random();
+        }
+
+      }
+    });
+  });
+
+  /**
    * 加载
    */
   $(document).ready(function () {
     //默认上传日期为今天
     $('#dateInput').datebox('setValue', getCurentDateStr());
+    var postDate={time:$("#dateInput").datebox("getValue")};
+    $.ajax({
+      type:"GET",
+      url:"/test/excel/data2excel?t="+Math.random(),
+      data:postDate,
+      success: function (data) {
+          console.log(data);
+        /** 加载图片*/
+        if (data == true){
+          document.getElementById('imgOtherTable').src="/test/excel/drawMainImage?t="+Math.random();
+          document.getElementById('imgShipTable').src='/test/excel/drawShipImage?t='+Math.random();
+        }
+
+      }
+    });
   });
+
 
 </script>
 </html>
