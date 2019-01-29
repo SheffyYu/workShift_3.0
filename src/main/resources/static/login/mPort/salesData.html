@@ -220,7 +220,7 @@
 
       $("#uploadMaintainDatagrid2").datagrid({
         striped:true,
-        url:"/login/bulkStore/getDaily",
+        url:"/login/bulkStore/getDaily?t="+Math.random(),
         method: "GET",
         singleSelect: true,
         selectOnCheck:false,
@@ -355,7 +355,7 @@
       });
 $("#uploadMaintainDatagrid").datagrid({
         striped:true,
-        url:"/login/throughput/getCurrentThroughput",
+        url:"/login/throughput/getCurrentThroughput?t="+Math.random(),
         method: "GET",
         singleSelect: true,
         selectOnCheck:false,
@@ -547,7 +547,7 @@ $("#uploadMaintainDatagrid").datagrid({
     function submitFormTh(row) {
       $.ajax({
         type : "post",
-        url : "/login/throughput/save",
+        url : "/login/throughput/save?t="+Math.random(),
         dataType: "json",
         contentType: "application/json",
         data : JSON.stringify({
