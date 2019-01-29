@@ -3,8 +3,10 @@ package com.gzport.meeting.controller;
 import com.gzport.meeting.common.LoginResult;
 import com.gzport.meeting.common.ServletOp;
 import com.gzport.meeting.domain.entity.Auth;
+import com.gzport.meeting.domain.entity.InterfaceUser;
 import com.gzport.meeting.domain.entity.LoginLog;
 import com.gzport.meeting.service.AuthService;
+import com.gzport.meeting.service.InterfaceUserService;
 import com.gzport.meeting.service.LoginLogService;
 import net.huadong.idev.ezui.utils.HdCipher;
 import net.huadong.idev.utils.HdImageCode;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +41,9 @@ public class LoginController {
 
     @Autowired
     LoginLogService loginLogService;
+
+    @Autowired
+    InterfaceUserService interfaceUserService;
 
     @RequestMapping("/logincontroller/getValidateCode")
     public void getValidateCode(HttpServletResponse response) throws Exception {
@@ -77,10 +83,15 @@ public class LoginController {
             return LoginResult.getInstance(LoginResult.WRONG_PASSWORD);
     }
 
-    @RequestMapping("/docklogin")
-    public String test(String account,HttpServletRequest request){
 
-        Auth auth=authService.findByAccount(account);
+    //调度系统登录
+    @RequestMapping("/shiplogin")
+    public String shipLogin(String id,String account,HttpServletRequest request){
+        List<InterfaceUser> interfaceUserList=interfaceUserService.findBycentIdAndAccout(id,account);
+        Auth auth=null;
+        if(interfaceUserList.size()>0) {
+            auth = authService.findByUserId(interfaceUserList.get(0).getUserId());
+        }
         if(auth!=null){
             Subject subject = SecurityUtils.getSubject();
             UsernamePasswordToken token = new UsernamePasswordToken(auth.getAccount(), "123");

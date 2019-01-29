@@ -1,11 +1,14 @@
 package com.gzport.meeting.controller;
 
+import com.aspose.cells.Workbook;
+import com.aspose.cells.Worksheet;
 import com.gzport.meeting.domain.entity.Auth;
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.foundation.*;
 import com.gzport.meeting.service.BulkStoreService;
+import com.gzport.meeting.service.ExcelService;
 import com.gzport.meeting.service.TerThroughputService;
 import com.gzport.meeting.service.ThroughputService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -19,9 +22,14 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -50,6 +58,9 @@ public class ExcelController {
 
     @Autowired
     TerThroughputService terThroughputService;
+
+    @Autowired
+    ExcelService excelServicel;
 
 
     @PostMapping("/daily")
@@ -143,6 +154,44 @@ public class ExcelController {
             e.printStackTrace();
         }
         return bulkStoreService.saveAll(bulkStoreList);
+    }
+
+
+    @GetMapping("/data2excel")
+    public boolean dataToExcel(){
+        try {
+            excelServicel.dataToExcel();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping(value = "/drawMainImage",produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] DrawMainImage() throws Exception {
+        Workbook book = new Workbook("temp.xls");
+        Worksheet sheet = book.getWorksheets().get(0);
+        ConvertToImage.ConvertToImage(sheet,"mainImage.jpg");
+        File file = new File("mainImage.jpg");
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        return bytes;
+    }
+
+    @RequestMapping(value = "/drawShipImage",produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] DrawShipImage() throws Exception {
+        Workbook book = new Workbook("temp.xls");
+        Worksheet sheet = book.getWorksheets().get(1);
+        ConvertToImage.ConvertToImage(sheet,"shipImage.jpg");
+        File file = new File("shipImage.jpg");
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.read(bytes, 0, inputStream.available());
+        return bytes;
     }
 
 

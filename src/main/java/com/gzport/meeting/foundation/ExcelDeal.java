@@ -1,6 +1,9 @@
 package com.gzport.meeting.foundation;
 
-import com.gzport.meeting.domain.entity.BulkStore;
+import com.gzport.meeting.domain.entity.*;
+import com.gzport.meeting.domain.vo.BulkStoreVO;
+import com.gzport.meeting.domain.vo.DispersionVO;
+import com.gzport.meeting.service.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -10,12 +13,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +33,7 @@ import static org.apache.poi.ss.usermodel.CellType.*;
  * Created by zhangxiang on 2018/12/5.
  */
 public class ExcelDeal {
+
 
     DecimalFormat decimalFormat=new DecimalFormat(".0");
 
@@ -102,5 +108,6 @@ public class ExcelDeal {
         }
         return bulkStoreList;
     }
+
 
 }

@@ -3,6 +3,7 @@ package com.gzport.meeting.controller;
 import com.gzport.meeting.common.Constants;
 import com.gzport.meeting.domain.entity.*;
 import com.gzport.meeting.domain.vo.DispersionVO;
+import com.gzport.meeting.foundation.ConvertToImage;
 import com.gzport.meeting.service.*;
 import net.huadong.idev.ezui.utils.HdCipher;
 import org.apache.shiro.SecurityUtils;
@@ -113,4 +114,5 @@ public class TestController {
             Object value=redisTemplate.delete(key);
         }
     }
+
 }

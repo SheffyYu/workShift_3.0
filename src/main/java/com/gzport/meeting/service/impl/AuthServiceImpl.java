@@ -76,4 +76,9 @@ public class AuthServiceImpl implements AuthService {
     public Auth createAuth(Auth auth) {
         return authRepository.save(auth);
     }
+
+    @Override
+    public Auth findByUserId(String userId) {
+        return authRepository.findByUserId(userId);
+    }
 }

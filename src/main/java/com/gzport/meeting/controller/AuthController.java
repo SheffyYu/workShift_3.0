@@ -8,7 +8,6 @@ import net.huadong.idev.ezui.utils.HdCipher;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 /**
  * Created by zhangxiang on 2018/12/2.
  */

@@ -18,4 +18,5 @@ public interface AuthService {
     HdMessageCode ezuiSave(HdEzuiSaveDatagridData data);
     HdEzuiDatagridData ezuiFind(HdEzuiQueryParams hdEzuiQueryParams);
     Auth createAuth(Auth auth);
+    Auth findByUserId(String userId);
 }
