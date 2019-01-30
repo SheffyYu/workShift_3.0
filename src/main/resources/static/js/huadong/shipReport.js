@@ -13,9 +13,35 @@ var clocker = null;
 
 function loadData()
 {
-  alert("do load data list");
-  console.info("do load data list");
-  clocker = null;
+  var shipName=document.getElementById("shipName").value;
+  // alert("do load data list");
+  $.ajax({
+    type:"GET",
+    url:"/login/vessles/findByShipName?shipName="+shipName,
+    success: function (data) {
+      console.log(data);
+      if(data!=""){
+        document.getElementById("vslNationality").value=data.vslNationality;
+        document.getElementById("vslType").value=data.vslType;
+        document.getElementById("vslTotalweight").value=data.vslTotalweight;
+        document.getElementById("vslLength").value=data.vslLength;
+        document.getElementById("vslLoadton").value=data.vslLoadton;
+        document.getElementById("vslMaxseagauge").value=data.vslMaxseagauge;
+        document.getElementById("vslWidth").value=data.vslWidth;
+      }else {
+        document.getElementById("vslNationality").value="";
+        document.getElementById("vslType").value="";
+        document.getElementById("vslTotalweight").value="";
+        document.getElementById("vslLength").value="";
+        document.getElementById("vslLoadton").value="";
+        document.getElementById("vslMaxseagauge").value="";
+        document.getElementById("vslWidth").value="";
+      }
+
+      clocker = null;
+    }
+  });
+
 }
 
 function innerKeydown()

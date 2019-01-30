@@ -9,7 +9,6 @@
           contentType: "application/json",
           dataType: "json",
               success: function(nodes){
-
               	for(var i=0;i<nodes.length;i++) {
 
               		var node=nodes[i];

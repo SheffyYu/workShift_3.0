@@ -81,11 +81,12 @@
           <div class="kv-item ue-clear">
             <label>船&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label>
             <div class="kv-item-content">
-              <input type="text" id="shipName" onpropertychange="getShipData()" oninput="getShipData()"/>
+              <!--<input type="text" id="shipName" onpropertychange="getShipData()" oninput="getShipData()"/>-->
+              <input type="text" id="shipName"/>
             </div>
             <label>国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslNationality"/>
             </div>
             <label>船&nbsp;&nbsp;籍&nbsp;&nbsp;港</label>
             <div class="kv-item-content">
@@ -97,15 +98,15 @@
           <div class="kv-item ue-clear">
             <label>船舶种类</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslType"/>
             </div>
             <label>总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;吨</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslTotalweight"/>
             </div>
             <label>船长（米）</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslLength"/>
             </div>
           </div>
         </div>
@@ -113,7 +114,7 @@
           <div class="kv-item ue-clear">
             <label>载&nbsp;&nbsp;重&nbsp;&nbsp;吨</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslLoadton"/>
             </div>
             <label>申报锚位</label>
             <div class="kv-item-content">
@@ -121,7 +122,7 @@
             </div>
             <label>吃水（米）</label>
             <div class="kv-item-content">
-              <input type="text"/>
+              <input type="text" id="vslMaxseagauge"/>
             </div>
           </div>
         </div>
@@ -143,6 +144,10 @@
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
+            <label>船宽（米）</label>
+            <div class="kv-item-content">
+              <input type="text" id="vslWidth"/>
+            </div>
             <label>目的港/泊区</label>
             <div class="kv-item-content">
               <input type="text"/>
