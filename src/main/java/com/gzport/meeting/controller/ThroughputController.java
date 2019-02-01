@@ -2,6 +2,8 @@ package com.gzport.meeting.controller;
 
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.service.ThroughputService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +17,20 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/login/throughput")
+@Api(description = "吞吐量接口")
 public class ThroughputController {
     @Autowired
     ThroughputService throughputService;
 
     @PostMapping("/save")
     @ResponseBody
+    @ApiOperation(value = "保存吞吐量")
     public Throughput save(@RequestBody Throughput throughput){
         return throughputService.save(throughput);
     }
 
     @GetMapping("/getCurrentThroughput")
+    @ApiOperation(value = "获得当天吞吐量")
     public List<Throughput> getCurrentThroughput(@RequestParam("date") String date){
         //String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         try {

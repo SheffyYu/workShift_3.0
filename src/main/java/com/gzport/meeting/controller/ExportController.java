@@ -6,6 +6,8 @@ import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.foundation.DateDeal;
 import com.gzport.meeting.foundation.ExcelDeal;
 import com.gzport.meeting.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/login/export")
+@Api(description = "导出EXCEL接口")
 public class ExportController {
 
     @Autowired
@@ -73,6 +76,7 @@ public class ExportController {
     AttendenceService attendenceService;
 
     @RequestMapping("/Excel")
+    @ApiOperation(value = "获得Excel表")
     public void downLoadExcel(HttpServletResponse response,String time) throws IOException {
 //        Resource resource = new ClassPathResource("static/files/jiaoban.xls");
 //        File file_1=resource.getFile();

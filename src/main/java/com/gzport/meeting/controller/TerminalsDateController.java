@@ -9,6 +9,8 @@ import com.gzport.meeting.domain.vo.TerminalVO;
 import com.gzport.meeting.foundation.DateDeal;
 import com.gzport.meeting.server.WebSocketServer;
 import com.gzport.meeting.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -25,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/login")
+@Api(description = "码头数据提交接口")
 public class TerminalsDateController {
 
     @Autowired
@@ -69,6 +72,7 @@ public class TerminalsDateController {
 
     @PostMapping("/saveData")
     @ResponseBody
+    @ApiOperation(value = "码头数据提交接口")
     public SaveResult saveDateFromTer(@RequestBody TerminalVO terminalVO){
         Auth user = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         System.out.println(terminalVO.getAttendenceList().size());
@@ -222,6 +226,7 @@ public class TerminalsDateController {
     }
 
     @GetMapping("/getData")
+    @ApiOperation(value = "通过登录账号码头所提交的数据")
     public TerminalVO getDataByTer(){
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
         auth = authService.findByAccount(auth.getAccount());
@@ -253,6 +258,7 @@ public class TerminalsDateController {
 
     @PostMapping("/getDataByTime")
     @ResponseBody
+    @ApiOperation(value = "通过时间获取码头数据")
     public TerminalVO getDataByTime(@RequestBody JSONObject data){
         String time=data.getString("time");
         Auth auth = (Auth) SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_USER);
@@ -285,6 +291,7 @@ public class TerminalsDateController {
 
     @PostMapping("/getDataByTerCodeAndTime/{terCode}")
     @ResponseBody
+    @ApiOperation(value = "通过码头，时间获取码头所填数据")
     public TerminalVO getDataByTerCodeAndTime(@PathVariable("terCode")String terCode, @RequestBody JSONObject data){
         String time=data.getString("time");
         try {
@@ -355,8 +362,4 @@ public class TerminalsDateController {
         return terminalVO;
     }
 
-    @GetMapping("/checkCurrentDate")
-    public String checkAllCurrentDate(){
-        return null;
-    }
 }

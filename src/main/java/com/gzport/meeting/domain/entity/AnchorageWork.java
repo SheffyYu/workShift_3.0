@@ -29,7 +29,7 @@ public class AnchorageWork implements Serializable {
 
     //船国籍
     @Column(name="VSL_NATIONALITY")
-    private String valNationality;
+    private String vslNationality;
 
     //船舶种类
     @Column(name="VSL_TYPE")
@@ -119,12 +119,12 @@ public class AnchorageWork implements Serializable {
         this.vslNmae = vslNmae;
     }
 
-    public String getValNationality() {
-        return valNationality;
+    public String getVslNationality() {
+        return vslNationality;
     }
 
-    public void setValNationality(String valNationality) {
-        this.valNationality = valNationality;
+    public void setVslNationality(String vslNationality) {
+        this.vslNationality = vslNationality;
     }
 
     public String getVslType() {

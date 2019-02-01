@@ -8,6 +8,8 @@ import com.gzport.meeting.domain.entity.LoginLog;
 import com.gzport.meeting.service.AuthService;
 import com.gzport.meeting.service.InterfaceUserService;
 import com.gzport.meeting.service.LoginLogService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.huadong.idev.ezui.utils.HdCipher;
 import net.huadong.idev.utils.HdImageCode;
 import net.huadong.idev.utils.HdRandomCode;
@@ -15,6 +17,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +34,7 @@ import java.util.logging.Logger;
  * Created by zhangxiang on 2018/11/30.
  */
 @Controller
+@Api(description = "用户登录接口")
 public class LoginController {
     public static final String SESSION_PRIVILLEGE = "PrivilegeController";//用户权限
     public static final String SESSION_USER = "user";//用户名
@@ -46,6 +50,7 @@ public class LoginController {
     InterfaceUserService interfaceUserService;
 
     @RequestMapping("/logincontroller/getValidateCode")
+    @ApiOperation(value = "获取验证码")
     public void getValidateCode(HttpServletResponse response) throws Exception {
         String rCod = HdRandomCode.getStringCode(4);
         SecurityUtils.getSubject().getSession().setAttribute(LoginController.SESSION_RANDOMCOD, rCod);
@@ -58,6 +63,7 @@ public class LoginController {
 
     @GetMapping("/logincontroller/dologin")
     @ResponseBody
+    @ApiOperation(value = "校验账号密码")
     public LoginResult doLogin(@RequestParam("account") String account, @RequestParam("password") String password,@RequestParam("validateCode") String validateCode,HttpServletRequest request) {
         String vc = SecurityUtils.getSubject().getSession().getAttribute(LoginController.SESSION_RANDOMCOD).toString();
         if (validateCode==null
@@ -86,6 +92,7 @@ public class LoginController {
 
     //调度系统登录
     @RequestMapping("/shiplogin")
+    @ApiOperation(value = "调度系统登录调用接口")
     public String shipLogin(String id,String account,HttpServletRequest request){
         List<InterfaceUser> interfaceUserList=interfaceUserService.findBycentIdAndAccout(id,account);
         Auth auth=null;
@@ -121,6 +128,7 @@ public class LoginController {
 
     @GetMapping("/logincontroller/logout")
     @ResponseBody
+    @ApiOperation(value = "退出登录接口")
     public Response logout(HttpServletRequest req, HttpServletResponse resp){
         SecurityUtils.getSubject().logout();
         SecurityUtils.getSubject().getSession().removeAttribute(LoginController.SESSION_USER);

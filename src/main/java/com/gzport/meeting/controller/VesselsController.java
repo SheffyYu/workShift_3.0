@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by zhangxiang on 2019/1/30.
  */
 @RestController
-@RequestMapping("/login/vessles")
+@RequestMapping("/test/vessles")
 public class VesselsController  {
 
     @Autowired
@@ -19,6 +19,7 @@ public class VesselsController  {
 
     @GetMapping("findByShipName")
     public Vessels findByName(String shipName){
+        System.out.println(shipName);
         return vesselsService.find(shipName);
     }
 }

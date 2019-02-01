@@ -11,12 +11,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 
 import static com.gzport.meeting.foundation.weatherReport.getTemperatureInfo;
 
 @SpringBootApplication
+@EnableSwagger2
 public class ShiftmeetingApplication 	{
 
 	public static void main(String[] args) {

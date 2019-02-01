@@ -8,6 +8,8 @@ import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.service.DailyTerDataLogService;
 import com.gzport.meeting.service.DispersionCargoService;
 import com.gzport.meeting.service.DispersionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/login")
+@Api(description = "疏运接口")
 public class DispersionController {
 
     @Autowired
@@ -34,6 +37,7 @@ public class DispersionController {
 
     @PostMapping("/createDispersion")
     @ResponseBody
+    @ApiOperation(value = "疏运数据保存")
     public Iterable<Dispersion> saveAll(@RequestBody List<DispersionVO> dispersionVOS){
         List<Dispersion> dispersions=new ArrayList();
         for(int i=0;i<dispersionVOS.size();i++){

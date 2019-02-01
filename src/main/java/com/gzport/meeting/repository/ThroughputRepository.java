@@ -12,6 +12,7 @@ import java.util.Date;
  * Created by zhangxiang on 2018/12/10.
  */
 public interface ThroughputRepository extends PagingAndSortingRepository<Throughput,String> {
+
     @Modifying
     @Query(value = "SELECT t FROM Throughput t WHERE INS_TIMESTAMP>=?1 AND INS_TIMESTAMP-1<?1")
     List<Throughput> findByDate(Date date);

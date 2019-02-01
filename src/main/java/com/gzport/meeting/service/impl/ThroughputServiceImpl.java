@@ -4,6 +4,8 @@ import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.repository.ThroughputRepository;
 import com.gzport.meeting.service.ThroughputService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,6 +30,16 @@ public class ThroughputServiceImpl implements ThroughputService {
     @Override
     public List<Throughput> getByDate(Date date) {
         return throughputRepository.findByDate(date);
+    }
+
+    @Override
+    public List<Throughput> findDateMax() {
+        return null;
+    }
+
+    @Override
+    public Page<Throughput> findThroughputforscreen(Pageable pageable) {
+        return throughputRepository.findAll(pageable);
     }
 
     @Override

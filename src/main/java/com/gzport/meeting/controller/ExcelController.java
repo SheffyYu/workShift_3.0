@@ -11,6 +11,8 @@ import com.gzport.meeting.service.BulkStoreService;
 import com.gzport.meeting.service.ExcelService;
 import com.gzport.meeting.service.TerThroughputService;
 import com.gzport.meeting.service.ThroughputService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -44,6 +46,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("test/excel")
+@Api(value = "test/excel",description = "excel调入接口")
 public class ExcelController {
 
 
@@ -61,6 +64,7 @@ public class ExcelController {
 
 
     @PostMapping("/daily")
+    @ApiOperation(value = "导入生产日报excel文件")
     public Iterable<BulkStore> delaExcel(@RequestParam("file")MultipartFile file,@RequestParam("date")String date){
         //String date= new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         List<BulkStore> bulkStoreList=bulkStoreService.getBulkByTime(date);
@@ -155,6 +159,7 @@ public class ExcelController {
 
 
     @GetMapping("/data2excel")
+    @ApiOperation(value = "将数据放入Excel模板中")
     public boolean dataToExcel(String time){
         try {
             excelServicel.dataToExcel(time);
@@ -167,6 +172,7 @@ public class ExcelController {
 
     @RequestMapping(value = "/drawMainImage",produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
+    @ApiOperation(value = "获得附表图片")
     public byte[] DrawMainImage() throws Exception {
         Workbook book = new Workbook("temp.xls");
         Worksheet sheet = book.getWorksheets().get(0);
@@ -181,6 +187,7 @@ public class ExcelController {
 
     @RequestMapping(value = "/drawShipImage",produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
+    @ApiOperation(value = "获得船舶表图片")
     public byte[] DrawShipImage() throws Exception {
         Workbook book = new Workbook("temp.xls");
         Worksheet sheet = book.getWorksheets().get(1);

@@ -11,6 +11,8 @@ import com.gzport.meeting.domain.entity.DispersionCargo;
 import com.gzport.meeting.domain.vo.DispersionVO;
 import com.gzport.meeting.domain.vo.TerminalVO;
 import com.gzport.meeting.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/login")
+@Api(description = "码头数据审核接口")
 public class TerExamineController {
 
     @Autowired
@@ -65,8 +68,8 @@ public class TerExamineController {
 
     @PostMapping("/examine")
     @ResponseBody
+    @ApiOperation(value = "审核通过码头提交数据")
     public SaveResult TerDataExamine(@RequestBody JSONObject terCode){
-        System.out.println(terCode.get("terCode"));
         Map map=(Map) redisTemplate.opsForValue().get(terCode.get("terCode"));
         if(map!=null){
             AuthInfo auth=(AuthInfo) map.get("auth");
@@ -199,6 +202,7 @@ public class TerExamineController {
         return SaveResult.getInstance(SaveResult.SUCCESS);
     }
 
+    @ApiOperation(value = "获得所有申请修改数据码头")
     @GetMapping("/getAllKey")
     public List<Map> getAllKey(){
         List<Map> list=new ArrayList<>();
@@ -213,6 +217,7 @@ public class TerExamineController {
 
     @PostMapping("/unPass")
     @ResponseBody
+    @ApiOperation(value = "驳回修改申请")
     public boolean rejectChange(@RequestBody JSONObject terCode){
         return redisTemplate.delete(terCode.get("terCode"));
     }
