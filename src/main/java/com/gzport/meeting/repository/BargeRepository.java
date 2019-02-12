@@ -24,7 +24,7 @@ public interface BargeRepository extends PagingAndSortingRepository<Barge,String
 
     @Modifying
     @Query(value = "SELECT t FROM Barge t WHERE INS_TIMESTAMP>=?1 AND INS_TIMESTAMP-1<?1")
-    List<Barge> findByTimeAndWharf(Date date);
+    List<Barge> findByTime(Date date);
 
     @Modifying
     @Query(value = "DELETE FROM Barge  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")

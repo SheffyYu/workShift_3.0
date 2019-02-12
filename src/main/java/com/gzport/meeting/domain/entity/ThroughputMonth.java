@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created by zhangxiang on 2019/2/1.
@@ -19,10 +20,10 @@ public class ThroughputMonth implements Serializable {
     private String insDate;
 
     @Column(name="TH_CARGO_TOTAL")
-    private String thCargoTotal;
+    private BigDecimal thCargoTotal;
 
     @Column(name="TH_CNTR_TOTAL")
-    private String thCntrTotal;
+    private BigDecimal thCntrTotal;
 
     public String getInsDate() {
         return insDate;
@@ -32,19 +33,19 @@ public class ThroughputMonth implements Serializable {
         this.insDate = insDate;
     }
 
-    public String getThCargoTotal() {
+    public BigDecimal getThCargoTotal() {
         return thCargoTotal;
     }
 
-    public void setThCargoTotal(String thCargoTotal) {
+    public void setThCargoTotal(BigDecimal thCargoTotal) {
         this.thCargoTotal = thCargoTotal;
     }
 
-    public String getThCntrTotal() {
+    public BigDecimal getThCntrTotal() {
         return thCntrTotal;
     }
 
-    public void setThCntrTotal(String thCntrTotal) {
+    public void setThCntrTotal(BigDecimal thCntrTotal) {
         this.thCntrTotal = thCntrTotal;
     }
 }

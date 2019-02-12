@@ -13,4 +13,5 @@ import java.util.Date;
 public interface IntfShipService {
     List<IntfShip> findByDateAndStatue(Date date);
     Page<IntfShip> findMaxDate(Pageable pageable);
+    List<IntfShip> findShipNumberByStatue(String statue);
 }

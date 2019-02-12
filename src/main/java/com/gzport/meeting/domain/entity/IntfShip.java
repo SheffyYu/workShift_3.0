@@ -16,13 +16,16 @@ public class IntfShip  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column(name="ROWID")
+    String rowid;
+
     @Column(name="CREATE_DATE")
     private Date createDate;
 
     @Column(name="SHIP_NUMBER")
     private Integer shipNumber;
 
-    @Id
     @Column(name="SHIP_STATUE")
     private String shipStatue;
 
@@ -31,6 +34,14 @@ public class IntfShip  implements Serializable {
 
     @Column(name="WORK_NUMBER")
     private Integer workNumber;
+
+    public String getRowid() {
+        return rowid;
+    }
+
+    public void setRowid(String rowid) {
+        this.rowid = rowid;
+    }
 
     public Date getCreateDate() {
         return createDate;

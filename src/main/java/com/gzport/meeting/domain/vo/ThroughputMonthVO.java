@@ -2,6 +2,7 @@ package com.gzport.meeting.domain.vo;
 
 import com.gzport.meeting.domain.entity.ThroughputMonth;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class ThroughputMonthVO {
 
     private String insDate;
 
-    private String number;
+    private BigDecimal number;
 
     private String status;
 
@@ -20,7 +21,7 @@ public class ThroughputMonthVO {
 
     }
 
-    public ThroughputMonthVO(String insDate, String number, String status) {
+    public ThroughputMonthVO(String insDate, BigDecimal number, String status) {
         this.insDate = insDate;
         this.number = number;
         this.status = status;
@@ -34,11 +35,11 @@ public class ThroughputMonthVO {
         this.insDate = insDate;
     }
 
-    public String getNumber() {
+    public BigDecimal getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(BigDecimal number) {
         this.number = number;
     }
 
@@ -55,7 +56,7 @@ public class ThroughputMonthVO {
         for (int i=0;i<throughputMonthList.size();i++){
             ThroughputMonthVO throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCargoTotal(),"1");
             throughputMonthVOList.add(throughputMonthVO);
-            throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCntrTotal(),"2");
+            throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCntrTotal().multiply(BigDecimal.valueOf(20)),"2");
             throughputMonthVOList.add(throughputMonthVO);
         }
         return throughputMonthVOList;

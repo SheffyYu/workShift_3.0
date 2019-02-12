@@ -56,7 +56,7 @@ public class BargeServiceImpl implements BargeService {
 
     @Override
     public List<Barge> getBargeByDate(Date date) {
-        return bargeRepository.findByTimeAndWharf(date);
+        return bargeRepository.findByTime(date);
     }
 
     @Override

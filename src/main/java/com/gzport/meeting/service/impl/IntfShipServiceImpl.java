@@ -30,4 +30,9 @@ public class IntfShipServiceImpl implements IntfShipService {
     public Page<IntfShip> findMaxDate(Pageable pageable) {
         return intfShipRepository.findAll(pageable);
     }
+
+    @Override
+    public List<IntfShip> findShipNumberByStatue(String statue) {
+        return intfShipRepository.findByShipStatueOrderByCreateDateDesc(statue);
+    }
 }

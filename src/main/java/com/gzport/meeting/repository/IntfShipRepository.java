@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface IntfShipRepository extends PagingAndSortingRepository<IntfShip,Object> {
 
+    List<IntfShip> findByShipStatueOrderByCreateDateDesc(String shipStatue);
+
     @Modifying
     @Query(value = "SELECT t FROM IntfShip t  WHERE CREATE_DATE>=?1 AND CREATE_DATE-1<?1")
     List<IntfShip> findByDateAndShipStatue(Date date);
