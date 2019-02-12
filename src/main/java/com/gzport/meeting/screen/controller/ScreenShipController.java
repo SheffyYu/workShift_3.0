@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.gzport.meeting.domain.entity.Barge;
 import com.gzport.meeting.domain.entity.BargeXS;
 import com.gzport.meeting.domain.entity.IntfShip;
+import com.gzport.meeting.domain.vo.IntfShipVO;
 import com.gzport.meeting.repository.IntfShipRepository;
 import com.gzport.meeting.service.BargeService;
 import com.gzport.meeting.service.BargeXSService;
@@ -47,11 +48,18 @@ public class ScreenShipController {
     @GetMapping("/getShipData")
     @CrossOrigin("http://datav.aliyun.com")
     @ApiOperation(value = "获取近5日大船与预报船数量")
-    public List<IntfShip> getShipByMaxDate(){
+    public List<IntfShipVO> getShipByMaxDate(){
         Sort sort=new Sort(Sort.Direction.DESC,"createDate");
         Pageable page = PageRequest.of(0,10,sort);
 //        return intfShipRepository.findAll();
-        return intfShipService.findMaxDate(page).getContent();
+
+        List<IntfShipVO> intfShipVOList=new ArrayList<>();
+        List<IntfShip> intfShipList=intfShipService.findMaxDate(page).getContent();
+        for(IntfShip intfShip:intfShipList){
+            IntfShipVO intfShipVO=new IntfShipVO(new java.sql.Date(intfShip.getCreateDate().getTime()),intfShip.getShipNumber(),intfShip.getShipStatue(),intfShip.getTradeNumber(),intfShip.getWorkNumber());
+            intfShipVOList.add(intfShipVO);
+        }
+        return intfShipVOList;
     }
 
     @GetMapping("/getBigShipNumber")
