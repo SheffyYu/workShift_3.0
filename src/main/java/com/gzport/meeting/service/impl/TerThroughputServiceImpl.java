@@ -4,6 +4,8 @@ import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.repository.TerThroughputRepository;
 import com.gzport.meeting.service.TerThroughputService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -50,6 +52,11 @@ public class TerThroughputServiceImpl implements TerThroughputService {
         }catch (ParseException e){
             return null;
         }
+    }
+
+    @Override
+    public List<TerThroughput> getLastDataByTerCode(String terCode,Pageable pageable) {
+        return terThroughputRepository.findByTerCode(terCode,pageable);
     }
 
     @Override

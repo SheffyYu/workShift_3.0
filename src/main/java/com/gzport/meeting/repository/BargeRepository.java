@@ -2,6 +2,7 @@ package com.gzport.meeting.repository;
 
 import com.gzport.meeting.domain.entity.Barge;
 import com.gzport.meeting.domain.entity.ProductionLine;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -13,6 +14,8 @@ import java.util.Date;
  * Created by zhangxiang on 2018/12/4.
  */
 public interface BargeRepository extends PagingAndSortingRepository<Barge,String> {
+
+    List<Barge> findByTerCode(String terCode, Pageable pageable);
 
     @Modifying
     @Query(value = "SELECT t FROM Barge t WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")

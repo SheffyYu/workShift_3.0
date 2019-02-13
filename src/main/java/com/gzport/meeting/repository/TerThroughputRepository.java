@@ -3,6 +3,8 @@ package com.gzport.meeting.repository;
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.domain.vo.BulkStoreVO;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -14,6 +16,8 @@ import java.util.List;
  * Created by zhangxiang on 2018/12/19.
  */
 public interface TerThroughputRepository extends PagingAndSortingRepository<TerThroughput,String> {
+
+    List<TerThroughput> findByTerCode(String terCode,Pageable pageable);
 
     @Modifying
     @Query(value = "SELECT t FROM TerThroughput t  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")

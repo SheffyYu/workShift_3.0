@@ -1,9 +1,12 @@
 package com.gzport.meeting.screen.controller;
 
+import com.gzport.meeting.domain.entity.TerThroughput;
 import com.gzport.meeting.domain.entity.Throughput;
 import com.gzport.meeting.domain.entity.ThroughputMonth;
 import com.gzport.meeting.domain.entity.YearPlanThroughput;
+import com.gzport.meeting.domain.vo.TerThroughputVO;
 import com.gzport.meeting.domain.vo.ThroughputMonthVO;
+import com.gzport.meeting.service.TerThroughputService;
 import com.gzport.meeting.service.ThroughputMonthService;
 import com.gzport.meeting.service.ThroughputService;
 import com.gzport.meeting.service.YearPlanThroughputService;
@@ -38,6 +41,9 @@ public class ScreenThroughputController {
 
     @Autowired
     ThroughputService throughputService;
+
+    @Autowired
+    TerThroughputService terThroughputService;
 
     @Autowired
     ThroughputMonthService throughputMonthService;
@@ -124,6 +130,21 @@ public class ScreenThroughputController {
     public List<ThroughputMonthVO> getAllData(){
         ThroughputMonthVO throughputMonthVO=new ThroughputMonthVO();
         return throughputMonthVO.convertToThroughputVO(throughputMonthService.findAll());
+    }
+
+    @GetMapping("/getThroughtByTerCode")
+    @CrossOrigin("http://datav.aliyun.com")
+    @ApiOperation(value = "根据码头代码获取码头吞吐量")
+    public List<TerThroughputVO> getThroughtByterCode(String terCode){
+        Sort sort=new Sort(Sort.Direction.DESC,"insTimestamp");
+        Pageable page = PageRequest.of(0,1,sort);
+        List<TerThroughputVO> terThroughputVOS=new ArrayList<>();
+        List<TerThroughput> terThroughputList=terThroughputService.getLastDataByTerCode(terCode,page);
+        for(TerThroughput terThroughput : terThroughputList){
+            TerThroughputVO terThroughputVO=new TerThroughputVO(terThroughput.getMonthlyPlan(),terThroughput.getMonthlyTotal(),terThroughput.getMonthlyPer());
+            terThroughputVOS.add(terThroughputVO);
+        }
+        return terThroughputVOS;
     }
 
 }

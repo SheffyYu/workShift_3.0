@@ -4,6 +4,7 @@ import com.gzport.meeting.domain.entity.Barge;
 import com.gzport.meeting.repository.BargeRepository;
 import com.gzport.meeting.service.BargeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -52,6 +53,11 @@ public class BargeServiceImpl implements BargeService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<Barge> getLastFiveDataByTerCode(String terCode, Pageable pageable) {
+        return bargeRepository.findByTerCode(terCode,pageable);
     }
 
     @Override
