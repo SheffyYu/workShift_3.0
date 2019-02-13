@@ -60,13 +60,13 @@ public class ShipRealtmVO {
         }else {
             this.gmtname="";
         }
-        if (vbt_comejob == "卸"){
+        if (vbt_comejob.equals("卸")){
             if(sumnumi != null){
                 this.sumnum=sumnumi;
             }else{
                 this.sumnum="";
             }
-        }else if (vbt_comejob == "装"){
+        }else if (vbt_comejob.equals("装")){
             if(sumnume != null){
                 this.sumnum=sumnume;
             }else{
@@ -81,7 +81,7 @@ public class ShipRealtmVO {
             }
             this.sumnum=sumnumi+'/'+sumnume;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/hh24:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/hhmm");
         if (vwkastarttm != null){
             this.vwkastarttm=sdf.format(vwkastarttm);
         }else {
@@ -100,7 +100,11 @@ public class ShipRealtmVO {
         this.portcomp=portcomp;
         DecimalFormat fnum = new DecimalFormat("##0.00");
         if(effect != null){
-            this.effect=fnum.format(Float.parseFloat(effect));
+            if(gmtname.contains("油")||gmtname.equals("汽车")||gmtname.equals("化工品")||gmtname.equals("集装箱")){
+                this.effect=fnum.format(Float.parseFloat(effect))+"/小时";
+            }else{
+                this.effect=fnum.format(Float.parseFloat(effect)*24)+"/天";
+            }
         }else{
             this.effect="";
         }
@@ -109,11 +113,14 @@ public class ShipRealtmVO {
         }else{
             this.workpace="";
         }
-
-        if (iscash == "Y"){
-            this.iscash="是";
-        }else if(iscash == "N"){
-            this.iscash="否";
+        if(iscash != null){
+            if (iscash.equals("Y")){
+                this.iscash="是";
+            }else if(iscash.equals("N")){
+                this.iscash="否";
+            }else {
+                this.iscash="";
+            }
         }else {
             this.iscash="";
         }
