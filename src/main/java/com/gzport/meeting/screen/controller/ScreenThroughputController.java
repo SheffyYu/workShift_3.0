@@ -141,7 +141,7 @@ public class ScreenThroughputController {
         List<TerThroughputVO> terThroughputVOS=new ArrayList<>();
         List<TerThroughput> terThroughputList=terThroughputService.getLastDataByTerCode(terCode,page);
         for(TerThroughput terThroughput : terThroughputList){
-            TerThroughputVO terThroughputVO=new TerThroughputVO(terThroughput.getMonthlyPlan().divide(BigDecimal.valueOf(10000)),terThroughput.getMonthlyTotal(),terThroughput.getMonthlyPer());
+            TerThroughputVO terThroughputVO=new TerThroughputVO(terThroughput.getMonthlyPlan().divide(BigDecimal.valueOf(10000)),terThroughput.getMonthlyTotal().divide(BigDecimal.valueOf(10000)).setScale(1,BigDecimal.ROUND_HALF_UP),terThroughput.getMonthlyPer());
             terThroughputVOS.add(terThroughputVO);
         }
         return terThroughputVOS;

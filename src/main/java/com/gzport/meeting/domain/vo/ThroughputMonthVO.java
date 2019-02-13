@@ -54,9 +54,9 @@ public class ThroughputMonthVO {
     public List<ThroughputMonthVO> convertToThroughputVO(List<ThroughputMonth> throughputMonthList){
         List<ThroughputMonthVO> throughputMonthVOList=new ArrayList<>();
         for (int i=0;i<throughputMonthList.size();i++){
-            ThroughputMonthVO throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCargoTotal(),"1");
+            ThroughputMonthVO throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCargoTotal(),"2");
             throughputMonthVOList.add(throughputMonthVO);
-            throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCntrTotal().multiply(BigDecimal.valueOf(20)),"2");
+            throughputMonthVO=new ThroughputMonthVO(throughputMonthList.get(i).getInsDate(),throughputMonthList.get(i).getThCntrTotal().multiply(BigDecimal.valueOf(20)),"1");
             throughputMonthVOList.add(throughputMonthVO);
         }
         return throughputMonthVOList;
