@@ -220,22 +220,22 @@
         var user={password:""};
         user.password=newPwd2;
       //提交密码修改
-      $.ajax({
-      type:"post",
-        url: "/login/changePassword?timestamp="+Math.random(),
-        contentType: "application/json",
-        data:JSON.stringify(user),
-        success: function(data){
+//      $.ajax({
+//      type:"post",
+//        url: "/login/changePassword?timestamp="+Math.random(),
+//        contentType: "application/json",
+//        data:JSON.stringify(user),
+//        success: function(data){
           /////////////////////////////////////////////////////////////////////////////////////////////////////////这里还有问题
           $("#my-modal-alert").fadeOut("slow");
           $("#my-modal-alert").toggle();
-          showTips("修改成功！",200,0.5);
+          showTips("当前不支持修改密码！^_^",200,0.5);
 
-      },
-      error: function (data) {
-        console.info(data);
-      }
-    });
+//      },
+//      error: function (data) {
+//        console.info(data);
+//      }
+//    });
     }
   }
   /**
