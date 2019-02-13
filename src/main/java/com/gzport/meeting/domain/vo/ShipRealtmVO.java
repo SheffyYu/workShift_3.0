@@ -1,5 +1,8 @@
 package com.gzport.meeting.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,70 +10,71 @@ import java.util.Date;
 /**
  * Created by yushihui on 2019/2/12.
  */
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE)
 public class ShipRealtmVO {
 
-    private String bertreal;
+    private String BERTREAL;
 
-    private String vslname;
+    private String VSLNAME;
 
-    private String vbt_comejob;
+    private String VBT_COMEJOB;
 
-    private String gmtname;
+    private String GMTNAME;
 
-    private String sumnum;
+    private String SUMNUM;
 
-    private String vwkastarttm;
+    private String VWKASTARTTM;
 
-    private String berthtime;
+    private String BERTHTIME;
 
-    private String leavetime;
+    private String LEAVETIME;
 
-    private String portcomp;
+    private String PORTCOMP;
 
-    private String effect;
+    private String EFFECT;
 
-    private String workpace;
+    private String WORKPACE;
 
-    private String iscash;
+    private String ISCASH;
 
-    private String vbt_pberthtm;
+    private String VBT_PBERTHTM;
 
-    private String vbt_pleavetm;
+    private String VBT_PLEAVETM;
 
     public ShipRealtmVO(){}
 
     public ShipRealtmVO(String bertreal, String vslname, String vbt_comejob, String gmtname, String sumnumi, String sumnume, Date vwkastarttm, Date berthtime, Date leavetime, String portcomp, String effect, Float workpace, String iscash, Date vbt_pberthtm, Date vbt_pleavetm){
         if(bertreal != null){
-            this.bertreal=bertreal;
+            this.BERTREAL=bertreal;
         }else{
-            this.bertreal="";
+            this.BERTREAL="";
         }
         if (vslname != null){
-            this.vslname=vslname;
+            this.VSLNAME=vslname;
         }else{
-            this.vslname="";
+            this.VSLNAME="";
         }
         if (vbt_comejob != null){
-            this.vbt_comejob=vbt_comejob;
+            this.VBT_COMEJOB=vbt_comejob;
         }else {
-            this.vbt_comejob="";
+            this.VBT_COMEJOB="";
         }
         if(gmtname!=null){
-            this.gmtname=gmtname;
+            this.GMTNAME=gmtname;
         }else {
-            this.gmtname="";
+            this.GMTNAME="";
         }
         if (vbt_comejob.equals("卸")){
             if(sumnumi != null){
-                this.sumnum=sumnumi;
+                this.SUMNUM=sumnumi;
             }else{
-                this.sumnum="";
+                this.SUMNUM="";
             }
         }else if (vbt_comejob.equals("装")){
             if(sumnume != null){
-                this.sumnum=sumnume;
+                this.SUMNUM=sumnume;
             }else{
-                this.sumnum="";
+                this.SUMNUM="";
             }
         }else {
             if(sumnume == null){
@@ -79,172 +83,172 @@ public class ShipRealtmVO {
             if(sumnumi == null){
                 sumnumi="";
             }
-            this.sumnum=sumnumi+'/'+sumnume;
+            this.SUMNUM=sumnumi+'/'+sumnume;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("dd/hhmm");
         if (vwkastarttm != null){
-            this.vwkastarttm=sdf.format(vwkastarttm);
+            this.VWKASTARTTM=sdf.format(vwkastarttm);
         }else {
-            this.vwkastarttm="";
+            this.VWKASTARTTM="";
         }
         if (berthtime != null){
-            this.berthtime=sdf.format(berthtime);
+            this.BERTHTIME=sdf.format(berthtime);
         }else {
-            this.berthtime="";
+            this.BERTHTIME="";
         }
         if (leavetime != null){
-            this.leavetime=sdf.format(leavetime);
+            this.LEAVETIME=sdf.format(leavetime);
         }else {
-            this.leavetime="";
+            this.LEAVETIME="";
         }
-        this.portcomp=portcomp;
+        this.PORTCOMP=portcomp;
         DecimalFormat fnum = new DecimalFormat("##0.00");
         if(effect != null){
             if(gmtname.contains("油")||gmtname.equals("汽车")||gmtname.equals("化工品")||gmtname.equals("集装箱")){
-                this.effect=fnum.format(Float.parseFloat(effect))+"/小时";
+                this.EFFECT=fnum.format(Float.parseFloat(effect))+"/小时";
             }else{
-                this.effect=fnum.format(Float.parseFloat(effect)*24)+"/天";
+                this.EFFECT=fnum.format(Float.parseFloat(effect)*24)+"/天";
             }
         }else{
-            this.effect="";
+            this.EFFECT="";
         }
         if(workpace != null){
-            this.workpace=fnum.format(workpace*100)+"%";
+            this.WORKPACE=fnum.format(workpace*100)+"%";
         }else{
-            this.workpace="";
+            this.WORKPACE="";
         }
         if(iscash != null){
             if (iscash.equals("Y")){
-                this.iscash="是";
+                this.ISCASH="是";
             }else if(iscash.equals("N")){
-                this.iscash="否";
+                this.ISCASH="否";
             }else {
-                this.iscash="";
+                this.ISCASH="";
             }
         }else {
-            this.iscash="";
+            this.ISCASH="";
         }
         if(vbt_pberthtm != null ){
-            this.vbt_pberthtm=sdf.format(vbt_pberthtm);
+            this.VBT_PBERTHTM=sdf.format(vbt_pberthtm);
         }else {
-            this.vbt_pberthtm="";
+            this.VBT_PBERTHTM="";
         }
         if(vbt_pleavetm != null ){
-            this.vbt_pleavetm=sdf.format(vbt_pleavetm);
+            this.VBT_PLEAVETM=sdf.format(vbt_pleavetm);
         }else {
-            this.vbt_pleavetm="";
+            this.VBT_PLEAVETM="";
         }
     }
 
-    public String getBertreal() {
-        return bertreal;
+    public String getBERTREAL() {
+        return BERTREAL;
     }
 
-    public void setBertreal(String bertreal) {
-        this.bertreal = bertreal;
+    public void setBERTREAL(String BERTREAL) {
+        this.BERTREAL = BERTREAL;
     }
 
-    public String getVslname() {
-        return vslname;
+    public String getVSLNAME() {
+        return VSLNAME;
     }
 
-    public void setVslname(String vslname) {
-        this.vslname = vslname;
+    public void setVSLNAME(String VSLNAME) {
+        this.VSLNAME = VSLNAME;
     }
 
-    public String getVbt_comejob() {
-        return vbt_comejob;
+    public String getVBT_COMEJOB() {
+        return VBT_COMEJOB;
     }
 
-    public void setVbt_comejob(String vbt_comejob) {
-        this.vbt_comejob = vbt_comejob;
+    public void setVBT_COMEJOB(String VBT_COMEJOB) {
+        this.VBT_COMEJOB = VBT_COMEJOB;
     }
 
-    public String getGmtname() {
-        return gmtname;
+    public String getGMTNAME() {
+        return GMTNAME;
     }
 
-    public void setGmtname(String gmtname) {
-        this.gmtname = gmtname;
+    public void setGMTNAME(String GMTNAME) {
+        this.GMTNAME = GMTNAME;
     }
 
-    public String getSumnum() {
-        return sumnum;
+    public String getSUMNUM() {
+        return SUMNUM;
     }
 
-    public void setSumnum(String sumnum) {
-        this.sumnum = sumnum;
+    public void setSUMNUM(String SUMNUM) {
+        this.SUMNUM = SUMNUM;
     }
 
-    public String getVwkastarttm() {
-        return vwkastarttm;
+    public String getVWKASTARTTM() {
+        return VWKASTARTTM;
     }
 
-    public void setVwkastarttm(String vwkastarttm) {
-        this.vwkastarttm = vwkastarttm;
+    public void setVWKASTARTTM(String VWKASTARTTM) {
+        this.VWKASTARTTM = VWKASTARTTM;
     }
 
-    public String getBerthtime() {
-        return berthtime;
+    public String getBERTHTIME() {
+        return BERTHTIME;
     }
 
-    public void setBerthtime(String berthtime) {
-        this.berthtime = berthtime;
+    public void setBERTHTIME(String BERTHTIME) {
+        this.BERTHTIME = BERTHTIME;
     }
 
-    public String getLeavetime() {
-        return leavetime;
+    public String getLEAVETIME() {
+        return LEAVETIME;
     }
 
-    public void setLeavetime(String leavetime) {
-        this.leavetime = leavetime;
+    public void setLEAVETIME(String LEAVETIME) {
+        this.LEAVETIME = LEAVETIME;
     }
 
-    public String getPortcomp() {
-        return portcomp;
+    public String getPORTCOMP() {
+        return PORTCOMP;
     }
 
-    public void setPortcomp(String portcomp) {
-        this.portcomp = portcomp;
+    public void setPORTCOMP(String PORTCOMP) {
+        this.PORTCOMP = PORTCOMP;
     }
 
-    public String getEffect() {
-        return effect;
+    public String getEFFECT() {
+        return EFFECT;
     }
 
-    public void setEffect(String effect) {
-        this.effect = effect;
+    public void setEFFECT(String EFFECT) {
+        this.EFFECT = EFFECT;
     }
 
-    public String getWorkpace() {
-        return workpace;
+    public String getWORKPACE() {
+        return WORKPACE;
     }
 
-    public void setWorkpace(String workpace) {
-        this.workpace = workpace;
+    public void setWORKPACE(String WORKPACE) {
+        this.WORKPACE = WORKPACE;
     }
 
-    public String getIscash() {
-        return iscash;
+    public String getISCASH() {
+        return ISCASH;
     }
 
-    public void setIscash(String iscash) {
-        this.iscash = iscash;
+    public void setISCASH(String ISCASH) {
+        this.ISCASH = ISCASH;
     }
 
-    public String getVbt_pberthtm() {
-        return vbt_pberthtm;
+    public String getVBT_PBERTHTM() {
+        return VBT_PBERTHTM;
     }
 
-    public void setVbt_pberthtm(String vbt_pberthtm) {
-        this.vbt_pberthtm = vbt_pberthtm;
+    public void setVBT_PBERTHTM(String VBT_PBERTHTM) {
+        this.VBT_PBERTHTM = VBT_PBERTHTM;
     }
 
-    public String getVbt_pleavetm() {
-        return vbt_pleavetm;
+    public String getVBT_PLEAVETM() {
+        return VBT_PLEAVETM;
     }
 
-    public void setVbt_pleavetm(String vbt_pleavetm) {
-        this.vbt_pleavetm = vbt_pleavetm;
+    public void setVBT_PLEAVETM(String VBT_PLEAVETM) {
+        this.VBT_PLEAVETM = VBT_PLEAVETM;
     }
 }
