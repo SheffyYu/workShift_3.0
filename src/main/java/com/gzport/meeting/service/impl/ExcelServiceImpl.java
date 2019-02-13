@@ -147,8 +147,23 @@ public class ExcelServiceImpl implements ExcelService {
             }
 
             List<BulkStoreVO> bulkStoreVOS=bulkStoreService.getBulkStoreVOByTime(DateDeal.getSpecifiedDayBefore(date));
+            BigDecimal totalBulkStore=new BigDecimal(0);
+            BigDecimal totalOreStore=new BigDecimal(0);
+            BigDecimal totalCoalStore=new BigDecimal(0);
+            BigDecimal totalFoodStote=new BigDecimal(0);
+            BigDecimal totalSteelStore=new BigDecimal(0);
             for(int i=0;i<bulkStoreVOS.size();i++){
                 BulkStoreVO bulkStoreVO=bulkStoreVOS.get(i);
+                if(bulkStoreVO.getTotalStore()!= null&&!bulkStoreVO.getTotalStore().toString().equals("0"))
+                    totalBulkStore=totalBulkStore.add(bulkStoreVO.getTotalStore());
+                if(bulkStoreVO.getOreStore()!=null&&!bulkStoreVO.getOreStore().toString().equals("0"))
+                    totalOreStore=totalOreStore.add(bulkStoreVO.getOreStore());
+                if(bulkStoreVO.getCoalStore()!=null&&!bulkStoreVO.getCoalStore().toString().equals("0"))
+                    totalCoalStore=totalCoalStore.add(bulkStoreVO.getCoalStore());
+                if(bulkStoreVO.getFoodStore()!=null&&!bulkStoreVO.getFoodStore().toString().equals("0"))
+                    totalFoodStote=totalFoodStote.add(bulkStoreVO.getFoodStore());
+                if(bulkStoreVO.getSteelStore()!=null&&!bulkStoreVO.getSteelStore().toString().equals("0"))
+                    totalSteelStore=totalSteelStore.add(bulkStoreVO.getSteelStore());
                 switch (bulkStoreVO.getTerCode()){
                     case "HP":
                         hssfRow=hssfSheet.getRow(8);
@@ -235,8 +250,40 @@ public class ExcelServiceImpl implements ExcelService {
                         cell=hssfRow.getCell(6);
                         cell.setCellValue(bulkStoreVO.getSteelStore()!=null&&!bulkStoreVO.getSteelStore().toString().equals("0") ?bulkStoreVO.getSteelStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
                         break;
+                    case "CZYT":
+                        hssfRow=hssfSheet.getRow(8);
+                        cell=hssfRow.getCell(7);
+                        cell.setCellValue(bulkStoreVO.getTotalStore()!= null &&!bulkStoreVO.getTotalStore().toString().equals("0") ? bulkStoreVO.getTotalStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
+                        hssfRow=hssfSheet.getRow(9);
+                        cell=hssfRow.getCell(7);
+                        cell.setCellValue(bulkStoreVO.getOreStore()!=null&&!bulkStoreVO.getOreStore().toString().equals("0") ?bulkStoreVO.getOreStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
+                        hssfRow=hssfSheet.getRow(10);
+                        cell=hssfRow.getCell(7);
+                        cell.setCellValue(bulkStoreVO.getCoalStore()!=null&&!bulkStoreVO.getCoalStore().toString().equals("0") ?bulkStoreVO.getCoalStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
+                        hssfRow=hssfSheet.getRow(11);
+                        cell=hssfRow.getCell(7);
+                        cell.setCellValue(bulkStoreVO.getFoodStore()!=null&&!bulkStoreVO.getFoodStore().toString().equals("0") ?bulkStoreVO.getFoodStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
+                        hssfRow=hssfSheet.getRow(12);
+                        cell=hssfRow.getCell(7);
+                        cell.setCellValue(bulkStoreVO.getSteelStore()!=null&&!bulkStoreVO.getSteelStore().toString().equals("0") ?bulkStoreVO.getSteelStore().setScale(1, BigDecimal.ROUND_HALF_UP).toString():"*");
+                        break;
                 }
             }
+            hssfRow=hssfSheet.getRow(8);
+            cell=hssfRow.getCell(8);
+            cell.setCellValue(totalBulkStore.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            hssfRow=hssfSheet.getRow(9);
+            cell=hssfRow.getCell(8);
+            cell.setCellValue(totalOreStore.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            hssfRow=hssfSheet.getRow(10);
+            cell=hssfRow.getCell(8);
+            cell.setCellValue(totalCoalStore.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            hssfRow=hssfSheet.getRow(11);
+            cell=hssfRow.getCell(8);
+            cell.setCellValue(totalFoodStote.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
+            hssfRow=hssfSheet.getRow(12);
+            cell=hssfRow.getCell(8);
+            cell.setCellValue(totalSteelStore.setScale(1, BigDecimal.ROUND_HALF_UP).toString());
             //库存设置
 //            int startRow=8;     //值班调度日报标签吞吐量开始位置
 //            int endRow=12;      //结束位置

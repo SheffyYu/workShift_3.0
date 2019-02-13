@@ -4,6 +4,7 @@ import com.gzport.meeting.domain.entity.CntrStore;
 import com.gzport.meeting.repository.CntrStoreRepsitory;
 import com.gzport.meeting.service.CntrStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -56,6 +57,11 @@ public class CntrStoreServiceImpl implements CntrStoreService {
     @Override
     public List<CntrStore> getCntrSotreByDate(Date date) {
         return cntrStoreRepsitory.findByTime(date);
+    }
+
+    @Override
+    public List<CntrStore> getPaginDataByTerCode(String terCode, Pageable pageable) {
+        return cntrStoreRepsitory.findByTerCode(terCode,pageable);
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.Date;
 @Table(name = "VJ_AUTHMENU")
 public class AuthMenu implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @Basic(optional = false)
     @Size(min = 1, max = 36)
