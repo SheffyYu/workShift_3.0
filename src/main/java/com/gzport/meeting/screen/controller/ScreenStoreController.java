@@ -40,7 +40,7 @@ public class ScreenStoreController {
         CntrStore cntrStore=new CntrStore();
         if(cntrStoreList.size()>0)
             cntrStore=cntrStoreList.get(0);
-        return "[{\"cargoPer\":\""+cntrStore.getTotalCntr()+"\"}]";
+        return "[{\"cntrNumber\":\""+cntrStore.getTotalCntr()+"\"}]";
     }
 
     @GetMapping("/getDetailCntr")
