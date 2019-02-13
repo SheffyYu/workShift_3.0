@@ -33,7 +33,7 @@
   <script id="language" src="../../i18n/locale/easyui-lang-zh.js" type="text/javascript"></script>
   <script type="text/javascript">
   </script>
-  <title>亚太信息</title>
+  <title>黄埔信息</title>
 </head>
 
 <body>
@@ -43,51 +43,67 @@
   <div id="bd">
     <div id="main">
       日期：<input id="dateInput" data-options="required:false,editable:false,onSelect:onChangeDate" style="width:100px;" class="easyui-datebox" />
-      <div id="bulkStore">
+      <div id="barge">
         <h2 class="subfild">
-          <span>散&nbsp;&nbsp;货&nbsp;&nbsp;库&nbsp;&nbsp;存</span>
+          <span>集&nbsp;装&nbsp;箱&nbsp;驳&nbsp;船</span>
         </h2>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>总库存</label>
+            <label>总数</label>
+            <div class="kv-item-content" onpropertychange="work()" oninput="work()">
+              <input type="number" id="inPort"/>
+            </div>
+          </div>
+        </div>
+        <!--"onpropertychange"用于ie核心的浏览器，"oninput"用于firefox-->
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>穿巴</label>
             <div class="kv-item-content">
-              <input type="number" id="bulkAll"/>
+              <input type="number" id="finishWork" onpropertychange="work()" oninput="work()"/>
             </div>
           </div>
         </div>
         <div class="subfild-content base-info">
           <div class="kv-item ue-clear">
-            <label>煤炭</label>
+            <label>其他</label>
             <div class="kv-item-content">
-              <input type="number" id="bulkCoal"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>矿石</label>
-            <div class="kv-item-content">
-              <input type="number" id="bulkOre"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>粮食(含豆粕)</label>
-            <div class="kv-item-content">
-              <input type="number" id="bulkFood"/>
-            </div>
-          </div>
-        </div>
-        <div class="subfild-content base-info">
-          <div class="kv-item ue-clear">
-            <label>钢材</label>
-            <div class="kv-item-content">
-              <input type="number" id="bulkSteel"/>
+              <input type="number" id="unWork"/>
             </div>
           </div>
         </div>
       </div>
+
+      <div id="productionLine">
+        <h2 class="subfild">
+          <span>集装箱作业线</span>
+        </h2>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>其他</label>
+            <div class="kv-item-content">
+              <input type="number" id="shipProLine" onpropertychange="proLine()" oninput="proLine()"/>
+            </div>
+          </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>穿巴</label>
+            <div class="kv-item-content">
+              <input type="number" id="bargeProLine"/>
+            </div>
+          </div>
+        </div>
+        <div class="subfild-content base-info">
+          <div class="kv-item ue-clear">
+            <label>总作业线</label>
+            <div class="kv-item-content">
+              <input type="number" id="allProLine"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="buttons">

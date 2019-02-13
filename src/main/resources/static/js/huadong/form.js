@@ -696,6 +696,22 @@ function bulkData() {
   var bulkOre=document.getElementById("bulkOre").value;
   var bulkFood=document.getElementById("bulkFood").value;
   var bulkSteel=document.getElementById("bulkSteel").value;
+  if (bulkAll==""){
+    bulkAll=0;
+  }
+  if (bulkCoal==""){
+    bulkCoal=0;
+  }
+  if (bulkOre==""){
+    bulkOre=0;
+  }
+  if (bulkFood==""){
+    bulkFood=0;
+  }
+  if (bulkSteel==""){
+    bulkSteel=0;
+  }
+
   var obj={
     bulkStoreId:"",
     totalStore:bulkAll,
