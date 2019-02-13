@@ -464,6 +464,15 @@ public class ExcelServiceImpl implements ExcelService {
                             cell = hssfRow.getCell(4);
                             cell.setCellValue(barge.getUnWorkNumber());
                             break;
+                        case "GJ":
+                            hssfRow = hssfSheet.getRow(17);
+                            cell = hssfRow.getCell(0);
+                            cell.setCellValue(barge.getShipNumber());
+                            cell = hssfRow.getCell(2);
+                            cell.setCellValue(barge.getWorkingNumber());
+                            cell = hssfRow.getCell(4);
+                            cell.setCellValue(barge.getUnWorkNumber());
+                            break;
                     }
                 }
             }
@@ -788,6 +797,15 @@ public class ExcelServiceImpl implements ExcelService {
                             hssfRow = hssfSheet.getRow(29);
                             cell = hssfRow.getCell(6);
                             cell.setCellValue(productionLine.getBargeLine());
+                            break;
+                        case "GJ":
+                            hssfRow = hssfSheet.getRow(18);
+                            cell = hssfRow.getCell(0);
+                            cell.setCellValue(productionLine.getTotalLine());
+                            cell = hssfRow.getCell(2);
+                            cell.setCellValue(productionLine.getBargeLine());
+                            cell = hssfRow.getCell(4);
+                            cell.setCellValue(productionLine.getShipLine());
                             break;
                     }
                 }
