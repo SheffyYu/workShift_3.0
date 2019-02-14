@@ -3,6 +3,7 @@ package com.gzport.meeting.repository;
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.entity.Terminals;
 import com.gzport.meeting.domain.vo.BulkStoreVO;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,8 @@ import java.util.Date;
  * Created by zhangxiang on 2018/12/5.
  */
 public interface BulkStoreRepository extends PagingAndSortingRepository<BulkStore,String> {
+
+    List<BulkStore> findAllByTerCode(String terCode, Pageable pageable);
 
     @Modifying
     @Query(value = "SELECT t FROM BulkStore t  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")

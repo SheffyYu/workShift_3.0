@@ -5,6 +5,7 @@ import com.gzport.meeting.domain.vo.BulkStoreVO;
 import com.gzport.meeting.repository.BulkStoreRepository;
 import com.gzport.meeting.service.BulkStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -67,6 +68,11 @@ public class BulkStoreServiceImpl implements BulkStoreService {
     @Override
     public List<BulkStoreVO> getBulkStoreVOByTime(Date time) {
         return bulkStoreRepository.findBulkVOBytime(time);
+    }
+
+    @Override
+    public List<BulkStore> getLastFiveDataByterCode(String terCode, Pageable pageable) {
+        return bulkStoreRepository.findAllByTerCode(terCode,pageable);
     }
 
 

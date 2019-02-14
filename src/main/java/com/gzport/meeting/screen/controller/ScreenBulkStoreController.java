@@ -44,4 +44,16 @@ public class ScreenBulkStoreController {
         return bulkStore;
     }
 
+    @GetMapping("/getLastFiveData")
+    @ApiOperation(value = "根据码头代码获取近五日库存信息")
+    public List<AliBrokenLineVO> getBulkStoreLastFiveData(String terCode){
+        Sort sort=new Sort(Sort.Direction.DESC,"insTimeStamp");
+        Pageable page = PageRequest.of(0,5,sort);
+        List<BulkStore> bulkStoreList = bulkStoreService.getLastFiveDataByterCode(terCode,page);
+        List<AliBrokenLineVO> aliBrokenLineVOList=new ArrayList<>();
+        for(BulkStore bulkStore : bulkStoreList){
+            aliBrokenLineVOList.add(new AliBrokenLineVO(bulkStore.getTotalStore().toString(),bulkStore.getInsTimeStamp()));
+        }
+        return aliBrokenLineVOList;
+    }
 }

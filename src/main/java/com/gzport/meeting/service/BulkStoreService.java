@@ -2,6 +2,7 @@ package com.gzport.meeting.service;
 
 import com.gzport.meeting.domain.entity.BulkStore;
 import com.gzport.meeting.domain.vo.BulkStoreVO;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Date;
@@ -18,7 +19,7 @@ public interface BulkStoreService {
     List<BulkStore> findBulkStoreByWharfAndTime(String terId,String date);
 
     List<BulkStoreVO> getBulkStoreVOByTime(Date time);
-
+    List<BulkStore> getLastFiveDataByterCode(String terCode, Pageable pageable);
     void deleteCurrentBargeByTerId(String terId);
 
 }
