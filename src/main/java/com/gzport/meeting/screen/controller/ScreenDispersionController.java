@@ -5,6 +5,7 @@ import com.gzport.meeting.domain.vo.ScreenDispersionVO;
 import com.gzport.meeting.service.DispersionCargoService;
 import com.gzport.meeting.service.DispersionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class ScreenDispersionController {
     DispersionCargoService dispersionCargoService;
 
     @GetMapping("/getDispersionNumber")
+    @ApiOperation(value = "根据码头代码获取指定数量的数据")
     public List<ScreenDispersionVO> getDispersionforScreen(String terCode,Integer dataNumber){
         List<Dispersion> dispersionList = dispersionService.findCurrentDispersionByWharf(terCode);
         List<ScreenDispersionVO> screenDispersionVOList=new ArrayList<>();
@@ -37,19 +39,22 @@ public class ScreenDispersionController {
             dataNumber=0;
         for(Dispersion dispersion:dispersionList){
             String cargoName=dispersionCargoService.findByCargoCodeId(dispersion.getCargoCode()).getCargoName();
-            screenDispersionVOList.add(new ScreenDispersionVO("1",dispersion.getCargoNumber(),cargoName));
-            screenDispersionVOList.add(new ScreenDispersionVO("2",dispersion.getCargoUnworkNumber(),cargoName));
+            screenDispersionVOList.add(new ScreenDispersionVO("2",dispersion.getCargoNumber(),cargoName));
+            screenDispersionVOList.add(new ScreenDispersionVO("1",dispersion.getCargoUnworkNumber(),cargoName));
         }
         if(screenDispersionVOList.size()>dataNumber*2)
             screenDispersionVOList.subList(0,dataNumber*2);
+        int i=1;
         while(screenDispersionVOList.size()<dataNumber*2){
-            screenDispersionVOList.add(new ScreenDispersionVO("1", (long) 0,"其他"));
-            screenDispersionVOList.add(new ScreenDispersionVO("2",(long) 0,"其他"));
+            screenDispersionVOList.add(new ScreenDispersionVO("2", (long) 0,"其他"+i));
+            screenDispersionVOList.add(new ScreenDispersionVO("1",(long) 0,"其他"+i));
+            i++;
         }
         return screenDispersionVOList;
     }
 
     @GetMapping("/getCargeDispersionNumber")
+    @ApiOperation(value = "根据码头代码获取指定位置的数据")
     public List<ScreenDispersionVO> getCargoDispersionByOrder(String terCode,Integer position){
         List<Dispersion> dispersionList = dispersionService.findCurrentDispersionByWharf(terCode);
         List<ScreenDispersionVO> screenDispersionVOList=new ArrayList<>();
