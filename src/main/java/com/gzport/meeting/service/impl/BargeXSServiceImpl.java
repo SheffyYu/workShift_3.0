@@ -4,6 +4,7 @@ import com.gzport.meeting.domain.entity.BargeXS;
 import com.gzport.meeting.repository.BargeXSRepository;
 import com.gzport.meeting.service.BargeXSService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -56,6 +57,11 @@ public class BargeXSServiceImpl implements BargeXSService {
     @Override
     public List<BargeXS> getBargeByDate(Date date) {
         return bargeXSRepository.findByDate(date);
+    }
+
+    @Override
+    public List<BargeXS> getBargeByTypeAndPage(String type, Pageable pageable) {
+        return bargeXSRepository.findAllByWorkType(type,pageable);
     }
 
     @Override

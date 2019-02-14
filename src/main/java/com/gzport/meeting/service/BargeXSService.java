@@ -1,6 +1,7 @@
 package com.gzport.meeting.service;
 
 import com.gzport.meeting.domain.entity.BargeXS;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Date;
@@ -14,5 +15,6 @@ public interface BargeXSService {
     List<BargeXS> getCurrentBargeByTerId(String terId);
     List<BargeXS> getBargeByTerIdAndTime(String terId,String time);
     List<BargeXS> getBargeByDate(Date date);
+    List<BargeXS> getBargeByTypeAndPage(String type, Pageable pageable);
     void deleteCurrentBargeByTerId(String terId);
 }

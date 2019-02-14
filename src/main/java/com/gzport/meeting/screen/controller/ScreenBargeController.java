@@ -1,9 +1,11 @@
 package com.gzport.meeting.screen.controller;
 
 import com.gzport.meeting.domain.entity.Barge;
+import com.gzport.meeting.domain.entity.BargeXS;
 import com.gzport.meeting.domain.vo.AliBrokenLineVO;
 import com.gzport.meeting.domain.vo.BargeWorkVO;
 import com.gzport.meeting.service.BargeService;
+import com.gzport.meeting.service.BargeXSService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ import java.util.List;
 public class ScreenBargeController {
     @Autowired
     BargeService bargeService;
+
+    @Autowired
+    BargeXSService bargeXSService;
 
     @GetMapping("/getBargeNumber")
     @CrossOrigin("http://datav.aliyun.com")
@@ -67,6 +72,36 @@ public class ScreenBargeController {
         List<AliBrokenLineVO> aliBrokenLineVOS=new ArrayList<>();
         for(Barge barge:bargeList){
             aliBrokenLineVOS.add(new AliBrokenLineVO(barge.getShipNumber().toString(),barge.getInsTimestamp()));
+        }
+        return aliBrokenLineVOS;
+    }
+
+    @GetMapping("/getBargeXSworkNumber")
+    @ApiOperation(value = "获得新沙码头代码驳船信息")
+    public List<BargeWorkVO> getBargeXSNumber(String terCode){
+        List<BargeXS> bargeXSList=bargeXSService.getCurrentBargeByTerId(terCode);
+        List<BargeWorkVO> bargeWorkVOList=new ArrayList<>();
+        for(BargeXS bargeXS:bargeXSList){
+            if(bargeXS.getWorkType().equals("驳船")){
+                bargeWorkVOList.add(new BargeWorkVO("穿巴",bargeXS.getShuttlebusNumber()));
+                bargeWorkVOList.add(new BargeWorkVO("内贸",bargeXS.getItNumber()));
+                bargeWorkVOList.add(new BargeWorkVO("深圳",bargeXS.getShenzhenNumber()));
+                bargeWorkVOList.add(new BargeWorkVO("外贸",bargeXS.getEtNumber()));
+            }
+        }
+        return bargeWorkVOList;
+    }
+
+    @GetMapping("getLastFiveDataXS")
+    @ApiOperation(value = "获取新沙码头近五日驳船数据")
+    public List<AliBrokenLineVO> getLastFiveDataXS(){
+        Sort sort=new Sort(Sort.Direction.DESC,"insTimestamp");
+        Pageable page = PageRequest.of(0,5,sort);
+        String workType="驳船";
+        List<BargeXS> bargeXSList=bargeXSService.getBargeByTypeAndPage(workType,page);
+        List<AliBrokenLineVO> aliBrokenLineVOS=new ArrayList<>();
+        for(BargeXS bargeXS:bargeXSList){
+            aliBrokenLineVOS.add(new AliBrokenLineVO(bargeXS.getTotalNumber().toString(),bargeXS.getInsTimestamp()));
         }
         return aliBrokenLineVOS;
     }
