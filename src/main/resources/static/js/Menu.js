@@ -17,7 +17,7 @@ Menu.prototype._createContent = function($this){
 	var id = $this.attr('data-id'),
 		name = $this.text(),
 		href = $this.attr('href');
-	if(id != '0'){
+	if(id != '0' && id !='1'){
     if($this.is(this.defaultSelect)){
       var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');
     }else{
