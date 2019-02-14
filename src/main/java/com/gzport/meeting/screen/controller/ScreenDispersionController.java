@@ -67,7 +67,7 @@ public class ScreenDispersionController {
             if((position-1)%2==0)
                 screenDispersionVOList.add(new ScreenDispersionVO("0",dispersionList.get((position-1)/2).getCargoNumber(),""));
             else
-                screenDispersionVOList.add(new ScreenDispersionVO("0",dispersionList.get(((position-1)/2)+1).getCargoNumber(),""));
+                screenDispersionVOList.add(new ScreenDispersionVO("0",dispersionList.get((position-1)/2).getCargoUnworkNumber(),""));
             return screenDispersionVOList;
         }
     }
