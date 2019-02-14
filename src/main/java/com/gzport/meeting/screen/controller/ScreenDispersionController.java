@@ -43,7 +43,7 @@ public class ScreenDispersionController {
             screenDispersionVOList.add(new ScreenDispersionVO("1",dispersion.getCargoUnworkNumber(),cargoName));
         }
         if(screenDispersionVOList.size()>dataNumber*2)
-            screenDispersionVOList.subList(0,dataNumber*2);
+            screenDispersionVOList=screenDispersionVOList.subList(0,dataNumber*2);
         int i=1;
         while(screenDispersionVOList.size()<dataNumber*2){
             screenDispersionVOList.add(new ScreenDispersionVO("2", (long) 0,"其他"+i));
