@@ -49,9 +49,6 @@ public class TerExamineController {
     TruckStoreService truckStoreService;
 
     @Autowired
-    AuthService authService;
-
-    @Autowired
     CarStoreService carStoreService;
 
     @Autowired
@@ -183,9 +180,9 @@ public class TerExamineController {
                 if(bulkStoreService.getCurrentBulkByTerId(auth.getCompany()).size()>0)
                     bulkStoreService.deleteCurrentBargeByTerId(auth.getCompany());
                 for (int i = 0; i < terminalVO.getBulkStoreList().size(); i++) {
-                    terminalVO.getAttendenceList().get(i).setInsAccount(auth.getAccount());
-                    terminalVO.getAttendenceList().get(i).setUpdAccount(auth.getAccount());
-                    terminalVO.getAttendenceList().get(i).setTerCode(auth.getCompany());
+                    terminalVO.getBulkStoreList().get(i).setInsAccount(auth.getAccount());
+                    terminalVO.getBulkStoreList().get(i).setUpdAccount(auth.getAccount());
+                    terminalVO.getBulkStoreList().get(i).setTerCode(auth.getCompany());
                 }
                 if(bulkStoreService.saveAll(terminalVO.getBulkStoreList())==null)
                     return SaveResult.getInstance(SaveResult.FAILE);

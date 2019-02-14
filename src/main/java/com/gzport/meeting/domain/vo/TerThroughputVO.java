@@ -10,7 +10,7 @@ public class TerThroughputVO {
 
     private BigDecimal monthlyTotal;
 
-    private BigDecimal monthlyPer;
+    private String monthlyPer;
 
     private BigDecimal monthlyPro;
 
@@ -30,11 +30,11 @@ public class TerThroughputVO {
         this.monthlyTotal = monthlyTotal;
     }
 
-    public BigDecimal getMonthlyPer() {
+    public String getMonthlyPer() {
         return monthlyPer;
     }
 
-    public void setMonthlyPer(BigDecimal monthlyPer) {
+    public void setMonthlyPer(String monthlyPer) {
         this.monthlyPer = monthlyPer;
     }
 
@@ -52,8 +52,8 @@ public class TerThroughputVO {
     public TerThroughputVO(BigDecimal monthlyPlan, BigDecimal monthlyTotal, BigDecimal monthlyPer) {
         this.monthlyPlan = monthlyPlan;
         this.monthlyTotal = monthlyTotal;
-        this.monthlyPer = monthlyPer.setScale(0,BigDecimal.ROUND_HALF_UP);
+        this.monthlyPer = monthlyPer.setScale(0,BigDecimal.ROUND_HALF_UP).toString()+"%";
         if(monthlyPer!=null)
-            this.monthlyPro = this.monthlyPer.divide(BigDecimal.valueOf(100));
+            this.monthlyPro = monthlyPer.divide(BigDecimal.valueOf(100));
     }
 }
