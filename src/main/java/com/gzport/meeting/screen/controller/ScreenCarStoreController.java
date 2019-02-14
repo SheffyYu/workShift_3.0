@@ -1,10 +1,14 @@
 package com.gzport.meeting.screen.controller;
 
 import com.gzport.meeting.domain.entity.CarStore;
+import com.gzport.meeting.domain.vo.AliBrokenLineVO;
 import com.gzport.meeting.service.CarStoreService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +38,18 @@ public class ScreenCarStoreController {
         List<CarStore> carStore=new ArrayList<>();
         carStore=carStoreService.getBargeByTerIdAndTime(terCode,sdf.format(date));
         return carStore;
+    }
+
+    @GetMapping("/getLastFiveData")
+    @ApiOperation(value = "根据码头代码获取码头近五日库存")
+    public List<AliBrokenLineVO> getLastFiveDataByterCode(String terCode){
+        Sort sort=new Sort(Sort.Direction.DESC,"insTimestamp");
+        Pageable page = PageRequest.of(0,5,sort);
+        List<CarStore> carStoreList = carStoreService.getLastFiveDataByTerCode(terCode,page);
+        List<AliBrokenLineVO> aliBrokenLineVOS=new ArrayList<>();
+        for(CarStore carStore : carStoreList){
+            aliBrokenLineVOS.add(new AliBrokenLineVO(carStore.getCarNumber().toString(),carStore.getInsTimestamp()));
+        }
+        return aliBrokenLineVOS;
     }
 }

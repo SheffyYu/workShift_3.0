@@ -4,6 +4,7 @@ import com.gzport.meeting.domain.entity.CarStore;
 import com.gzport.meeting.repository.CarStoreRepository;
 import com.gzport.meeting.service.CarStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -57,6 +58,11 @@ public class CarStoreServiceImpl implements CarStoreService {
     @Override
     public List<CarStore> getCarStoreByDate(Date date) {
         return carStoreRepository.findDataByTime(date);
+    }
+
+    @Override
+    public List<CarStore> getLastFiveDataByTerCode(String terCode, Pageable pageable) {
+        return carStoreRepository.findAllByTerCode(terCode,pageable);
     }
 
     @Override
