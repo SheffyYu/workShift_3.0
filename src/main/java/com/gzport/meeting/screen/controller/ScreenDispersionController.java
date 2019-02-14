@@ -60,7 +60,7 @@ public class ScreenDispersionController {
     public List<ScreenDispersionVO> getCargoDispersionByOrder(String terCode,Integer position){
         List<Dispersion> dispersionList = dispersionService.findCurrentDispersionByWharf(terCode);
         List<ScreenDispersionVO> screenDispersionVOList=new ArrayList<>();
-        if(position/2>dispersionList.size()){
+        if(position/2>=dispersionList.size()){
             screenDispersionVOList.add(new ScreenDispersionVO("0", (long) 0,"其他"));
             return screenDispersionVOList;
         }else{
