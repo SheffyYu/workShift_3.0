@@ -37,4 +37,5 @@ public interface BulkStoreRepository extends PagingAndSortingRepository<BulkStor
     @Query(value = "DELETE FROM BulkStore t  WHERE INS_TIMESTAMP>=?1 AND TER_CODE=?2")
     void deleteCurrentDataByWharf(Date date, String terId);
 
+
 }

@@ -80,4 +80,5 @@ public class BulkStoreServiceImpl implements BulkStoreService {
         }catch (ParseException e){
         }
     }
+
 }

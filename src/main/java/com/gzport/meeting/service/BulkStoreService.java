@@ -20,4 +20,5 @@ public interface BulkStoreService {
     List<BulkStoreVO> getBulkStoreVOByTime(Date time);
 
     void deleteCurrentBargeByTerId(String terId);
+
 }
