@@ -513,10 +513,22 @@ function clearAll() {
       $(this).attr("value","");
     });
   }
-  if(document.getElementById("bulkBus")){
+  if(document.getElementById("bulkBus")) {
     //汽车库存
     $("#bulkBus input").each(function () {
-      $(this).attr("value","");
+      $(this).attr("value", "");
     });
+  }
+    if(document.getElementById("bulkStore")) {
+      //散货库存
+      $("#bulkBus input").each(function () {
+        $(this).attr("value", "");
+      });
+    }
+      if(document.getElementById("attendance")){
+      //工人出勤情况
+      $("#bulkBus input").each(function () {
+        $(this).attr("value","");
+      });
   }
 }
