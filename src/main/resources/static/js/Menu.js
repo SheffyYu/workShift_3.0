@@ -17,7 +17,12 @@ Menu.prototype._createContent = function($this){
 	var id = $this.attr('data-id'),
 		name = $this.text(),
 		href = $this.attr('href');
-	if(id != '0'){
+	if(id =='2'){//0为单个外连接，1为首页，2为全部外连接
+    // console.log("打开执行11");
+    //通过点击事件打开，这里不执行打开新界面的
+  }else if(id == '0'){
+    window.open(href,"_blank");
+  }else {
     if($this.is(this.defaultSelect)){
       var $tab = $('<li data-id="'+ id +'" data-default="default"><a href="javascript:;" class="ue-clear"><span>'+ name +'</span></a></li>');
     }else{
@@ -34,8 +39,6 @@ Menu.prototype._createContent = function($this){
     this.content.append($iframe);
 
     this._show($this);
-  }else{
-    window.open(href,"_blank");
   }
 }
 
