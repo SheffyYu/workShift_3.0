@@ -521,13 +521,13 @@ function clearAll() {
   }
     if(document.getElementById("bulkStore")) {
       //散货库存
-      $("#bulkBus input").each(function () {
+      $("#bulkStore input").each(function () {
         $(this).attr("value", "");
       });
     }
       if(document.getElementById("attendance")){
       //工人出勤情况
-      $("#bulkBus input").each(function () {
+      $("#attendance input").each(function () {
         $(this).attr("value","");
       });
   }
