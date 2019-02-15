@@ -85,7 +85,7 @@ public class ShipRealtmVO {
             }
             this.SUMNUM=sumnumi+'/'+sumnume;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/hhmm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/HHmm");
         if (vwkastarttm != null){
             this.VWKASTARTTM=sdf.format(vwkastarttm);
         }else {
