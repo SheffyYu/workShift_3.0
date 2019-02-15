@@ -1,3 +1,5 @@
+var urlList=[];
+var count=0;
  $(function(){
 	showLeftMenu();
     //3 主菜单
@@ -19,9 +21,11 @@
                     //判断是否为默认打开的页面
                     if(node.ID != node.DEFAULT_MENU){
                       if(node.MENU_REMARKS == '1'){
+                        urlList[count]=node.URL;
+                        count++;
                         $("#"+node.PARENT_ID+"one").append( "<li data-id='0' href='"+node.URL+"?timestamp="+Math.random()+"' class='subnav-li' ><a href='javascript:;'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       }else if (node.MENU_REMARKS == '2'){
-                        $("#"+node.PARENT_ID+"one").append( "<li data-id='1' href='"+node.URL+"' onclick='openAllPage()' class='subnav-li' ><a href='javascript:;'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
+                        $("#"+node.PARENT_ID+"one").append( "<li data-id='2' href='"+node.URL+"' class='subnav-li' onclick='openAllPage()'><a href='javascript:;'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       } else{
                         $("#"+node.PARENT_ID+"one").append( "<li class='subnav-li' href='"+node.URL+"?timestamp="+Math.random()+"' data-id='"+node.ID+"'><a href='javascript:;' class='ue-clear'><i class='subnav-icon'></i><span class='subnav-text'>"+node.TEXT+"</span></a></li>");
                       }
@@ -86,9 +90,7 @@
           });
     }
 
-    function openAllPage() {
-      window.open("https://www.cnblogs.com/sushu-yaya/p/6811426.html","_blank");
-    }
+
 
     // function mouseenterOut() {
     //     var menu_li = $(".menuUl li");
@@ -146,3 +148,10 @@
     // }
 
 });
+
+
+ function openAllPage() {
+   for(var i=0;i<urlList.length;i++){
+     window.open(urlList[i],"_blank");
+   }
+ }
